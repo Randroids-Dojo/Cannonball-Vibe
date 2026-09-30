@@ -1,0 +1,15 @@
+# P1-018 application-owned shutdown checkpoint - v34
+
+The debug PlayGodot bridge now sends its authorized quit request through the application's existing close handler. The project bootstrap names Main as its owner; Main stops producers and completes its two managed-finalizer passes. The generic bridge retains direct quit when no owner is declared. Invalid or changed ownership fails visibly. The existing eight-second launcher deadline and strict native diagnostic checks are unchanged.
+
+The correction follows a Linux semantic-run failure on revision 96b9bc6: the process exited zero but left 21 GL textures allocated. Their sizes and load order match initial road/terrain materials; exact texture-to-resource identity and the intermittent finalizer mechanism remain inferences. The original API artifact and all 134 verified members are retained through the [evidence index](../../../data/assets/vehicles/endurance-sedan-review/ci-owner-v34/index.json). Windows focused success does not certify that Linux failure closed.
+
+All 17 final native Windows cases pass on official Godot 4.7.1: real Main, embedded and standalone sedan showrooms, generic use, stale/invalid ownership, ignored close, and existing authorization/session-resource controls. Main's existing backlog probe observes 32 inaccessible wrappers and then 32 finalized wrappers. Negative cases assert failure; their diagnostics remain preserved. The host launcher/client controls pass 135 tests.
+
+The full Windows `scripts/check.sh` front door passes all 13 steps from 2026-09-13T10:38:59Z to10:43:03Z. This includes 157 C# tests, 345 map-pipeline tests with one declared skip, 190 automation unit tests, four release-smoke tests, official-engine smoke, managed shutdown, camera interpolation and starter-speed scenarios. The C# build has zero warnings/errors; the existing pytest record-property/JUnit compatibility warning is retained. All bound source inputs remain unchanged during the gate.
+
+The native run used its recorded pre-build DLL. The subsequent full front door rebuilt that generated DLL after the native run ended. The chronology and both hashes are recorded separately; no current-file equality or unexecuted rerun is inferred. Original harness mistakes, the owner-path-clear counterexample, newline normalization and interrupted freeze remain with their corrections.
+
+The archive contains 578 files, was built twice byte-identically, and every member was reread. Only the bridge, project bootstrap and dedicated native owner-route tests change runtime verification behavior. Model sources, exports, launcher, Main, RuntimeShutdown and showroom implementation remain unchanged by this correction.
+
+Revision96b9bc6's separate unsigned-export retry succeeds after its original LFS HTTP 502 download failure: both package builds are reproducible and the Windows/Linux clean-machine sedan exercises pass. Remote verification of the new owner-route patch is pending. Final asset geometry, full platform/task evidence and human art/rights/driving/usability gates remain open; P1-018 stays in progress.

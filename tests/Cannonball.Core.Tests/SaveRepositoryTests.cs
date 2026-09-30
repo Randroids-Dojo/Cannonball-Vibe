@@ -161,6 +161,86 @@ public sealed class SaveRepositoryTests : IDisposable
         Assert.False(repository.LastLoadRecovery?.UsedBackup);
     }
 
+    [WindowsSaveFact]
+    public async Task BriefPrimaryReaderAllowsAtomicReplacementAfterRelease()
+    {
+        var path = Path.Combine(_directory, "reader-run.json");
+        var repository = new JsonRunStateRepository(path, "graybox-v1");
+        var first = CreateSave();
+        var replacement = first with { Run = first.Run with { ElapsedSeconds = 501 } };
+        await repository.SaveAsync(first);
+        var original = await File.ReadAllBytesAsync(path);
+        Task saving;
+        using (var reader = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+        {
+            saving = repository.SaveAsync(replacement).AsTask();
+            await WaitForReplacementAsync(saving, path);
+            await Task.Delay(100);
+            if (saving.IsCompleted)
+            {
+                // On the old implementation this observes the actual Windows
+                // File.Move access error, rather than only a timing assertion.
+                await saving;
+            }
+            Assert.False(saving.IsCompleted);
+            Assert.Equal(original, await File.ReadAllBytesAsync(path));
+        }
+        await saving.WaitAsync(TimeSpan.FromSeconds(5));
+        Assert.Equal(
+            JsonSerializer.Serialize(replacement, SerializerOptions),
+            JsonSerializer.Serialize(await repository.LoadAsync(), SerializerOptions));
+        Assert.Equal(original, await File.ReadAllBytesAsync(path + ".bak"));
+        Assert.Empty(Directory.GetFiles(_directory, "*.tmp"));
+    }
+
+    [WindowsSaveFact]
+    public async Task PersistentPrimaryReaderFailsWithoutLosingDurableSave()
+    {
+        var path = Path.Combine(_directory, "locked-run.json");
+        var repository = new JsonRunStateRepository(path, "graybox-v1");
+        var first = CreateSave();
+        await repository.SaveAsync(first);
+        var original = await File.ReadAllBytesAsync(path);
+        using var reader = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        var error = await Record.ExceptionAsync(() => repository.SaveAsync(
+            first with { Run = first.Run with { ElapsedSeconds = 502 } }).AsTask()
+            .WaitAsync(TimeSpan.FromSeconds(5)));
+        Assert.True(error is UnauthorizedAccessException or IOException, error?.ToString());
+        Assert.Equal(original, await File.ReadAllBytesAsync(path));
+        Assert.Equal(original, await File.ReadAllBytesAsync(path + ".bak"));
+        Assert.Empty(Directory.GetFiles(_directory, "*.tmp"));
+    }
+
+    [WindowsSaveFact]
+    public async Task CancelledPrimaryReplacementKeepsDurableSaveAndRemovesTemporaryFile()
+    {
+        var path = Path.Combine(_directory, "cancelled-run.json");
+        var repository = new JsonRunStateRepository(path, "graybox-v1");
+        var first = CreateSave();
+        await repository.SaveAsync(first);
+        var original = await File.ReadAllBytesAsync(path);
+        using var reader = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+        using var cancellation = new CancellationTokenSource();
+        var saving = repository.SaveAsync(
+            first with { Run = first.Run with { ElapsedSeconds = 503 } }, cancellation.Token).AsTask();
+        await WaitForReplacementAsync(saving, path);
+        cancellation.Cancel();
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(
+            () => saving.WaitAsync(TimeSpan.FromSeconds(5)));
+        Assert.Equal(original, await File.ReadAllBytesAsync(path));
+        Assert.Equal(original, await File.ReadAllBytesAsync(path + ".bak"));
+        Assert.Empty(Directory.GetFiles(_directory, "*.tmp"));
+    }
+
+    private static async Task WaitForReplacementAsync(Task saving, string path)
+    {
+        using var deadline = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        while (!File.Exists(path + ".bak") && !saving.IsCompleted)
+        {
+            await Task.Delay(5, deadline.Token);
+        }
+    }
+
     [Fact]
     public async Task SeededSavePointsRoundTripEquivalent()
     {
@@ -386,6 +466,17 @@ public sealed class SaveRepositoryTests : IDisposable
         {
             save["schemaVersion"] = ToVersion;
             return save;
+        }
+    }
+}
+
+public sealed class WindowsSaveFactAttribute : FactAttribute
+{
+    public WindowsSaveFactAttribute()
+    {
+        if (!OperatingSystem.IsWindows())
+        {
+            Skip = "Exercises Windows destination sharing rules with an actual open file handle.";
         }
     }
 }

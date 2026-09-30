@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "id": "cannonball-shared-vehicle-v1",
+  "authority": "ADR-0012 and ADR-0023; Q-044 ceilings remain provisional",
+  "budgets": {
+    "triangles_lod0_max": 150000,
+    "triangles_total_max": 200000,
+    "materials_max": 32,
+    "textures_max": 48,
+    "texture_bytes_max": 96000000,
+    "collision_triangles_max": 128
+  },
+  "counting": "Active LOD includes every visible assembly, including distributed articulated children; total includes all authored LODs and collision. Report unique and drawn geometry separately. Deduplicate texture identities and report encoded bytes and mipmapped residency separately.",
+  "variants": {
+    "hero-gt": {
+      "wheelbase_m": 2.84,
+      "front_track_m": 1.64,
+      "rear_track_m": 1.64,
+      "wheel_radius_m": 0.34
+    },
+    "endurance-sedan": {
+      "specification": "docs/vehicles/endurance-sedan/specification.json"
+    }
+  }
+}

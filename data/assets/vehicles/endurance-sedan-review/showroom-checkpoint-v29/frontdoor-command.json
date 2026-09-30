@@ -1,0 +1,57 @@
+{
+  "task_id": "P1-018",
+  "start_utc": "2026-09-13T03:54:51.287935+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cwd": "C:\\Dev\\Cannonball-Vibe-sedan",
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "reports/p1-018/showroom29/frontdoor02.py"
+  ],
+  "git_revision": "f10e133a133b71d57b7bf3822d281958fe31c2dc",
+  "input_artifacts": [
+    {
+      "path": "reports\\p1-018\\showroom29\\frontdoor02.py",
+      "sha256": "9eb88a292b99e10ad5012e4d8a49640b1cc4fbede1de64446aa305c2c28eb4bf"
+    },
+    {
+      "path": "scripts\\check.sh",
+      "sha256": "46cea9921f445b264d88278d9f7789a98c367b219a84a5299a6b348f18125e33"
+    },
+    {
+      "path": "game\\Vehicle\\Showroom\\VehicleShowroom.cs",
+      "sha256": "9c995b913583b59401b0cd1ba81dec3a0604b7d579d002e218b122d54dd94a0a"
+    },
+    {
+      "path": "game\\Vehicle\\Showroom\\ShowroomInterface.cs",
+      "sha256": "944705d9c63c4ae632cbe43d1715a3bb128909fc68de4aba0c73ac72ada12ec5"
+    },
+    {
+      "path": "game\\Vehicle\\Showroom\\ShowroomStudio.cs",
+      "sha256": "8e6c1ee0b22d1fede2ae634f8d1a937a08e33613510dac476302e02f5c9a6bfd"
+    },
+    {
+      "path": "game\\Vehicle\\Showroom\\studio_sky.gdshader",
+      "sha256": "047ba72d7ed90ac8480260533d2b9f556ac4adeb33ef29de322ce4278f1ff13f"
+    },
+    {
+      "path": "automation\\playgodot\\src\\cannonball_playgodot\\launcher.py",
+      "sha256": "edf258c044c7a027993c923248140943d0c65c0786fca20288c31b24712e0d78"
+    },
+    {
+      "path": "automation\\playgodot\\tests\\test_launcher.py",
+      "sha256": "cdc6cad626fd5695a323826ee4475e89ec24a9c0e4daaf1d2f98a5db54931a86"
+    },
+    {
+      "path": "automation\\playgodot\\tests\\test_vehicle_showroom.py",
+      "sha256": "60c02b60e0067a439ad850fea0872c43daf6e8c2921944cd1181eaec5fa25898"
+    }
+  ],
+  "log": "reports\\p1-018\\commands\\20260913T035451.287935Z-showroom29-final-windows-frontdoor.log",
+  "human_approval_reference": null,
+  "environment": {},
+  "end_utc": "2026-09-13T03:58:47.845163+00:00",
+  "exit_status": 0,
+  "log_sha256": "76ac348910ca4459efce2c8232951577ea27f0f3de20024e0d0e1e9522bb20ea"
+}

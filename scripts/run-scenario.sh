@@ -309,6 +309,12 @@ fi
 if [[ "$scenario_mode" == "vehicle-visual" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-corridor"
 fi
+if [[ " ${scenario_args[*]} " == *" --vehicle-visual-profile "* ||
+      " ${scenario_args[*]} " == *" --vehicle-visual-review "* ]]; then
+  # This legacy scenario validates Hero-specific dimensions and travel. Put
+  # the default last so Main can reject any conflicting explicit request.
+  scenario_args+=("--vehicle=hero-gt")
+fi
 if [[ "$scenario_mode" == "road-visual" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-interchanges"
 fi

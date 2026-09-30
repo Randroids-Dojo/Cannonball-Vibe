@@ -1,0 +1,25 @@
+{
+  "task_id": "P1-018",
+  "start_utc": "2026-09-13T15:47:06.646157+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cwd": "C:\\Dev\\Cannonball-Vibe-sedan",
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "reports/p1-018/viewer37-retention01/retain01.py"
+  ],
+  "git_revision": "79fa4ba9594b810dfd9602ae1fe96f54d1998cd0",
+  "input_artifacts": [
+    {
+      "path": "reports\\p1-018\\viewer37-retention01\\retain01.py",
+      "sha256": "e9cda40beecfca817a370b2e00466fb738f92662d6ef93f403455b667ddf983f"
+    }
+  ],
+  "log": "reports\\p1-018\\commands\\20260913T154706.646157Z-viewer37-retention01.log",
+  "human_approval_reference": null,
+  "environment": {},
+  "end_utc": "2026-09-13T15:47:25.332644+00:00",
+  "exit_status": 0,
+  "log_sha256": "d99a615f758257118346729107b0bef1e574553be1c002eb08208b1a20c206e6"
+}

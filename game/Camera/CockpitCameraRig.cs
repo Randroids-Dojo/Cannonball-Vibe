@@ -107,9 +107,11 @@ public sealed partial class CockpitCameraRig : Node3D
             rearViewHeld ? 1.0f : 0.0f,
             Mathf.DegToRad(RearViewTransitionSpeedDegreesPerSecond) *
                 (float)Math.Max(0, delta) / Mathf.Pi);
-        var displayedYaw = Mathf.LerpAngle(_lookYawRadians, Mathf.Pi, _rearViewBlend);
+        // Input-space look angles are positive for right/down. A Godot camera
+        // looks down -Z, so both rotations need the opposite sign in its basis.
+        var displayedYaw = Mathf.LerpAngle(-_lookYawRadians, Mathf.Pi, _rearViewBlend);
         var lookRotation = new Vector3(
-            _lookPitchRadians + pitchCorrection,
+            -_lookPitchRadians + pitchCorrection,
             displayedYaw,
             rollCorrection);
         GlobalTransform = displayedMount * new Transform3D(Basis.FromEuler(lookRotation), _mountOffset);
@@ -133,7 +135,7 @@ public sealed partial class CockpitCameraRig : Node3D
             Mathf.RadToDeg(_lookYawRadians),
             Mathf.RadToDeg(_lookPitchRadians),
             horizonRoll,
-            RotationDegrees.X - Mathf.RadToDeg(_lookPitchRadians),
+            RotationDegrees.X + Mathf.RadToDeg(_lookPitchRadians),
             RotationDegrees.Z);
     }
 

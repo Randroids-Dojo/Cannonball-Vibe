@@ -1,0 +1,73 @@
+{
+  "task_id": "P1-018",
+  "utc": "2026-09-12T17:47:23.477295+00:00",
+  "status": "lead_independent_retention_readback_passed",
+  "archives": [
+    {
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\lifecycle26-retention01\\lifecycle-checkpoint-v26.zip",
+      "sha256": "8d59a307e58f5e988f2d476e73bec4f87c8e9448c5b2d1370dec1f2e8d527af3",
+      "members_crc_sha_passed": 894
+    },
+    {
+      "path": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\lifecycle26-retention01\\lifecycle-checkpoint-v26-repeat.zip",
+      "sha256": "8d59a307e58f5e988f2d476e73bec4f87c8e9448c5b2d1370dec1f2e8d527af3",
+      "members_crc_sha_passed": 894
+    }
+  ],
+  "promoted": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/lifecycle-checkpoint-v26/lifecycle-checkpoint-v26.zip",
+      "sha256": "8d59a307e58f5e988f2d476e73bec4f87c8e9448c5b2d1370dec1f2e8d527af3"
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/lifecycle-checkpoint-v26/manifest.json",
+      "sha256": "e198930cc6d78133af829cb0edbe49d6b62f007513f6b9ca4b4b85fd572977ef"
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/lifecycle-checkpoint-v26/index.json",
+      "sha256": "200bb514c451f65b0630b90b66573167869448f4085e8441d0617c07bb6176de"
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/lifecycle-checkpoint-v26/verification01.json",
+      "sha256": "c592175bd8b200fb892e39699cf034a89da5f2e3de0fcae46b0c46e2ba12eb72"
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/lifecycle-checkpoint-v26/HANDOFF02.md",
+      "sha256": "5884f95decfdf4a1ca89cdd20e4a45c2e78bbc6c9a68601586ecf9d75c99e039"
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/lifecycle-checkpoint-v26/AUDIT01.md",
+      "sha256": "1234eaab595706119d89dbab7fe4bdd70a1269ba99128369a953e84571e2f0ae"
+    }
+  ],
+  "runtime_tested_inputs_unchanged": [
+    {
+      "path": "addons/playgodot/server.gd",
+      "sha256": "f033e089199743f544dd0332bb0c8369fe553c9e0263717140e00dd84bc63eeb",
+      "bytes": 38496
+    },
+    {
+      "path": "addons/playgodot/PROTOCOL.md",
+      "sha256": "31bb0f2bb1f0c0e7f789c777605798b637034939ca53f70aadb3c64fb944668d",
+      "bytes": 6931
+    },
+    {
+      "path": "automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "sha256": "421b9b38b17b0a150c87bd515d1ce0d76cbd5be1a9db3dd36428c8c3233617d9",
+      "bytes": 32126
+    },
+    {
+      "path": "automation/playgodot/tests/test_launcher.py",
+      "sha256": "59f623b09ae9a44e6bf49f355db52c9c190b4b72ee75765fb7d8a28f2faa19f4",
+      "bytes": 32329
+    },
+    {
+      "path": "automation/playgodot/tests/test_live.py",
+      "sha256": "48d745a9a0ea0625fd8f1e8a697e540595bb02433432f65381547b82027eec65",
+      "bytes": 53830
+    }
+  ],
+  "m0_full_steps_passed": 13,
+  "scope": "Native Windows runtime corrections and retained prior platform diagnosis; not final sedan or current cross-platform acceptance.",
+  "human_approval_reference": null
+}

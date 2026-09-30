@@ -12,6 +12,7 @@ from cannonball_playgodot import PlayGodotProcess
 from .input_support import (
     wait_for_conditioner,
     wait_for_describe,
+    wait_for_joy_conditioner,
     wait_for_key_conditioner,
 )
 
@@ -430,16 +431,17 @@ async def test_controller_focus_loss_disconnect_and_reconnect_clear_state(
     )
     async with process as client:
         await client.request("input.joy_connection", {"device": 3, "connected": True})
-        await client.request(
-            "input.joypad_motion", {"axis": "trigger_right", "value": 1, "device": 3}
-        )
-        await wait_for_conditioner(
+        await wait_for_joy_conditioner(
             client,
-            lambda state: (
+            axis="trigger_right",
+            value=1,
+            device=3,
+            raw_field="raw_throttle",
+            predicate=lambda state: (
                 state["active_controller_device"] == 3
                 and state["conditioned_throttle"] > 0
             ),
-            "Controller throttle did not become active",
+            failure="Controller throttle did not become active",
         )
         before_focus_loss = (
             await client.describe("vehicle.input.conditioner")
@@ -603,11 +605,11 @@ async def test_controller_camera_recover_menu_and_confirmed_restart_are_distinct
                 "Start button did not open the driver menu",
             )
         )["test_state"]
-        assert menu["button_count"] == 4
+        assert menu["button_count"] == 5
         assert menu["restart_confirmation_armed"] is False
         assert (await client.request("ui.focused"))["automation_id"] == "menu.driver.resume"
 
-        for _ in range(3):
+        for _ in range(4):
             await _joy_button(client, "dpad_down", device=2)
         focus_deadline = asyncio.get_running_loop().time() + 2.0
         while True:

@@ -1,0 +1,480 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-13T07:55:42.989917+00:00",
+  "git_revision": "b1cf65b64512508931eb3398af435f857926a503",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint32-retention01/manifest-01.json",
+    "sha256": "8f98a568a55edecd9c91a015f707a7fbe28df5b17c1c407b8b3ea135c5305541"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render.py",
+      "sha256": "23eb85b4a39df40829c358d76d5113ce5ded26e3eabf5eb0da8aa17b866170c8",
+      "bytes": 4172
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render01/LOD0_FrontFender_L-actual-reference.json.gz",
+      "sha256": "4cf49e2de7625971f400cdff58ee0398acbed981afac7c7273729753f880a492",
+      "bytes": 103844
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render01/LOD0_FrontFender_L-prepared-targets.json.gz",
+      "sha256": "31f3c7a647c6ce138e225208ca97a9b54449b2fddd47b5c00ba96c1e553db356",
+      "bytes": 412181
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render01/LOD0_FrontFender_R-actual-reference.json.gz",
+      "sha256": "5d69ec99ef5abf95911bce755d573ffff34e1dd5b6b0773d205a925c97cbf864",
+      "bytes": 101586
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render01/LOD0_FrontFender_R-prepared-targets.json.gz",
+      "sha256": "c875619c5691e46c9ce82b3dd371d0293baf9ed9b6dd89efaad7b52e24461665",
+      "bytes": 406713
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render01/construction.json",
+      "sha256": "f4ea32b2f5f5fc041d191bc0f6eb13e27191166a80bb3c4be8fae2e9b7bb360d",
+      "bytes": 1808708
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render01/front3q.png",
+      "sha256": "48a1622fb5cb5bb497b208f97617200709ecfa8a2170483a32955925f50b005f",
+      "bytes": 2930062
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render01/front_lamps.png",
+      "sha256": "6cd4e037a3cc0928c0f1a8718f8c97147b3b14d205c95c49fee11b63f97c5547",
+      "bytes": 3420911
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render01/manifest.json",
+      "sha256": "3ca187fdbfd83c590ffef420c2b8fd8976ff174cd92b48c8aaef3325b4d5d292",
+      "bytes": 4084
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render01/native-fields.json.gz",
+      "sha256": "9ced5e7d687ed8d79d0e8a7b98ad623846a8422fa0e8e28d0bdc927931a16397",
+      "bytes": 811863
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render01/paint.png",
+      "sha256": "c04861ab6591589d1a14616f8df41611a059908ada2d587d44ce7d38e2c3d3f9",
+      "bytes": 3337093
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render02/LOD0_FrontFender_L-actual-reference.json.gz",
+      "sha256": "4cf49e2de7625971f400cdff58ee0398acbed981afac7c7273729753f880a492",
+      "bytes": 103844
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render02/LOD0_FrontFender_L-prepared-targets.json.gz",
+      "sha256": "31f3c7a647c6ce138e225208ca97a9b54449b2fddd47b5c00ba96c1e553db356",
+      "bytes": 412181
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render02/LOD0_FrontFender_R-actual-reference.json.gz",
+      "sha256": "5d69ec99ef5abf95911bce755d573ffff34e1dd5b6b0773d205a925c97cbf864",
+      "bytes": 101586
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render02/LOD0_FrontFender_R-prepared-targets.json.gz",
+      "sha256": "c875619c5691e46c9ce82b3dd371d0293baf9ed9b6dd89efaad7b52e24461665",
+      "bytes": 406713
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render02/construction.json",
+      "sha256": "956ccea0dd852967f292be674c79a64cc2ea23169c4e5c398c35119ed41eb6bc",
+      "bytes": 1808708
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render02/front3q.png",
+      "sha256": "dc1ea7775d2a9e8ef181e01d5294c28520f58b329ce5332ea92713c2fdc87be7",
+      "bytes": 3033662
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render02/front_lamps.png",
+      "sha256": "f33620286db5bb61c79d4a5252fe58a304279257893c0f2f9cb03fe356e96e4a",
+      "bytes": 3421948
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render02/manifest.json",
+      "sha256": "853d60ce5c33b49a5314bb675643713c2b8bc091f9d025a08c89114238e08aff",
+      "bytes": 4080
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render02/native-fields.json.gz",
+      "sha256": "9ced5e7d687ed8d79d0e8a7b98ad623846a8422fa0e8e28d0bdc927931a16397",
+      "bytes": 811863
+    },
+    {
+      "path": "reports/p1-018/arch-field29-pilot01/render02/paint.png",
+      "sha256": "553b82e1196bfd8878041b189779b98b036a2980d3cf9984641bc0dfd71f10e2",
+      "bytes": 3339405
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/build.py",
+      "sha256": "91eee8b2bf654b4571afee11f20775baf3f066d117fc7075c93976db2c13c89c",
+      "bytes": 3407
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/build02.py",
+      "sha256": "97d6ac3e806681efaa7c6e6d39d9dfa3f673a478554ae55d258a41a1ed753e14",
+      "bytes": 3437
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/input-snapshot/docs/DELIVERY_LEDGER.json",
+      "sha256": "76785a956bce11418f9524ce13bf025a485474b7fc7a52f56d24f827711a8a35",
+      "bytes": 278541
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/input-snapshot/docs/vehicles/endurance-sedan/defects.json",
+      "sha256": "d0cb8b38cb19cb843b160498d295d624caeb10cf926f8036bd09e431a90aadb3",
+      "bytes": 636899
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/input-snapshot/docs/vehicles/endurance-sedan/specification.json",
+      "sha256": "bb853914b031a9052fc75624de740fd4198bd7d86abf20c0ad692795c805f3f9",
+      "bytes": 77760
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/input-snapshot/evidence/M5/P1-018.json",
+      "sha256": "f6f1a67acb401e222bbce55e5a02863b8a1d205bf46c756cca5ec723dd4ebfbc",
+      "bytes": 79736
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/input-snapshot/tools/vehicles/endurance_sedan/render.py",
+      "sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+      "bytes": 17139
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/input-snapshot/tools/vehicles/endurance_sedan/retain_evidence.py",
+      "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+      "bytes": 5910
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/input-snapshot/tools/vehicles/run_recorded.py",
+      "sha256": "4bc1c1d8e2d8a0730322d404b967f190bf14b017beff0c441dd56ff1f9e36c69",
+      "bytes": 2235
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/prepare.py",
+      "sha256": "98e38e75c862a3da82c3cd0169298b7925c97cde0a7ef965aa2476606c969e36",
+      "bytes": 7317
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/prepare02.py",
+      "sha256": "248dcb45a7db10cd1b783c96f89be2e4b29f8a5d205ab944640b95da3c7bcd6f",
+      "bytes": 7498
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01.py",
+      "sha256": "cf8649ecc536233df4f4c53dd4619f316f02e55b8987c9000c3b0d40f061bd2d",
+      "bytes": 7254
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/LOD0_Door_FL-targets01.json.gz",
+      "sha256": "f7a2c7f1d11ad3bba11d110d0b6509721b1b2ed9a092c5e87b9380d7f586afd4",
+      "bytes": 156277
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/LOD0_Door_FR-targets01.json.gz",
+      "sha256": "919a93140734d343369391e51b865a803f30cdfb506a38d3bb574eae29d657e6",
+      "bytes": 154590
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/LOD0_Door_RL-targets01.json.gz",
+      "sha256": "0929069677832f00de2f0c0a44d5fb558628aec91ecd677c32ea307b4b325852",
+      "bytes": 150547
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/LOD0_Door_RR-targets01.json.gz",
+      "sha256": "ae6a7211510e5c160c477db21a92b815190409c3ab05c9d2f9b87683cea051f5",
+      "bytes": 149486
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/LOD0_StructuralBody-targets01.json.gz",
+      "sha256": "42c4ed38f0da7378920d1f91027134540dbd24c7f8d3c5ab790547ac7081ed49",
+      "bytes": 2040544
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/combined-fields.json.gz",
+      "sha256": "c017b7e77487b8b7b1c220dd83cf5dbd414e2fd199e7a6b3453e3e72180d2420",
+      "bytes": 4688850
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/composition-record.json",
+      "sha256": "a0f4324a4629e8d9000b8602c88304f1b469b70f6bf4269e5b37a6b27152fb8d",
+      "bytes": 103431
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/composition.json.gz",
+      "sha256": "b7c42d1673738d01fa6d558bdbcd6f6bc01a9f8455146cbec16931ff702c2fae",
+      "bytes": 10466477
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/native-fields01.json.gz",
+      "sha256": "9cd536b02b5d99b1ac84b024025f9f5c3a8f1d7e02c464ee6b2d0cbe58088f1a",
+      "bytes": 4355216
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/native01.json",
+      "sha256": "a936566acf6bcfa17f52b87d6f0eb205610bebae0d49d878b9ba8149bce4bca4",
+      "bytes": 227037
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/native01/receiver-fields.json.gz",
+      "sha256": "28b5590fd7d305dab5b2f3ff3938897f6af53686dbf2ae7016a59108ae3e05c8",
+      "bytes": 228327
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02.py",
+      "sha256": "52554117fe27b177e816bd8e9a9dc302c9ba414f96d9b215dc0ab49de7723a19",
+      "bytes": 1458
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/LOD0_Door_FL-targets01.json.gz",
+      "sha256": "f7a2c7f1d11ad3bba11d110d0b6509721b1b2ed9a092c5e87b9380d7f586afd4",
+      "bytes": 156277
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/LOD0_Door_FR-targets01.json.gz",
+      "sha256": "919a93140734d343369391e51b865a803f30cdfb506a38d3bb574eae29d657e6",
+      "bytes": 154590
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/LOD0_Door_RL-targets01.json.gz",
+      "sha256": "0929069677832f00de2f0c0a44d5fb558628aec91ecd677c32ea307b4b325852",
+      "bytes": 150547
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/LOD0_Door_RR-targets01.json.gz",
+      "sha256": "ae6a7211510e5c160c477db21a92b815190409c3ab05c9d2f9b87683cea051f5",
+      "bytes": 149486
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/LOD0_StructuralBody-targets01.json.gz",
+      "sha256": "42c4ed38f0da7378920d1f91027134540dbd24c7f8d3c5ab790547ac7081ed49",
+      "bytes": 2040544
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/combined-fields.json.gz",
+      "sha256": "c017b7e77487b8b7b1c220dd83cf5dbd414e2fd199e7a6b3453e3e72180d2420",
+      "bytes": 4688850
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/composition-record.json",
+      "sha256": "d5c36d6ae321675914a803f8c816a83495a80c8c8b9eb3baf7ee3c9081a76749",
+      "bytes": 103432
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/composition.json.gz",
+      "sha256": "b7c42d1673738d01fa6d558bdbcd6f6bc01a9f8455146cbec16931ff702c2fae",
+      "bytes": 10466477
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/front3q.png",
+      "sha256": "fd969113122209252f2cf786a9e981fcda7f414f3959a2dd10442fd9928ab0fc",
+      "bytes": 3021135
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/manifest.json",
+      "sha256": "6b317a598674e930e9cb6a9be38f4b1309e10df786bd38081822b2a9ff5fbec9",
+      "bytes": 4045
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/native-fields01.json.gz",
+      "sha256": "9cd536b02b5d99b1ac84b024025f9f5c3a8f1d7e02c464ee6b2d0cbe58088f1a",
+      "bytes": 4355216
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/native01.json",
+      "sha256": "7050f229536614e261317ca0bd5ac2eb1014c882b94f6979dafde550593c1942",
+      "bytes": 227037
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/rear3q.png",
+      "sha256": "868b336140af699a38fb17f9366b8a48659c538ce9ff0f4827676e58c4bc2e0a",
+      "bytes": 2992399
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/receiver-fields.json.gz",
+      "sha256": "28b5590fd7d305dab5b2f3ff3938897f6af53686dbf2ae7016a59108ae3e05c8",
+      "bytes": 228327
+    },
+    {
+      "path": "reports/p1-018/body-c29-pilot01/render02/top.png",
+      "sha256": "31dc38a7efc02661a6957d88d48dfa6a4e78226ebf0ddbed1a69d77bf2875903",
+      "bytes": 2711116
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render.py",
+      "sha256": "6293981cbea0d12a597af8b72ddda6f8610a8047b8cffd0ecedeed58a5a64f6a",
+      "bytes": 4335
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render01/construction.json",
+      "sha256": "a8b3e9dbb87714fcad583e9501ddabfc6de37d344ff1676b321e12ee79c3b6b2",
+      "bytes": 469188
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render01/front3q.png",
+      "sha256": "897ca01b98a2268d0c0823feb73decf2aa1320cf32f8027dd805c0b2d7dd3ca5",
+      "bytes": 3034366
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render01/manifest.json",
+      "sha256": "0d41fa4a5df73e5c4235f509bd2c470232707350518f2b750971b6586645b9d5",
+      "bytes": 4028
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render01/native-fields.json.gz",
+      "sha256": "0bf09d14947bd48e651f368e902df0c0b932c5734e60df87913241ae125733b4",
+      "bytes": 299072
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render01/rear3q.png",
+      "sha256": "fbec7b62e250046a8f50d122662fd98ba51daa93b441dcd59fff957da68ae286",
+      "bytes": 3005386
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render01/top.png",
+      "sha256": "d5dd2301bfc80c1cef14c421645db93d3646e8259f9e4f035042eb591958df0d",
+      "bytes": 2708789
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render02/construction.json",
+      "sha256": "190c7127120c81c545be94da35fd6762bbce63e3bd1c58acff216d39565d879f",
+      "bytes": 469188
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render02/front3q.png",
+      "sha256": "1243b7a5c0172a1b522dc35617a6950b5b57657aea95976d211365bed247d646",
+      "bytes": 2928084
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render02/manifest.json",
+      "sha256": "bfa3691c195b50c7d689d2169d16e0becb9eb56d3d3a1c47b324fd36056b5bf1",
+      "bytes": 4030
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render02/native-fields.json.gz",
+      "sha256": "0bf09d14947bd48e651f368e902df0c0b932c5734e60df87913241ae125733b4",
+      "bytes": 299072
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render02/rear3q.png",
+      "sha256": "7a2400e6ebcc5a496b1d4f88c2a1c6cc62f203a414375c55cc2ec97c325686d0",
+      "bytes": 2918254
+    },
+    {
+      "path": "reports/p1-018/c-form29-pilot01/render02/top.png",
+      "sha256": "192d3aa954e4261c96bbbefb616cc87216db96a2a35b8896cd62f802e97c4882",
+      "bytes": 2407369
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/compose01.py",
+      "sha256": "57277f3ff00b38992ec89c02b911949be14fe42bdd05c42dea0b8db71032e263",
+      "bytes": 10686
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/compose02.py",
+      "sha256": "e55886c5d2d757e628319515da965e045b9ecfb12d578c0aeeb2ded65335e165",
+      "bytes": 10724
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/body-native.json.gz",
+      "sha256": "9cd536b02b5d99b1ac84b024025f9f5c3a8f1d7e02c464ee6b2d0cbe58088f1a",
+      "bytes": 4355216
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/body-targets.json.gz",
+      "sha256": "2ca43bc04540bff6ab84bb9e785e12c71d8fb31441897c898187d282210ac488",
+      "bytes": 2651573
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/c-current-proofs.json.gz",
+      "sha256": "0d7f0e5d8d0a83d0893bf6b411d098426679c5ad7e0ca0fce14fec9e251f542b",
+      "bytes": 8031610
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/composed-native.json.gz",
+      "sha256": "eaeda9d3e4f277f3c52abc2a455ac243e3a1cb9eea8b1549000331b18a2b0cba",
+      "bytes": 3677171
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/front-native.json.gz",
+      "sha256": "f692f74e01198bbad51b6170451dfc311cb80742f296943c0ee8eb3c9819da43",
+      "bytes": 1071466
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/front-proofs.json.gz",
+      "sha256": "b09cceae59e5a19a932fc17b51e9136f51b1c1102896598300afdf65706720ab",
+      "bytes": 858797
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/front-targets.json.gz",
+      "sha256": "e58fd6eb66f9d3b7a8df0cf29d86af66283d4fd17361b1012d9707ba0c37b772",
+      "bytes": 6414602
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/receiver-complete-fields.json.gz",
+      "sha256": "28b5590fd7d305dab5b2f3ff3938897f6af53686dbf2ae7016a59108ae3e05c8",
+      "bytes": 228327
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/record.json",
+      "sha256": "ef163f9ac4121faf41ab7436f1003e65cef9c0019c3ef96133104a375194790d",
+      "bytes": 9095
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/source.blend",
+      "sha256": "d51d62ee2ac6c127ae4cc6ba1b672cd9ce39ee4c8a18e28960a6d77a87c93ddc",
+      "bytes": 5076786
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/valance-native.json.gz",
+      "sha256": "94562afa4439ecd6fcb3b8058712ddb7cfecb1b85390072bc79cbac8456cc9e9",
+      "bytes": 16282
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/composed02/valance-targets.json.gz",
+      "sha256": "05f6d523156ad2fd7c3bc5b1cbc4e67d70140b5a6ec43ef4b11383b3f7b107d0",
+      "bytes": 21849
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/prepare01.py",
+      "sha256": "c135bc23ec7cc569ab67b600b5224363177c675c1868b1f07e5e3d3323513d12",
+      "bytes": 5125
+    },
+    {
+      "path": "reports/p1-018/combined-form29-pilot01/prepare_uv04.py",
+      "sha256": "0c4c5e4515a38b3bab7f70df11caa978da710b62e659d75c48a28f0c85ca5fd8",
+      "bytes": 3405
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/art-checkpoint-v32-01.zip",
+      "sha256": "0def273509589bb9f19aa5b7a69e0ff80017c05b477b46967f6a70e9a8bb5fa0",
+      "bytes": 124796779,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/art-checkpoint-v32-01-repeat.zip",
+      "sha256": "0def273509589bb9f19aa5b7a69e0ff80017c05b477b46967f6a70e9a8bb5fa0",
+      "bytes": 124796779,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-13T07:55:49.818667+00:00"
+}

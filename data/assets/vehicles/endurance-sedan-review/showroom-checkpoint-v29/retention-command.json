@@ -1,0 +1,33 @@
+{
+  "task_id": "P1-018",
+  "start_utc": "2026-09-13T04:12:25.689128+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cwd": "C:\\Dev\\Cannonball-Vibe-sedan",
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "reports/p1-018/showroom-checkpoint29-retention01/build.py"
+  ],
+  "git_revision": "f10e133a133b71d57b7bf3822d281958fe31c2dc",
+  "input_artifacts": [
+    {
+      "path": "reports\\p1-018\\showroom-checkpoint29-retention01\\inventory.json",
+      "sha256": "8856ad7fbbc81d39100c674de449e947be59d9a0d7635c2fddbc0cb06353e7e1"
+    },
+    {
+      "path": "reports\\p1-018\\showroom-checkpoint29-retention01\\build.py",
+      "sha256": "91703c2ba97d6d0b1265dc8d246bd94bb50f3a78c4d6fc9c2f2947c8f2dc684b"
+    },
+    {
+      "path": "tools\\vehicles\\endurance_sedan\\retain_evidence.py",
+      "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff"
+    }
+  ],
+  "log": "reports\\p1-018\\commands\\20260913T041225.689128Z-showroom29-retain-twice.log",
+  "human_approval_reference": null,
+  "environment": {},
+  "end_utc": "2026-09-13T04:12:34.640551+00:00",
+  "exit_status": 0,
+  "log_sha256": "4c67824020d92b89d83eb787db8dec2b44d6d1f8c4e71a79ff8c1283ee49ce2f"
+}

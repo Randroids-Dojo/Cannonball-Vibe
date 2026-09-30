@@ -1,0 +1,640 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-21T06:59:33.564257+00:00",
+  "git_revision": "92278e1405224c2cff4178831afd104d97d6efac",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery-inputs.json",
+    "sha256": "0768f340e7118008d5df53ab768fbfc4e32ad6049e67c70b1b63dc03a592b45c"
+  },
+  "entries": [
+    {
+      "path": ".tools/uv-pinned/uv",
+      "bytes": 57,
+      "sha256": "1d1358e4516150e78a0ca9f1888b4453cb4410ccb6968b6391462865eed695a2"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/pinned-engine55/viewport.cpp",
+      "bytes": 200690,
+      "sha256": "db949779da96c93cbbdd3d97976efe00211fe900ca2e1283d67ce44671c4a652"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/pinned-engine55/window.cpp",
+      "bytes": 135562,
+      "sha256": "1e94ba6ccef7fea34b00aab4e40d06730e796471f232d21ced7255d06d45f9fb"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint62-retention-review01/historical03/render.py",
+      "bytes": 19622,
+      "sha256": "de590bf8f1a882f4a5e9045693fb4a9e1679b90b304d04d412767b9ca00d2d37"
+    },
+    {
+      "path": "reports/p1-018/qa/checkpoint62-retention-review01/historical03/review_overlays.py",
+      "bytes": 15685,
+      "sha256": "90f9a9f8a6e6caa04c1a9820e3b093aa15fa8d2a5e4c4e834cb4a565b919ff6d"
+    },
+    {
+      "path": "reports/p1-018/qa/final-capture54-plan01/CHECKLIST01.md",
+      "bytes": 8140,
+      "sha256": "f6e0915c57ed5773cd617710df7812d564dbca160609e36508acf66e7efa21f2"
+    },
+    {
+      "path": "reports/p1-018/qa/final-capture54-plan01/plan01.json",
+      "bytes": 20652,
+      "sha256": "c36968dbbd5a1a7e69658da747499c3f7aff58527bc0d2bfd802c61f28925f35"
+    },
+    {
+      "path": "reports/p1-018/reflective-comparison38-01/pilot03.py",
+      "bytes": 12138,
+      "sha256": "15a3980630aeada241d0d1b5138d6f9aa2268bef4236bd5e9e905599f14b7db1"
+    },
+    {
+      "path": "reports/p1-018/research/upper-junction30-proposal01/field-domains734.json",
+      "bytes": 76405,
+      "sha256": "0fccfdb75bfc6cb0fc8be74362f4dc576a37a242d51df2b1caf67f64c14604ce"
+    },
+    {
+      "path": "reports/p1-018/research/upper-junction30-proposal01/field_domains734.py",
+      "bytes": 2183,
+      "sha256": "c916f7eb4faefe97c7e152a0acf5d3f0339092f06c417044920df0bd5aa08839"
+    },
+    {
+      "path": "reports/p1-018/research/upper-junction30-proposal01/fixed-returns-array722.json.gz",
+      "bytes": 2398799,
+      "sha256": "7d6523a207fe22013425e0d4c23c440ef48fe31d1c3747ca5c2e2f608f8e2f19"
+    },
+    {
+      "path": "reports/p1-018/research/upper-junction30-proposal01/rear-native725.json.gz",
+      "bytes": 2164098,
+      "sha256": "02e96ef4f8efe6033c3af58c61ac849a01f47a26ff3586e0e29ece91b8fd7409"
+    },
+    {
+      "path": "reports/p1-018/research/upper-junction30-proposal01/retained_fields732.py",
+      "bytes": 4809,
+      "sha256": "ce00128f370e9ed023f0d0a068777563ced4da1cc199c14f9263b87ac255a4d3"
+    },
+    {
+      "path": "reports/p1-018/runtime/final-performance52-01/READBACK-PROPOSAL01.md",
+      "bytes": 5867,
+      "sha256": "c3422b10f476f4e8f640ae4d8344e452f42de1049ea50a12677dea503a09667c"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/HANDOFF03.md",
+      "bytes": 690,
+      "sha256": "c8fe946b364512fec935f00dc3eb2f2623bdf8246f4f70585db6b88e0b45d54f"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/HANDOFF04.md",
+      "bytes": 3947,
+      "sha256": "15c7df8dc959598d4b50ea5f0b335a215fb8421099d8f07a84f0b275fe7add47"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/RUN03.md",
+      "bytes": 5307,
+      "sha256": "43d3919c2668c2f8568dc392f4be6c9ec640740f84285435d68937002ceda81f"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/compile01.py",
+      "bytes": 3916,
+      "sha256": "41b71793493f6db0f8bced2e6dfaf55121042cdb0eb318e1529570d17c962604"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/compile01/build.log",
+      "bytes": 649,
+      "sha256": "b7b38c668b8c2c696aecccf92c3a0518beaf379e96aac878a78d2dda55405c93"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/compile01/inputs01.json",
+      "bytes": 120493,
+      "sha256": "83eb31d86c37e263bd103ead4b9c74a474dd69bd7607aa41b01cbde6c56e39a5"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/compile01/result01.json",
+      "bytes": 1765,
+      "sha256": "091d4c22a44194d68dc21f6ec9d48c920f205da4ff46526289dafb6a7865b02b"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/compile02.py",
+      "bytes": 3918,
+      "sha256": "3ff7013f452d08394c9f8da3f481042bf52b48e6ff72b1c510c9b340739d0b1f"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/compile02/build.log",
+      "bytes": 657,
+      "sha256": "2767d90ae1943953af400bcd0d6b8c7f0ed117091d0c8c7b54da4299e17f2dca"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/compile02/inputs01.json",
+      "bytes": 120901,
+      "sha256": "817a047f197b7829eb2e4c8850ce7b447272db90fe53678178efbc962ecc373f"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/compile02/result01.json",
+      "bytes": 1773,
+      "sha256": "270a54e59929fc9044442fdd0aed5b5b3c3516c570b5cc99ac268ea1f9104a25"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/compile55.py",
+      "bytes": 2283,
+      "sha256": "c96a61d521fdffaf5e46e937356ba239773e942f45e034bbfb5d03cb912c5030"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/compile56-derived.py",
+      "bytes": 2283,
+      "sha256": "7a5589c256ad01e6058a97ce85748d6396c18162236d7ac067b296b3a02bdd81"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/derivation01.json",
+      "bytes": 1304,
+      "sha256": "b97aefc1aff82e9dc2f6ec6b171cce8ae0626693cb707cfa8054b3cb23e06436"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/derive01.py",
+      "bytes": 3447,
+      "sha256": "1e3922c124b264d5a9d5933481053bd14f39b45dd0558c844c788deace9f283e"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/derive55.py",
+      "bytes": 5753,
+      "sha256": "0e46394fa1421720f626e2714ed8ede5c734c60e1454a7ce895cb8c21e6697ed"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/derive56.py",
+      "bytes": 4113,
+      "sha256": "9996075c612a4d4553d3643f3fec7cd17a5fdea2515b11b0183192a8b4c95531"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/derive_reader04.py",
+      "bytes": 3597,
+      "sha256": "f914eb6ffb88dde46120dafcfe67653db99b02af492dca6e078c20781054cb40"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/encoding01/compile01.py",
+      "bytes": 3893,
+      "sha256": "ca9399dde0c7652936ed51dc0235db253e90bab62b904bd18baca7e8a91f1295"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/encoding01/compiled01-proposal.cs.txt",
+      "bytes": 100784,
+      "sha256": "a2ea8e15aefddcc9c72ba3b5c8feb1f17be22389f562ab855752ce551bd90eb9"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/encoding01/derive01.py",
+      "bytes": 3415,
+      "sha256": "90f5f5eb3188f419f482d9eb33622581dae8324b0230ccb4b764edfb0e4d2167"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/encoding01/failure01.json",
+      "bytes": 549,
+      "sha256": "184edd289841c92ca841ab8a0f5e96e159cba346ef1b0ce3ab3506b814c0f9f8"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/encoding01/host01.py",
+      "bytes": 9823,
+      "sha256": "7e99ca9dcdc280c88b02a766b153819666c21b3a7ad8be94b6b29cd568636618"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/execute04.py",
+      "bytes": 6253,
+      "sha256": "5f1e96cdcff7e96f94edaeec2758e6f115166be2cda558b0e5ad07491d55c8a5"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/finalize03.py",
+      "bytes": 4355,
+      "sha256": "4831ef8aa47745ca1aba268038e4bc7759f303bfa5a553ac1e3cc301243ff8f0"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/finish04.py",
+      "bytes": 6443,
+      "sha256": "ab983272c23b105b0d91ad35c69644ef1a41b5d4975ff31dd81d3c9f5115b809"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host01.py",
+      "bytes": 9862,
+      "sha256": "531d2ec3dd3d4183dc581cc4ac9d567ee31b1aa8feef0055a38be18926c4b045"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host01/synthetic-binding.json",
+      "bytes": 1588,
+      "sha256": "bf5bd166e6b3253e163d5c085d3d9ee7813aaabb75d05bbbc524d118c6a467f1"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host01/synthetic-summary.json",
+      "bytes": 8351,
+      "sha256": "fa577d579543bff001fb8cd368c18a63079e51cd444486e0c29549242dedd193"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host02.py",
+      "bytes": 9862,
+      "sha256": "d9488058679bb10f75dc009a006fd60027525cc62a2c59b31dbaee9761c8b717"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host02/result01.json",
+      "bytes": 4602,
+      "sha256": "06ee1e2175bcd63d6a4030ad82f3fcce792eba5fc67c92cb4dc52ec5e9bb1409"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host02/synthetic-binding.json",
+      "bytes": 1588,
+      "sha256": "c9f4fe8cfd0e09c93b936c088a8284ac0309357237900cb3388658f2c6dc45fe"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host04-derived.py",
+      "bytes": 11143,
+      "sha256": "b07a7db80b11d314afb9219661e2076c76eafeef78f6634af552aa6c394b43be"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host04.py",
+      "bytes": 4477,
+      "sha256": "57b101bb73b2910e8e66b561ddfcf33fe02d704694c9a3f8f3d7fe49e5d4bdc6"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host04/result01.json",
+      "bytes": 11944,
+      "sha256": "aea70f8fa5b9d058eb06e511a793d153d86938d7fe1c4672e2081751ddfe43b3"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host04/synthetic-binding.json",
+      "bytes": 5181,
+      "sha256": "50d0354aaebb1828af848d089de03ecd3570977f9c53e705fd16fe27cbccf5ae"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host04/synthetic-summary.json",
+      "bytes": 10803,
+      "sha256": "06a72bdf70e827abd32d25f7348d9b9125251a4143186b3ab6097b79beee7bdc"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host55-derived.py",
+      "bytes": 12015,
+      "sha256": "bf5ff21c5035977ca1aa4eed275bd71cbee5153bbd3d137ce04cfeaffe36c478"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host55.py",
+      "bytes": 3739,
+      "sha256": "6ba1498562bddaf7cf77a11065894a04ba49603abc84f0201984688fc7bc5236"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/host56-derived.py",
+      "bytes": 12195,
+      "sha256": "653115ecdc25b5023df5385151021d095621bdd16ba2439900761fee69bf1907"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/lint03-initial-failure.stdout.log",
+      "bytes": 167,
+      "sha256": "0d69b75adbe4a4b163792eee47556e1644787f9d1a05af9f848e2ab042c75654"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/manifest03.json",
+      "bytes": 20284,
+      "sha256": "4ef7ccfdf527de6c481aa692a277d674e944b7145dba06d4cb21382ad8638c7d"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/manifest04.json",
+      "bytes": 44161,
+      "sha256": "e4c00a36bad562b00bd28978365c1954f9db3df2746e41e70d79c57955ecd7a3"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared01/bindings01.json",
+      "bytes": 188355,
+      "sha256": "8cd180c42aead593490470ee4255651cff179dde6de2040994ea11c16021d419"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared01/inputs01.json",
+      "bytes": 596186,
+      "sha256": "1db1b91cdcb784bb05c90bfd56d96d6a00f1bbe03e5d9eb19914837905bd1ac7"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared01/plan01.json",
+      "bytes": 5456,
+      "sha256": "cf2f0bd41739f023de4e332e6f0dde3bdfdc8006957c2ca4975e9f703c7fef24"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared01/rejection01.json",
+      "bytes": 422,
+      "sha256": "962a0b3090550da9d3a2f6daa0e15c991fe48351b51938b07a7ac663dd88b43a"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/actual-review04.result.json",
+      "bytes": 2237,
+      "sha256": "81786e69a76c8671aa451511727a05b027387efcbeaba23ed100e8b11c0b6574"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/actual-review04.stderr.log",
+      "bytes": 1005,
+      "sha256": "95a36d682798ba240a3e1c27749da611f314d52d3cdff273053fa477dac15f67"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/bindings01.json",
+      "bytes": 189021,
+      "sha256": "4c21b08faa11ef9acd36ccf5ff5cbf58177927fb6b957dfd1738ffb9b8b0ffb8"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/bindings04.json",
+      "bytes": 190600,
+      "sha256": "e5afac24e329124169a240a7dc8a01ddf35050c2146c9aa13ec8b5d29b2e7eb9"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/capture/machine-state-diagnostic-production34-readback53-night-2s.json",
+      "bytes": 2874,
+      "sha256": "4a4dc43d53d6c46a5843d1459c78af3a739401b507954e6be1e6c832a18733d9"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/capture/machine-state-during-diagnostic-production34-readback53-night-2s.csv",
+      "bytes": 40,
+      "sha256": "82cda9b1c56bae05b5ea2be63d8c489981321843bb8a025cf4185db2f138de68"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/capture/reference-performance-diagnostic-production34-readback53-night-2s.json",
+      "bytes": 67610,
+      "sha256": "b4f9488886a78927d5f7e38af920711d06ad7ceeee7156bb8e48cd9c3044dd2b"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/capture/reference-performance-diagnostic-production34-readback53-night-2s.jsonl",
+      "bytes": 27836,
+      "sha256": "a2657de8b49994efd05db0af2e29fd4f8afdd075bd85fa772027e394954f9ac5"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/capture/reference-performance-diagnostic-production34-readback53-night-2s.log",
+      "bytes": 1743,
+      "sha256": "ac41aea4a3c3bdbe7ba6d6c5251a4fa5b487a97cebc0b4ec12c86578ba41ecf9"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/capture/route-package-reproducibility-representative-corridor.json",
+      "bytes": 16072,
+      "sha256": "ffced47c914a47a0029f2c47da21f088afbc77dd515baf65c6bfd92e2b5e61dc"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/capture/run-save-diagnostic-production34-readback53-night-2s.json",
+      "bytes": 4506,
+      "sha256": "32c8a42eebc2b8689758e7a7213ca77b31ad0e48b6081207aee4a07a7f29c0d8"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/capture/telemetry-diagnostic-production34-readback53-night-2s.jsonl",
+      "bytes": 1095,
+      "sha256": "5929e4ff1dca3788132ee1a95403f447c62ca35db7a80b73d136adb06b041fbd"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-build-import/before.json",
+      "bytes": 601116,
+      "sha256": "9633d46999a6d87ee2226b947571d97689dfd253668eb4f4e0a162113b02e591"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-build-import/build.command.json",
+      "bytes": 2003,
+      "sha256": "56c096c1a8d4e2aaaad831f8dbbfdb905fc87659a55acdc6d216411caeb95b62"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-build-import/build.stage-after.json",
+      "bytes": 336197,
+      "sha256": "dd7dcd634a4ce92fa81335a32e5f0c569caaecd288491c4385d1bf375f101bd3"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-build-import/build.stdout.log",
+      "bytes": 653,
+      "sha256": "4175b31a3336d78569413f3d597985a3f55834637f490e9167e3bda03f2b649b"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-build-import/import.command.json",
+      "bytes": 2163,
+      "sha256": "63d51444b5fa8cc32a43dd2a44747f363df82571f50bc8a91c94e7bbf3e83f09"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-build-import/import.stage-after.json",
+      "bytes": 337136,
+      "sha256": "6e5aadb2e978197e08c4aacb5652484d5fc75f8ee5abd567cf27edca0fe9aa9b"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-build-import/result.json",
+      "bytes": 370045,
+      "sha256": "96a3d127ca34c9ce0d9583f7db9230c41ba325869a0d4828abaae6032b43cb6e"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-capture/before.json",
+      "bytes": 619757,
+      "sha256": "6fe99400f0e0394a725bb25a5659235dc36adfe57ea06bb6037ad07ac2b8d176"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-capture/capture.command.json",
+      "bytes": 2652,
+      "sha256": "c93edc4705a44a6a48d1a81fc8fa22c96bd99a424e146db74db51b13bafb3f6d"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-capture/capture.stage-after.json",
+      "bytes": 376370,
+      "sha256": "2bc205af93681b8d59b994c38ba688cd1c466332e119e3ca9578b1164f90d418"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-capture/capture.stderr.log",
+      "bytes": 207,
+      "sha256": "355273805dfe7a0bfc14baa20fbd85a8343da5971a3ecc5666f784f707d36e24"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-capture/capture.stdout.log",
+      "bytes": 4094,
+      "sha256": "d593792be3849abdb7adbdc5ca165cacd808441555f76ca48c4454b6104fbcd9"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/execution04-capture/result.json",
+      "bytes": 445029,
+      "sha256": "5c5185ef235c2d1949c65dab922673e15f35f8039f9f8e510ac7412327a8fc53"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/inputs01.json",
+      "bytes": 599940,
+      "sha256": "787079ba1207dbfa13de4c13e6452152184c78624e3287624039f67a24f9c900"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/observations04.json",
+      "bytes": 13477,
+      "sha256": "4086cf42cc0511623d512e6dd50291999df97c2473c14cca5ee4abaa94a54986"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native-prepared02/plan01.json",
+      "bytes": 5466,
+      "sha256": "07b2a280400d5a5d271346b46ca4e6911cbd915c4088d805107200abd5ccb431"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native_prepare01.py",
+      "bytes": 7814,
+      "sha256": "3f826d4edf5a037daed86687829975d00aa5a3225bd3367fc427d68fda22a8f9"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/native_prepare02.py",
+      "bytes": 7816,
+      "sha256": "efe0d9de199f442d66f8ef200e807fecbb0a42e69a2fbd3d99eec8b54978ea7b"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/observations01.cs.txt",
+      "bytes": 10086,
+      "sha256": "9156e514da4d29fd8f25a73004d98b440d2f07cfaf68de325ae798307b206cac"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/parser03.stdout.log",
+      "bytes": 240,
+      "sha256": "c573535ac3f4bcd6302834367937cad78763e508b5704cc7176b1b14e6a2b1f5"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/prepare_native55-derived.py",
+      "bytes": 7908,
+      "sha256": "603a8a03391ce20ee9182d3c77989a4ef023bd6f85d2b35cc195ed1fc24f3384"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/prepare_native55.py",
+      "bytes": 2006,
+      "sha256": "4733debf2825e768476b57a6b5c18f016f55d716cddf087ff4ae76c9d51994f5"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/prepare_native56-derived.py",
+      "bytes": 7908,
+      "sha256": "1e0c1f974a58bae3859b3656ccc6fd9f69e38c3729fd4d3347b1fac81f60ba0f"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/prepare_retry02.py",
+      "bytes": 1390,
+      "sha256": "09fbe4fe438cd870ac41e5ff86bc8dd1eebb35618da2c47f5e4bb642eb7a7679"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/proposal-before-primitive-names01.cs.txt",
+      "bytes": 100630,
+      "sha256": "b224e0a7ea821c8eb28bbc422ee451ae875ebf19bcbcd8a31ee0f917eb1df67a"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/proposal-before-primitive-names01.diff",
+      "bytes": 12009,
+      "sha256": "0a2056b3ed1b7e4a004611cb77297dacc6fbee314ead63403b6e94ec1e8530e8"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/proposal02.diff",
+      "bytes": 12148,
+      "sha256": "93327359f72e4cef75e24e1f7b64c3fbabe401154dc6f702d342c0fd12c172c3"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/proposed/game/Automation/ReferencePerformanceScenario.cs",
+      "bytes": 100769,
+      "sha256": "62d195a81c103a9813b395545987fe918c636070c7f5326b07c0c031f6aa25fc"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/reader04-native-domain.json",
+      "bytes": 1733,
+      "sha256": "057b93e69b3ab09b1773ab6dfb87b39257cd7d1d526c2548dbcfd9a0a94cfa68"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/reader04-witness.json",
+      "bytes": 3329,
+      "sha256": "6657d0e4bc86783fdb50947902b189817b2ed9dccd0d7778536e78f86d5c6b99"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/repair_encoding02.py",
+      "bytes": 2765,
+      "sha256": "734759fb9d006d77a28f800a62b32888eb1f43b4763438a7d940a1f421bb9547"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/review01.py",
+      "bytes": 8787,
+      "sha256": "a4186741b6de03a66de88966fcc9d372ebcce1dab401d59bd5362b92a3587990"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/review04.py",
+      "bytes": 11588,
+      "sha256": "072b865885dab72c8baa36f4e1c6da85af6883222c51b15a471cec5500f014f5"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/verification03.json",
+      "bytes": 3566,
+      "sha256": "e7aaf21c1ccb8e377eea58d87f25c4b97920702fce0952ecb1d529fbcb02c23a"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/HANDOFF55.md",
+      "bytes": 2701,
+      "sha256": "28679f43e6034dcedf6cf0d64e47a3373a2c9a106781edec614f4ba165779edc"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/compile55/inputs.json",
+      "bytes": 120686,
+      "sha256": "d154597c0c0b1aaed2456635d4fde7787a17d86c7e1dd21059cd8611198f3bbb"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/compile55/result.json",
+      "bytes": 1356,
+      "sha256": "522dc71cd7d78ef2aedea6ff175ffccd507c509cead08677d03d623ee61c91f0"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/compile55/stdout.log",
+      "bytes": 657,
+      "sha256": "e641707f6c87a424aae1e9076e6b3b327f58f5ad4f634e6de2829899bb6c0148"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/derivation55.json",
+      "bytes": 4827,
+      "sha256": "206b4ff8024c659d6f23db4686e35bb1689fd7fcf82c0a76655382ccbbc65597"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/host55/result01.json",
+      "bytes": 13298,
+      "sha256": "9242db2e3d58a3e82f02f9ae8d92220a5ab7f0688d016e4fddde73e4713d4f77"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/host55/synthetic-binding.json",
+      "bytes": 5192,
+      "sha256": "f7417f43d35a7fdb080d754063ee3d1e09297700668e1cf9ad0d29b37bb9b122"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/manifest55.json",
+      "bytes": 17476,
+      "sha256": "d35e4dab70a98ca8da107179a86fe1f86f028bab868eb20c11691026a7f41ea9"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/native-prepared55/bindings01.json",
+      "bytes": 189021,
+      "sha256": "88636b75f272c75286899a0834ad876f7d6206b6ac1e4854717ba3118688ce70"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/native-prepared55/inputs01.json",
+      "bytes": 599940,
+      "sha256": "653d6f70548b9c9135b52a634c20b3d628be051e123af7ac1fece250ee1694ca"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/native-prepared55/plan01.json",
+      "bytes": 5615,
+      "sha256": "ee3e908096078d461cbe9e30a0936f59eebdc9ff430eb62c4d6560494fd34b16"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/observations55.cs.txt",
+      "bytes": 11845,
+      "sha256": "17a8d375ff58ff7e2973c9ef640e81907122e2d6378cf9da41174c6c0c132603"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/proposal55.diff",
+      "bytes": 13938,
+      "sha256": "172f927a15fa3c81738b6f116e019c8b20ec67807af08685b94bddd6323939e4"
+    },
+    {
+      "path": "reports/p1-018/runtime/performance-readback53-01/viewport55/proposed/game/Automation/ReferencePerformanceScenario.cs",
+      "bytes": 102528,
+      "sha256": "1c69ed86ebb50fa0c5013659c38932b6292b14efb855cdf5ee00f1466bbd19db"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/validation-v62/recovery.zip",
+      "sha256": "dd0b419c93055c12d6b210dfeb37160581939c3f3be9981c052d37550d4f6871",
+      "bytes": 5920640,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/retention62-recovery-repeat.zip",
+      "sha256": "dd0b419c93055c12d6b210dfeb37160581939c3f3be9981c052d37550d4f6871",
+      "bytes": 5920640,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-21T06:59:34.286055+00:00"
+}

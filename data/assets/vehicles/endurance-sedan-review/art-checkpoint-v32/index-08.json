@@ -1,0 +1,1890 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-13T07:56:33.060914+00:00",
+  "git_revision": "b1cf65b64512508931eb3398af435f857926a503",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint32-retention01/manifest-08.json",
+    "sha256": "face420485b63684b5921fb95a6c7abe2f11b66e438f50143f110ab4c00caa01"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/rear-field29-diagnosis01/selected-native01.json.gz",
+      "sha256": "16ce49dbfa90f9cb662ac4c27594c8a1fc38b4e598499e959abee5b9f27ec80c",
+      "bytes": 2326231
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/LOD0_RearBumper-targets01.json.gz",
+      "sha256": "5f19c2db85ef7070846ccdb7b32369036f6c4c628a1582cb0a199d3ed65b1633",
+      "bytes": 232390
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/complete-fields02.json.gz",
+      "sha256": "c59b2cc151be1e518f4d7fce945ff43e875167ea1f8abd4ef3a95ee49dc46f54",
+      "bytes": 31585
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/complete02.json",
+      "sha256": "5f4321f46fabc6cac7bd7814abc195932904296df26f7bd7eb6db4d208d1a4b5",
+      "bytes": 49790
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/complete02.py",
+      "sha256": "f3a7641b55cda27f631908de900af8760ac6ce94ec6d29d9caeec4cfdaa66952",
+      "bytes": 4184
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/native-fields01.json.gz",
+      "sha256": "ae341aab4ddffbb5f2ea4e27ce036f9982953ef9bd7c172a27093bb908bdccd7",
+      "bytes": 388320
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/native01.json",
+      "sha256": "de2c0484ef9be302082ff69628e0109bdaa6d0892d0760e4a1053eca354bfb88",
+      "bytes": 154992
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/native01.py",
+      "sha256": "abeb4444f8be149e6ac7adf81c5fdab996aa600f2c6508cf44bc3a92559a0a11",
+      "bytes": 4552
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/preparation01.json",
+      "sha256": "515fcec5d192433fe566939c4c480299c09efa33e8c9e38dd0b711d8edfba880",
+      "bytes": 649
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/prepare01.py",
+      "sha256": "bdfe4937f92223e1e039f07f2798903c30e9dfa3d83878aeb6e782b7a702e841",
+      "bytes": 3160
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/rear_fields01.py",
+      "sha256": "e11abd5ffd87cde10243cdad0c60002762691261090eb99193a4809001c69ff3",
+      "bytes": 12708
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render03.py",
+      "sha256": "aeb5c816020b438ffd591ccb4f9631807fdb7da93ae21cd4eb1b4481a5e31402",
+      "bytes": 2071
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render03/LOD0_RearBumper-targets01.json.gz",
+      "sha256": "5f19c2db85ef7070846ccdb7b32369036f6c4c628a1582cb0a199d3ed65b1633",
+      "bytes": 232390
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render03/complete-binding.json",
+      "sha256": "433011bc15e20ae0204f0dc9e6c20dd54a9860203af4d0899046f0c6399404c8",
+      "bytes": 359
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render03/native-fields01.json.gz",
+      "sha256": "ae341aab4ddffbb5f2ea4e27ce036f9982953ef9bd7c172a27093bb908bdccd7",
+      "bytes": 388320
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render03/native01.json",
+      "sha256": "b7f605078f9a2e41d4fe32706fa28b9a19633530a48ab18cc8658cf4ce740ff6",
+      "bytes": 155010
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render04/LOD0_RearBumper-targets01.json.gz",
+      "sha256": "5f19c2db85ef7070846ccdb7b32369036f6c4c628a1582cb0a199d3ed65b1633",
+      "bytes": 232390
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render04/complete-binding.json",
+      "sha256": "433011bc15e20ae0204f0dc9e6c20dd54a9860203af4d0899046f0c6399404c8",
+      "bytes": 359
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render04/left.png",
+      "sha256": "502588d938910c3ef16e9a3a42366b59181321a128df2a9fcbf9e73c0e1df089",
+      "bytes": 2707784
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render04/manifest.json",
+      "sha256": "a04fee5f80f47eedf115fc737ff60fd091e35052ad7d46ca0ccc4e768d47f255",
+      "bytes": 5293
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render04/native-fields01.json.gz",
+      "sha256": "ae341aab4ddffbb5f2ea4e27ce036f9982953ef9bd7c172a27093bb908bdccd7",
+      "bytes": 388320
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render04/native01.json",
+      "sha256": "9a852ec910360bdb9996a71cef2346b5287d87b351f9c059e977580b55bcaebc",
+      "bytes": 155010
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render04/rear.png",
+      "sha256": "10bb9865abe14754743c92e9bbb33266aae880150e98f7a8394e3737e2dcb456",
+      "bytes": 2374892
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render04/rear3q.png",
+      "sha256": "730c4ee6508162d48cd0334428c7fca372257c9c40220bb5ae0dced4da491e11",
+      "bytes": 3011947
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render04/right.png",
+      "sha256": "07409805ba0e390754c373fbdb02d5e06cac0b9d49fffadd72e473d9a0341ba6",
+      "bytes": 2790190
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal01/render04/under.png",
+      "sha256": "928704f7ce798c7c82c6fb53888db5aabf50ecfd5e77e8c95919eb24647a088e",
+      "bytes": 2697206
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/complete02.py",
+      "sha256": "552a87ec0a341413ae1e5a583072a384c68b8d7f960b8d15ca6c6abb226d2e2f",
+      "bytes": 4600
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-baseline03/binding.json",
+      "sha256": "17f74e79b082fc9d61337155a0b1d417bb66d6597d318b6ee1b7b9efbd666b6a",
+      "bytes": 239
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-baseline03/manifest.json",
+      "sha256": "73848c0624eefb6364e3b524b431b1b09d66c84dccd44cbf87933653d460f8ae",
+      "bytes": 3531
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-baseline03/rear_corner_L.png",
+      "sha256": "7902397474aada7927187c3d5c855c030a76cd0c518cfb67e840c11d49d97d9c",
+      "bytes": 3074929
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-baseline03/rear_corner_R.png",
+      "sha256": "257e089840621362f3885ab3c22511b0752486a709d9715a4fb238908cbe91a5",
+      "bytes": 3112285
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-trial03/LOD0_RearBumper-targets01.json.gz",
+      "sha256": "9a9068f08d6f8353055984abf572fd77517535d2883e9216d6146f519bd42add",
+      "bytes": 221183
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-trial03/binding.json",
+      "sha256": "9a070c13319284ad4c5375294dc5426a79a0c328ef6aacced6d21dd7e851e593",
+      "bytes": 328
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-trial03/manifest.json",
+      "sha256": "7d24851d46d671e204c8d0341a01389ffaa868914b0d7affaf732285cdc200b6",
+      "bytes": 3530
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-trial03/native-fields01.json.gz",
+      "sha256": "305681a1e31e72e8e934b19f8c7477cc051e41e4d984523a064ddddb755c7b24",
+      "bytes": 388240
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-trial03/native01.json",
+      "sha256": "e56b8e4dd39b02010d1c05cbb3af7951a6dc8704433522e3a628e10d02868a5a",
+      "bytes": 152385
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-trial03/rear_corner_L.png",
+      "sha256": "76c92490bfe006af4f9c24d3d5c2014f0aac297dba48df7df7b272cbc6a75058",
+      "bytes": 3074675
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners-trial03/rear_corner_R.png",
+      "sha256": "6dbddddd7249bd1a6c6ac0e24a2b7bad669c6cb117b18b73c6b1e53cbe7d108b",
+      "bytes": 3111779
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/corners03.py",
+      "sha256": "97e6937037b156615c8f39047c69720e6aeaeb8df5e0cbe3e41a51d2127f2063",
+      "bytes": 2546
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/native01.json",
+      "sha256": "3c009a3701860651ce3ef49bad7cb3a9da711d1f3943c4bb072ee3de7a1129d7",
+      "bytes": 38394
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/native01.py",
+      "sha256": "83ee7ec1e145561e8b4691bf4bfc0a93559028fbe930d66471b3c1503e782acf",
+      "bytes": 4551
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/preparation01.json",
+      "sha256": "042e5b9aa0c5847bed7c89660e13f7ca74496006396025ed4cf34e3ec5ae7e5e",
+      "bytes": 1522
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/preparation02.json",
+      "sha256": "9c134790340faa0aa3b1b18c6a7f4432c03d52b9909f88ecf18f595184171ff8",
+      "bytes": 1987
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/prepare01.py",
+      "sha256": "7007766bffd450d271934d63524451236f26dd31e247ee1d06a4caee13afcafd",
+      "bytes": 6534
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/prepare02.py",
+      "sha256": "8e1f88355ef5dd4d91a651dec123d550bd41173932d644e79cbfd20d377814c0",
+      "bytes": 1566
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/rear_fields02.py",
+      "sha256": "0a8eceee81632f2eb1055dfff5be230fcb4bbe2544d958604c3be8900c267676",
+      "bytes": 13275
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/render03.py",
+      "sha256": "f9d07e1ead38176010906369715e0dd1de8817ba1ce098ed1fa4f7e5b277846e",
+      "bytes": 2103
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/LOD0_RearBumper-targets01.json.gz",
+      "sha256": "9a9068f08d6f8353055984abf572fd77517535d2883e9216d6146f519bd42add",
+      "bytes": 221183
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/complete-fields02.json.gz",
+      "sha256": "abb78b3c223c9002af655cb8b445729f60a4b0fce20daf528684a8399e02e59e",
+      "bytes": 32018
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/complete02.json",
+      "sha256": "db3bd854c738b8c112fa77c3e4af100cc733f80ba414b5b998028d504565067d",
+      "bytes": 50061
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/complete02.py",
+      "sha256": "552a87ec0a341413ae1e5a583072a384c68b8d7f960b8d15ca6c6abb226d2e2f",
+      "bytes": 4600
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/native-fields01.json.gz",
+      "sha256": "305681a1e31e72e8e934b19f8c7477cc051e41e4d984523a064ddddb755c7b24",
+      "bytes": 388240
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/native01.json",
+      "sha256": "0ef202c5fb7c4229d4ed6f7f598d2650bc3a0dadaf909ed99afbf9aaba137a7d",
+      "bytes": 152369
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/native01.py",
+      "sha256": "83ee7ec1e145561e8b4691bf4bfc0a93559028fbe930d66471b3c1503e782acf",
+      "bytes": 4551
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/rear_fields02.py",
+      "sha256": "76fbd47212b22f932bc08a00f8f7473b482e51523604f67f90ac176df9b129c6",
+      "bytes": 13275
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/render03.py",
+      "sha256": "f9d07e1ead38176010906369715e0dd1de8817ba1ce098ed1fa4f7e5b277846e",
+      "bytes": 2103
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/render03/LOD0_RearBumper-targets01.json.gz",
+      "sha256": "9a9068f08d6f8353055984abf572fd77517535d2883e9216d6146f519bd42add",
+      "bytes": 221183
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/render03/complete-binding.json",
+      "sha256": "c89d13c87bb3b4c20755df37b79fa0a2158e1a178727e78509600e13d8423ffd",
+      "bytes": 359
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/render03/left.png",
+      "sha256": "75b777f27abe7a42ee80d6798770525b15bf637d08e18d1653843a21201274ba",
+      "bytes": 2711991
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/render03/manifest.json",
+      "sha256": "9c85621eb8f3ced60a746f72c1c0129b64e123899521f93f3efac97246965b43",
+      "bytes": 4692
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/render03/native-fields01.json.gz",
+      "sha256": "305681a1e31e72e8e934b19f8c7477cc051e41e4d984523a064ddddb755c7b24",
+      "bytes": 388240
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/render03/native01.json",
+      "sha256": "ef6009d955ee101d2318d76a973523ff6319065efc80a7f831ec792a0126c9b3",
+      "bytes": 152387
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/render03/rear.png",
+      "sha256": "359af5ea9cdf4627b654d3d6b9198d65761ecfbd6f6d866df5eae4e399fd2eb2",
+      "bytes": 2372125
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/render03/rear3q.png",
+      "sha256": "5701aedeab63e9ce1a403cf81f445ab908a961b516011757c5f39bd8b581c03c",
+      "bytes": 3003233
+    },
+    {
+      "path": "reports/p1-018/rear-field29-proposal02/trial02/render03/right.png",
+      "sha256": "0b7a0a9a9abb640a46dd167af2a951992e1f042bc82e699778d0c562ace0aef4",
+      "bytes": 2693545
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/HANDOFF26_FORM.md",
+      "sha256": "e07926465b735d09662a7aad1472963433b7270a1a1c77ffe41af5b9e72971b0",
+      "bytes": 2005
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/HANDOFF50_COMBINED.md",
+      "sha256": "6a2720398a68e00e6534afa1333edcbcc872f211fb60210383aee0a7c8fc2561",
+      "bytes": 2572
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/HANDOFF75.md",
+      "sha256": "656167c0ea96b0522a0679069cdeaab07abd0d951d67f511816583e9a7cc2236",
+      "bytes": 2464
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/HANDOFF77.md",
+      "sha256": "23aae8cbba489068b330fd14ad8281037992786e9e2c8f285b63ab75353bd500",
+      "bytes": 4621
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/HANDOFF94.md",
+      "sha256": "f87b3ee660bcb1f5a7e48bd92cb73560f707001f261ba22bd999d1b024f18b33",
+      "bytes": 6416
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/actual01.json.gz",
+      "sha256": "51a424476754a144785bcf340aa5a69c39e9135415dfac16c3213e6a91091e8a",
+      "bytes": 3123595
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base-fit87.json",
+      "sha256": "771c380494ed9a0a7cc47c83a80f1c2e6902e236a681bc8d810753cec25c37e5",
+      "bytes": 1333351
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base-fit87.json.gz",
+      "sha256": "3ab42c0ad434bbec1b9acf47f6732860c1ef36c6ba1e5205a5b51f5d77ec8be9",
+      "bytes": 2712378
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base-proposal74.json",
+      "sha256": "5b501244e4f8833175794a885a37597b91e79b1bf14bf4f6b4b5a48b0b528df6",
+      "bytes": 114855
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base78.py",
+      "sha256": "b38034a6ae5c65e05420e1e335c37f41655445f9781ca6a682ffb9ce5469c167",
+      "bytes": 2782
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base79.json",
+      "sha256": "4faa8665e72fe34101cf22add4495d0c6a400d8196c3acf5f7dfadb8a457458b",
+      "bytes": 9476
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base79.json.gz",
+      "sha256": "98f31c2b1f4bac24001f2bc3f5e247840fb3c8019bb15baceaa1d5370d1ecc2a",
+      "bytes": 3330664
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base84.py",
+      "sha256": "ad1fe3f1644924caa242ee1633380cee43ebf57ed6f0f0d640345171cee360bc",
+      "bytes": 5334
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base85.json",
+      "sha256": "f6b2f08065a07e525117eb892ba1bd9f69c15d4ace1348c66c6b2ce1226ca1de",
+      "bytes": 4069
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base85.json.gz",
+      "sha256": "5acfe864b853ac44b0f6af7770721ee98998fce1bc90e1a960cc5836fe7c0102",
+      "bytes": 3396101
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base_fields86.py",
+      "sha256": "90e9e861adbbde7cdf002f9e03946cf1b3113dd2d14bc7f7b7426c8c9004e8fa",
+      "bytes": 7377
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base_fit87.py",
+      "sha256": "7fa8722f95d234b29b8c4af4fa4dd368a1d685cceef60bd570d5492b7b287bbe",
+      "bytes": 5191
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base_proposal74.py",
+      "sha256": "a03d4f73103fb7ef14e021601e45c5915262a9d4dd7f6f863ab80f9deee1ce14",
+      "bytes": 6997
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base_repair80.py",
+      "sha256": "c96ff77f0fb27adfad370a38a53fd16865dbe3e59609695f40a5998b7235a043",
+      "bytes": 3718
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/base_repair82.py",
+      "sha256": "fbf61c3d24f54acc8437d370d77c9ab441a656c56dc0dc24bcfa65278b933bfc",
+      "bytes": 4064
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/boundary02.json",
+      "sha256": "9582827ed54bec1d825d4fd11aa002fcf73a72857ba38fb1cc9ae4db75702d2c",
+      "bytes": 1485126
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/boundary02.py",
+      "sha256": "7015079a2c247c1b076368d41a2487f6844ddce652c5b1f674453a3a4cf3936e",
+      "bytes": 7098
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/budget93.json",
+      "sha256": "640d77ed906909dccd7f3ca4d07bd8b02c9ddfb7fd6149df7bc143a155e18ba8",
+      "bytes": 1398
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/c_surface14.py",
+      "sha256": "daebc18bb5c0b272e70a22d1844345a08712fc420e3f065e5f0cb49ff46c001a",
+      "bytes": 9384
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/c_surface16.py",
+      "sha256": "fef2c7bacd0323956b3c27e55a9dd77873d447b510d54c57fee48a467937b8c0",
+      "bytes": 4641
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/c_surface18.py",
+      "sha256": "fc7bf40a8c9b44cdc097beda9fde1f79c75fe6cd11b1840e1938fd83bc5b2a73",
+      "bytes": 4859
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/c_surface21.py",
+      "sha256": "ac27074644d35ea2aaf05a463b3c0eb88525dd4750afad83d98bdda2ac75d829",
+      "bytes": 4459
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/coarse-section57.json",
+      "sha256": "c8d09e444157c01cc543f961efb73d7642977b2d99ecbc2d67d6da2721e33756",
+      "bytes": 2661
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T040737.709287Z-current-native-extract01.json",
+      "sha256": "e46b42e0e95d3b8a835916d7be4229907e9610938283d09ad45c51d2052eabf0",
+      "bytes": 1245
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T040737.709287Z-current-native-extract01.log",
+      "sha256": "b33538d56b4099e56dcf604d7ba4bb7ee0d6a8bf690c68c0751fbb3a8638b90c",
+      "bytes": 19261
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T041716.960941Z-current-complete-boundary02.json",
+      "sha256": "2480797c85562b50ca751bcf9c9f52e7951de83f32d1a7894a49579d1b42f5b2",
+      "bytes": 1072
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T041716.960941Z-current-complete-boundary02.log",
+      "sha256": "2e8ad8aa4579b6beb8674b2d6223c77d47e3af57d9c0e457d622e742216a4de2",
+      "bytes": 808
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T042425.024542Z-current-native-upper-fields03.json",
+      "sha256": "0d1001c93b96dfbe5f8a27c8d8fbbc924afb2f44ec0fd883815fbe3672d26665",
+      "bytes": 1246
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T042425.024542Z-current-native-upper-fields03.log",
+      "sha256": "7ef8f7a19c854cc5e38ec518a1e6dd59949e1b72d34c79fd92f685398e9ce38e",
+      "bytes": 920
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T042908.478202Z-local-strip-partition-control04.json",
+      "sha256": "dbe9deaa7e92ff60bfd742e5fa19a5e483f291b4506b048d239835d946deb584",
+      "bytes": 1076
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T042908.478202Z-local-strip-partition-control04.log",
+      "sha256": "5507d61ebc2e757c7483227aeb19747ef7e6aa91e1cbff86f8d38b2cae291ae3",
+      "bytes": 630
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T043148.068134Z-native-local-strip-field-control06.json",
+      "sha256": "675bb82198e527174c250e9715ac95b5635ba290f1df177decf3f954e701e1af",
+      "bytes": 1275
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T043148.068134Z-native-local-strip-field-control06.log",
+      "sha256": "311ae927309cadf7a0c666371cecc8247bc806d79cc71b159e860166b00dcd94",
+      "bytes": 306
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T043810.814534Z-native-roof-domain-proposal08.json",
+      "sha256": "f44978eb98597381d41b53c0c144e73462394a04a98d300e4e9dbc2721871168",
+      "bytes": 1258
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T043810.814534Z-native-roof-domain-proposal08.log",
+      "sha256": "5b100e45f6da9192871fec7d7224881d53edb4dc223886a7699ba12cfe6eb3a6",
+      "bytes": 1094
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T043857.556263Z-native-roof-domain-proposal10.json",
+      "sha256": "cbd5430b73f4f799da6704e34c1620d7f5a70c58ffb4b3af9c1d5afc6fc71636",
+      "bytes": 1258
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T043857.556263Z-native-roof-domain-proposal10.log",
+      "sha256": "e1fb777bfe27c39776ea5154fb7b804936d70e42ebe505f42fd331890c76a248",
+      "bytes": 1052
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T044001.256040Z-native-raw-roof-modifier11.json",
+      "sha256": "9b61a3f011c9a344655222e8fec5aa7d85e18176c437918b9759d78eaebb775b",
+      "bytes": 1249
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T044001.256040Z-native-raw-roof-modifier11.log",
+      "sha256": "f04311c61f1b16a97a869b2bdd2bf5f2286e7519eddd9d09b2fcd71d912e6482",
+      "bytes": 1947
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T044057.478105Z-native-editable-roof-domain13.json",
+      "sha256": "7e8cbb3dcfb318203c689b1a92debdf55015dd7784b73256dea9f4ab987aa862",
+      "bytes": 1258
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T044057.478105Z-native-editable-roof-domain13.log",
+      "sha256": "9d35b3222b5e393ff1275ec6f7dabdbf5663248af403b6b20d18a117e0c37b28",
+      "bytes": 1044
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T045237.534798Z-native-boundary-C-skin15.json",
+      "sha256": "a4dad273f487a5d33af279bb954a8b199ce0511f831d89b9d78ca0bc8c38fe9a",
+      "bytes": 1253
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T045237.534798Z-native-boundary-C-skin15.log",
+      "sha256": "22c734fbf3ce03220c9c75e056ea4d9161621740d1314ff2a29ed7ed7ec8beda",
+      "bytes": 1972
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T050141.568636Z-native-roof-tangent-C-skin17.json",
+      "sha256": "28bc470096849841f4bd49b2b3958eab16e227532c3be71494af3cf498973d45",
+      "bytes": 1257
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T050141.568636Z-native-roof-tangent-C-skin17.log",
+      "sha256": "33320c6fb6d6bed76827579dd50ed1f75e7b0d3a327d2daeeac4c768a2a177d0",
+      "bytes": 1991
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T050441.850126Z-native-complete-roof-boundary-C19.json",
+      "sha256": "f446e70004bcd5ad8efc564930220e2906d5639690382149b227fcd5ab845c11",
+      "bytes": 1262
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T050441.850126Z-native-complete-roof-boundary-C19.log",
+      "sha256": "108bbba55209efe4a4bc5100392c30e7491212fabb4d16b8d5fe46416737c787",
+      "bytes": 1993
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T051015.702230Z-complete-native-contact20.json",
+      "sha256": "6c1ff46cd625b977589ffc652aaaab718a4bf125b83242cd052f527ae6b6cae0",
+      "bytes": 1248
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T051015.702230Z-complete-native-contact20.log",
+      "sha256": "9e0b764386b18c2a414cddb7c9f533f2650ceb8acf4322e9a80ef06fe51d0fab",
+      "bytes": 1086
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T051445.926716Z-native-shared-Roof-underside22.json",
+      "sha256": "c47242282aae6d2d433390c5226762c5c63c179d6820ce4170bc6aa85f593b67",
+      "bytes": 1259
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T051445.926716Z-native-shared-Roof-underside22.log",
+      "sha256": "4769a15c110993303d21dd16aeed342f68b618e4a0ac103ef788ae00c67629e0",
+      "bytes": 1993
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T051957.891087Z-actual-full-strip-width23.json",
+      "sha256": "ee120900a565b170724e8313cf9975bad37b2e0eae99efe9e74f708e8b1bdc7f",
+      "bytes": 877
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T051957.891087Z-actual-full-strip-width23.log",
+      "sha256": "cef4d9dde123ffafd5450b0fc868d367eec4ade8e36244ecf6588d664d4a91d1",
+      "bytes": 59
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T052147.639471Z-actual-fresh02-stage25.json",
+      "sha256": "543362aab31664ab696bbbe52b4893d06855b7649fe85275d296f23f49baa870",
+      "bytes": 1246
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T052147.639471Z-actual-fresh02-stage25.log",
+      "sha256": "8b10f0173fe029cf433aec24840fe2062d29a51b683f4a35c2eb2b530428e5d0",
+      "bytes": 2699
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T053057.927600Z-native-paired-receiver28.json",
+      "sha256": "fe9afdaa0d1b9a5f44d5cca5f2c6c6a76925408da858fbe75186d6f3c980f7b9",
+      "bytes": 1254
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T053057.927600Z-native-paired-receiver28.log",
+      "sha256": "6b34c0b435e60e0a56aa1c4fb56fa71e1985e43c4325230ee9a5093dd8d1106a",
+      "bytes": 879
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T053409.646878Z-full-receiver-contact29.json",
+      "sha256": "e557d3e724d124384458c5b518624b2f10060b51cd1384ea1d58533b6162caa8",
+      "bytes": 1250
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T053409.646878Z-full-receiver-contact29.log",
+      "sha256": "b970a1c121726829a15f7c7f7cd41d0bbb963bdc4ea827b9e605de8ee986f601",
+      "bytes": 690
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T053613.869521Z-native-recessed-receiver32.json",
+      "sha256": "cc562b43eb9dcc4746f88abcaf624ee95562f2c7bb1a9c30c9395a12c6f36a99",
+      "bytes": 1256
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T053613.869521Z-native-recessed-receiver32.log",
+      "sha256": "342c188201a380d9968c3b03fbea955d4ba3322119db6170f01fc398b5a8fb03",
+      "bytes": 879
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054132.500475Z-complete-receiver-fields33.json",
+      "sha256": "d06e7f0db7252868e5aae5758732fa9744f8bae4b1d024d2b19827290e579bcb",
+      "bytes": 1069
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054132.500475Z-complete-receiver-fields33.log",
+      "sha256": "035c8af853b03a971e2f47656479c9ae565022340d05182976dd1fb9c4586c4a",
+      "bytes": 1433
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054249.731060Z-native-exact-domain-receiver36.json",
+      "sha256": "600c222c72be3bf7a79e3b0a6ad9b5902271ec75380f1bcbb1a14ec4765380ab",
+      "bytes": 1260
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054249.731060Z-native-exact-domain-receiver36.log",
+      "sha256": "8e436e4c2ce74eee3c716aeb689635fd9e153dbc552f98d33b8651c31f4d0669",
+      "bytes": 879
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054315.994240Z-corrected-receiver-contact34.json",
+      "sha256": "a3e1737c80a03e11eca32d2e1a058a2084938c197dbf94ce047e468219284b51",
+      "bytes": 1255
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054315.994240Z-corrected-receiver-contact34.log",
+      "sha256": "811bdb77e86839232c90b10a56ef9be8ea0b263c01f797dd3691fdca14ba6c05",
+      "bytes": 690
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054518.131745Z-final-current-receiver-contact38.json",
+      "sha256": "b2b67fbc155605305c232ae655f91c13406492c230dc00f4ad7d12fe78c22cfc",
+      "bytes": 1259
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054518.131745Z-final-current-receiver-contact38.log",
+      "sha256": "811bdb77e86839232c90b10a56ef9be8ea0b263c01f797dd3691fdca14ba6c05",
+      "bytes": 690
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054518.132052Z-complete-outside-fields37.json",
+      "sha256": "10f379d8b63efe765c3e51ce5aa3bf54d879501852c400e9ab3b9a707dc40777",
+      "bytes": 1068
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054518.132052Z-complete-outside-fields37.log",
+      "sha256": "c0c874171479d5e457b6227d25a2b3f7398f74f539184ef3ade083f306d8a1c0",
+      "bytes": 735
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054826.503907Z-complete-finite-seat-and-controls39.json",
+      "sha256": "0a6ceb2884e9066ee9f44289a471041cd647a0500e73dcebadad009aee45f8ca",
+      "bytes": 1076
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054826.503907Z-complete-finite-seat-and-controls39.log",
+      "sha256": "4c3629c96556dc5f8d33dcdce78e9acec8fd8bcff400e68a81ad352ac860ba4a",
+      "bytes": 907
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054942.728035Z-native-actual-paired-rim-receiver41.json",
+      "sha256": "bebd83b26f10bea28b0922995cfb31c2bc131932dc4958e608e622072685334e",
+      "bytes": 1265
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T054942.728035Z-native-actual-paired-rim-receiver41.log",
+      "sha256": "8e436e4c2ce74eee3c716aeb689635fd9e153dbc552f98d33b8651c31f4d0669",
+      "bytes": 879
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T055105.609489Z-actual-field-negative-controls44.json",
+      "sha256": "44cb6ad48ec5682f36f1b942ba7054515c5256a70728458a5f94d648388d8101",
+      "bytes": 1079
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T055105.609489Z-actual-field-negative-controls44.log",
+      "sha256": "47a2e2276471376297eaf010d3841b4875c225bcb8db2078612a387fee9b9255",
+      "bytes": 2156
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T055135.333640Z-final-receiver-contact42.json",
+      "sha256": "8d90e28b12ddd83ab0c1d75ad54f7c52251e8af4628f9412712cbf7ca1068bae",
+      "bytes": 1251
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T055135.333640Z-final-receiver-contact42.log",
+      "sha256": "a813e0a0c6cf60e3f241fe1bacf42f38d162f7f593fd1cab1094383138e9b98f",
+      "bytes": 690
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T055135.347551Z-final-complete-outside-fields46.json",
+      "sha256": "1aadacadc1ab7ecfa258fc66bf7f7a23d69f32ea3308aea62e34504454cda493",
+      "bytes": 1074
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T055135.347551Z-final-complete-outside-fields46.log",
+      "sha256": "0398d978da382c4c494dcd901e11c3ba9b624c6cf15710fd9404dabc3807e5bb",
+      "bytes": 735
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T055206.375522Z-final-finite-seat-controls43.json",
+      "sha256": "8ebca1547ba405e611b66ae218c98532bb1cc4413cf422dec7f5c0566b5da154",
+      "bytes": 1069
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T055206.375522Z-final-finite-seat-controls43.log",
+      "sha256": "5b9b7a320941af83b8500bf929e015783e481db164d58682257c9dd2e9522229",
+      "bytes": 2380
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T055536.522399Z-combined-native-callable48.json",
+      "sha256": "f19378736b924d518fa67bf2b3cf9a2927023d53a4f49810fc569b5cdd56648a",
+      "bytes": 1250
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T055536.522399Z-combined-native-callable48.log",
+      "sha256": "ee6b09e37c8a3392094d5ba3c8224df03f8c387fb932e03f6933164b875a6589",
+      "bytes": 1686
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T060011.464726Z-final-current-field-controls49.json",
+      "sha256": "db38ac441e5b469e74fc8d6ddda4267740f62634746f9667d4931d0422fb567b",
+      "bytes": 1077
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T060011.464726Z-final-current-field-controls49.log",
+      "sha256": "47a2e2276471376297eaf010d3841b4875c225bcb8db2078612a387fee9b9255",
+      "bytes": 2156
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T060201.287676Z-complete-current-C-neighbor51.json",
+      "sha256": "e40469efc89fc9f69c1ea6168840f1de6f2ef31a07465be4805399cae8164342",
+      "bytes": 1247
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T060201.287676Z-complete-current-C-neighbor51.log",
+      "sha256": "97f06ed75915bd8bad1f924ce56be54932628bd32086ef1bdbc973a8082a9d57",
+      "bytes": 1208
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T061126.424004Z-original-member-support52.json",
+      "sha256": "f075b13376edb17c4611c6293c000cc6e06ca769e3729d4bad1862e786aa2f3f",
+      "bytes": 1237
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T061126.424004Z-original-member-support52.log",
+      "sha256": "ca5601e241a00ffd90741242f122018b310c0f3d82f0f122f9604ec3ab809c1f",
+      "bytes": 1650
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T062130.344180Z-native-fitted-member55.json",
+      "sha256": "33a0ca683e037cdadb27c875bb73e0f2f6e427cc4ca1a3193f646dfb34b818ea",
+      "bytes": 1451
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T062130.344180Z-native-fitted-member55.log",
+      "sha256": "cdfeb1221fad36449c489de6d4a610b675877fe8fe7bdbf5ecdb4385a05a2101",
+      "bytes": 677
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T062159.746087Z-native-fitted-member56.json",
+      "sha256": "08c1ec60f4682c4102d632eed2c7af92fcee476b5c1731fe846d9344860c9344",
+      "bytes": 1451
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T062159.746087Z-native-fitted-member56.log",
+      "sha256": "804129153ff8cf96ce52468463911ab9e72cefd0bc8fff4b04c0210c24697f06",
+      "bytes": 17903
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T062504.111814Z-native-coarse-fitted-member59.json",
+      "sha256": "b6a87221f8654ac86a9b81422a6a0a2a03bde3311ff5fa16f3452046328ba4bb",
+      "bytes": 1458
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T062504.111814Z-native-coarse-fitted-member59.log",
+      "sha256": "e9a757eb10105d5261916e52392db00e26df65f0037d32e82471fc9af1d724ac",
+      "bytes": 17167
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T062555.708188Z-native-fitted-diagonal-member61.json",
+      "sha256": "6cc1990d7adb87b2a3127edfb5e04d7d9331807f931330ba8c923cb29cffffdc",
+      "bytes": 1460
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T062555.708188Z-native-fitted-diagonal-member61.log",
+      "sha256": "12bda06b7920bbaeb57917881ce6d11b9fc2795d1a5ffab66bfafa1900462c87",
+      "bytes": 5873
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T062859.726119Z-current-fitted-member-neighbors62.json",
+      "sha256": "bf4e260bb6751bb9ac4eeb79e0de06956bce8a4e98ebc29099095e542e4a43d4",
+      "bytes": 1447
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T062859.726119Z-current-fitted-member-neighbors62.log",
+      "sha256": "07620ff4abf9c9bb659e10ec51a373b34c0d969a2c25fec768d8c4fba6698030",
+      "bytes": 1642
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T063328.842573Z-native-seal-clear-member66.json",
+      "sha256": "48dcd01039b83b28a908e9116770893b6a3a3fce5870fb2fe862799e5984fa8c",
+      "bytes": 1455
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T063328.842573Z-native-seal-clear-member66.log",
+      "sha256": "f69d998a1d6d7cf63103d0558456b3a0b90759768dbba0e40978c7114b728f2c",
+      "bytes": 6100
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T063551.882603Z-native-C-bearing-member68.json",
+      "sha256": "3ca4af66226a0e9b57f24d329064c0f00180b81055d2b5eba17ff498f292825e",
+      "bytes": 1454
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T063551.882603Z-native-C-bearing-member68.log",
+      "sha256": "a01c0b0fcb24655db47237dd8b65c031ff97575f17ffa8a26533d6f989beb288",
+      "bytes": 6102
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T063721.968169Z-complete-member-and-bearings-fit69.json",
+      "sha256": "cb860279f70a708b790e831e5e4631961cb1bce9821c3817585b7c2f4bbcba8c",
+      "bytes": 1448
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T063721.968169Z-complete-member-and-bearings-fit69.log",
+      "sha256": "1260a5b95c763446e688a3441143343f2480347de08c7c9097d86b1176a63063",
+      "bytes": 1638
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T064515.203525Z-current-reinforcement-finite-cert71.json",
+      "sha256": "04cabce579fbd30ebc228fb98bc46dbd126516c4b8a0d364749d1daed8de00e7",
+      "bytes": 1451
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T064515.203525Z-current-reinforcement-finite-cert71.log",
+      "sha256": "1eda9ded98f15d9d8e1cf484c72c37ceadb393c0459d150216c311fa96d4d805",
+      "bytes": 46528
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T064832.942409Z-complete-current-stage73.json",
+      "sha256": "94ddc73d57fa0117345fd7eff80640a757ef6819617ff224012fdd63f615ff85",
+      "bytes": 1429
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T064832.942409Z-complete-current-stage73.log",
+      "sha256": "77c866dfee040d718f797b638714993251c6c7374e02495ba97f8b5757692fef",
+      "bytes": 2209
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T065447.268105Z-read-only-base-receiving74.json",
+      "sha256": "cf50a0d747f08fca0eb5fd4e62be14025f5810a2f4b8e04f3409e8d3ac911d6c",
+      "bytes": 1100
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T065447.268105Z-read-only-base-receiving74.log",
+      "sha256": "6c06cdad9c5a5ca5ec4ee0e5561046f24006c05b1174f93358d70b25d87346b9",
+      "bytes": 2502
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T070112.212144Z-current-web-seat76.json",
+      "sha256": "54b24523768fc5f0837ba98d2d3a08a5474771869d7d2395bc177688b543611e",
+      "bytes": 1234
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T070112.212144Z-current-web-seat76.log",
+      "sha256": "3314c73d1acd7e87811abbc59ef5f08932e1c4451c2a6a73ac8f7d8d8e1a7623",
+      "bytes": 3074
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T070602.773124Z-current-finite-foot79.json",
+      "sha256": "da89fdf86bc8d3ff4fe305e2ebd935cc6e4784500f32b3262a6469ae7029a696",
+      "bytes": 1423
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T070602.773124Z-current-finite-foot79.log",
+      "sha256": "464061273a9858eba2fe261e0c8fb0bf43119c3813d5b8c3107d8139c84eb349",
+      "bytes": 10001
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T071045.822759Z-finite-foot-diagonal81.json",
+      "sha256": "8adcbf8809dbddad913e6002aac887811fe45d8fa9c8a3022844c25d79537931",
+      "bytes": 1442
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T071045.822759Z-finite-foot-diagonal81.log",
+      "sha256": "ffbdc1b1481aedc71683ada35d4c53f7aa7328cb039e7627f92ec2c60424a35b",
+      "bytes": 7340
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T071159.964793Z-owned-foot-diagonal83.json",
+      "sha256": "a445b21cda02e147ebd0897ad902334c70eb5a927c5bcdd690f336c41b69ff1d",
+      "bytes": 1441
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T071159.964793Z-owned-foot-diagonal83.log",
+      "sha256": "8c6d78a97c985995b267c1c88f4050bda41ead2ac37eb4a073b8ce4be3e8322a",
+      "bytes": 4135
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T071614.425241Z-owned-native-foot85.json",
+      "sha256": "e63537dd1060057a4332609f294bcd8c202ef7abcf147e814b3e29590dbc8494",
+      "bytes": 1421
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T071614.425241Z-owned-native-foot85.log",
+      "sha256": "232cc8abbd9a7878bf96165c43a8c4d404e34202f2e6bb4e0620a75d2cee3c99",
+      "bytes": 4389
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T071832.678194Z-current-foot-rest87.json",
+      "sha256": "f8ab11f722a4f08c80452e600d05fba2492764b77f41d5e726833498c7b1750f",
+      "bytes": 1420
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T071832.678194Z-current-foot-rest87.log",
+      "sha256": "27b647b89041c00db2f4d21f3d258dfd2eb345ed7d1ca3309b597f95a85ec848",
+      "bytes": 1562
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T072103.086884Z-complete-foot-fields88.json",
+      "sha256": "9cc479e1b8ec3be5981424ed80d4244ac3557578aee58100cd72bc6eebfeecfa",
+      "bytes": 1442
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T072103.086884Z-complete-foot-fields88.log",
+      "sha256": "aaa94a46bc95e1e2f2b6d83c6d8ae36e97516d145943bd66ac932639fce47561",
+      "bytes": 3253
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T072438.634814Z-current-foot-finite90.json",
+      "sha256": "34426a9ea86e6316e1812cca50e859ae2257191e7724f6a3424d17192c47b626",
+      "bytes": 1611
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T072438.634814Z-current-foot-finite90.log",
+      "sha256": "12768aa449ed5af6cda59adca020956df1a37a56428733e9f4e9c3cd24103e80",
+      "bytes": 966
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T072825.313113Z-complete-c-foot-stage92.json",
+      "sha256": "d5ef6791c55ca03eec993088e78a71ee2c74876681ac18ef4d7f6dce86087189",
+      "bytes": 1428
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T072825.313113Z-complete-c-foot-stage92.log",
+      "sha256": "3fc3c7d6e16f2682bc709ad15107ac901d7118a9b0a248bc95ac43a7b14ba0d5",
+      "bytes": 3392
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T073450.063011Z-freeze-finite-foot94.json",
+      "sha256": "8d1cf51de576f76322f77ba383a179a194a5fff38964f2d9cba415ca236d1f21",
+      "bytes": 1057
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T073450.063011Z-freeze-finite-foot94.log",
+      "sha256": "9fd85cda12cd70ea11e1a8b86ae0f301d0dede57303050356ba7e2caa35f3341",
+      "bytes": 879
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T073525.360681Z-freeze-finite-foot94-corrected95.json",
+      "sha256": "52e19f60b4a5da2ddf03b93681f9126b833c57b98188d810d8cffddb2032d915",
+      "bytes": 1069
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/commands/20260913T073525.360681Z-freeze-finite-foot94-corrected95.log",
+      "sha256": "4df91ef4a08bb71a42b9dd7d33dfae72058cddcd884968bfe1f60f03eb31daa6",
+      "bytes": 1931
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/contact20.json",
+      "sha256": "98bfeb9dd60588b5fd59b6d2c00bc0cdc179b4cb3798cad659445112e13137c5",
+      "bytes": 448368
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/contact20.py",
+      "sha256": "2eaf326366d8199c0b2f96291407b9ac3ad268d1e6ec79319cac4be4a1d1fc67",
+      "bytes": 3894
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/contact29.json",
+      "sha256": "8c82cb89381b002d9fdbdfbf25ed89e2d89382136c7adb73a3afd02504c5b99e",
+      "bytes": 402097
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/contact29.py",
+      "sha256": "671840ddbf06b2d6566988fd4999a1f7fd2bd2fff02dc372e7db0fabbd8eeab4",
+      "bytes": 3927
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/contact34.json",
+      "sha256": "8c3063a1f5e33a9963d8f74c7de3fc1ebd172d1c68456a039f2baa79bf28ced9",
+      "bytes": 369458
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/contact34.py",
+      "sha256": "91c6a131e79fa004ebc6cfc5572bcf32bfa7534543869aa32f3c8ced7f4112d4",
+      "bytes": 4151
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/contact38.json",
+      "sha256": "2cc919bdc12715631888166ba2d1b42a6f92a279594a6d559ebbd433a8db8da3",
+      "bytes": 369458
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/contact38.py",
+      "sha256": "fc4fff6746a0e6b6b136941e5ffd917ffb807ae95eae360bf7343b12fe3f12ac",
+      "bytes": 4151
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/contact42.json",
+      "sha256": "35a85373573de1c932edeb0b80eb10445a15466a76c55a1d3e12c60a95e8392f",
+      "bytes": 367954
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/contact42.py",
+      "sha256": "4d226c0ed139fe49fc829f21e242141883ea2383e42a4417fd3070f1b59bba36",
+      "bytes": 4151
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/controls44.json",
+      "sha256": "132e715b9e4de3ab05c9e4f3559e49956a0e3b204cad9cec055f98569f10063e",
+      "bytes": 3843
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/controls44.py",
+      "sha256": "bc25c4db0e3ca6f980ffce1d524ac77fdf0e645e29a28a2e9639cd9580fb500b",
+      "bytes": 3792
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/controls49.json",
+      "sha256": "483989fb7aeed60c4211751359068e403008fdcc4119ffca787381d7bdb9b101",
+      "bytes": 3843
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/controls49.py",
+      "sha256": "c24f5beb73f9afa453f4aca0112d745458ad0c8c1fb50443875c8fe443974e63",
+      "bytes": 3792
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/extract01.json",
+      "sha256": "efc56e527302f23d7f70c0b6e9c5edad3dbf6f51c5306cce9eebbedb1ffecffc",
+      "bytes": 18136
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/extract01.py",
+      "sha256": "f913ab77be1fb3cc816c732dfbcae3468238e5342e55a5a7d0f72b6c6acaa91c",
+      "bytes": 3401
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/fields33.json",
+      "sha256": "6a1618c7961a5ccd0334bb06feff0644f1084319dff08578d5f918e5c97eb7a3",
+      "bytes": 1419
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/fields33.py",
+      "sha256": "4d34fa5f48c9632d626f50eafeeef5aab1350e20a1a537569cca8c7f5d1d7138",
+      "bytes": 8035
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/fields37.json",
+      "sha256": "40c9852311710e40aa696b79abeb0f44d78cb8ffb60805c0209a9cfac9fbbce0",
+      "bytes": 6662680
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/fields37.py",
+      "sha256": "1209e06f811d924ddcb6d676ce78bd2d9a0eb80b31853ec1bee933e14300c096",
+      "bytes": 8035
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/fields46.json",
+      "sha256": "8ae90513afb1e7adbfd9043eac5548192a6388007caf998d1410cda888b8fffe",
+      "bytes": 6662680
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/fields46.py",
+      "sha256": "107945e842ea2fbbc6074bfed4ce6a11ec0ca08ca3d78b9ce03fb43bf2a96fc3",
+      "bytes": 8035
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/fields88.json",
+      "sha256": "0294aa203763031d7d804d209645f1f0fb027bd258bb43f851e551c014022d09",
+      "bytes": 234860
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/fields_probe88.py",
+      "sha256": "63160d76cbd5a3f2855413fba0d22128c2de3e49bb068a613c8da3dea6fd07b5",
+      "bytes": 3025
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/finite_foot89.py",
+      "sha256": "b8ab13bc87cd6f67a221fd9f0b57a3295b32b5f059e5c6c66dfba6f303b6ec39",
+      "bytes": 3854
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/foot-cert90-intersections.json.gz",
+      "sha256": "d31068d079426dd98a3887202ea34f4d70dceb1483effaac86185a77720c68fb",
+      "bytes": 10014
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/foot-cert90.json",
+      "sha256": "7280173b988c8a0326f1483c524e1a14c843bd35e64ddf1665541eab872a3e04",
+      "bytes": 569158
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/foot_cert90.py",
+      "sha256": "fd251cb3ce96de7eef8aa7a69fc2e0abe8b3c1e102442658882caca8e244d147",
+      "bytes": 5540
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/fragment04.json",
+      "sha256": "3a06aed9de9cedbacb689f22c673d420ac69a9bb09f4e198c75c4b7464531f70",
+      "bytes": 323019
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/fragment04.py",
+      "sha256": "f938aca3a32c4c6e49e519818098b6b5d5c4be8363c835edae7be5f9706a4245",
+      "bytes": 5391
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/freeze93.py",
+      "sha256": "476d4bd5a2bcaa5c9edb3665d9677bc908076a7e4a619a5df68b77063f018ba9",
+      "bytes": 6103
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/freeze95.py",
+      "sha256": "9ec088aff9497f0f1b68663bd4c6883f0cdb224c526a258d3cbefffdb7bab6e8",
+      "bytes": 6104
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/handoff26.json",
+      "sha256": "91214ffaa51d6dbe667980298627d450ff2c773b5c2e9115d56dd1215f06d58d",
+      "bytes": 6385
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/handoff50.json",
+      "sha256": "f525f1e8cbc3d760e6e7286d555bfb96b182ee0730da9a8f5a6116ab1754f1e4",
+      "bytes": 10259
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/handoff75.json",
+      "sha256": "880d265d4720bcf2ab4f9359812c18cb9084beaf0c0c3e93c40e2a19f6bfae80",
+      "bytes": 9569
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/handoff77.json",
+      "sha256": "2f679aea670a00d2284baedb9071b80a4c2584a383c8b1bb49190b1477f113ad",
+      "bytes": 3180
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/handoff94.json",
+      "sha256": "dc283993e0599adf8a53f7fb23b4161d6cc774d9449217d55af01bf70bec343f",
+      "bytes": 16369
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/handoff96-supplement.json",
+      "sha256": "bb36d6ba564d3e06425856f1cc9a2dd5cbc5c9fb7aeb8b83cbf6292ac25a90bb",
+      "bytes": 4480
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/joint39.py",
+      "sha256": "23b4b2ea6218d42f7f579254463f399e0c1947d5f278c759937a7c2330327b80",
+      "bytes": 6539
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/joint43.json",
+      "sha256": "ca3652ac493802c4e0c922c070f5c98c5dcf85e8de6d4d67e6ab65aa33b9dd0a",
+      "bytes": 149057
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/joint43.py",
+      "sha256": "91b797bcde6cd672c7e6fc14e3eee6ffd9a8810e02c6318e5cb3d27ec2f05116",
+      "bytes": 6539
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member-cert71-intersections.json.gz",
+      "sha256": "cbc0c7508fbdbe645e5d0cd210d2030e43787cadd4e2361e66ff1e3d2b11f78e",
+      "bytes": 12547
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member-cert71.json",
+      "sha256": "ccd0b1c923528119f74960664232ee427b0f83a1aa19de402beb527d92d2915d",
+      "bytes": 44969
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member-fit62.json",
+      "sha256": "2e5954096ecbf438e6ca038ef7f7a7ed80e5d103a0ed33addc88457391ca9227",
+      "bytes": 779558
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member-fit62.json.gz",
+      "sha256": "7bdcb8d2b6bc5c0ac0ffddba4d5b036dc3863a271518bb21080c9ae728a16f55",
+      "bytes": 2691407
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member-fit69.json",
+      "sha256": "6c89df3d2fed33709a2aa2d22b1d834003c8dde38b77d484e707374a676ced9e",
+      "bytes": 673193
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member-fit69.json.gz",
+      "sha256": "b0dbe725719f6e4031d3a5c690ba88141a7b17a35fe4d63e9e416081870c07d1",
+      "bytes": 2701070
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member52.json",
+      "sha256": "4cebd5ba80b37d430736bce11e1cde7a99754fba5c5f251bab3d72abee5c7bf1",
+      "bytes": 966552
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member52.json.gz",
+      "sha256": "d1be3a6e80f07e275ec4ec1bfebdf5ae33715888afb2dae6f9e93748b9fc9ba3",
+      "bytes": 2660310
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member52.py",
+      "sha256": "b14434feb05f0405e3bb6f6889decff81b075de52df249fd278e6f83a42f66c3",
+      "bytes": 4874
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member_cert71.py",
+      "sha256": "9b5429e0c21d3e51cea379dee5a2ebe89c55489633ce7c0a5e89191fa24db9eb",
+      "bytes": 5950
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member_checks70.py",
+      "sha256": "0ce39fa487fb66371eb73584b2c2d36b5e4b9d6b790fab38e8d8da02d66acb40",
+      "bytes": 4451
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member_fit62.py",
+      "sha256": "dc19906be01ee48c413fd8a2ed59e2358b1fc1ee5c4e5338e48d15bda74913fa",
+      "bytes": 5215
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/member_fit69.py",
+      "sha256": "ba108d40982c8c9d3585efd54103ac4d1d76f0012622729749b485c5f28562e8",
+      "bytes": 5215
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native-fragment06.json",
+      "sha256": "cbebf77f491fcb2ef2da9f251ea30627b738802f33dbb75f33692deeea8efc1b",
+      "bytes": 61860
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native-fragment06.json.gz",
+      "sha256": "58f32d9048dfb8a0d8299dd387eb21dcc5f8a7b911d977aae8cc2c51eb74fbe6",
+      "bytes": 33893
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_base79.py",
+      "sha256": "ce828b5dd7061498cb5f78593b12d40fd791e6a194a402e842f3e4adf02b04cf",
+      "bytes": 3324
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_base85.py",
+      "sha256": "bf6f01ee6a0faaf3f441b1bc022626fd396d2bf28fac008ed8f0416c6471b834",
+      "bytes": 2714
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_fragment06.py",
+      "sha256": "2c7311d3208eb58b44a1de2f7db6d1396b14ac9e0d73965c4f63bee2c3c3a850",
+      "bytes": 4360
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_receiver28.py",
+      "sha256": "acd9b797ba0b56935f3b005d45d673b84351bcf4b13a10df62514d189e2513d4",
+      "bytes": 3207
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_receiver32.py",
+      "sha256": "8a955cb792fe6031b90c071c4e7dad5247327593a0b610b54e1220bd8652938f",
+      "bytes": 3207
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_receiver36.py",
+      "sha256": "d9b39b803b51461e1329f52221169d23defc1b3e675efc3ad1e5aec64c15b7e4",
+      "bytes": 3207
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_receiver41.py",
+      "sha256": "060a99ba8b1de6d9c36f75330e4e161f39e847a0afc9e6f72bf080d5617ae5ad",
+      "bytes": 3207
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_reinforcement55.py",
+      "sha256": "6512259c9283c30b26150ea061f60da4b057bcc9de0bf50b212da75a0539da72",
+      "bytes": 2781
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_reinforcement56.py",
+      "sha256": "6fc49e9f895fdee4bf04d016223b1f22691b44faeb090bcd9ac7ea9bd1d4a3f9",
+      "bytes": 2812
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_reinforcement59.py",
+      "sha256": "4317e37e250632ba124d917ffbe4c854b93707f0fb7f7d6ab63e8247fd7e39d3",
+      "bytes": 2848
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_reinforcement61.py",
+      "sha256": "f935028f458e7a66bb5e58978a362904dc9bfb9d8cbe5169e8c8f4b4576f1549",
+      "bytes": 2848
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_reinforcement66.py",
+      "sha256": "82929b0bc58bfec439139636eccb8402ef2e14398d0222cc5b92db2a3052841b",
+      "bytes": 2960
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_reinforcement68.py",
+      "sha256": "e254f8de7c3c03a372b2b7a368f527584b2293824a5e26d02a2bd23c3c6c69bd",
+      "bytes": 2960
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_roof08.py",
+      "sha256": "b2b4d50c066ca160f8c81c49e834778b4c398b8b971d75c4a6249abaa6028564",
+      "bytes": 4123
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_roof10.py",
+      "sha256": "f0d03646fb23730422e18aaba76d7c0ce0ada4880fe572a03c77dd49a1f81401",
+      "bytes": 4167
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_roof13.py",
+      "sha256": "0e45e2d2736295c3aaaa91235b80b42e137726b2bec69c84f5877e24b85699f8",
+      "bytes": 4154
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_skin15.py",
+      "sha256": "36645a6344635103be16ff35b19dd7b0a51d24b805b8cb247ec6f47e27f0845d",
+      "bytes": 4148
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_skin17.py",
+      "sha256": "460ed5238f49d408ff77a33dd84f16167362f26d0ae804ad58018e4ca1e989ee",
+      "bytes": 4195
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_skin19.py",
+      "sha256": "32d8209f2b73c6a4ccc51ed11a95ab9e5d7f93bf10db2aef5878a4904e4ae38e",
+      "bytes": 4432
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_skin22.py",
+      "sha256": "e358debfceb6f078ece4843994bae8c65ccaa91c9eceb50cdc5592dc03610dd3",
+      "bytes": 4401
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_stage25.py",
+      "sha256": "7b4850dfdf197bd5305bca7a7393c0ac5f10a042fef06c0e668e9c973c625994",
+      "bytes": 2496
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_stage48.py",
+      "sha256": "c9f4be37e7fe5dba4f7ac487a9d80561fda5c25ec7e3b0d055aad92d86b4f3a3",
+      "bytes": 2319
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_stage73.py",
+      "sha256": "b758635b69e728b7f51d5ba6d1696a7ed6e60fe7c0d8762c52b2e5b176996fd8",
+      "bytes": 2433
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/native_stage92.py",
+      "sha256": "7bb03c91cdc39a489b673be066930373a868a34d4aee50705e7446e1c2c8d96b",
+      "bytes": 2760
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/neighbors51.json",
+      "sha256": "826a44c7d28ad3944c62ee19cc81e18c3fec49bb017f807cb00630009d030ce6",
+      "bytes": 637194
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/neighbors51.json.gz",
+      "sha256": "5b5d0e9b4e79c5a0b6ca2398f1e7151db1c2bb54e5b5223bf417a00903de4ef2",
+      "bytes": 691333
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/neighbors51.py",
+      "sha256": "e4e0a86921cd483ed76048c95226f65effe46562d497103599f0fd84cb692458",
+      "bytes": 4850
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/outside_field05.py",
+      "sha256": "88e236e2ee50e3591221975edfb175019e7dfa2449921205192f167ce3e677df",
+      "bytes": 2707
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/raw-roof11.json",
+      "sha256": "3d0316752d2443f308e46c9ece728e94cf76bdcb5a7bc1b4fdb355e5206b4f93",
+      "bytes": 1732
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/raw_roof11.py",
+      "sha256": "ac085b8b313f6e856a9b3b5ca226c1c50b99c6e0e19c31ebfc0b6a7ed8e82d3b",
+      "bytes": 968
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver27.py",
+      "sha256": "ea5ba40427b64ea6a6052fc72800923900d5fd6c77653fd5486e3fca29c45444",
+      "bytes": 13559
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver28.json",
+      "sha256": "91e0d17b72de64691d652421d8c9e5688b4531fb5e2e7dc2ed8485b10aa458a2",
+      "bytes": 2575
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver28.json.gz",
+      "sha256": "db77b8882f2fee4d594d9cb4bc1ec5c9f153811255b3793310e94103989a0ac8",
+      "bytes": 4397892
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver31.py",
+      "sha256": "61bb23e8fe4a831b8bb06396b652cad6a5e1f1fe28e04903b9fe4bf68d696fda",
+      "bytes": 14190
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver32.json",
+      "sha256": "34c1a85e12b7523183584219e29d2e8686adb5545e911ced960a8590ad6c5d16",
+      "bytes": 2575
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver32.json.gz",
+      "sha256": "891f782248684546c643e949cb5d633d3d62a43eabc1ee7a87d605204d4d909f",
+      "bytes": 4409443
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver35.py",
+      "sha256": "64d02b0cc1119134367d1d8a37751734610d0c17692e563833ab23d79a0c7adf",
+      "bytes": 14204
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver36.json",
+      "sha256": "14d414ee62095542a397cbe087b4b7f2c902e5569f7682acc4facce93ebb8a23",
+      "bytes": 2575
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver36.json.gz",
+      "sha256": "267fc17ea9ea1966e34c0e826f899e78d477e907ba3b84e5554a8a015b8d4235",
+      "bytes": 4409347
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver40.py",
+      "sha256": "66689f7a35e1fd21d123747e88a3c5c563980c2be6b0f55811c7470520ff0cf8",
+      "bytes": 15003
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver41.json",
+      "sha256": "1de03574e8330e6021c8b971bc33a7e7b0a843e07eae3dc6deb6ef3f203bb03c",
+      "bytes": 2575
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/receiver41.json.gz",
+      "sha256": "750208198beb23f68edebbf42cf3c40fb8e1bf6ed71079ce0eeb123fbb877436",
+      "bytes": 4409262
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement-scope53.json",
+      "sha256": "6fb80d95fe305d6646b80348c553b50148ad09a12cf1414940b022561303c027",
+      "bytes": 2065
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement-scope63.json",
+      "sha256": "e10089b151aee7d66b28ff930c2163268c0dfec56d9066b4ff7f0da33283952b",
+      "bytes": 1294
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement54.py",
+      "sha256": "abd2838a18fdcf953a47de87b44a3ac891abb20deb6ec6b50a466647d15f0dea",
+      "bytes": 10792
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement56.json",
+      "sha256": "9168dc74412c5dfc8e75358cae5152581bf675d99dd4c9ab38bc51161681d488",
+      "bytes": 14299
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement56.json.gz",
+      "sha256": "09123b1e299462bed0de2d2d45d88b918d13581853590ef393bd6976ba736f1e",
+      "bytes": 109
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement58.py",
+      "sha256": "cd7048502dff0b4f695f92855188aecd62cb7d798bc2ed2d3723cec34d9e51ab",
+      "bytes": 10750
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement59.json",
+      "sha256": "92289b3016084a79777dd2766d657e9359832b9b7d2a9993f5c466048f28f74d",
+      "bytes": 13669
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement59.json.gz",
+      "sha256": "6618a9480651dd1bef0049b18b595f9a1a3548ee54f9b10965ca0c7eb87213d0",
+      "bytes": 25464
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement60.py",
+      "sha256": "91cfb53978627ca82cdb88f3de206d5ded9599944408517362ad2e8fe9685d20",
+      "bytes": 1795
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement61.json",
+      "sha256": "abe02766a92d87fa5b19faf8486f33ecaedb8fe10f0be2e99d9a18d713eb8235",
+      "bytes": 5486
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement61.json.gz",
+      "sha256": "ba2d1fe0cd48de351a2bdecd4d01e7343de267c9992e6ba3c000c9e841615478",
+      "bytes": 54425
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement64.py",
+      "sha256": "22a1cc34bbc91b824d54acffb6d709be7a1976fbf486613239ad680183082d25",
+      "bytes": 11517
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement65.py",
+      "sha256": "3164b776dafd33f3af8be32a85869b0ba63358b7e8ff0f3af8276d363d28ecd7",
+      "bytes": 1823
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement66.json",
+      "sha256": "6afc2db9809e58fbf3f5c47ef4cf35ea4d05272a4df30adcd4180b32a256ccfc",
+      "bytes": 5709
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement66.json.gz",
+      "sha256": "17172ddac73ab3823e92656b924b8e93e24b037a5225ea5469057d129168e0da",
+      "bytes": 60744
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement67.py",
+      "sha256": "943b88f568f2e422cf96dde94607be89e0aed7f945ab2eba629d4e8d1bd18de3",
+      "bytes": 4469
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement68.json",
+      "sha256": "d1e649e4fcbc73166ab60bc034513831cf2f773167721ea855140b297ded642c",
+      "bytes": 5711
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/reinforcement68.json.gz",
+      "sha256": "c0e6c65010041501087d9a4471fb8b5822d369c66bfb3d642ec8c1cbd8e0a7fd",
+      "bytes": 74062
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/repair81.json",
+      "sha256": "ce90bd4b26d83b51e2e3884fd740488a7ab615ee1aeaca5b00566136673aee90",
+      "bytes": 7642
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/repair81.json.gz",
+      "sha256": "248bb54b385867bcc0c11ec07771f172eafc47c831f004e08901ab09d36256ed",
+      "bytes": 39
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/repair83.json",
+      "sha256": "1677165780ddb6c2f96b587c21ffa111050154281752d436c32da3f52a8ec843",
+      "bytes": 17437
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/repair83.json.gz",
+      "sha256": "449207fc40471e9ea6b1e3023613ed8fed7c072dcfc99b67820793061d448130",
+      "bytes": 60306
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/repair_probe81.py",
+      "sha256": "e5a8ac9e09c3562eda7ae56508ce492efc9078b0f615a797407b37dc9a8058de",
+      "bytes": 1308
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/repair_probe83.py",
+      "sha256": "1cac3fb8379e7d1222ea080f840d2f826d2b5e4df10ff1df7c0791d0a78150d0",
+      "bytes": 1384
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/roof13.json",
+      "sha256": "bb2167d38d64b84f7df8bb9ee23cf6f2b9a69348e7befe697abad40d61e088ba",
+      "bytes": 8628
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/roof13.json.gz",
+      "sha256": "d0dd15d04939c6090cac51c6aff0c1efcac896b2e6774a5d02b0fa46606c09f4",
+      "bytes": 87037
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/roof_fields07.py",
+      "sha256": "d454d6235ac1ebd83e9457005349de5c9267655184bf64b77aa3c15daa425ec1",
+      "bytes": 2883
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/roof_fields09.py",
+      "sha256": "85076118afc9d7abcd0badc822d3077e4c05b5060538945817df8c6aead343f7",
+      "bytes": 3098
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/roof_fields12.py",
+      "sha256": "03d8993165dc1e46a229f498d0cf086e186a0d0fd050b5b6c11d42fba455c919",
+      "bytes": 2338
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/scope01.json",
+      "sha256": "32e75c0ad944799d984143f7de209058c917f5a7410d6771bcd7374f3eec28da",
+      "bytes": 1595
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/scope15.json",
+      "sha256": "bf7e0f4b11cc674c6219bf34519cc06362e632f2ea5893443973071cc4c7c22f",
+      "bytes": 2038
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/scope17.json",
+      "sha256": "b9f5c74a481b177eb8a17a3d33332f64d4c111d87e48ec0483ac7b5c7711cec7",
+      "bytes": 2038
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/scope19.json",
+      "sha256": "9e7aa475f753cfffd5299f49cc610405a2fdadaf0dafce820e39b1f70893319d",
+      "bytes": 2593
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/scope22.json",
+      "sha256": "aaeeea6137c820e328b5e13074cfebfafc5b93d13a3185760318b79859063f62",
+      "bytes": 2778
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/scope28.json",
+      "sha256": "4dce24c33cb7f3751c377d1687715ab68ac4e8999472a1e83c7057bdbe31ea80",
+      "bytes": 1255
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/scope32.json",
+      "sha256": "5915463fcfb7b2c3f04bd50f6c0913318b0663f493c6a5ee5af39adf321ccae3",
+      "bytes": 1255
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/scope36.json",
+      "sha256": "3e5b48601478fb78189cc9205c0c0068d058ad72a2523ea57a2aa1cb2b345bd0",
+      "bytes": 1255
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/scope41.json",
+      "sha256": "70327d115491e1ee610234dedbcbc357a39e3554f17064790af5804aa798f5a2",
+      "bytes": 1255
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/skin15.json",
+      "sha256": "30d05ceff0f4a3d7067ecf5b9aed7f62aa3f5b9184ab1d3326dc141ba9919cfa",
+      "bytes": 15319
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/skin15.json.gz",
+      "sha256": "55153f7193bd6345b8f982ea4aaa4f060dd547f335728338d32277048cf6d298",
+      "bytes": 103171
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/skin17.json",
+      "sha256": "b929d3d553fbc162a23c0adcbc3c033bff5624f183d5e758e6c5c1311a335822",
+      "bytes": 15506
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/skin17.json.gz",
+      "sha256": "4f2d83577df73531a45e591e6cd3cc90e61d50ff297c86e8988bd53505030ebb",
+      "bytes": 118522
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/skin19.json",
+      "sha256": "ec2ef3dffae6bc074f495512b1f03c675977772f1246b37c3b39527b06429144",
+      "bytes": 16117
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/skin19.json.gz",
+      "sha256": "e25fd71171aa44afaacdada84e8e59ad2fc2e345dabb767522953bad96ab98e3",
+      "bytes": 120663
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/skin22.json",
+      "sha256": "025823d865cca2a9596a75b9b7b54040a906c6db382c51ff345b0f23a1c3eb68",
+      "bytes": 16300
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/skin22.json.gz",
+      "sha256": "d8fdb743e7515504959842c987676aeba98bab747203c156eea91d4ebe20ae4b",
+      "bytes": 124300
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage24.py",
+      "sha256": "00af70a42377cd3a11a729ec138241aec0fa2203553c7575e66aae03b7de63b3",
+      "bytes": 2371
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage25.json",
+      "sha256": "63578d9f5193836484a998b082dd177e979e72be6772078d1b46a66fa1cb1b29",
+      "bytes": 4386
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage25.json.gz",
+      "sha256": "4626e870d6a922b922c80858ed0e42095a432f384d7b8686aef7e6cc73530d7d",
+      "bytes": 332926
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage47.py",
+      "sha256": "1151adbed3f1ade05c3025f2b06bbb7c11c9cd776e448a958d80ffcaae4fd606",
+      "bytes": 2248
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage48.json",
+      "sha256": "786cf7f9f8a5a8074a0571e73b3847b77f0b7a44fa1c16f2814fe66b4c71aa54",
+      "bytes": 1425
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage48.json.gz",
+      "sha256": "ffb582dabd08560bae8e52d01baa2e797ad883b9788aacd4ea60d345cd1d8fbf",
+      "bytes": 4616803
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage72.py",
+      "sha256": "bc29aac06589460626688078146ccf866b6c85205dae8d305e1c8c649f72333e",
+      "bytes": 3625
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage73.json",
+      "sha256": "0b42d4357c2055afc8291fb305a0a936388b58efdaf22fc08fc274cdcaa4df8e",
+      "bytes": 1928
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage73.json.gz",
+      "sha256": "5ca6a22ecda40fcb31f66f2325878f8c553bf03cf0a5f5f56559bbc04079e4be",
+      "bytes": 4752347
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage91.py",
+      "sha256": "6f60b3e6a2fdc5bb4f930838276a8b9e418111a083dfb5ba9a36aebb5a89566d",
+      "bytes": 3547
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage92.json",
+      "sha256": "cf8058043efb030545df325073db48ca13dea689df4b3d90e901e36f9d71cce9",
+      "bytes": 3083
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/stage92.json.gz",
+      "sha256": "2b0ea47538f7176e57db52c0a5a9074bb2c0cd0eee62ac029480b595f55698a0",
+      "bytes": 7879975
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/strip23.json",
+      "sha256": "0e0c0017f95ad650e3888eb6a0b89247ed488b5bb81e06f896d2eb86a15d2f9b",
+      "bytes": 82022
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/strip23.py",
+      "sha256": "7916cc6f72314b6d4f6160324fce7daa3050ac43ba8c723e138853de3cb9cfd0",
+      "bytes": 6634
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/upper03.json",
+      "sha256": "452d4b28bc70aa364ebf3bd23f9d4b7ec4dc55126cf58c207e5947dbfa6734d0",
+      "bytes": 12555
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/upper03.py",
+      "sha256": "501f29a44f233b88a424bce542c1b32030389192264c3e7ded3545b00f3206ff",
+      "bytes": 2602
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/web-seat76.json",
+      "sha256": "28669c355f51c8423506e421caa731cd8b8f2d4bdb70e651af8f18c05cf14513",
+      "bytes": 98708
+    },
+    {
+      "path": "reports/p1-018/research/c-quarter29-patch-proposal01/web_seat76.py",
+      "sha256": "9dcabda1448cff67b66920166679d6df905e03933a706a59e6bbaccbc1135e44",
+      "bytes": 5781
+    },
+    {
+      "path": "reports/p1-018/research/front-joined29-diagnosis01/HANDOFF08.md",
+      "sha256": "7a778969e165f3bd4aa211e811a9673b7ec4202da5a5ff63c28ce8d2829847ee",
+      "bytes": 5528
+    },
+    {
+      "path": "reports/p1-018/research/front-joined29-diagnosis01/after-planar05.json.gz",
+      "sha256": "c9d8586c0fed22f2513204b4553f506842941efdc8b73ea19aadf93ad0c8b904",
+      "bytes": 1579473
+    },
+    {
+      "path": "reports/p1-018/research/front-joined29-diagnosis01/bend-correspondence05.json",
+      "sha256": "49e726d593e4c4c86dcbfc6511f6c7762615e18f05124f22e113918819933e10",
+      "bytes": 508
+    },
+    {
+      "path": "reports/p1-018/research/front-joined29-diagnosis01/bend-difference03.json",
+      "sha256": "569c592211b20b7a61201c5b30558856f3e967477c62c91fd878abeaa9b8f5b4",
+      "bytes": 170
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/art-checkpoint-v32-08.zip",
+      "sha256": "11189926225c7a4d09d7558dd980d762ef684971a7266f653b283f349f8a90a1",
+      "bytes": 100948479,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/art-checkpoint-v32-08-repeat.zip",
+      "sha256": "11189926225c7a4d09d7558dd980d762ef684971a7266f653b283f349f8a90a1",
+      "bytes": 100948479,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-13T07:56:39.200762+00:00"
+}

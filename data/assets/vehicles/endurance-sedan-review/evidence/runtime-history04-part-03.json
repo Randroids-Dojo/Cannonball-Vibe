@@ -1,0 +1,2514 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T18:54:59.661094+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/runtime-history04-parts/part-03.manifest.json",
+    "sha256": "1e586e9fbb8fb95e873a887d1314a495a531b7209744ec77322630355db4711a"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/driving.ogv",
+      "sha256": "a4082218c33070018dd643e16d730477fa09347e3b9f4021fd9985ede49bf33e",
+      "bytes": 335928862,
+      "reason": "Complete actual native movie; production23-contact-motion-08; final production acceptance remains separate",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/driving.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/engine.log",
+      "sha256": "8959beacb758aa731d9b80637ea53045438776088306edce5c2993958235daa2",
+      "bytes": 3520,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/frames.jsonl",
+      "sha256": "567670400f154483653dd04fbd06048e620e9149ea9638baf3fdf16b5a6bcef9",
+      "bytes": 24779543,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/godot.stdout.log",
+      "sha256": "4119bd09686a30b1a4f045e007d5b727f5dc510bc791cacee09ddc1e0db51563",
+      "bytes": 4123,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/movie-probe.stdout.log",
+      "sha256": "5da2da2dd5143cda23194036e71df46eb3e9826fe19d2c352599b721f76e5e49",
+      "bytes": 420,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/movie-probe.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/process.json",
+      "sha256": "c0a16a02a5b878de870f89533b078e9d84649a6f293a12eb7a6e17151d27dcf3",
+      "bytes": 121607,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/run-save.json",
+      "sha256": "8ee665bc2b36ba09feb533825d86f95cfc4b41170902cc79f2e2170877123ff7",
+      "bytes": 4730,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/run-save.json.bak",
+      "sha256": "900d6d83dffbdf1cbe6c341fd92000e243efb7247e23d89604a3a824c46689e5",
+      "bytes": 4680,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/summary.json",
+      "sha256": "74f223e3f6761b0650c4b95a1047dedf779a3860f0840f63f73ab12d23288170",
+      "bytes": 96510,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/telemetry.jsonl",
+      "sha256": "04fe68b5c879bc02c3ada6e305b0ffc5103cf4d5932d56713ccc177324393db4",
+      "bytes": 7815,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/prepare-build.log",
+      "sha256": "a4ef82f61baf328ccb52b2123929cbb2ef91f9eca888a309a8c75ec81517381d",
+      "bytes": 733,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/prepare-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/prepare-evidence.json",
+      "sha256": "3499a65c714f9fd4d97c48db01eae023afd8b218f9a620b647577da1969901f5",
+      "bytes": 276657,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/prepare-evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-06/case/sedan-inspection-settings.cfg",
+      "sha256": "69a4552ff974dd6883911b2fe4b0d49245a11f95533fbdd1dd93c7e07f390fb4",
+      "bytes": 38,
+      "reason": "exact isolated rendering configuration; production23-control-ui-06 candidate evidence; separate from final asset acceptance; exact history01 canonical payload retained again to close history03 aliases",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-06/case/sedan-inspection-settings.cfg",
+      "verified_prior_inventory": {
+        "path": "reports/p1-018/runtime-history-01.json",
+        "sha256": "8f8ff3821d9863f8a64cbf1237aff0dcb8fa3d0a5af4e9304a57fcc70bbd0350",
+        "bytes": 1310080
+      }
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-06/playgodot.log",
+      "sha256": "c0a317f60910eed08bbfc7b3ac6e6de1b2029bf4922d0b0d7d3759313a24b16c",
+      "bytes": 3,
+      "reason": "exact retained command or engine log; production23-control-ui-06 candidate evidence; separate from final asset acceptance; exact history01 canonical payload retained again to close history03 aliases",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-06/playgodot.log",
+      "verified_prior_inventory": {
+        "path": "reports/p1-018/runtime-history-01.json",
+        "sha256": "8f8ff3821d9863f8a64cbf1237aff0dcb8fa3d0a5af4e9304a57fcc70bbd0350",
+        "bytes": 1310080
+      }
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/build.log",
+      "sha256": "99bac595bda9fd54452a3087c8149d3d5762f831ac6e8f120b8ad04e490cfc87",
+      "bytes": 741,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-controller.png",
+      "sha256": "b618cf173c0dad1ac1d2219f3921dbcb5a351fe67348cc6bf8e5a86befd19a43",
+      "bytes": 67600,
+      "reason": "Actual native frame or explicitly authored diagnostic input; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-controller.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-escape.png",
+      "sha256": "f0e1149dfe92630997a9d362ec569e0b6e81e750cb979fdab9ac285d0c8eac40",
+      "bytes": 1023884,
+      "reason": "Actual native frame or explicitly authored diagnostic input; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-escape.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-godot.log",
+      "sha256": "6ea2bf4036c040b5b1c34339fd49c6439a913b0b4cea9dabfaeaad271d8d5601",
+      "bytes": 1293,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-godot.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-keyboard.png",
+      "sha256": "cffb199a46320bed2c5a9ab85551608eb2df8fb8ed4d55b93c223bab46a5bd21",
+      "bytes": 952427,
+      "reason": "Actual native frame or explicitly authored diagnostic input; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-keyboard.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-openings.png",
+      "sha256": "77289273886f83048c789e73266ad4a31353a2a11462f7e9cb54b336bf215cc2",
+      "bytes": 952169,
+      "reason": "Actual native frame or explicitly authored diagnostic input; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-openings.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-summary.json",
+      "sha256": "1b7269ed801f39a3386590eae2036427af0792fa76dc7e68bc183601e5d835b9",
+      "bytes": 23447,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection.jsonl",
+      "sha256": "c7d6538f39458d533af778154d2b55d1fd6016b5962ebe10784734b6d9dec4e6",
+      "bytes": 39294,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-inspection.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-selection-clock-observations.json",
+      "sha256": "45aa27ca12f438c2dd008834e1e4fb3e175f2b460e5c5f8df6e6df917cf9b615",
+      "bytes": 20360,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-selection-clock-observations.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-selection-endurance-sedan-save.json",
+      "sha256": "5e166f421217d35641039d499e41eb88dd18db6bd1b9a268a8560a3ddbf11c59",
+      "bytes": 2770,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-selection-endurance-sedan-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-selection-graybox-save.json",
+      "sha256": "58428bc8ba66c5f4e6ea0672a75ac55000b6740971cbf3caed44b153b9fba276",
+      "bytes": 2741,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-selection-graybox-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-selection-hero-gt-save.json",
+      "sha256": "539852576a6a40b6ff7443373499caee7f5eeedb028acdf1033dbfc970db079d",
+      "bytes": 2767,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/case/sedan-selection-hero-gt-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-clock-07/evidence.json",
+      "sha256": "a95a77bcc8d4440b9c06ab4554f94e88a30a6ef78ecd0229472a20bf98c11c71",
+      "bytes": 142181,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-clock-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-clock-07/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/build.log",
+      "sha256": "68a9bf158a80b467f4b5c45e1df3b814a0a9b1ef139b31b15aa18341c3973776",
+      "bytes": 753,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-controller.png",
+      "sha256": "1144b05ec65795260b36c4e4b3207c4c8599c4c06c8f54dcf583e053433e39b1",
+      "bytes": 67485,
+      "reason": "Actual native frame or explicitly authored diagnostic input; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-controller.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-escape.png",
+      "sha256": "1f5d0817bebdb8204bed5f774b4b692b088f695237484cc0f56755eaab77d2d3",
+      "bytes": 1024157,
+      "reason": "Actual native frame or explicitly authored diagnostic input; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-escape.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-godot.log",
+      "sha256": "3e47a9c1c39f716dd8d5c2b0f74eb45f434defbb54d21adbbfe50cc4f72b5417",
+      "bytes": 1317,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-godot.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-keyboard.png",
+      "sha256": "087fcd8290c81df44a2ca1aa5ff01f7851c09db09f5082bdcc432a5a920ccff2",
+      "bytes": 952332,
+      "reason": "Actual native frame or explicitly authored diagnostic input; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-keyboard.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-openings.png",
+      "sha256": "983a53397055dd753aea44b9b427e4a27f2fbbb2e4d854612bf9b1c8fcdfb198",
+      "bytes": 951770,
+      "reason": "Actual native frame or explicitly authored diagnostic input; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-openings.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-summary.json",
+      "sha256": "21ed48f9f22017e461306e799d4a66253997da63ed5c3eff0c8b78eac50329da",
+      "bytes": 31510,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection.jsonl",
+      "sha256": "2f6aceba5b1431086918242fb934e3dd4c1d4ad3d2a859ad38b26989bfffabc2",
+      "bytes": 38904,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-inspection.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-selection-clock-observations.json",
+      "sha256": "1fc57b25c53eb93683a326f15b2157401c201b98269e030a43e24d734658bba1",
+      "bytes": 28015,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-selection-clock-observations.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-selection-endurance-sedan-save.json",
+      "sha256": "3170c8bc27895f5cbc23dbfc4cb69f5cb179c75a1c5765923d6a4f0238f7c3a2",
+      "bytes": 2722,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-selection-endurance-sedan-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-selection-graybox-save.json",
+      "sha256": "08cc73953bfd76601089be79bb10b6d2a19206fc7fada465cbcd336505e010ee",
+      "bytes": 2719,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-selection-graybox-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-selection-hero-gt-save.json",
+      "sha256": "834ff06eb09df38b5cbf3b0abcfb5eee0bcdb11c92a39fad5af73390c71b3912",
+      "bytes": 2744,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/case/sedan-selection-hero-gt-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-control-ui-position-08/evidence.json",
+      "sha256": "48a6a066bc3884cafaaeeda19077a51fabc34c7e8afe007481bf114f2c9c9ec6",
+      "bytes": 142208,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-control-ui-position-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-control-ui-position-08/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/rebase-coverage-headless-02/endurance-sedan/frames.jsonl",
+      "sha256": "9a29db93c08eac7a49a7fa2fdddc6b90088f6ebfd988509067bc7705ef96679c",
+      "bytes": 17497550,
+      "reason": "raw per-frame telemetry or event trace; distinct actual rebase-event capture coverage and negative controls; exact history01 canonical payload retained again to close history03 aliases",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/rebase-coverage-headless-02/endurance-sedan/frames.jsonl",
+      "verified_prior_inventory": {
+        "path": "reports/p1-018/runtime-history-01.json",
+        "sha256": "8f8ff3821d9863f8a64cbf1237aff0dcb8fa3d0a5af4e9304a57fcc70bbd0350",
+        "bytes": 1310080
+      }
+    },
+    {
+      "path": "reports/p1-018/runtime/rebase-coverage-headless-02/graybox/frames.jsonl",
+      "sha256": "7a0e1d4d6c2656d4f98545eba432ce8466013faf77548b69802bafbaca2b2615",
+      "bytes": 17197448,
+      "reason": "raw per-frame telemetry or event trace; distinct actual rebase-event capture coverage and negative controls; exact history01 canonical payload retained again to close history03 aliases",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/rebase-coverage-headless-02/graybox/frames.jsonl",
+      "verified_prior_inventory": {
+        "path": "reports/p1-018/runtime-history-01.json",
+        "sha256": "8f8ff3821d9863f8a64cbf1237aff0dcb8fa3d0a5af4e9304a57fcc70bbd0350",
+        "bytes": 1310080
+      }
+    },
+    {
+      "path": "reports/p1-018/runtime/resource-freeze-handoff-01/report.json",
+      "sha256": "c2dbb5791e9dd4b841f6a2977ea55ce692325542517b98de63022ec36f95f7f6",
+      "bytes": 10015,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; resource-freeze-handoff-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/resource-freeze-handoff-01/report.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/runtime-freeze-01/inputs.json",
+      "sha256": "34609ff49590ff4535080ae81495297fb34c90e204198592b8b91e5546835d1a",
+      "bytes": 24201,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; runtime-freeze-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/runtime-freeze-01/inputs.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/runtime-freeze-checks-01/00.log",
+      "sha256": "2b095b05c4093ebca54b87bd2c6a6f557935e6b3f8f506a0c2e5e294a763f4ad",
+      "bytes": 15,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; runtime-freeze-checks-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/runtime-freeze-checks-01/00.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/runtime-freeze-checks-01/evidence.json",
+      "sha256": "5fbd97a050c59d2db4075af95452236138d789b1dc46c3da4bf29d5c7bc750c6",
+      "bytes": 6363,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; runtime-freeze-checks-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/runtime-freeze-checks-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-build.log",
+      "sha256": "06afae3bb0e2a5f1a070463c1d0988af244529217c853208a0f194861105df67",
+      "bytes": 757,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear.log",
+      "sha256": "45565b0a6609430be96bf7ff8994408ffa78b38c5e55bc384b811935df8a1915",
+      "bytes": 740,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/engine.log",
+      "sha256": "923285a9e8fc6bcd066cc6a8656959750d23772467423e6c46bc2edcdc8e42ec",
+      "bytes": 731,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/frame-01.png",
+      "sha256": "6a7a153a608d2b816510effac7ab34ba667c2da113e63355ce85a366b59d9f3b",
+      "bytes": 3029905,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/frame-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/frame-02.png",
+      "sha256": "aa877e92c198d0e38ff3288931a62eb4d8fbe65ae722aea2d01adaee5aafb121",
+      "bytes": 3030610,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/frame-02.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/frame-03.png",
+      "sha256": "cceb4bff871fbd881fda3254b24468fa68349e5e5613b961a03e6c7889dd8658",
+      "bytes": 3031001,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/frame-03.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/home/appdata/Godot/app_userdata/Cannonball Run/vehicle-presentation.cfg",
+      "sha256": "d72ccf31341d1dc2ad940e61a227a7c18d81bf394b89b71d3d05950fefd7f347",
+      "bytes": 30,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/home/appdata/Godot/app_userdata/Cannonball Run/vehicle-presentation.cfg"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/home/appdata/Godot/app_userdata/Cannonball Run/vulkan/pipelines.forward_plus.nvidia_geforce_rtx_3080_ti.cache",
+      "sha256": "00832617461fbc279cfeb88c391a882337fb81b143c248acce0bb0f76684d378",
+      "bytes": 13369292,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/home/appdata/Godot/app_userdata/Cannonball Run/vulkan/pipelines.forward_plus.nvidia_geforce_rtx_3080_ti.cache"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/launch.gd",
+      "sha256": "c2e748dcd4bfc98a0fe69d958b72a062430c541c6d2c83bd25bb024317fd24e9",
+      "bytes": 391,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/witness.json",
+      "sha256": "e6f77ef2377e073d410b02b04d7c8dfbe6053baccf1e3203ee69dc61b5d90cb9",
+      "bytes": 3806,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-clear/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall-pause.log",
+      "sha256": "1a820990bd533047d7415dfc837342a0e7d84825fc12ade0e14a4cd8bb3e002a",
+      "bytes": 739,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall-pause.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall-pause/engine.log",
+      "sha256": "f22574199ba908fc077fea5618a75c276096f0e19816c0118730763dc3b3c2ab",
+      "bytes": 730,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall-pause/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall-pause/launch.gd",
+      "sha256": "adde1fc82154c90220c91517d3681246061f7ceabe3b2eaf97bb4ca5f0f87379",
+      "bytes": 394,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall-pause/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall-pause/witness.json",
+      "sha256": "6feaffea887b31ac3c04250feccecd017df4ef04f9f8cc9dfdfa7ed02a1b1871",
+      "bytes": 3978,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall-pause/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall.log",
+      "sha256": "47896b03c9055242273fdbed646c22acee7afe31b72a39ea401cac03ae1b5728",
+      "bytes": 739,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/engine.log",
+      "sha256": "ccb4ea5bbfe875c28f7a3c8d8c5cf46d4e916ae47ee950a3172bbd0df8232809",
+      "bytes": 730,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/frame-01.png",
+      "sha256": "fa3dab3e5e172b48719d40d075250b53551c6d0e4c7eb1781fe9e75cb5d5a2c5",
+      "bytes": 1669516,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/frame-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/frame-02.png",
+      "sha256": "fae76cd619f0d0a56caa9f23a37fb3779cfe932ee96f46733d033141b3742bf3",
+      "bytes": 1669402,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/frame-02.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/frame-03.png",
+      "sha256": "7728ba58943a428d7d4f74f3274b2f768a21fa15ee9d2bda08d274b3a8a1a765",
+      "bytes": 1668715,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/frame-03.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/home/appdata/Godot/app_userdata/Cannonball Run/vulkan/pipelines.forward_plus.nvidia_geforce_rtx_3080_ti.cache",
+      "sha256": "05cbfc28c626b393c9432af844f5f685eab73cf617057290238664a34e398ba1",
+      "bytes": 13369292,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/home/appdata/Godot/app_userdata/Cannonball Run/vulkan/pipelines.forward_plus.nvidia_geforce_rtx_3080_ti.cache"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/launch.gd",
+      "sha256": "d53503bc1d4f67ed6fd26fb9af3a7c8dab35c328eeb657878ea498604b62eac9",
+      "bytes": 389,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/witness.json",
+      "sha256": "c064869bc66f4e61d0e9b8d6280249e1a15961edf0af1a4a198ee2f36e53128e",
+      "bytes": 3846,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/corrected-wall/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/evidence.json",
+      "sha256": "e4bcedce49ad08906eaea49bf2699e2de003153a94339086ae85812180b4a1f4",
+      "bytes": 320846,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-build.log",
+      "sha256": "722889b9bbbb4b0e94ee4aeae12031d20f7c7f3c64f9af6004e610f09db337ab",
+      "bytes": 733,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-clear.log",
+      "sha256": "b56998515ca28c310e409b0bc6693692d2f2a8d5287394a72f23c7b5e1301898",
+      "bytes": 733,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-clear.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/engine.log",
+      "sha256": "8d62206cb59481b525a63c52ae601f404f7fbb4b2f593259917cafb81c60f7e7",
+      "bytes": 724,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/frame-01.png",
+      "sha256": "3663bfa42ff2b2c2a07c4c94b6a0976897cf76e8941108d26c6c9411c4a44deb",
+      "bytes": 2502330,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/frame-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/frame-02.png",
+      "sha256": "1487943eb1800691b6de419a71c9b7ac1e7eceb765f461dadbe045f2b7948cde",
+      "bytes": 3048056,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/frame-02.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/frame-03.png",
+      "sha256": "fe1676e85cc34230f9addf6c7d5fb611bd264a4a70913549179666e92d0c2391",
+      "bytes": 3050542,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/frame-03.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/home/appdata/Godot/app_userdata/Cannonball Run/vulkan/pipelines.forward_plus.nvidia_geforce_rtx_3080_ti.cache",
+      "sha256": "8efb680f8eb5d0a16a0782037a2bdb2a699517ccf277c71465fc675ee56e678e",
+      "bytes": 22031136,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/home/appdata/Godot/app_userdata/Cannonball Run/vulkan/pipelines.forward_plus.nvidia_geforce_rtx_3080_ti.cache"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/launch.gd",
+      "sha256": "05e0faa131200863c0d4283fbad35e9551da7e7511a056cc30e24a8f8008e781",
+      "bytes": 385,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/witness.json",
+      "sha256": "f582a4c5269afa1fd70850ca4fd754dc38229d836cb61b5f0f074d965b670c32",
+      "bytes": 3723,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-clear/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-wall.log",
+      "sha256": "a5a4ebf0e59dc435f10e0f9824de0ba3b72e0709178f66a370c224e18e7da536",
+      "bytes": 732,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-wall.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/engine.log",
+      "sha256": "37cad38e779d30ce8d8578c0f2a4ce86aa9c749109f4025960d8a1d60fae540b",
+      "bytes": 723,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/frame-01.png",
+      "sha256": "99f2d3c1ab2441c567a3ca52ed4bf775d31136e678b6e861534017da70ea44b0",
+      "bytes": 1932880,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/frame-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/frame-02.png",
+      "sha256": "fec677048c01aa937291c37498276628872f25916aac841135ff895c6f4e72e9",
+      "bytes": 3048063,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/frame-02.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/frame-03.png",
+      "sha256": "3f3a3333477a6f709d648ee01afefc2d6cec7066562f2f3f758c7723f5826ea6",
+      "bytes": 3050540,
+      "reason": "Actual native frame or explicitly authored diagnostic input; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/frame-03.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/launch.gd",
+      "sha256": "29bc0f0fae8fc34334dfe2932b2eb9f7c9842a4d55a8406bbbcf0ff5bafb0618",
+      "bytes": 383,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/witness.json",
+      "sha256": "3172daf19cb7859b86789f86e8a193779db776d165945c2721fc029bcd628fc9",
+      "bytes": 3719,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-camera-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-camera-native-01/old-wall/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-inputs-01/automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "sha256": "b803d75518e27a28086a9be4dfbd6ac2bb8b3f6a0d785f4e9156954fa2f922e2",
+      "bytes": 10135,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-inputs-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-inputs-01/automation/playgodot/src/cannonball_playgodot/launcher.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-inputs-01/automation/playgodot/tests/test_endurance_sedan.py",
+      "sha256": "4359a35126c6c75ae6edfe9fd1df20a0c08d3b9a835117a161c3b9f9a1214050",
+      "bytes": 11487,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-inputs-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-inputs-01/automation/playgodot/tests/test_endurance_sedan.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-inputs-01/game/Automation/VehicleVisualScenario.cs",
+      "sha256": "aa5e7a4d26c8a2472180e405ff790debf6887aa9b5366b59620f8c43a6d49ba3",
+      "bytes": 10494,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-inputs-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-inputs-01/game/Automation/VehicleVisualScenario.cs"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-inputs-01/game/Vehicle/VehicleRigSetup.cs",
+      "sha256": "2836fa0d2dd001a310c49535d7c7795beb269046bb4f23602483f7f8d12cb6dd",
+      "bytes": 7538,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-inputs-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-inputs-01/game/Vehicle/VehicleRigSetup.cs"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-inputs-01/game/Vehicle/VehicleVisualRig.cs",
+      "sha256": "d8ead150491c225a8b7330bb6e38dd541dd7ef80c697ed51c0c2e5b5cdc52ef7",
+      "bytes": 30748,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-inputs-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-inputs-01/game/Vehicle/VehicleVisualRig.cs"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-inputs-01/inputs.json",
+      "sha256": "46bd8ea14ea7fe8976f35b3553b5f642a718a093afecee7d332a2b6a0d34adf9",
+      "bytes": 1994,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-inputs-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-inputs-01/inputs.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-inputs-01/scripts/run-scenario.sh",
+      "sha256": "72b44a0e4749047b6de7311d38d930bfc9452a1ce3e197ac9ade16d6d75e9719",
+      "bytes": 18046,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-inputs-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-inputs-01/scripts/run-scenario.sh"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T162946.803307Z-build.json",
+      "sha256": "e0ecd695a899046c0f1cd0bc4d23277f1cf31d4ed07375c49e3411397a2f890a",
+      "bytes": 948,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T162946.803307Z-build.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T162946.803307Z-build.log",
+      "sha256": "7f6c842568a19bb1fad378dbe7704ccb795889baaa9d9e71619c112846464f4f",
+      "bytes": 360,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T162946.803307Z-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T163132.690001Z-launcher-tests.json",
+      "sha256": "a3dec4878d6a0fb5f54b6d34bab881e2d1da3d7253dc9400bfaff082b88409f4",
+      "bytes": 1068,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T163132.690001Z-launcher-tests.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T163132.690001Z-launcher-tests.log",
+      "sha256": "3a7595f1ed0b8ce91ff11c8a9ea43bcec9d3221574c06e918523636cb091325a",
+      "bytes": 81,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T163132.690001Z-launcher-tests.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T164555.245570Z-ruff.json",
+      "sha256": "32ac2198c03795cf334b71fd07605889344a17ba85b3a38c88a1eb45600b830d",
+      "bytes": 1349,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T164555.245570Z-ruff.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T164555.245570Z-ruff.log",
+      "sha256": "4e1ee1a3b45e65d1af8fb2f1da414f08b19f00bbef88a835d5a7bf870659bd70",
+      "bytes": 574,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T164555.245570Z-ruff.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T164617.139830Z-ruff-corrected.json",
+      "sha256": "2a1fe286ee754b56c248c483ae9c2105932b1617dbce3d3147a66ead1f8d4ff7",
+      "bytes": 1359,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T164617.139830Z-ruff-corrected.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T164904.361612Z-three-vehicle-driving.json",
+      "sha256": "333a83b45d01b9911720431f2e8544a5957d14bf69a72dc1601f7d61cab2dca8",
+      "bytes": 1581,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T164904.361612Z-three-vehicle-driving.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170246.757880Z-launchers-bash-syntax.json",
+      "sha256": "ecbe5a9f4d0466ff217a23896331b22d65d228a2339387cdaa88874489f6e4ed",
+      "bytes": 1003,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170246.757880Z-launchers-bash-syntax.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170344.623573Z-capture-launcher-bash-syntax.json",
+      "sha256": "3c3b78ae7d7ba4a33cec1f2b2ce47cc0eeb80c5ce41b814f9889019eec1221f0",
+      "bytes": 841,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170344.623573Z-capture-launcher-bash-syntax.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170453.803971Z-corrections-bound-invariants.json",
+      "sha256": "2d064c793ebdeeedf523426d124ceb196b62a478d0a7391e4742c681a5aaeaf4",
+      "bytes": 905,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170453.803971Z-corrections-bound-invariants.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170453.803971Z-corrections-bound-invariants.log",
+      "sha256": "c105dafffa04ab0f9a94a40b2d0dbfb7c9c0fdb2fbe3d926b33e390341532d98",
+      "bytes": 196,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170453.803971Z-corrections-bound-invariants.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170903.803579Z-hero-stage-copy-controls.json",
+      "sha256": "bcb8ad18e1c0721a3a763efdd2de3bdffb0a5ce19201c05b96ab0c81915e8596",
+      "bytes": 1033,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170903.803579Z-hero-stage-copy-controls.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170903.803579Z-hero-stage-copy-controls.log",
+      "sha256": "81b15bc805410a08e17062ae799f3270f2a783d6ff0f6138987e7e12d4a55525",
+      "bytes": 38,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-regression-source-checks",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-regression-source-checks/20260911T170903.803579Z-hero-stage-copy-controls.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/engine.log",
+      "sha256": "5f3626db55d54f5efb4eedad89ef2d5124a8343ef8291938e05e82abe7bdfd02",
+      "bytes": 3202,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/gate.json",
+      "sha256": "8a95d9a380202423f6698c61521028d2dcb47a9e383200673f5e67bb35a7dc9d",
+      "bytes": 1317,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/run-save.json",
+      "sha256": "70626fbd4e0483134bbba3d1cd0054cacd3c1d548afb38c5a5b1a7877f2a5b65",
+      "bytes": 4734,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/run-save.json.bak",
+      "sha256": "689de64f5060e210b4adf1f2223f258ab0626c10a99477b1ea1525cf11ab13a8",
+      "bytes": 4719,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/summary.json",
+      "sha256": "28c02e5e2225ba92b610329c2e1d6f1c9f5d8d03709d2da55d95e398dd18df73",
+      "bytes": 16857,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/transcript.log",
+      "sha256": "24b51fb1ca17535ddf5cae1880f0cdecc2f8718c39e63e18a6f80179e02192b4",
+      "bytes": 3893,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/endurance-sedan/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/engine.log",
+      "sha256": "4f9e9cbe49c8990580532ba386c06b1fc5f9a67728ec28702b2eb91492c5b052",
+      "bytes": 3033,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/gate.json",
+      "sha256": "cb8dc3e131d58393b1b5d4768a73a3498742310852082e57bf595cc146cd916d",
+      "bytes": 1293,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/run-save.json",
+      "sha256": "b9d1a74e089e566f298da325cae0dab17f968ff48790178f937dffdb424cfd10",
+      "bytes": 4731,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/run-save.json.bak",
+      "sha256": "68a2d57c9d05bf83e2d837020def22663240b2c798ee0553728894f62898b1ea",
+      "bytes": 4718,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/summary.json",
+      "sha256": "4975bbd3a09729c0be54e050ea94bb9b1eaa8306cd91de659b316bd0673bfe34",
+      "bytes": 16406,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/transcript.log",
+      "sha256": "683bbb9c8e82922ba15c6c64e8002b3d75f65cd3bdf9eddd590026b321fd64ed",
+      "bytes": 3724,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/graybox/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/engine.log",
+      "sha256": "a6dd58db7eb2b27dbdee2e3b629b34830a04a0ff09c6caac62e10d2ffffabb20",
+      "bytes": 3034,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/frames.jsonl",
+      "sha256": "ea8211568c49f40455495ca8cfb368a044f27c196cab2b912722f57daba44a45",
+      "bytes": 17219398,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/gate.json",
+      "sha256": "18fb509530c93be0ca2403ccbbb2f01b602df6c914eedea184e25ffc18549801",
+      "bytes": 1293,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/run-save.json",
+      "sha256": "38acf528e3b95be58517d21a805263af1b683fd0a62394370ae4ef779ec39f69",
+      "bytes": 4731,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/run-save.json.bak",
+      "sha256": "2e65b50bf93aa99ae79959251268c5e8d2de3cf21cbe89cf569e15c49864fce0",
+      "bytes": 4718,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/summary.json",
+      "sha256": "03d84ef93db3941fdcc92593a4c59de7d025b35f847964241de64c5c827d6ab3",
+      "bytes": 16367,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/transcript.log",
+      "sha256": "313f05f9c2c27b748d9df87b9b25bb2fd29fa214ae138e390f6e7b189a7f0670",
+      "bytes": 3725,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; selection-sign-driving-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/selection-sign-driving-01/hero-gt/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/engine.log",
+      "sha256": "416e6a1f14120c0cb5b2b9529d3b46d708f08e819e1fdc6dea060a3f5bad3769",
+      "bytes": 3297,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/exact-shared-gate.cjs",
+      "sha256": "2f6df935e68338bc9ecf7c7df9d0bc4aaf84adc992dc56d89acf82d8ff686375",
+      "bytes": 8923,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/exact-shared-gate.cjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/frames.jsonl",
+      "sha256": "ef74f3f0581b1ee6cfbbafc77079c5fca4aff3bee638c223ff62cd5f99d9c1ea",
+      "bytes": 22089157,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/gate-transcript.log",
+      "sha256": "5a29b07c33c605400a7495465103d10b616c587c51b8ff38152e52039395efcf",
+      "bytes": 69,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/gate-transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/gate.json",
+      "sha256": "f1917726194a32046a718afbe072c1c4b1c02153695c1b2a9d912e3e829d1e93",
+      "bytes": 1354,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/process.json",
+      "sha256": "526611ceed050e38deaff03dfd4ab72eb6e2cdc48b0e378714d8bde4e20c150c",
+      "bytes": 142,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/run-save.json",
+      "sha256": "36d5ee674ee46f03152ce6f13648ec6a00883e145f2e18a436af8346c79aeb7d",
+      "bytes": 4725,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/run-save.json.bak",
+      "sha256": "687b8da7146d6c36419cb40083601844e6120af63699305935d861fce4ad8cd6",
+      "bytes": 4763,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/summary.json",
+      "sha256": "3b69396836b91fd3865c6e42f3e6d9f47f6ee34f405782f4447c67ea25efed6e",
+      "bytes": 48806,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/telemetry.jsonl",
+      "sha256": "63157812c7273afff10da48de4a1eaf5aa6f01250d956f008d22dabaf71863f5",
+      "bytes": 7816,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/transcript.log",
+      "sha256": "77f742cfb4746bea0746624fe197e8ecfc1a6f7bb27059558822295f34e237cc",
+      "bytes": 3330,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/endurance-sedan/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/evidence.json",
+      "sha256": "f3bd0a3cbfc562bf87edd0994fee9dacfde73b15c7fcbfd7686e5fe31e2e1913",
+      "bytes": 12422,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/engine.log",
+      "sha256": "05b48bec2e93c95e14ba5fb1a9cd51ec64addf20162931da06d308003feb2acc",
+      "bytes": 3039,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/frames.jsonl",
+      "sha256": "196d9b994ae1c954bae0d01a2eca7705939dbc6e4aa279240da38cbd0944a664",
+      "bytes": 17197686,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/gate-transcript.log",
+      "sha256": "c4d21b3340312507fe490912e565543fd5a11751a4bc63040115279353f4fcd8",
+      "bytes": 61,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/gate-transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/gate.json",
+      "sha256": "3941bed6bf1e0d9412b380dc56bcebc698d347ff873c8d399ead0624560ba25f",
+      "bytes": 1330,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/run-save.json",
+      "sha256": "a7cb1156e359c149ad0bea070f6d6d1a95fe46a637c5fb8db5b3f9bb26d50e4a",
+      "bytes": 4731,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/run-save.json.bak",
+      "sha256": "6b662c713bb0325c5069a29c8a6efd13631ba0b16aeddcabf7be49dc4bedc8e5",
+      "bytes": 4760,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/summary.json",
+      "sha256": "946c922bb7fcbbebbe8bed6d8a6419e846d33476e9047a5a8f060b17f25685b2",
+      "bytes": 19851,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/telemetry.jsonl",
+      "sha256": "0452b5d246464ad240730bc218433e227a49bf81d27f668dd64a86c924bfb56c",
+      "bytes": 6757,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/transcript.log",
+      "sha256": "f6f1a3d7e382be327a390cfd082f0312bb5945497d42c08d5cf310b45b39d219",
+      "bytes": 3071,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/graybox/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/engine.log",
+      "sha256": "981895e886131adbdff798579fc51d1f81df400b739a96bdc345f009e8d18b76",
+      "bytes": 3039,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/frames.jsonl",
+      "sha256": "17daec8545d12ea59e6eebfa65b6bc708e386e97980cbe296f135ee3902edab0",
+      "bytes": 17219602,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/gate-transcript.log",
+      "sha256": "d9f579299d742baa24fbd2fcb7dee96e7405ffd00f24d80725da441cb27bec4a",
+      "bytes": 61,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/gate-transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/gate.json",
+      "sha256": "cfdf032b8b3440f1171cbac561c6a15a33a20c4f1d4121591d645850e4a42476",
+      "bytes": 1330,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/run-save.json",
+      "sha256": "7c9ab86cc01311499fdff7f227eeac2aa1664e1924c7ba597e0f4bcb3547c3c5",
+      "bytes": 4731,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/run-save.json.bak",
+      "sha256": "f250ce5c6f0862f4818f109ea13813e5b229de08035cc367e6a67faa3b47fc00",
+      "bytes": 4761,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/summary.json",
+      "sha256": "9a594921d94d028dce8db54b1384f01c99f047d2be8d83e6f4fa9762bde6328a",
+      "bytes": 42342,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/telemetry.jsonl",
+      "sha256": "c1ffa9b7fda85cbf8fed80f4639655cf4e730c047d1b580cf3215b93ac77e75c",
+      "bytes": 6756,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/transcript.log",
+      "sha256": "b07e7eaa5b73dd71d820aadd6bf05338c40f7158846d74c4a7c5275998926023",
+      "bytes": 3071,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/hero-gt/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/engine.log",
+      "sha256": "f7e301bdedb5a551cae9e46d028bbac49ff494db30633603faa7fb8833367c58",
+      "bytes": 4273,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/exact-shared-gate.cjs",
+      "sha256": "6db276b169b0590de7bb2efbf061654c7a8540ba0e23b2b10f31e2961f99b313",
+      "bytes": 4398,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/exact-shared-gate.cjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/gate-transcript.log",
+      "sha256": "536fa545c757738a33b9efbc82f63f8a9a2bcc7f1312c9e813ab7f86a824fa70",
+      "bytes": 2530,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/gate-transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/gate.json",
+      "sha256": "3f280096c15020aaaf7f6f4001aa8bcf8b54551521dd093e3d90097060e4e380",
+      "bytes": 5220,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/presentation-frames.jsonl",
+      "sha256": "9cf7e60a3f5ac232054855f7d2247b9f82c8fada1bddd149fb12c0b433d02989",
+      "bytes": 22217149,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/presentation-summary.json",
+      "sha256": "feca177d6bb84b0282fd9820bbf0478e98dc89df109bd386e9dd994bd08652b2",
+      "bytes": 295138,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/process.json",
+      "sha256": "1ab5df026b4589359e6e61e7dab60def5178ed596e349d8f8544fb82d3200a13",
+      "bytes": 142,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/telemetry.jsonl",
+      "sha256": "903876b4277e597724d8ff77461630055a878aebfc9812a526708d6e4f0d949c",
+      "bytes": 1903,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/transcript.log",
+      "sha256": "6a2fedd53535125d1efeb57fb21358076b107eaf58010ec44cd4d45b786682a1",
+      "bytes": 4304,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/presentation/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-corrected-01/runner-input.py",
+      "sha256": "5323891095fbabb5e62360887ba8877856489693cc4a3537e8b48cc2e797f80d",
+      "bytes": 4873,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-corrected-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-corrected-01/runner-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/build.log",
+      "sha256": "456c682f8ba29cfe251edad8047a40d4aca2c20fdef9607a6b043715b081a33e",
+      "bytes": 500,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/evidence.json",
+      "sha256": "6f517e0c6c1e07649976414f6ae7ab3d1784d02c3e2011f360ec9b6c3f957064",
+      "bytes": 4233,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/inputs/Cannonball.dll",
+      "sha256": "a4e03eb1b1e9731bb9969860025693e57e6becf3759154bc083120e2cd50db3d",
+      "bytes": 1560064,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/inputs/Cannonball.dll"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/engine.log",
+      "sha256": "c3d2d083174236bb9f888c16fbdc48ba1b15c43d1f8c7e2991815572f5581971",
+      "bytes": 4716,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/gate-transcript.log",
+      "sha256": "3613ad2f94fa40bcc65cfdc64518c1ec4296439c81d0be46917f42d1b7a743ba",
+      "bytes": 63,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/gate-transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/gate.json",
+      "sha256": "a0f6a0a9cdb810288226f8e4b0c7b7c274e9439c6c986c9f2956c9cd7d3f04ce",
+      "bytes": 2138,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/presentation-frames.jsonl",
+      "sha256": "9338236e0a8629eb372edbb5daba0badc35b2a20e0d17e9d2a6140c2c1b89b00",
+      "bytes": 66939575,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/presentation-summary.json",
+      "sha256": "b849608fc5d93438457c9a505131877447c8bfa05fab12f31f68094c76becfb0",
+      "bytes": 1009729,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/run-save.json",
+      "sha256": "28084421a9a5c43044e946f262a49110b28ab386c83f6171cd965b9263a62770",
+      "bytes": 3773,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/telemetry.jsonl",
+      "sha256": "d180bc2f08a3e1c6e7a5a2f6b58ab464260eb01ef6d07de215636ea0a6082a1f",
+      "bytes": 6664,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/transcript.log",
+      "sha256": "c61163e0b8a1bf3b6c3b0640834eca1a07e63e6557bf34b819dc5293969be9cc",
+      "bytes": 4779,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; source33-headless-presentation-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/source33-headless-presentation-02/presentation/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/stage-copy-controls-01/evidence.json",
+      "sha256": "283292dd09e22e9a1ce0a6e904507f7f714b4c07c0a357066e12e50684ce66b2",
+      "bytes": 2724,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; stage-copy-controls-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/stage-copy-controls-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/stage-copy-controls-01/first/assets/vehicles/endurance-sedan/texture-config.import",
+      "sha256": "e81141c7558d8ce2ae6e25b96f906154fae626d20b36e2fe58c0650fdc89dfa6",
+      "bytes": 76,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; stage-copy-controls-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/stage-copy-controls-01/first/assets/vehicles/endurance-sedan/texture-config.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/stage-copy-controls-01/first/data/assets/vehicles/derived/endurance-sedan.glb",
+      "sha256": "0bc2f7af521eaf63dbd50665edc840a569d825ebc41b84b3ab3beeb3d352fc39",
+      "bytes": 71,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; stage-copy-controls-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/stage-copy-controls-01/first/data/assets/vehicles/derived/endurance-sedan.glb"
+    },
+    {
+      "path": "reports/p1-018/runtime/stage-copy-controls-01/first/data/assets/vehicles/endurance-sedan-review-extra/adjacent.txt",
+      "sha256": "e1c49669804f23be55902ce85735789f33b01a696e759ba6fc0d0dc0725379d6",
+      "bytes": 85,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; stage-copy-controls-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/stage-copy-controls-01/first/data/assets/vehicles/endurance-sedan-review-extra/adjacent.txt"
+    },
+    {
+      "path": "reports/p1-018/runtime/stage-copy-controls-01/first/data/assets/vehicles/sources/endurance-sedan.blend",
+      "sha256": "df6c4248a752049f4545e9a325f0cee19476fb744adf305045ed50717d96954c",
+      "bytes": 73,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; stage-copy-controls-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/stage-copy-controls-01/first/data/assets/vehicles/sources/endurance-sedan.blend"
+    },
+    {
+      "path": "reports/p1-018/runtime/stage-copy-controls-01/first/docs/vehicles/endurance-sedan/research.md",
+      "sha256": "06932eeff106e78a0d6a61d7194c03010017349b0f3f88e13162943a0cf0a2ce",
+      "bytes": 64,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; stage-copy-controls-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/stage-copy-controls-01/first/docs/vehicles/endurance-sedan/research.md"
+    },
+    {
+      "path": "reports/p1-018/runtime/stage-copy-controls-01/first/tools/vehicles/qa-fixture.py",
+      "sha256": "556fb7bf9f97b1c85422ae2e24a7f73c6137991be11a76be5394737db3896f30",
+      "bytes": 51,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; stage-copy-controls-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/stage-copy-controls-01/first/tools/vehicles/qa-fixture.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/stage-copy-controls-01/fixture/data/assets/vehicles/endurance-sedan-review/history.bin",
+      "sha256": "886c5f4cd74eed341fd5b7e04454e172f38bfae606e7be99eaa98844814b34df",
+      "bytes": 58,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; stage-copy-controls-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/stage-copy-controls-01/fixture/data/assets/vehicles/endurance-sedan-review/history.bin"
+    },
+    {
+      "path": "reports/p1-018/runtime/stage-copy-controls-01/fixture/data/assets/vehicles/sources/endurance-sedan.blend",
+      "sha256": "029e9fccbcc118e3f5edc59f9047eec0f6b1c1c149d21af468263370f385cbca",
+      "bytes": 44,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; stage-copy-controls-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/stage-copy-controls-01/fixture/data/assets/vehicles/sources/endurance-sedan.blend"
+    },
+    {
+      "path": "reports/p1-018/runtime/stage-copy-controls-01/verifier-input.mjs",
+      "sha256": "67866f6138041b7c128972791c6f5337a2b3da9f8cd5c784739d6a33991b59c4",
+      "bytes": 33977,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; stage-copy-controls-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/stage-copy-controls-01/verifier-input.mjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T045831.676380Z-ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "reason": "exact retained command or engine log; historical runtime diagnostic; exact history01 canonical payload retained again to close history03 aliases",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T045831.676380Z-ruff.log",
+      "verified_prior_inventory": {
+        "path": "reports/p1-018/runtime-history-01.json",
+        "sha256": "8f8ff3821d9863f8a64cbf1237aff0dcb8fa3d0a5af4e9304a57fcc70bbd0350",
+        "bytes": 1310080
+      }
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-build.log",
+      "sha256": "6d56666f31d379295eda437bd2a91ae2d62aaf870c1b7f7d342c2d6b1b9cf490",
+      "bytes": 745,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock.log",
+      "sha256": "91c813f9a2052cebe3f5967c411f0bd66e14f082397869db4ec23a6a81161001",
+      "bytes": 1232,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/engine.log",
+      "sha256": "acc85f9bae45fb662293b7548b829fa335df5c44b641f3538cf870abba9fb616",
+      "bytes": 1217,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/home/appdata/Godot/app_userdata/Cannonball Run/runs/suspended-run.json",
+      "sha256": "43e534714ae952384437e1149a075cf37780789a0f9a947b4168a3cfd11bf596",
+      "bytes": 4180,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/home/appdata/Godot/app_userdata/Cannonball Run/runs/suspended-run.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/home/appdata/Godot/app_userdata/Cannonball Run/runs/suspended-run.json.bak",
+      "sha256": "abe01b42970be90061f8f5ff95cc8d507e0d7b4aa8666031cfe1e97baafc1314",
+      "bytes": 4178,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/home/appdata/Godot/app_userdata/Cannonball Run/runs/suspended-run.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/home/appdata/Godot/app_userdata/Cannonball Run/telemetry/prototype.jsonl",
+      "sha256": "35bfd64089082d45e03ec46ffe703449e8d1941383946c72aea3ccdf9979fb23",
+      "bytes": 1603,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/home/appdata/Godot/app_userdata/Cannonball Run/telemetry/prototype.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/launch.gd",
+      "sha256": "d0c510bbc6520e38e202c9f682f16959d4fa5e76cc7f9d603067417ea3e5bd79",
+      "bytes": 523,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/save-hero-gt.json",
+      "sha256": "046b47d6119cea5b9f70e2880d84bff7a6f0551271c8870a8eb166c93cf5ae0f",
+      "bytes": 4152,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/save-hero-gt.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/witness.json",
+      "sha256": "beb290712e9f50c9273cab93be2c18112bee9fed445ce3bc818228c46a8ed4e8",
+      "bytes": 2826,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/corrected-clock/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/evidence.json",
+      "sha256": "b641b95e2e431a828815c809bdbb74bf716d24ec1f95ea0341637ae065ce4885",
+      "bytes": 294808,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/old-build.log",
+      "sha256": "b55b18b256881b3c022896258ff3ad49420a87e595e91316b40dbdc796c89469",
+      "bytes": 721,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/old-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/old-clock.log",
+      "sha256": "e18463c79a97209ae06bd746bb105d4d4dc6a037a4a453efe4e38bd82fd2dd26",
+      "bytes": 1250,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/old-clock.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/old-clock/engine.log",
+      "sha256": "9bf4e518cabd4ca43ae43c8fa17c7409384dabf6fd8daaac6d14381c85aeb079",
+      "bytes": 1242,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/old-clock/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/old-clock/launch.gd",
+      "sha256": "65aa384b46de2cbc4da3d2e46f0616a2ea7498c12493274eed5b126bbb91c403",
+      "bytes": 517,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/old-clock/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-clock-native-02/old-clock/witness.json",
+      "sha256": "6d81bea74b299365dfe4852b4c4a4ed3364e7d8a03e38ba208a7980a17822934",
+      "bytes": 1713,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-clock-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-clock-native-02/old-clock/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/VehicleRegressionProbe.cs",
+      "sha256": "544ef9ddfc1f8a9722821b3038e2e706e2b8c6f24373b5838915e39c0414e127",
+      "bytes": 14840,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/VehicleRegressionProbe.cs"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-build.log",
+      "sha256": "db398611c5f35e7555efd49e9f706ea50b69df57e604bebcf957349102d40764",
+      "bytes": 765,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-clock.log",
+      "sha256": "2d1f4ef8fa936fab59fc0768852160a2250dabe032fdcf75d9d103ad2f866d3d",
+      "bytes": 958,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-clock.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-clock/engine.log",
+      "sha256": "f66b6297083492dc750fa4e8c5299e733b560464afffdbc656944532490cd7b2",
+      "bytes": 950,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-clock/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-clock/home/appdata/Godot/app_userdata/Cannonball Run/telemetry/prototype.jsonl",
+      "sha256": "1e3cd817b603da42ca8226148f3db0af3ac905af493ce598dbec752163300e2c",
+      "bytes": 3727,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-clock/home/appdata/Godot/app_userdata/Cannonball Run/telemetry/prototype.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-clock/launch.gd",
+      "sha256": "6d5772861c30cf65fc0e2008905e26a9969819bd565fe0278062efec89400b8d",
+      "bytes": 528,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-clock/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-clock/witness.json",
+      "sha256": "5a67c48c5724003465564fc11e1b53163bf4d0f709b8434daec013c9a576cb02",
+      "bytes": 1440,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-clock/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-legacy-graybox.log",
+      "sha256": "4d477816aea7f8692650ff4cb4cac37cc8d9d8ef3aa3d764097f8bc870b393cf",
+      "bytes": 498,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-legacy-graybox.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-legacy-graybox/engine.log",
+      "sha256": "cda19e1e4ea9d11a1c3c08246e3d2c49fa09e28aec4565f0819e3f7c739be048",
+      "bytes": 492,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-legacy-graybox/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-legacy-graybox/launch.gd",
+      "sha256": "88cbc1f311fa925d4aa8da594c5a36eff4c97566b0847b6785050de159e093f9",
+      "bytes": 540,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-legacy-graybox/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-legacy-graybox/witness.json",
+      "sha256": "58f76c8da424323ea9e412afcbefc51330f2ae6a3a88e64f2b2f5288374ebd91",
+      "bytes": 1063,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-legacy-graybox/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox.log",
+      "sha256": "55e82ff8c8d9d29aa728659706160ba552c9261bc11749bd4ba622820f58dcc8",
+      "bytes": 1653,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/engine.log",
+      "sha256": "380c015321bf71d9f262e66ece18b71c6bf5dc64bcc2b11107fe8423b16583d7",
+      "bytes": 1633,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/home/appdata/Godot/app_userdata/Cannonball Run/runs/suspended-run.json",
+      "sha256": "e2fefb5575b9a16c1e5d476624b6b61d9671253acd07a952795ff646ecb19b0c",
+      "bytes": 3912,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/home/appdata/Godot/app_userdata/Cannonball Run/runs/suspended-run.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/home/appdata/Godot/app_userdata/Cannonball Run/telemetry/prototype.jsonl",
+      "sha256": "f4c5b472e7957efd32deed3cfc36099ad9f524c137fd2444cf4c3e4f1e638b1b",
+      "bytes": 477,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/home/appdata/Godot/app_userdata/Cannonball Run/telemetry/prototype.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/home/appdata/Godot/app_userdata/Cannonball Run/vehicle-presentation.cfg",
+      "sha256": "c794855d27890cc52599dbd0a92fd6daee0120b6b9405e596d1238e0ae9e6105",
+      "bytes": 30,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/home/appdata/Godot/app_userdata/Cannonball Run/vehicle-presentation.cfg"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/launch.gd",
+      "sha256": "85c42eb9defbb598343ae6a81f685a44c01131b618d07e468590f197c891f89f",
+      "bytes": 542,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/witness.json",
+      "sha256": "959daf48d17ba48626c477bd7c73e8c6313f025b92f7bb8d1ec3575713f5949b",
+      "bytes": 1116,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-graybox/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan.log",
+      "sha256": "3454a4e22a73822ba89d66de2280185adabc776d45b7fdea15c5703467d66b85",
+      "bytes": 1653,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan/engine.log",
+      "sha256": "2bf5258ad3662923cf781938b0a6abe8bc314e2457d8460d3c11a4f41ed503a7",
+      "bytes": 1633,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan/home/appdata/Godot/app_userdata/Cannonball Run/runs/suspended-run.json",
+      "sha256": "5af59cd358b9e732c1b27678b7bc5fff85ddd6b6d611b1cb2f9760b7592f2cb3",
+      "bytes": 3912,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan/home/appdata/Godot/app_userdata/Cannonball Run/runs/suspended-run.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan/home/appdata/Godot/app_userdata/Cannonball Run/telemetry/prototype.jsonl",
+      "sha256": "c0bdf9495c30cf232c69a9aad96886afa6a13814e6e32afca9671ec0b882242d",
+      "bytes": 478,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan/home/appdata/Godot/app_userdata/Cannonball Run/telemetry/prototype.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan/launch.gd",
+      "sha256": "f9ff71a0f9515efc7ef511a5a7f7f52c3655a74ed650c4737ba0fda63475a7d5",
+      "bytes": 548,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan/witness.json",
+      "sha256": "02f5836a4b29d026421d18415633b7746eab3968061a3c0f48986f6be85d3dd3",
+      "bytes": 1113,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/corrected-visual-persisted-sedan/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/evidence.json",
+      "sha256": "89dd84e1eadad400f8af5bc9cedc6064eb83bef29d1b3a8751b032dfa01c9b7a",
+      "bytes": 375317,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-graybox-over-saved-sedan.log",
+      "sha256": "3d2d705ab7183d73a514e3e53db0f9f7af2c44b9b293251427d206d5b78441ce",
+      "bytes": 498,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-graybox-over-saved-sedan.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-graybox-over-saved-sedan/engine.log",
+      "sha256": "a3824be7da84087c9a61ba4944238a2f57b0690c2d590301940ddbd5d5f9d29a",
+      "bytes": 492,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-graybox-over-saved-sedan/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-graybox-over-saved-sedan/launch.gd",
+      "sha256": "88737d85fc231fa98c4df8c324926ee0e8f9120546a7510fc48b2e7788c1c212",
+      "bytes": 549,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-graybox-over-saved-sedan/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-graybox-over-saved-sedan/witness.json",
+      "sha256": "5ae53b434ff94f2fc07e99ad0710f2d0957fcda4c9b6d390539b7672eed13e1f",
+      "bytes": 1072,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-graybox-over-saved-sedan/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-hero-over-saved-sedan.log",
+      "sha256": "0bdd7dbb275026258b4f54d315e15da28728f60fb1d5c82f626f2b45e0983898",
+      "bytes": 498,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-hero-over-saved-sedan.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-hero-over-saved-sedan/engine.log",
+      "sha256": "2c41d798f5545f9381f05eeee3eead08a4eaa7dd78470620c3db3a45c31b437c",
+      "bytes": 492,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-hero-over-saved-sedan/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-hero-over-saved-sedan/launch.gd",
+      "sha256": "20eec7bcff5dfeba11f0545d8f8527ddc1ec7834d01639f9696059e74677781b",
+      "bytes": 546,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-hero-over-saved-sedan/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-hero-over-saved-sedan/witness.json",
+      "sha256": "798255110240426820e79a4843005cbc0a4dce097c6d87b460fe23a43ef5ce48",
+      "bytes": 1070,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/explicit-hero-over-saved-sedan/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-build.log",
+      "sha256": "7fb23fcda1153f1d420fc3fc3d569c75920f9e153a5d05671aae3c8e42e7fddd",
+      "bytes": 741,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-clock.log",
+      "sha256": "e5f4e1fa31c4f87afa4fde5c356a1991ccf3a641b03a32193b9417d86afa6569",
+      "bytes": 1260,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-clock.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-clock/engine.log",
+      "sha256": "28be3d79897fa3d3ab2925a160f64da68a01178c645b3e1d959edc7c57337d57",
+      "bytes": 1252,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-clock/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-clock/launch.gd",
+      "sha256": "fa160bf2e5c01f6df4c6dad684bc7a8fe54cc2740965922b7ac090c5b8a52f8b",
+      "bytes": 522,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-clock/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-clock/witness.json",
+      "sha256": "b8dd3e8e13d1bdbae008cc5ae007577b725ec91fa44ad7d61af57a72f31cd9ab",
+      "bytes": 1723,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-clock/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-hero-wheel-directions.log",
+      "sha256": "1d6fdb34f916012f047826eef07ca5ad7217495270312e8004d124408e29f1c1",
+      "bytes": 546,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-hero-wheel-directions.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-hero-wheel-directions/engine.log",
+      "sha256": "64c285abe25e35d7b54ff0603f46921b5dff6b2fcbbcc357597070a9a4208fd6",
+      "bytes": 540,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-hero-wheel-directions/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-hero-wheel-directions/launch.gd",
+      "sha256": "dececf4b03e2cc0d731498797c9d8f37e4d7d1da2135811eac4a50ae78ee9fab",
+      "bytes": 541,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-hero-wheel-directions/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-hero-wheel-directions/witness.json",
+      "sha256": "2d932487e214282bf21a8b0dacebb8d99893083d3b50795557f636750f5401d2",
+      "bytes": 14127,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-hero-wheel-directions/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-legacy-graybox-sedan-setup.log",
+      "sha256": "1bb51fb5e51270b5c0bd8b562e5e0eb409f1b3aa62acbee80216c338cf68250d",
+      "bytes": 498,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-legacy-graybox-sedan-setup.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-legacy-graybox-sedan-setup/engine.log",
+      "sha256": "575aa36f0603cb4292e88e53808c001ca82ca802ba39ef3702d0d4bdb3e6eca8",
+      "bytes": 492,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-legacy-graybox-sedan-setup/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-legacy-graybox-sedan-setup/launch.gd",
+      "sha256": "3ad99eb42da0b6dbd87a3b8d459f86678bc6da557967047e7ea47cbed6439282",
+      "bytes": 546,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-legacy-graybox-sedan-setup/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-legacy-graybox-sedan-setup/witness.json",
+      "sha256": "c2c24f53d03ce92faf237a41776c13d2f8bce58896dd90b9f77556c889279faa",
+      "bytes": 1095,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-legacy-graybox-sedan-setup/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-graybox.log",
+      "sha256": "264f8aaf77a865a6082ff410446e6ca2d2a964fe5062d685ef826c5e5329a582",
+      "bytes": 2658,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-graybox.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-graybox/engine.log",
+      "sha256": "6a0b8930ac72ff16f30700650dbeb5a46dc48181e0d4ecb0982c6184d8d8ebaa",
+      "bytes": 2643,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-graybox/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-graybox/launch.gd",
+      "sha256": "2f8439177df788e0ba7efe760500f324cd44fcc198f45c751ac6db6b6065e499",
+      "bytes": 536,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-graybox/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-graybox/witness.json",
+      "sha256": "770d3561bcdaa05ed93e8083427d71a8095a7d248d5828040c9677c0ec7d3d0f",
+      "bytes": 1108,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-graybox/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-sedan.log",
+      "sha256": "a2ad296b92349719b5e06334f783179bce19dec45276f331ba94f7f26b010990",
+      "bytes": 3202,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-sedan.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-sedan/engine.log",
+      "sha256": "4531efd8039754487c7cbb2ad55a0e5a9e25c820e61a92ef6df3b151b5d701be",
+      "bytes": 3183,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-sedan/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-sedan/launch.gd",
+      "sha256": "f1178bcff353abd07572a5750cdc54845b7cfadd3b958ae5d4b096488cb142fc",
+      "bytes": 542,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-sedan/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-sedan/witness.json",
+      "sha256": "9b58ce539e1ed0eb83ad18dca4365f21e1fba383f80e449b1603e78412deabfe",
+      "bytes": 1134,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/old-visual-persisted-sedan/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-graybox.log",
+      "sha256": "a79ade7235907daf8d437aebab0bece437c78e8f8efd26c8f6a012703e493c35",
+      "bytes": 498,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-graybox.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-graybox/engine.log",
+      "sha256": "6327b8fac3d5e5e36204c830749efad447ae190f145fad617d1115435165954d",
+      "bytes": 492,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-graybox/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-graybox/launch.gd",
+      "sha256": "0b97ac0d8ef6fc369600758463be7f54aaa65257bb4052861c0d947e6026fdd9",
+      "bytes": 530,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-graybox/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-graybox/witness.json",
+      "sha256": "10cbbe13b0edd3d0f97c5b38e523b343cd016c1b9dbaec778b339bc28eb31b69",
+      "bytes": 1035,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-graybox/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-sedan.log",
+      "sha256": "42e3153845137e1b7c8b8c4ce9538995249d2fd84e44578e71178938182d133e",
+      "bytes": 498,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-sedan.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-sedan/engine.log",
+      "sha256": "7bb811d52f431001c687323bae3d1907f047c16b79c428ce9c27a4421cf2d200",
+      "bytes": 492,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-sedan/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-sedan/launch.gd",
+      "sha256": "ecb0267b49c222950b0c1e78d8bb6e054a8bd41e1d9b9d66cc87024ef9c064b5",
+      "bytes": 536,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-sedan/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-sedan/witness.json",
+      "sha256": "7e4557a98de8e5bf59b6fe7d7840422762a09e098e0a3ca2604361d5e67be031",
+      "bytes": 1060,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/ordinary-saved-sedan/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-graybox.log",
+      "sha256": "d8511cba51cd7a320c048dec960329e696ecc19188e09b06e2bfa60eb833859f",
+      "bytes": 2102,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-graybox.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-graybox/engine.log",
+      "sha256": "3de843ebf1a4c4bd19274c1f78d5d95287ae940dfbfde00914ebb32322053359",
+      "bytes": 2090,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-graybox/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-graybox/launch.gd",
+      "sha256": "56cb149320a3a2782faabc2f9b5bf84945402140780587366fbe21cfaa2e21dd",
+      "bytes": 542,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-graybox/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-visual.log",
+      "sha256": "59bed48c836e545179eb467ed9440a05bf4865bb7df21ffbfd98e60d88928b98",
+      "bytes": 2093,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-visual.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-visual/engine.log",
+      "sha256": "1d2096a06328ac1247d2e129e0a91585d817fb2eef68afe96147f33f2d1007a5",
+      "bytes": 2081,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-visual/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-visual/launch.gd",
+      "sha256": "e113bc9feac8ae095eb9b5607935602fa248bf7f2423b54d4c933cc834865d66",
+      "bytes": 541,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-conflicting-visual/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-mixed-paired-inline.log",
+      "sha256": "21b80c7a61bab4e5c1a2791fa335cae6f5a03662e50eea07c5f520b14e95a46d",
+      "bytes": 2085,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-mixed-paired-inline.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-mixed-paired-inline/engine.log",
+      "sha256": "00c93dca3200e896e91c0f262aca35177b9772a6f9101f3836e44b1b8999d4f4",
+      "bytes": 2073,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-mixed-paired-inline/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-mixed-paired-inline/launch.gd",
+      "sha256": "b4d2d3cf5cbca435c9a837bd8d15b07dab48919f59991ded61aafae191faaf26",
+      "bytes": 542,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/reject-mixed-paired-inline/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/sedan-wheel-control.log",
+      "sha256": "02badba938968515fe455aca4583f215ab0f12e006306831b5de02115d87426b",
+      "bytes": 545,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/sedan-wheel-control.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/sedan-wheel-control/engine.log",
+      "sha256": "b68648cba29cb13e2ad90d3d74756cdf04417e87d17b5ede41efbbb7cd5e79f9",
+      "bytes": 539,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/sedan-wheel-control/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/sedan-wheel-control/launch.gd",
+      "sha256": "1915f6536385c3bcf9c3de00fd6e312944c2402ed315e816da7f3d19cd710c25",
+      "bytes": 543,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/sedan-wheel-control/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/sedan-wheel-control/witness.json",
+      "sha256": "eb1de4f9e69dab842471f1e806d6d2756e79b94f3a5682bf6425471ddd62af82",
+      "bytes": 14317,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/sedan-wheel-control/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-regression-native-01/vehicle-regression-probe.py",
+      "sha256": "45ff61d85a5542ac21f15325d9164ea0a43200b78cb20722dc268b4832bbe8f5",
+      "bytes": 12877,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-regression-native-01",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-regression-native-01/vehicle-regression-probe.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-build.log",
+      "sha256": "d239d025334821646bb52ad2f02a8353634021115a32cc70e0b5fa57ec9cbf5f",
+      "bytes": 781,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry.log",
+      "sha256": "50264b7ba0ec1508d5ac0801914c65f94d817601931a8ae2b2213e6175f3147c",
+      "bytes": 1707,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry/engine.log",
+      "sha256": "cad2ab2b83c4d90f8ff69d0ec2b9e6c0e1ea3f01952903acb10867157f4f83f4",
+      "bytes": 1687,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry/home/appdata/Godot/app_userdata/Cannonball Run/runs/suspended-run.json",
+      "sha256": "4bee917cf08af5999b70a25a63170c022235ee35d6cd8de89c59b04874c08019",
+      "bytes": 3912,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry/home/appdata/Godot/app_userdata/Cannonball Run/runs/suspended-run.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry/home/appdata/Godot/app_userdata/Cannonball Run/telemetry/prototype.jsonl",
+      "sha256": "b0beff5fdcdd6c77de54a0127f7a33c06ae0dd60ecf0694df3c294c0762fc337",
+      "bytes": 478,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry/home/appdata/Godot/app_userdata/Cannonball Run/telemetry/prototype.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry/launch.gd",
+      "sha256": "e52c02b8ce617fbc96d478986d2269b5c68ea2c22c487b83411b45b06a90b2fe",
+      "bytes": 542,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry/witness.json",
+      "sha256": "8303d7675ca277413dae928ba6804df0123b45e7506b3a74b551ea47c6dcfac7",
+      "bytes": 1142,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-visual-geometry/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-wheel-directions.log",
+      "sha256": "89198fd6a4d7453f2f68c1a12699b6b4116a6e059b83649bce166717bcd2b793",
+      "bytes": 545,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-wheel-directions.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-wheel-directions/engine.log",
+      "sha256": "8b34ed26271efe863dde5ef2853da8581b10c3029fa08c7151c324730b358b4e",
+      "bytes": 539,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-wheel-directions/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-wheel-directions/launch.gd",
+      "sha256": "86363ed802821bc62a960096859f4f6391c5d6c5e05f9904bcfef5687139791e",
+      "bytes": 551,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-wheel-directions/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-wheel-directions/witness.json",
+      "sha256": "e53c75654dce3b38127862aa70c65c37ea52ddd4e5911e14dd3c41548b342769",
+      "bytes": 14154,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-hero-wheel-directions/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-sedan-wheel-control.log",
+      "sha256": "6bcc264f512f994c217e0882e81da7e8eb01e144ae29f980a3ad17aa8141a73f",
+      "bytes": 545,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-sedan-wheel-control.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-sedan-wheel-control/engine.log",
+      "sha256": "af1213af5cdb3dbbb9d362a0d50b13cd07618bc1669c828b9f08eb7a281f864d",
+      "bytes": 539,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-sedan-wheel-control/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-sedan-wheel-control/launch.gd",
+      "sha256": "041fff8a31b2a128e80695f607ac188620faae70330ae298b4407958dbca6289",
+      "bytes": 557,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-sedan-wheel-control/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-sedan-wheel-control/witness.json",
+      "sha256": "9b7ca487d7dca951d6361688f25b2e7cd433c1c12ec9263aad81355bb5365710",
+      "bytes": 14317,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/corrected-sedan-wheel-control/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/evidence.json",
+      "sha256": "7791745f89a10da1f0aa231761137b86425738880e316224f0b655671587cd36",
+      "bytes": 476413,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-build.log",
+      "sha256": "878b8825d38ae3049ed0bee498540bc530394cd9ce92a0d4541c2d0a517def35",
+      "bytes": 777,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-mutation.patch",
+      "sha256": "c105d7c2bf90691699dc1c158cddae1fd1eed01a56bcc72d26af80062c0eab85",
+      "bytes": 618,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-mutation.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-new-geometry-guard.log",
+      "sha256": "00e8996a357956ce7472f5bdf71e99ff1f9cb7a88440c898e05778817ea4f7ba",
+      "bytes": 2702,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-new-geometry-guard.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-new-geometry-guard/engine.log",
+      "sha256": "f14b8972baa532d5f3bc89ed52bb7f2a69abd62f8a815b94eb8b07e86baa682b",
+      "bytes": 2687,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-new-geometry-guard/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-new-geometry-guard/launch.gd",
+      "sha256": "5738e687c4f8849d224cec00947e492007885713b9c5dc5fb1943084a73bbba8",
+      "bytes": 539,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-new-geometry-guard/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-new-geometry-guard/witness.json",
+      "sha256": "0406f20a25dce0f23c6be4dc08308835d0420370e6359a8a50f9ebd76a72cc65",
+      "bytes": 1139,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-roll-new-geometry-guard/witness.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-build.log",
+      "sha256": "69523abc5f3432b0746371f864399d342b123f18b9e08e28ce3bb02f2fad03ed",
+      "bytes": 781,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-mutation.patch",
+      "sha256": "051a58e1b1141e91f9096babf7b7290701c99219da1f070daabc0dc6d50cf9b4",
+      "bytes": 464,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-mutation.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-new-geometry-guard.log",
+      "sha256": "b58c47fac2a5e80b8c9d9be2e3eadcbbe9b7b4cb8aede0bc095c5f8ee332d2a4",
+      "bytes": 3184,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-new-geometry-guard.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-new-geometry-guard/engine.log",
+      "sha256": "9b64748b96584bd29f0c8ffb2f4da0e619645b597c8b6aaab6884e87313a0a14",
+      "bytes": 3166,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-new-geometry-guard/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-new-geometry-guard/launch.gd",
+      "sha256": "1d19da130ed91c4721defd008e7d0002abc4111687a0c7010ac24103e85b30ec",
+      "bytes": 540,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-new-geometry-guard/launch.gd"
+    },
+    {
+      "path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-new-geometry-guard/witness.json",
+      "sha256": "2cb12417663aace12bc2360e932d57ffc25c3f47e40e83a9485cd4de8bd607fa",
+      "bytes": 1140,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; vehicle-wheel-geometry-native-02",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/vehicle-wheel-geometry-native-02/old-steer-new-geometry-guard/witness.json"
+    },
+    {
+      "path": "tools/vehicles/endurance_sedan/partition_evidence.py",
+      "bytes": 5693,
+      "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+      "reason": "Exact deterministic partition recipe"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history04-part-03.zip",
+      "sha256": "270bde7af6e927e29bfae441a7b0e471a57c839e10224f2718777bf713e442c1",
+      "bytes": 434421118,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention-repeats/runtime-history04-part-03.zip",
+      "sha256": "270bde7af6e927e29bfae441a7b0e471a57c839e10224f2718777bf713e442c1",
+      "bytes": 434421118,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T18:55:30.981864+00:00"
+}

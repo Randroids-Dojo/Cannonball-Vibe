@@ -1,0 +1,348 @@
+{
+  "schema": "p1-018-distance-lod-cabin29-v1",
+  "selective_additions": [
+    [
+      1,
+      "Visual_LOD0",
+      "Material_Carpet"
+    ],
+    [
+      1,
+      "Visual_LOD0",
+      "Material_Wheel"
+    ],
+    [
+      2,
+      "Visual_LOD0",
+      "Material_Carpet"
+    ],
+    [
+      2,
+      "Visual_LOD0",
+      "Material_Leather"
+    ],
+    [
+      2,
+      "Wheel_RL",
+      "Material_Metal"
+    ],
+    [
+      2,
+      "Wheel_RR",
+      "Material_Metal"
+    ],
+    [
+      1,
+      "Visual_LOD0",
+      "Material_Leather"
+    ]
+  ],
+  "maximum_LOD_zero_additions": [
+    "LOD0_CargoDeckPedestal_-1_-1.7",
+    "LOD0_CargoDeckPedestal_-1_-2.1",
+    "LOD0_CargoDeckPedestal_1_-1.7",
+    "LOD0_CargoDeckPedestal_1_-2.1",
+    "LOD0_CrewDocumentPocket",
+    "LOD0_CrewDocumentRetainer",
+    "LOD0_DoorInnerHem_RL",
+    "LOD0_DoorInnerHem_RR",
+    "LOD0_DoorPocket_FL",
+    "LOD0_DoorPocket_FR",
+    "LOD0_DoorPocket_RL",
+    "LOD0_DoorPocket_RR",
+    "LOD0_Door_FLHinge_0.6FoldedArm",
+    "LOD0_Door_FLHinge_0.84FoldedArm",
+    "LOD0_Door_FRHinge_0.6FoldedArm",
+    "LOD0_Door_FRHinge_0.84FoldedArm",
+    "LOD0_Door_RLHinge_0.6FoldedArm",
+    "LOD0_Door_RLHinge_0.84FoldedArm",
+    "LOD0_Door_RRHinge_0.6FoldedArm",
+    "LOD0_Door_RRHinge_0.84FoldedArm",
+    "LOD0_FrontLCushionFrame",
+    "LOD0_FrontLFloorPedestal-0.12",
+    "LOD0_FrontLFloorPedestal0.12",
+    "LOD0_FrontLSeatIsolator-0.12",
+    "LOD0_FrontLSeatIsolator0.12",
+    "LOD0_FrontRCushionFrame",
+    "LOD0_FrontRFloorPedestal-0.12",
+    "LOD0_FrontRFloorPedestal0.12",
+    "LOD0_FrontRSeatIsolator-0.12",
+    "LOD0_FrontRSeatIsolator0.12",
+    "LOD0_GrabHandle_-1",
+    "LOD0_GrabHandle_1",
+    "LOD0_HoodOffsetArm_-1",
+    "LOD0_HoodOffsetArm_1",
+    "LOD0_HoodRib_-1",
+    "LOD0_HoodRib_1",
+    "LOD0_InnerPull_FL",
+    "LOD0_InnerPull_FR",
+    "LOD0_InnerPull_RL",
+    "LOD0_InnerPull_RR",
+    "LOD0_Pedal_AcceleratorArm",
+    "LOD0_Pedal_AcceleratorPad",
+    "LOD0_Pedal_BrakeArm",
+    "LOD0_Pedal_BrakePad",
+    "LOD0_RearBeltLowerPlate_-1",
+    "LOD0_RearBeltLowerPlate_1",
+    "LOD0_RearCenterBeltLowerPlate",
+    "LOD0_RearCenterBuckleLowerPlate",
+    "LOD0_RearLCushionFrame",
+    "LOD0_RearLFloorPedestal-0.12",
+    "LOD0_RearLFloorPedestal0.12",
+    "LOD0_RearLSeatIsolator-0.12",
+    "LOD0_RearLSeatIsolator0.12",
+    "LOD0_RearRCushionFrame",
+    "LOD0_RearRFloorPedestal-0.12",
+    "LOD0_RearRFloorPedestal0.12",
+    "LOD0_RearRSeatIsolator-0.12",
+    "LOD0_RearRSeatIsolator0.12",
+    "LOD0_RoofConsole",
+    "LOD0_SelectorGate",
+    "LOD0_SelectorLever",
+    "LOD0_SelectorSeatingPad",
+    "LOD0_TrunkRib_-1",
+    "LOD0_TrunkRib_1",
+    "LOD0_VentHousing_-0.079",
+    "LOD0_VentHousing_-0.679",
+    "LOD0_VentHousing_0.099",
+    "LOD0_VentHousing_0.678",
+    "LOD0_VentLouver_-0.0790",
+    "LOD0_VentLouver_-0.0791",
+    "LOD0_VentLouver_-0.0792",
+    "LOD0_VentLouver_-0.0793",
+    "LOD0_VentLouver_-0.6790",
+    "LOD0_VentLouver_-0.6791",
+    "LOD0_VentLouver_-0.6792",
+    "LOD0_VentLouver_-0.6793",
+    "LOD0_VentLouver_0.0990",
+    "LOD0_VentLouver_0.0991",
+    "LOD0_VentLouver_0.0992",
+    "LOD0_VentLouver_0.0993",
+    "LOD0_VentLouver_0.6780",
+    "LOD0_VentLouver_0.6781",
+    "LOD0_VentLouver_0.6782",
+    "LOD0_VentLouver_0.6783",
+    "LOD0_WindowSwitchPod_FL",
+    "LOD0_WindowSwitchPod_FR",
+    "LOD0_WindowSwitchPod_RL",
+    "LOD0_WindowSwitchPod_RR"
+  ],
+  "component_ratio_overrides": {
+    "LOD0_FrontLJoinedUpholstery": 0.065,
+    "LOD0_FrontRJoinedUpholstery": 0.065,
+    "LOD0_RearLJoinedUpholstery": 0.065,
+    "LOD0_RearRJoinedUpholstery": 0.065
+  },
+  "paint_requested_ratio": 0.065,
+  "ordinary_LOD1_ratio": 0.23,
+  "ordinary_LOD2_ratio": 0.065,
+  "front_separate": true,
+  "field_panes": [
+    "LOD0_Windshield",
+    "LOD0_Backlight"
+  ],
+  "limits": {
+    "LOD0_triangles": 150000,
+    "all_triangles_including_collision": 200000,
+    "materials": 32,
+    "raw_normal_unit_error": 1e-06,
+    "native_normal_field_degrees": 0.025,
+    "whole_face_coverage_m": 1e-06,
+    "UV_error": 1e-06
+  },
+  "visual_limit": "Separate seal/A-pillar boundary correction and final actual transition captures remain pending. No new economy omissions in this profile.",
+  "mixed_front": {
+    "schema": "current-native-mixed-front-feature.v1",
+    "object": "LOD0_FrontBumper",
+    "materials": [
+      "Material_Paint",
+      "Material_Trim"
+    ],
+    "levels": [
+      1,
+      2
+    ],
+    "shoulder": {
+      "minimum_all_vertex_z_m": 0.8,
+      "maximum_y_minimum_m": 2.23,
+      "side_maximum_absolute_x_minimum_m": 0.65,
+      "side_maximum_y_minimum_m": 2.04
+    },
+    "trim": "all actual new_return_wall triangles plus boundary-vertex one-ring",
+    "closure": "complete source triangles enclosed by union seed vertices; no recursive fan growth",
+    "field_bound": "affine-residual-over-exact-closed-normal-triangle-minimum"
+  },
+  "selective_shell_repair_additions": [
+    [
+      2,
+      "Light_Head_FR",
+      "Material_Headlight"
+    ]
+  ],
+  "cabin_lod1": {
+    "schema": "distance-lod29-cabin-reuse.v1",
+    "lod": 1,
+    "requested_ratio": 0.065,
+    "components": {
+      "Material_Trim": [
+        "LOD0_CenterConsole",
+        "LOD0_DashboardCore",
+        "LOD0_RearBulkheadLower",
+        "LOD0_RearConsoleChase",
+        "LOD0_SteeringColumn"
+      ],
+      "Material_Leather": [
+        "LOD0_ConsoleArmrest",
+        "LOD0_Glovebox",
+        "LOD0_RearCenterBack",
+        "LOD0_RearCenterCushion"
+      ],
+      "Material_Carpet": [
+        "LOD0_InstrumentShade",
+        "LOD0_InstrumentShadeWing_-1",
+        "LOD0_InstrumentShadeWing_1",
+        "LOD0_NavigationSurround",
+        "LOD0_RearBulkheadUpper",
+        "LOD0_RearDamperEnclosure_-1",
+        "LOD0_RearDamperEnclosure_1"
+      ]
+    },
+    "whole_groups": [
+      {
+        "parent": "Door_FL",
+        "material": "Material_Leather",
+        "members": [
+          "LOD0_Armrest_FL",
+          "LOD0_DoorCard_FL"
+        ],
+        "method": "ordinary"
+      },
+      {
+        "parent": "Door_FR",
+        "material": "Material_Leather",
+        "members": [
+          "LOD0_Armrest_FR",
+          "LOD0_DoorCard_FR"
+        ],
+        "method": "ordinary"
+      },
+      {
+        "parent": "Door_RL",
+        "material": "Material_Leather",
+        "members": [
+          "LOD0_Armrest_RL",
+          "LOD0_DoorCard_RL"
+        ],
+        "method": "ordinary"
+      },
+      {
+        "parent": "Door_RR",
+        "material": "Material_Leather",
+        "members": [
+          "LOD0_Armrest_RR",
+          "LOD0_DoorCard_RR"
+        ],
+        "method": "ordinary"
+      },
+      {
+        "parent": "Visual_LOD0",
+        "material": "Material_Fabric",
+        "members": [
+          "LOD0_FrontBeltWeb_-1",
+          "LOD0_FrontBeltWeb_1",
+          "LOD0_Headliner",
+          "LOD0_ParcelShelf",
+          "LOD0_RearBeltWeb_-1",
+          "LOD0_RearBeltWeb_1",
+          "LOD0_RearCenterBelt",
+          "LOD0_RearCenterBuckleWeb",
+          "LOD0_Sunvisor_-1",
+          "LOD0_Sunvisor_1"
+        ],
+        "method": "selective"
+      }
+    ],
+    "selective_addition": [
+      1,
+      "Visual_LOD0",
+      "Material_Fabric"
+    ]
+  },
+  "current_front_protection": {
+    "schema": "current-finite-front-protection36.v1",
+    "original_protected_faces": 1419,
+    "additional_complete_faces": 85,
+    "protected_faces": 1504,
+    "finite_lamp_faces": 466,
+    "moved_vertices": 168,
+    "selection": "Mixed shoulder and Trim boundary seed vertices union actual finite-lamp vertices; one complete triangle closure, no recursive fan growth",
+    "preserve": "Complete original geometry, UV, normal and ordered material fields"
+  },
+  "current_glass": {
+    "schema": "current-planar-glass37.v1",
+    "members": [
+      "LOD0_Windshield",
+      "LOD0_Backlight"
+    ],
+    "source_domains": {
+      "outer": 96,
+      "inner": 96,
+      "rim": 56
+    },
+    "solidify_thickness_m": 0.0045,
+    "retained": "All four manufactured rim domains unchanged; only the two verified pane interiors may be retessellated"
+  },
+  "distant_tire": {
+    "schema": "distant-tire36.v1",
+    "levels": [
+      1
+    ],
+    "members": [
+      "LOD0_Tire_FL",
+      "LOD0_Tire_FR",
+      "LOD0_Tire_RL",
+      "LOD0_Tire_RR"
+    ],
+    "radial_stations": 24,
+    "meridian_points": 12,
+    "high_meridian_points": 28,
+    "source_radial_stations": 52,
+    "radius_m": 0.3433,
+    "width_m": 0.255,
+    "bead_radius_m": 0.2413,
+    "material": "Material_Rubber",
+    "uv": "original dominant-axis quad chart",
+    "uv_meters_per_repeat": 0.25,
+    "UV_error": 1e-06,
+    "raw_normal_unit_error": 1e-06,
+    "native_normal_field_degrees": 0.025,
+    "LOD0_triangles": 150000,
+    "all_triangles_including_collision": 200000,
+    "materials": 32,
+    "high_source_revisions": [
+      {
+        "schema": "source-tire-groove38.v1",
+        "members": ["LOD0_Tire_FL", "LOD0_Tire_FR", "LOD0_Tire_RL", "LOD0_Tire_RR"],
+        "original_radial_stations": 52,
+        "floor_radial_stations": 36,
+        "original_floor_radius_m": 0.3393,
+        "floor_radius_m": 0.339625,
+        "centers_x_m": [-0.068, -0.023, 0.023, 0.068],
+        "top_half_width_m": 0.003,
+        "floor_half_width_m": 0.002,
+        "tire_radius_m": 0.3433,
+        "tire_width_m": 0.255,
+        "uv_meters_per_repeat": 0.25,
+        "original_triangles_per_tire": 4728,
+        "new_triangles_per_tire": 4472,
+        "retained_triangles_per_tire": 3480,
+        "source_profile_ast_sha256": "d4e2e7fec17d985c6ca8b586ec10da2918ed85c1bd43fdea16635c5332c47af4",
+        "form_error_m": 0.001,
+        "native_normal_degrees": 0.025,
+        "raw_normal_unit_error": 1e-06,
+        "uv_error": 1e-06,
+        "identity": "Original fictional tessellation refinement; outer tire silhouette, original shoulder reliefs, sidewall and bead remain exact."
+      }
+    ]
+  }
+}

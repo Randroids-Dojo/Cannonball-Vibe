@@ -1,0 +1,2535 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-12T22:07:14.248019+00:00",
+  "git_revision": "0fd5c81677c3084ccaa1237d2689658334888e94",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint27-retention01/manifest-04.json",
+    "sha256": "5baae9dfa759845b265cedf73202755b0e26395ac8e9448186aafbe2f638b720"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/native11.json",
+      "sha256": "93c3d222d6294f92175182fc070fdd377ea3cbda76c7f605e6a7d7cd65dafb3f",
+      "bytes": 3634531
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/native17.json",
+      "sha256": "a83248f92a1fdae523a30a0e13f73e224711b1ac91397987690b03a0d91e799b",
+      "bytes": 3711049
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/native21.json",
+      "sha256": "c29160f3ac0a2a21628421b1757271af0f75b298ffdd53ec438a80987cb54e36",
+      "bytes": 3739787
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/HANDOFF05.md",
+      "sha256": "a1e77ea822b39d17158f2f1a9aff2318ca6234d010f2a61a1e0f29f5ddc60669",
+      "bytes": 3167
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/bend01.py",
+      "sha256": "2163e72afecef26b1fc78a55273fe1d76b25db99e7c713237811a0231e33159c",
+      "bytes": 6608
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/command02.json",
+      "sha256": "4bb61bfea7276db8401f972dd86e14d5a4577ada7a0447f1f87d9a2c49420d13",
+      "bytes": 291
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/HANDOFF15.md",
+      "sha256": "0954d5bb2676da9e5b134ecea8c3e05bbdcca36b9a535be5d780338dc1046532",
+      "bytes": 3526
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/capture06.py",
+      "sha256": "0c64820890cedc81e00e2e7ff3d02fe3e03730306020f0fc23ac867eb6218aec",
+      "bytes": 7731
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/capture09.py",
+      "sha256": "001a593b6a093643c2a98204f65f3f22a040603dcb6911669220ee97c9573a53",
+      "bytes": 8293
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/command06.json",
+      "sha256": "3d13614587bc723767c6dce5ce995204d8fc3ee65bf04402b293a9c50cd638d0",
+      "bytes": 319
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/command07.json",
+      "sha256": "3656e733531a4e466adf9601e3ce864bdcd83d1e090b5b3ce29588112a769d0a",
+      "bytes": 321
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/command09.json",
+      "sha256": "d95c23b3c81065bc5c470e23bfac723f2b2a51ba44441a44b1e1a34686542e89",
+      "bytes": 321
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/command10.json",
+      "sha256": "b33eaf3cca273635059fef9235f7c6e8fdeb58cd94599d93f2af0eeac970b5d4",
+      "bytes": 320
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/controls14.json",
+      "sha256": "abb5673b1f31163a1a3b31ff4d7edc4ce7fd385f3c08d004d6a075f881cd9170",
+      "bytes": 5450
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/controls14.py",
+      "sha256": "08cacd0c0da428814b7d5969798a4a5197634f398f6112d05b82f1f8ec2b741d",
+      "bytes": 2795
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/correspondence08.json",
+      "sha256": "58cbef8c42164f9f77443c511d97e157bd16ce3d1b888881677f78be9c364f75",
+      "bytes": 7533
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/correspondence08.py",
+      "sha256": "97b8d2754509289b1e507ec28f79ed219986daf5144990c7bec084ed54b95627",
+      "bytes": 4220
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/current-geometry09.json.gz",
+      "sha256": "b8fdd33a31deec0872db6437ed3e6c8d37ff92f9db7cc664f6808d4267b930b5",
+      "bytes": 9282855
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/finalize15.py",
+      "sha256": "1bb1df36a72a8e13cacc152c76d2b0c12c825a68acab89c62e4fa0b8a0a1d6df",
+      "bytes": 11681
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/finite11-command.json",
+      "sha256": "cef1080883d961fd770f12af8443d884dab0802078f76cf809f0611b771e235c",
+      "bytes": 320
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/finite11.json",
+      "sha256": "e35d028bf305e0313360899d27bcbc55151f24a7c2958814bd3081ac59b85b9f",
+      "bytes": 1167384
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/finite11.log",
+      "sha256": "ddeb52222a0ae0ac57a9b13474faf18dd0d81b125a0583f5d4cff0dfd3dc888c",
+      "bytes": 3068
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/finite11.py",
+      "sha256": "c5fdfcd1ac2b5ab1fb7e120f943f44febdc4718a79872741650fce483a9e4888",
+      "bytes": 10244
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/handoff15.json",
+      "sha256": "c20affdececf68cffce3a5d00f95290178f056105779b441d05b959afd3cb730",
+      "bytes": 15346
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/inputs12.json",
+      "sha256": "451c6e16460783b225ab617f0d7c559fb7e7f06ce420a710241bf88e4914fa44",
+      "bytes": 1213
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/inputs12/geometry.py",
+      "sha256": "49ba453c158f7831106ba5cee231105ec8824b3162bd520e16fe5127af2b57e1",
+      "bytes": 6154
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/inputs12/opening_drivers.py",
+      "sha256": "5983d073051c57dd89a238c0dad7af50695b3fa6a55784954ae4f5f4ce7bd0e2",
+      "bytes": 4591
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/inputs12/openings.py",
+      "sha256": "68348725709cb7b32aea1dc79913e70f1186a05237a7c66940461b1cfac4931b",
+      "bytes": 13332
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/launch10.py",
+      "sha256": "d4184cf58215c3f485e1ca7f16dd512703267dd392995bf94329c09b9cf40553",
+      "bytes": 255
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/native06.json",
+      "sha256": "99a92749a2c86112f0096f09ddf1883aeb76138ca102ec7ddcebc5bfbac8d5c1",
+      "bytes": 1776
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/native06.log",
+      "sha256": "a84457d5d45c4b0977a1dda17f9a931e9816d76c93bdd1151d0814bc4e580154",
+      "bytes": 3578
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/native07.log",
+      "sha256": "ee253040edd9357f701aecbe8a9a8552b0c41cd6584edb0f48c73dc007486ac7",
+      "bytes": 1464
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/native09.json",
+      "sha256": "dda0a2e7e483db6b2a2f1ccc88ceaf17098c02da637ed7e53210f777d1fd0a50",
+      "bytes": 1508220
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/native09.log",
+      "sha256": "c35e300095cbd8598428822e3fa5eb992e9da2d08992fe9876ac036bbfa391ed",
+      "bytes": 1700
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/native10.log",
+      "sha256": "c6b441ce94e2591c113ff88b8f3f33f5c475e154284551c0a36c80d127dc294e",
+      "bytes": 1100
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/opening-drivers12-command.json",
+      "sha256": "a39f42c02ab9d6d677654f7de01013f54f9ef0c46d0e135e0b07d3f3f0a0106d",
+      "bytes": 520
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/opening-drivers12.json",
+      "sha256": "10b1de90be3119582d8ddeac68b663f0cbfc4f4550087e409a49e5d19f7072f1",
+      "bytes": 34123
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/opening-drivers12.log",
+      "sha256": "4880dda1caa405042c7e0dc6f32b71c795952198cbc0a3f1e505410e33e4f2a5",
+      "bytes": 612
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/opening-geometry13.json.gz",
+      "sha256": "7dd9f0df24c4371c0e5da1d62270a6cda5f705456b713b5a0cc60070f1227c19",
+      "bytes": 9052738
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/openings13-command.json",
+      "sha256": "b3e8a2abf656f789785901d031c3c687d43f84d7cc0f0c8f08ec5f0a26d80cec",
+      "bytes": 1779
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/openings13.json",
+      "sha256": "d3812e6093ce2a6d07f4d675487fb2ac4815066707a5cea084c7c42b847315c4",
+      "bytes": 105545
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/openings13.log",
+      "sha256": "0b6e7bfa28a3012a6b1c226c558559a4c4c97627e55f115f948d04ea96d8f668",
+      "bytes": 3006
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/poses13.py",
+      "sha256": "9b630d77ea3d27e84e7fc463c74f5e8f66ae6fe9374d0b1ffe40dac5626512e2",
+      "bytes": 1333
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/prepare07.py",
+      "sha256": "c863f42b01d0e0cdc4a3502a8f402f3d207e56bd4e73e95404bf6e11627795f6",
+      "bytes": 3086
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/prepare09.py",
+      "sha256": "d001924a600897ce14909d46462e72d5b1b671a6acc75fae5ac20ade75160de7",
+      "bytes": 3017
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/prepare12.py",
+      "sha256": "1f7bf669ea882233ff04c06402f8b211469507feecf51f9d6d469a6481c3cdfe",
+      "bytes": 1076
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/retention15.json",
+      "sha256": "96ca8c60228ecf5a5a46c9c7c1966fbe20f5d609000fb723570803b3bc5e2794",
+      "bytes": 18995
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/scope06.json",
+      "sha256": "a28506c2b916572fce84f7cf5a07fff4d1218646fa5c466975a4247105d777af",
+      "bytes": 6083
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/fit06/scope09.json",
+      "sha256": "a46ccf92af38f5791c6a063b8f7f4b96a5e812c68ac24dc4f4187bed94e34a8f",
+      "bytes": 7665
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/freeze05.py",
+      "sha256": "5e59f9a8fae0d40345fbaa1bbc8b4b26e9c6e8f98cc55520d1a28409b5524fa6",
+      "bytes": 1887
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/handoff05.json",
+      "sha256": "05cfc28606c9cfd45655f22d57165ba1f9bc2e3a723b6e075208357d3b41dc84",
+      "bytes": 10081
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/probe02.log",
+      "sha256": "69283769289f0cd914e2ba9de6ed33055d66c72ff6295ab1ea8dffa32307e3f7",
+      "bytes": 1054
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/probe02.py",
+      "sha256": "53fa91797a80c5f43d6ec4e377fa445e271832bd1a1cf67e0b1bb6a3843401ca",
+      "bytes": 7816
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/probe02/geometry.json.gz",
+      "sha256": "ab75d84f8b38ea9910f73c18248778034881bd5fe74c9b228f7df652f900e5e1",
+      "bytes": 232216
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/probe02/native.json",
+      "sha256": "0972b9678a99ea07a9a81798879878d6bb1844f382d510c7730defc094751063",
+      "bytes": 789783
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03-baseline-command.json",
+      "sha256": "812c275c0617f2b68ef4ca05a6ac25ea9de16064fea9c5ac41c63d37f95e5ae9",
+      "bytes": 376
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03-baseline.log",
+      "sha256": "3c581099ca2ed3e458244c51d08cd8be8512cb87c30fcaf65521dcc97b4081d1",
+      "bytes": 2090
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03-curved-command.json",
+      "sha256": "ae4a1c3ded2bbe086cc1dfa9bd7821d40855942ad70b17ac0bfd6a2a9f8f2bd8",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03-curved.log",
+      "sha256": "93729552cdba21ca3ecfd22e1e2c520db9e3acc2a1c52dabeb6ddf6c06e96be8",
+      "bytes": 2624
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03/baseline/engine.png",
+      "sha256": "71fbdb4ad4ea7e2c0c4f96533b4588c75c6f874921fa729ff58ef530a5abae2a",
+      "bytes": 3698600
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03/baseline/inputs.json",
+      "sha256": "cd5475e5a5f76c73843016afbdba75716e79077f56e200f4bb1f4f7db1aa4de8",
+      "bytes": 461
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03/baseline/manifest.json",
+      "sha256": "536e40250051e7a94a1cbb38d28806f8499867eadbe7aedb673eb0d652b3d2d8",
+      "bytes": 3167
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03/baseline/native.json",
+      "sha256": "2c22aa5f0a6957b5ed6e0c0a0581c14c3e46c6e3af1090f6f03d42d3ca0a3d84",
+      "bytes": 523
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03/curved/engine.png",
+      "sha256": "9a04317def2a00f4cbdf379d34846f0595137cb4a71c4d1a0c325627f1a67c5b",
+      "bytes": 3707231
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03/curved/geometry.json.gz",
+      "sha256": "ab75d84f8b38ea9910f73c18248778034881bd5fe74c9b228f7df652f900e5e1",
+      "bytes": 232216
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03/curved/inputs.json",
+      "sha256": "6bfcbe1d1d63374c50f86db494110c356066ebae76f76cd521dddb2f01de5fd3",
+      "bytes": 868
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03/curved/manifest.json",
+      "sha256": "a986bd75d57f94d83d7f9b139175f1a124c82a5e9262c8ccbc72563b28e10d36",
+      "bytes": 3621
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/render03/curved/native.json",
+      "sha256": "5d43a328f3043dd768c0836914e6568e6960075edc8201eec04272197e022a71",
+      "bytes": 789784
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/review04.py",
+      "sha256": "1fa2f7306a2080c77cf44975bf0c88073e9065e7cd9a33b2130dc2a6b8c63bc5",
+      "bytes": 3948
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/scope01.json",
+      "sha256": "bf5e91659d53dcde99f9f1ae9a9a6bb451169dc22cf17ead7cebbafca99ffea6",
+      "bytes": 4673
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/pipe-bends01/visual04.json",
+      "sha256": "fb13ef866cc48551708afbab47839dbf1cc85a80834c1f712c1a1ffc73771b32",
+      "bytes": 4475
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/planar_vertices08.py",
+      "sha256": "37a06e8658f354ac9fed41b2c9805f6a15fc5af904e7e4dc91145d20708340b1",
+      "bytes": 3601
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare03.py",
+      "sha256": "a3d5072033d4e4f90a2f74e2c1539312f2f20394de4493c1c732af24954dab14",
+      "bytes": 3824
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare04.py",
+      "sha256": "587e3057f24b223af9ddbff5fd1b504f9d378f3bbed4cd08817cd02a4bf728f9",
+      "bytes": 3746
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare05.py",
+      "sha256": "b2a33be242e6775e26a2d2e4922c78f5c125a8a82fee80783e840ccb6c7b0c86",
+      "bytes": 4286
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare09.py",
+      "sha256": "114c50739d2fc1c01a54a7d98a75dd51c160558f862a67fb22730d902afb18ed",
+      "bytes": 7918
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare10.py",
+      "sha256": "1839c2ae08842fa46eb1531cf151c9a72ce8f6ba77b90c604b7076b1f655c266",
+      "bytes": 3249
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare11.py",
+      "sha256": "e3c17e255881bb932535201d02efa685be700ea0b907c099f3404554baf23e43",
+      "bytes": 1870
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare12.py",
+      "sha256": "ec4f0b767c3295ddd49c6d1bb122261d84fd901fc029ace7456858618a764cae",
+      "bytes": 2673
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare14.py",
+      "sha256": "dfa04f1ea9a106b6c82a965df15c92bef11c709c7a5770103c2b596712e79100",
+      "bytes": 4646
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare17.py",
+      "sha256": "b31ac93fa38789e2aa500c24ce5feacaec0aca35105d70e9085f9e8be1bad020",
+      "bytes": 1861
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare20.py",
+      "sha256": "732348650b6e1aee6bba03f15b8af7cc06428c32bca08c330b259ee3f7f68bcb",
+      "bytes": 2920
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare21.py",
+      "sha256": "fb94c7514c35c1115297e90934740fe45517b55cd35ffcd08878602793c5be50",
+      "bytes": 3169
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare25.py",
+      "sha256": "d5b8b8ecb2e0e207404fd306ee139493b9459cf96823690703c2f365b2bf4a7e",
+      "bytes": 1424
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/prepare27.py",
+      "sha256": "7e8664eb96ae5d5bbc6e77298a1c2b775141ee71390582bb3146381b40c101c9",
+      "bytes": 977
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/probe03.py",
+      "sha256": "c96947c5442f3078cb8a66f32fa14ff4817517739118dbf0999d77de6bff66c4",
+      "bytes": 5186
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/probe04.py",
+      "sha256": "8c2619bf83293ae2786625bece94d0ff76a8fa75ec0b69fdc7481d5231ede7b9",
+      "bytes": 5186
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/probe05.py",
+      "sha256": "4fe6c42d0bec0e13204d03840b27952116912ffcdbbef5130ea9d109e9d2d360",
+      "bytes": 5272
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/probe09.py",
+      "sha256": "a54efcad1bf4bf21541e31cfd4eb4f5e18c38e9894896c60c6e406a8a5cec984",
+      "bytes": 5347
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/probe10.py",
+      "sha256": "56b85d6696f25da7198d250618bbd3c4a02c9b4529435b406a390bffec381f02",
+      "bytes": 5588
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/probe11.py",
+      "sha256": "f0d2b89730a16c4bf08f404d96e4278f46f5838d4696b5aa13d3c4454a5224b3",
+      "bytes": 5588
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/probe14.py",
+      "sha256": "918aa90198fd2e0daf796bbd1619d2086bbcbcab3ca90835b9d9a4c51d5c3468",
+      "bytes": 6817
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/probe17.py",
+      "sha256": "af08686b0e7bc27ad5b513311ee4232faa6e827f457359e98f26d69211831735",
+      "bytes": 6985
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/probe21.py",
+      "sha256": "6dcd060c3ada8d072f9aa9ac83ea803a005cba60c72e048c3415b18e4d0c9a4f",
+      "bytes": 7047
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/radiator_fields10.py",
+      "sha256": "51d6ad4612b24fdb5a3ebfbaef7336f829ecdc9bdf9f5d2c99625ca6f2a7f3af",
+      "bytes": 2706
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/read_current07.py",
+      "sha256": "3b00a371714bb8fd2432335498c63af0d05794d016e7b7baf02dbe29307a2337",
+      "bytes": 1895
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/baseline/engine.png",
+      "sha256": "79b307bc5e7a46482cf091e315a954aa053acfb9bdb594a48e0950bbd4c9c3e6",
+      "bytes": 3602755
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/baseline/inputs.json",
+      "sha256": "1cb836c4e63c3b0c28d43e59282b2cda0d13fa0e5c0a7d0cbd5e23cbe90e98b5",
+      "bytes": 367
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/baseline/manifest.json",
+      "sha256": "a7bb970fbe6db67961c0b356bf336bb459bee0246d51f5f40026a51595437de5",
+      "bytes": 3068
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/baseline/source-unchanged.json",
+      "sha256": "9c991c5cae5113805501366afaffea1e0e060b5e81eb5ff781d472396ce2f65d",
+      "bytes": 169
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/candidate/engine.png",
+      "sha256": "74e49af6365720605f2778d4f65df6607948de781cf12aa07fc0847ba803af26",
+      "bytes": 3682880
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/candidate/inputs.json",
+      "sha256": "3c1a011b4a44cbd8f87c255db04eaa70d30118b55bac034cca0328d6eedf324d",
+      "bytes": 1893
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/candidate/manifest.json",
+      "sha256": "64a10ee405aec158d993aa935b6f228ce2b07dcd22c3b271a648bd3355abfb63",
+      "bytes": 4805
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/candidate/source-unchanged.json",
+      "sha256": "fe17546179a2d9f88cda6e08d9db6178f700ff59cb1ccfd84d0257f2da51dd07",
+      "bytes": 169
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/command-baseline.json",
+      "sha256": "ec0bebd99bf4cee86a42ba33fa9906f611f7d3d2c99ae5779d7fea00a526a8c4",
+      "bytes": 568
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/command-candidate.json",
+      "sha256": "f64f2a1215216d80cd5444f24d819886e77f3eb6e47863d9fd64ab60870b0c35",
+      "bytes": 569
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/snapshot.json",
+      "sha256": "91fa248b8d6041b6edb8ad125b3e55180ed49551264b4818ccd2cc6914308e73",
+      "bytes": 1466
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/stderr-baseline.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/stderr-candidate.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/stdout-baseline.log",
+      "sha256": "b4b5c4893811db926c39175f5a82843a739464e763f0f6c8ccd8f4dcf7f0d34b",
+      "bytes": 983
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/stdout-candidate.log",
+      "sha256": "c775efeb345f5eba309350f0b7a60ca257c37ae789af8ff43c14fa42cd83a983",
+      "bytes": 1051
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/tools/endurance_sedan/__init__.py",
+      "sha256": "4d2a9429e7b56fc53b71366a7b3805351759595e8a007c96b16886b95751df19",
+      "bytes": 45
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/tools/endurance_sedan/geometry.py",
+      "sha256": "0b2386b99c18e503fe4562a085996a4e8462f40d38dad53583eeb63bec7cb9ee",
+      "bytes": 12409
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/tools/endurance_sedan/render-original.py",
+      "sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+      "bytes": 17139
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/tools/endurance_sedan/render.py",
+      "sha256": "a17245a9cde9fcfdf9ebcf1a4b2ab6134a729471d83c14e6f8274e4326b25391",
+      "bytes": 17187
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/render25/tools/endurance_sedan/review_overlays.py",
+      "sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+      "bytes": 7740
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run01.py",
+      "sha256": "34c98bc894fafc510a00b3b77b56a55b8336f38595ffc9f28e442262eebd97e7",
+      "bytes": 939
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run02.py",
+      "sha256": "a2d65bf661c2706f61f7677c615420d003bbc408a8cd91684ae6591dc6ff91cd",
+      "bytes": 939
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run03.py",
+      "sha256": "fcaf3a63688e5416899784bff0a982dd0bdda19e0c79d5b763dbe2999d2f12ab",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run04.py",
+      "sha256": "fb4be22ec45a7feb4bac8ef7bac8a90f1b96fbc2c99f673a4a93bfd8afb985d8",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run05.py",
+      "sha256": "5d92d43e18ab88def29426b3a244f62ff7bbc09296a5dc60326b7457ec835ca6",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run06.py",
+      "sha256": "cd1b0e58aa62809719224882edbda2f807a1d25f1414f0f25df25a5c631228b0",
+      "bytes": 936
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run07.py",
+      "sha256": "2927b83aa5346937ced2119c66eeab8a546cf9ada8b90bbc9970019c6c681d17",
+      "bytes": 1073
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run08.py",
+      "sha256": "b7ba9e75e48578c736e724e8d3d9aba97619a1cfdd91f2e0111d8a45b3a22eb7",
+      "bytes": 937
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run09.py",
+      "sha256": "1c72955769a4ada9b82bca64df6399717b28700bdbd87728d4a417b6f6e4f728",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run10.py",
+      "sha256": "5669ca77bbff6b42054306f2bb6123a829bbb56113e0a61bb09f442c757b2466",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run11.py",
+      "sha256": "fae4273ed677ed8940ec9d20fab5137355dc5936b59922a701866d9f81a4c100",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run12.py",
+      "sha256": "aa2fbd2c1dc88a66ce0a63e4d003e09cd08a58d287f4233b02c1ea151ff5c527",
+      "bytes": 936
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run13.py",
+      "sha256": "91f7c51826103270f9387c05bc40f8505390f22d60f887438c3643ca94d43221",
+      "bytes": 945
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run14.py",
+      "sha256": "38a461f20118f7eb5b57b2d4929ab1178b9c05035be55aa99885c85d9fe2bcfb",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run15.py",
+      "sha256": "1a687d551c9640fce90cca317d4177f928dbcbcd5ccfc785fcc5de14d7444f32",
+      "bytes": 936
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run16.py",
+      "sha256": "9d10ddf71f6bf9a0d04f5a4a3c40031c53d2be37c50d28198eb60d350198a132",
+      "bytes": 936
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run17.py",
+      "sha256": "3970bca71d8517ea969f1328d1a466c9ff0c906e525d8b2720f8122c55f13954",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run18.py",
+      "sha256": "c66e45e061cde273aaea925a618fea80dd522d6d9c5757e792720f921468082b",
+      "bytes": 936
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run19.py",
+      "sha256": "7a1310430bb2dfe3823801fc341183e47d3fcb7b091126b19050e17594b7e196",
+      "bytes": 936
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run21.py",
+      "sha256": "e23fb48d409281612667108fbb3dee2439b456f3bd37d36ec42257cf977b83db",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run22.py",
+      "sha256": "d6aa34dce9e75443ac0b965f99860aec23627c32e39433fd4c8e6e214af7c4e6",
+      "bytes": 936
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run23.py",
+      "sha256": "f60a5758167d63bcc8da2275d394e2d90729d50fe36ab5fb70c5bf11a28e71d9",
+      "bytes": 936
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run24.py",
+      "sha256": "e67c14443c5a7e65b9874f6f846151e0e1f706339e40cee4f440de6651df450b",
+      "bytes": 938
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/run25.py",
+      "sha256": "d9ca4c3db14f441c7d22954f92b04565e61043bd715327b730dbb30bceeefb41",
+      "bytes": 1078
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/scope03.json",
+      "sha256": "f6de150b63bf6c6f0595c3d477d2fe74eae1d3549f5f91185466bcee626e0503",
+      "bytes": 4870
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/scope04.json",
+      "sha256": "f8a313d621a7861ba39457fe4f85bea1543a38fa88b4f04d4804c15f7445fa68",
+      "bytes": 1613
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/scope05.json",
+      "sha256": "190a5f0abd581048deb1dc30dd15432468e277fc882be6cb66b7756bb00d4ffa",
+      "bytes": 1607
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/scope09.json",
+      "sha256": "e2eca495afbe01dcc00cfdaa87969aeb718dde2ae1bf9052abe4126a360bbea2",
+      "bytes": 1563
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/scope10.json",
+      "sha256": "e2708c88a98490fada87390e91c9010f6da7472517a24a3b5ab9c85d19b91fd8",
+      "bytes": 2204
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/scope11.json",
+      "sha256": "37750b0ea84ca04be439e58b1fa9303c729e7706bf057bab1b09b40426b4b849",
+      "bytes": 2540
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/scope14.json",
+      "sha256": "83099b25a762d8fbf968e54bcfafcab923c5e7510f4da75ecdd1ab9b6a9f1a66",
+      "bytes": 2878
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/scope21.json",
+      "sha256": "920dc2d7effd4ba04a3fc1e50ea85d913885c43409cd079158ed78fc06cf2b9a",
+      "bytes": 3250
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr01.log",
+      "sha256": "b09b3df49bc6c7a8a1da1134f4f66162cb72830b9195a1aa9a6fe6963f052ae1",
+      "bytes": 1016
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr02.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr03.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr04.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr05.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr06.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr08.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr09.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr10.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr11.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr12.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr13.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr14.log",
+      "sha256": "f62770d1778d2bd80885035113e26cc7ff8cad0450909a08a2a002939e3b9512",
+      "bytes": 6019
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr17.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr21.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr22.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr23.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stderr24.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout01.log",
+      "sha256": "60ad6c11feb112fa29cb07268b1e95082ed22f1ce3f9a2ba29dd5d18824e654e",
+      "bytes": 206
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout02.log",
+      "sha256": "b290706c6e335f146e22676cf451c6a8757c0eb734ac5c303c94482c11c2e502",
+      "bytes": 2833
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout03.log",
+      "sha256": "0473b24310f73179dedc3ef002e7dc1b0ae004a1428bcde887d2cd5cac31f991",
+      "bytes": 16210
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout04.log",
+      "sha256": "7fb5e894cde01c8d5aa4afe47a2ddff82380375e847de6abb8ffd73b0eaa0b74",
+      "bytes": 6736
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout05.log",
+      "sha256": "bbbccebb1ef5056b329f3405065dce248452f10d94a1a6d4ed6d534d6744af9e",
+      "bytes": 1283
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout06.log",
+      "sha256": "666948164fd80f8a24e46a919ccf3f124bf77670e3d61e660b560ef432916ef6",
+      "bytes": 952
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout08.log",
+      "sha256": "ce0d75ee0575f26564e57fe588700185bff2c3d9d80dcc1435aec006ae652e16",
+      "bytes": 588
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout09.log",
+      "sha256": "8ba8762c32e395655a379f3f2c344f2c4a3869376a8b4447fbbd4c9f62e07cdf",
+      "bytes": 36666
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout10.log",
+      "sha256": "1154e0234225c7a69f75e1311f3bba27033ab6250c1f416733d46557334ad979",
+      "bytes": 36666
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout11.log",
+      "sha256": "755f49882624abd8a021b5a370c2e481d26701d74f2e32470b9c911e70c342f2",
+      "bytes": 36666
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout12.log",
+      "sha256": "09722d52bfc45efe883a7a92f29d9e2f78d4daa9bd2f30fbe47b266cfcbad27b",
+      "bytes": 2461
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout13.log",
+      "sha256": "7c28cacf44bbf435eec89319a7be8380533835eab3d7d2fc94ab705fde0567c5",
+      "bytes": 237
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout14.log",
+      "sha256": "780886ddd9467b1ff9ea6ad44bcbfa6356bbcb94bf491f66911b9eeb32d68853",
+      "bytes": 211
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout17.log",
+      "sha256": "87c58f22c3feb7cacc2830f028294b844d8ce648e4c44ddb17c2d20750ec970b",
+      "bytes": 38663
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout21.log",
+      "sha256": "7a5b64e1b6cdefa1ab7cd63e97eee72d61e8d6e15e7c483a7f103acfe2e517f6",
+      "bytes": 37169
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout22.log",
+      "sha256": "527567fbd824162d29c9a09bb123ab3e5ae0268fe2959e2e913ce7115808a463",
+      "bytes": 2448
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout23.log",
+      "sha256": "b68af0ed3dac772edefbda9bb42f27638fe6c2b7bc1400b26dcaa7f74784f46f",
+      "bytes": 237
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/stdout24.log",
+      "sha256": "deaec02c7443a5d97b7ebd41d1aed648b254b06bba4e8d822617c44095c833ce",
+      "bytes": 162
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/validate28.py",
+      "sha256": "c59302af39a6812b300cca39bbeb6f2c138c74d88670c11f5e87c38d0296091f",
+      "bytes": 2609
+    },
+    {
+      "path": "reports/p1-018/research/roof-render26-review01/cooler01/validation28.json",
+      "sha256": "fb533059efd9bcba0077c3e381d21d8dfe81eaebe918028e26dd1490a92c12fd",
+      "bytes": 1282
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/HANDOFF05.md",
+      "sha256": "3017385190b66676d7789269ad90bfc9f5fad030d546c343cc9e4134ec447625",
+      "bytes": 4496
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/command01.json",
+      "sha256": "367ba0ef4fcba3c33d72884e2646c641681b079248e56e89731fa42e8476b33d",
+      "bytes": 383
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/command03.json",
+      "sha256": "6f1d752af8e7917534491719f61fe4dcedd5b1a5abd4a6c5e1e0046b688b8f5e",
+      "bytes": 386
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/command04.json",
+      "sha256": "a54500d4bc4b25bc3d84c8fc59f6e83d432838398886246eb8fc07349b8811a4",
+      "bytes": 296
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/controls03.json",
+      "sha256": "0281d2daad7db9f2c96e9eb461c7ef94004a4037480fbd3540c6cd0339c1c853",
+      "bytes": 12638
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/controls03.log",
+      "sha256": "13fb3bc8c069d09d938a90323d452e850c30fa2b54647c1ee678f49540d1ebf9",
+      "bytes": 3290
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/controls03.py",
+      "sha256": "45971517dc6e2f7bb60d2f79150dbd16d81f1d5e0242316948e9dc710f9d28be",
+      "bytes": 5202
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/freeze05.py",
+      "sha256": "16c5594b17c6223747217e01cba15d06dd3bf29c5194b85908a7d8cb87b09eb0",
+      "bytes": 2410
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/handoff05.json",
+      "sha256": "ec428c4b633b44a53c0ca3bbf6a80bb921edc2db34e32f59ce99553d379bf8ab",
+      "bytes": 6724
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/native01.json",
+      "sha256": "4c79ca0330cb4440f70fbedc3241d4aa92d58358e7793540755a9594e4681837",
+      "bytes": 155515
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/native01.log",
+      "sha256": "21da615fb2f3823f3a25c649d463ac79f8f147575c4d51d533e3f0733c996144",
+      "bytes": 542
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/payload01.json.gz",
+      "sha256": "ad8fad41b61a5ea3030683f5d53be0640cf369eba34fefcd1612db7e916b84eb",
+      "bytes": 164862
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/positions04.json",
+      "sha256": "2e7e932282651474a191d10e77465c30f6157cb8d2c098b85c793c1282b0ad27",
+      "bytes": 11155
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/positions04.log",
+      "sha256": "cd3a43f802ba7aa48cb6302b1f1735f29e5e4e77647b9b2c245bd6cbb53be3f0",
+      "bytes": 612
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/positions04.py",
+      "sha256": "b734733ab61837367dde278175509129697c9ba7a9d66ea2ab9eba6febf3ead9",
+      "bytes": 2305
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/probe01.py",
+      "sha256": "6a7b92d644f8a1936c37c9ea1325efc187fb86fa36fc35295addda7ac10081cf",
+      "bytes": 12346
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/scope01.json",
+      "sha256": "9031e01bc6a4fe51387ad891e8c6fdfdeacd624d93691370bb5a87a333255362",
+      "bytes": 3037
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/source_display_cycle02.py",
+      "sha256": "337329911431ab10060b618e2577c773223c235b6608e723461ccbb9db29599b",
+      "bytes": 9036
+    },
+    {
+      "path": "reports/p1-018/research/source-display26-reopen01/sources04.json",
+      "sha256": "514fa0ea411c5f6a5263cda3e8816bf28c52a9f4a52062df33bab6ec4982fa5c",
+      "bytes": 3087
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/HANDOFF20.md",
+      "sha256": "860fcfab98bc7113487b33792f4ca6b37214e53421af63d46d9ab460017dbcd5",
+      "bytes": 3133
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/PLAN.md",
+      "sha256": "b3f941560c44bb94cbfa6d5a00b2166e3cc54a69e8bc16e2fc53ca6338cd91ca",
+      "bytes": 1500
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/before06.json.gz",
+      "sha256": "207b2b97035bb5d8cd9c71290dae149829c09575433c9ba2e262de2b93b54d69",
+      "bytes": 9202811
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/candidate03.py",
+      "sha256": "b0f5ffdad70c85e4d1c2458c8fcd83710375675c4efea57791821adfde9c1461",
+      "bytes": 11129
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/candidate05.py",
+      "sha256": "08873631986a866fb4429272661f2f9632eb0607a2b3e01c076ac95de947c82a",
+      "bytes": 11159
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/candidate06.json.gz",
+      "sha256": "0a6836d04abe6b945d75bff9ed075ace504c04c69ea124c7a03a28e4b9c84500",
+      "bytes": 9184989
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/candidate16.py",
+      "sha256": "00c57a86be708fc8cd930558ea74c9f108eef93b38917666d5d7f355aa9c8533",
+      "bytes": 11457
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/controls14-command.json",
+      "sha256": "9a0412f93a4cb42ac584d87cbe20899236ca03201670805c61576d6724163c85",
+      "bytes": 940
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/controls14.json",
+      "sha256": "86ba7f16981a35c70768c6f08a0253fd900e5043072aa622d5171c4e6f876d50",
+      "bytes": 2190
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/controls14.py",
+      "sha256": "3da9801a3dcd53a215854cb480da32dbad3c3515df5956cf4f64fe2c898b0fdb",
+      "bytes": 5082
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/controls14.stderr.log",
+      "sha256": "34b7066ceca5bbc3e73226d3f98949ab33bfd07071c5aed9603db160fdcaf2ae",
+      "bytes": 775
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/controls14.stdout.log",
+      "sha256": "4069ba8d62614e4577783effe22d0dac55c0fdcfea0dd7973ac6a1b18bb32d0e",
+      "bytes": 1170
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/controls17-command.json",
+      "sha256": "b91caa196e5a56f1ffbe0a82c893e2d489311e85a9a99ee8362aefe50e85b60e",
+      "bytes": 940
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/controls17.json",
+      "sha256": "f7f84ee1b4e142d6069b6292fed0ea088d28d1e303db0069f39d52bb6bfa18f1",
+      "bytes": 5532
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/controls17.py",
+      "sha256": "143eb4c06e49ef5e5b438c82d22f1e5037cbf178c69799e29f975c320bb9c833",
+      "bytes": 5105
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/controls17.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/controls17.stdout.log",
+      "sha256": "ae59db97951a10b06551656516b5cbf8378955a4e401baabd62ad59254e9ad7a",
+      "bytes": 1354
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/drivers08-command.json",
+      "sha256": "93114964f8a59d4468cfbd3d4a55ce7bca5d330fb5fdd8352ad81bf4b0f45630",
+      "bytes": 939
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/drivers08.py",
+      "sha256": "bdcf4a1b7aba8f8cf1211de4d710c1909ce2846f345eca29661010759fcdd194",
+      "bytes": 631
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/drivers08.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/drivers08.stdout.log",
+      "sha256": "ea318cf4f56b60de8fab72916e2713e989467abeadd0532bc366605b3ea455e3",
+      "bytes": 513
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/finalize20.py",
+      "sha256": "7777f714b2a82e6ca18a4045399d591eb1990a5d55f20045303b379579880612",
+      "bytes": 12273
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/fit07-command.json",
+      "sha256": "f291affd30e0c195630768132b024f50e2a90561d9d71749fe42ff785b659148",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/fit07-summary.json",
+      "sha256": "c4722010ca28228978ba6e36649f21dd00b94977eed032dcb2520877aa8279df",
+      "bytes": 245
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/fit07.json.gz",
+      "sha256": "42043f84f29958f438fe62df53a321012f851a66b23a7a24fed04a374564c05c",
+      "bytes": 1103474
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/fit07.py",
+      "sha256": "2a748ccff09397802070da6d1a05274cc28c48d071b3969ae5217a47a21ae8c8",
+      "bytes": 4492
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/fit07.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/fit07.stdout.log",
+      "sha256": "e9a04c3d6046a3aba79331682a3e6b4d8b626ec7c2e13dd2033b11f9148ecd19",
+      "bytes": 730
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/inventory21.json",
+      "sha256": "69e23ebd39e2d902201cba930449c382c95653be0e6009a89065306f24560615",
+      "bytes": 26117
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/lod12-command.json",
+      "sha256": "3506fbe09e94bb67ed189352eba41007dfc9956ce69b5f91a72c7770401f2423",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/lod12.py",
+      "sha256": "9b28808494974b2585202dd1b9b7c64c9f46019f6dc5dfde8d65109e0969753f",
+      "bytes": 4880
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/lod12.stderr.log",
+      "sha256": "7eb8b5613d278c4a1ad6fa8608aa0c2e3ffff27f9033d7b38907cca09a969762",
+      "bytes": 1495
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/lod12.stdout.log",
+      "sha256": "9a2463a436c41613ba66c41d998a54846901c965f66840599e02aedbfbeb5b6f",
+      "bytes": 211
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/lod13-command.json",
+      "sha256": "184dc50ffec143f1521ea12a6c48abfd884ef308e3dc5b177b927b6483b7a04a",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/lod13.json",
+      "sha256": "bf8484b84d35f6bb51613d1803c2df9e859ff78e52d5d5dd6f0d0e374ab34313",
+      "bytes": 334185
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/lod13.py",
+      "sha256": "9e9533aec58ef1fd7a26edbcb98a9c7541693ba12e9f03d8283fe7392d9a5b71",
+      "bytes": 4889
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/lod13.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/lod13.stdout.log",
+      "sha256": "248acbb60167624480905bfb39c23bfb381b7b247ca26ca015f16d563a39df4d",
+      "bytes": 433
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/measure04-command.json",
+      "sha256": "e3e241fb665d664c4a5dd9250aaf37a69f237d1aa9fceb1d7bf74589187e66ef",
+      "bytes": 939
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/measure04.py",
+      "sha256": "d01d82e7ec196c7311117402e1036bd7494e2cfc72e532eecbffaec2305d0766",
+      "bytes": 2742
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/measure04.stderr.log",
+      "sha256": "093d26020003c221a26b41350fa6764992f2ba26f6578295aec79c476c6c97e1",
+      "bytes": 695
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/measure04.stdout.log",
+      "sha256": "f28dd555983ded684b8d28f9494bffcbe6b16a7f64ebbb3bf9d7d5e7eaaada84",
+      "bytes": 211
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/measure06-command.json",
+      "sha256": "1f561db154778098a52c565d38f799c5a579de06b44c0d7e3a813115e3ac6a35",
+      "bytes": 939
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/measure06.py",
+      "sha256": "571db1c30faca83b6e23199e412a527b42e5e72a7b1ff72fc09f024ad7704af0",
+      "bytes": 2742
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/measure06.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/measure06.stdout.log",
+      "sha256": "c7444d7ec0ae5e19156a7a3a4615842677ce869d2515721319845c74cd099a9c",
+      "bytes": 845
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/measurement06.json",
+      "sha256": "32b6176a95790a23548c9b1cd07e775bd8d11647aab0d19c9a05c9df40d5c5a3",
+      "bytes": 234844
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion-controls18-command.json",
+      "sha256": "58ebd9659d1eec92ac0ba8523bc2152c77b72f9ba1a0d05d40b0122dd41fcc13",
+      "bytes": 947
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion-controls18.json",
+      "sha256": "c1aac6861c2dda84d327390e55de1917219ae769ae75d2c21e582c81418161b6",
+      "bytes": 9060
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion-controls18.py",
+      "sha256": "de38a4d8d50251b4f2b7fe7b213a17a8dbaeb7f04e51b6e282bd8ca074897346",
+      "bytes": 6120
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion-controls18.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion-controls18.stdout.log",
+      "sha256": "b730b288b76611ae8662bb3a732fca5a54a96a35ac3afed5f33260ff67fcdf7c",
+      "bytes": 321
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion-drivers08.json",
+      "sha256": "5f215430574a5efac07d115647b2dfc5218b6a855705304cf2def148ce4e7ecf",
+      "bytes": 60308
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion11-command.json",
+      "sha256": "8bccdc363a4e53c9200e10b8e1da0d024aa89d0fa6a9e3e84308dfae7ce3fe9e",
+      "bytes": 938
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion11-summary.json",
+      "sha256": "5bd5ab76310ddcb135068b2f6ccff4c33868d6c80220d64e9511da58f0017a53",
+      "bytes": 121
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion11.json",
+      "sha256": "4eb175efc14a01c5c52946c4e695035b6bad9b7ba12023705cb6d790d7697060",
+      "bytes": 2763082
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion11.py",
+      "sha256": "05304ac39bd50d54d8f612fb4e9146baae2a29c62a610ca56688b99078cf811d",
+      "bytes": 11080
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion11.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/motion11.stdout.log",
+      "sha256": "d5f166f4d149156726df2dd4b4281607356d944a47a7bc9016e7b83920a923e8",
+      "bytes": 20084
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/opening-drivers08.json",
+      "sha256": "6f5f5d86c60345400991b6ff21e0019b47a4d3694b643c2a146fd8c91668bbef",
+      "bytes": 34123
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/pose09-command.json",
+      "sha256": "8598b3253b42819cb1fb2b62e72e7e6d4f510fd0ca82b7f21c29ee6fbbb324ec",
+      "bytes": 936
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/pose09.py",
+      "sha256": "dca8c8549dfdb93ebc770cc3807a6e05e4b10d25e0c428be03e9c144fe33cde9",
+      "bytes": 5558
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/pose09.stderr.log",
+      "sha256": "3c105845fae29724c0058763ec1981ccd0512a86346f18abb68f3fea0c672a93",
+      "bytes": 471
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/pose09.stdout.log",
+      "sha256": "f28dd555983ded684b8d28f9494bffcbe6b16a7f64ebbb3bf9d7d5e7eaaada84",
+      "bytes": 211
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/pose10-command.json",
+      "sha256": "0711d30d5eb5800b806b7d8db57e06a1e5ce56b74c11a40dd4409bd73a74db65",
+      "bytes": 936
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/pose10.json",
+      "sha256": "cb3e089685472b86ebb5bd5b6bc311a8a0e02f86e357a234dcb55f58e9bbb366",
+      "bytes": 189983
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/pose10.py",
+      "sha256": "6dbdab653d21f3de5b9295e16a04530d1e7da073776b96ddf06e1ae938518b4b",
+      "bytes": 5565
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/pose10.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/pose10.stdout.log",
+      "sha256": "0ac56326b9b956bdf925d1a1fa76b24ffff412cb9f1f3778b14097f5e4406d4e",
+      "bytes": 313
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/preparation01.json",
+      "sha256": "4909818e4a0c9058b408c3cde519eb1927447521cff0460ff727eeb2ec9b9b8e",
+      "bytes": 19358
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/prepare01.py",
+      "sha256": "0964e90794d5609f5b480e01f37331d8c5ce103806628e40599c5e9797d618d7",
+      "bytes": 2177
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/probe02-command.json",
+      "sha256": "ae85798184d5980cb90e35ef8ee87cf9157c59c0f88dec2b06038f215bd2a30c",
+      "bytes": 937
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/probe02.json",
+      "sha256": "0e61be8dd81d42e848486a43ced661d2ed52516f51d2ca4561fcc850bb79082a",
+      "bytes": 1895172
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/probe02.py",
+      "sha256": "bf906af515f736adbc62e081f628307ab4f67e92afac6805902d175531483302",
+      "bytes": 5106
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/probe02.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/probe02.stdout.log",
+      "sha256": "548db1f1bf37a1d979afa2ac4404f8830ecde2129962795a51a58a781536c677",
+      "bytes": 297
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/rebind19-command.json",
+      "sha256": "e505620b749406aa459b1106bedf1070bc89b970b50846d3ff547859b9bb5162",
+      "bytes": 938
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/rebind19.json",
+      "sha256": "7c7fec0e4cfdc15e8ec6ef2f141f96a52495b63ff96d12ae63cde5b87b2cd131",
+      "bytes": 301941
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/rebind19.py",
+      "sha256": "7053691a1f9700004ce2615b669975441aea3564e010483ff12c55d0acf58998",
+      "bytes": 6529
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/rebind19.stderr.log",
+      "sha256": "0fa83c9e50e552a582d36455fe46ce87ddcc212fefb52e1ce0299567838e74de",
+      "bytes": 335
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/rebind19.stdout.log",
+      "sha256": "3cd350d20daf7472ad47e8dc45ede2e6d0005055821235fd1f507bdd8bcce893",
+      "bytes": 1842
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/review20.json",
+      "sha256": "ea5f1e91de148c1d60db0877484809c655095128f15d336d669a1f189d2b544d",
+      "bytes": 11145
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/run02.py",
+      "sha256": "35447d16c5ec9ae7de8a5d09fc8241664e1ea63fe5a40b0366f8432974ca6859",
+      "bytes": 1766
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/geometry.py",
+      "sha256": "0b2386b99c18e503fe4562a085996a4e8462f40d38dad53583eeb63bec7cb9ee",
+      "bytes": 12409
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/__init__.py",
+      "sha256": "64e634a0372701a56e43932418fff910132f00bdf6bc794fa0a755b53a952336",
+      "bytes": 72
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/compose_candidate.py",
+      "sha256": "7c72de866db12615bed73b7c84652814be4d5bf95cbc31a4dd759ca3102f71bf",
+      "bytes": 2375
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/contacts.py",
+      "sha256": "0e24a62f67e6faadbd9b865b2e3f026800218939e63f2a6a80c720b3753ea9fc",
+      "bytes": 6666
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/cupholder_interfaces.py",
+      "sha256": "bbbc837a16b348c315661f94f7c4b80af4742a52fcd48bb77d303ae14d65eaf2",
+      "bytes": 34143
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/driver_fixture.py",
+      "sha256": "ac3989356c436cadc54b1e34ba838593cfec1b4a4483e4c03255296e32d62b80",
+      "bytes": 1380
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/exact_triangles.py",
+      "sha256": "deeb297f158a9673e344f062726e687ce86bb294d94d188b2abbdcfe86b1d106",
+      "bytes": 3388
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/extract.py",
+      "sha256": "04f44003f0d8db500f47dfd70f9f9a9e871601cd2b906839b2d9d7a4c5144a68",
+      "bytes": 10723
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/finish_interfaces.py",
+      "sha256": "b31b4f6f6436d5f3b22535335f96a73ec206fd92a6084bc045c9949434c2429e",
+      "bytes": 33714
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/finish_report.py",
+      "sha256": "1129f1cd3d6e5d1682deb0fc1bff9801f39d8894b171afc11db0fac133c49c95",
+      "bytes": 12740
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/fitted_interfaces.py",
+      "sha256": "679eb6ef74604328d0ba5e5c29a328749d58ec54f93f4904e07deb7a86cf79c9",
+      "bytes": 16107
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/gate.py",
+      "sha256": "4198dda0a08271832c95b7c96f11d1c51eeb6d641bee5f23780939d8bdd7b934",
+      "bytes": 25062
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/geometry.py",
+      "sha256": "49ba453c158f7831106ba5cee231105ec8824b3162bd520e16fe5127af2b57e1",
+      "bytes": 6154
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/initial_containment.py",
+      "sha256": "70a7d97cfc11a953dd3cdc1b39e10e68da4725a6853440d969b98d0680282130",
+      "bytes": 6092
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/lod_self_controls.py",
+      "sha256": "5b8cf6458b272f78b4f76a35a9db6d231ad59e85adafa3282bd1bee79e558f33",
+      "bytes": 30407
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/lod_self_intersections.py",
+      "sha256": "7b9630a9709f0fceb9938a628a9a6c485574e34708392c160c0b1d884ec29d6c",
+      "bytes": 7206
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/motion_drivers.py",
+      "sha256": "70e76d1d95c0ada11812fce303ee2b1b629df8109ee67af63876a6e35bfd1083",
+      "bytes": 13250
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/negative_controls.py",
+      "sha256": "7c5eb3f3da75d9b3d342562226e47d7ef3a331abcbef98514d464231a19cc769",
+      "bytes": 9043
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/negative_fixtures.py",
+      "sha256": "15e6e4d5805ecd9e7c60ce9ec91b1459145d5236eaf0881c6015406f271f5ebf",
+      "bytes": 8577
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/opening_drivers.py",
+      "sha256": "5983d073051c57dd89a238c0dad7af50695b3fa6a55784954ae4f5f4ce7bd0e2",
+      "bytes": 4591
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/openings.py",
+      "sha256": "68348725709cb7b32aea1dc79913e70f1186a05237a7c66940461b1cfac4931b",
+      "bytes": 13332
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/optical_seats.py",
+      "sha256": "1b9d57e7049a021610fad0c607b2d16ca305f7f46d9b5d40dd7a7849dd11ca4e",
+      "bytes": 9465
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/precision.py",
+      "sha256": "ecf51ea1f89527a4be23aeff92f1747c667212be110064f0a943c8241693b0c0",
+      "bytes": 2438
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/restraint_interfaces.py",
+      "sha256": "70a6e1a79b279697c50d65f81eb88a6fb4894a316e78bcab83212d4a8d3f3c72",
+      "bytes": 4446
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/ribbon_self.py",
+      "sha256": "fd05d89f976a014adf7fe9a45b937e012fd93faffa979d82258c8ef6a83e282f",
+      "bytes": 4600
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/run.py",
+      "sha256": "5157f62e8d36fee350431ecbea52306cd43ec060b30ad1da0b01fab1f0668aeb",
+      "bytes": 17220
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/seat_finish_interfaces.py",
+      "sha256": "eb818616820d7255d472bba806b91d7cbf983c95e934166469b23e7775969bad",
+      "bytes": 17555
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/seat_finish_report.py",
+      "sha256": "cf05129715fc563694416df3262e168896f01a4308222f016b0954418d3a38e7",
+      "bytes": 20123
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/seat_finite_geometry.py",
+      "sha256": "c3ec561725bdfcb0b2aea378155cbf32ebf2fef134ad50125350c6610be476f7",
+      "bytes": 17057
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/self_controls.py",
+      "sha256": "81db5fb81fa8293cdb56b90692eb457ddea49b371ca16499eac251d3dd494ed6",
+      "bytes": 34897
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/self_geometry.py",
+      "sha256": "280983d38d6c3d88dc45922787f95298139b42edd452b381621fe0ed0ce7c7b2",
+      "bytes": 4665
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/self_intersections.py",
+      "sha256": "5430397a37fb809609bc5ff17d5ed5c57bfe4dfa5964e3a732eb7b679e1a59ca",
+      "bytes": 7248
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/shoulder_check.py",
+      "sha256": "5d3c1259319673108b6bda83dd1227ad49311b4b52a2b1c148bd9739258f1464",
+      "bytes": 6996
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/shoulder_checkpoint.py",
+      "sha256": "ae67889778b6b4106d201d45e0ca7825fa0eec6f2317572874c487dea656c092",
+      "bytes": 6049
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/shoulder_report.py",
+      "sha256": "98e71b802a100d88af8a945e771825d31fde19cc9b1888611a6c86b9a9d045aa",
+      "bytes": 22423
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/solid_interfaces.py",
+      "sha256": "52bc74a5f5ae0c011c6acbde98a261844ac78d76ca2a72400793087fda91cd21",
+      "bytes": 13528
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/source_controls.py",
+      "sha256": "e94d13c3303aeaf081206b669c683261983cb98779865044918b75fac1623ceb",
+      "bytes": 11076
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/source_lights.py",
+      "sha256": "de53b916bf82a3142a3d5ed61097e2cf3335038dfe54acd46a76a769286c1f63",
+      "bytes": 7420
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/static_interfaces.py",
+      "sha256": "6d0af77239e30e6f68d840312fec5ad583e01826408a85db11cdd0c8fad1ffb0",
+      "bytes": 14458
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/surface_minimum.py",
+      "sha256": "636b49100e92c5ad08e55896e92380c9024a6ded6df597424ad0d08ed2418188",
+      "bytes": 3050
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/tires.py",
+      "sha256": "a5bfc2f27e4c913fd4c698b3956a24899616713d9333323ae2e115442713d917",
+      "bytes": 15357
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/wiper_initial.py",
+      "sha256": "6bbdf58006b9f45f9352a28fe4e20b521f379106635e51d214063bb04d92fa15",
+      "bytes": 6259
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/wiper_interassembly.py",
+      "sha256": "478c1fff4dc51543ead18ea3d8e906bbc91c2f765e9fba1d44e2b4a18f0164d1",
+      "bytes": 13432
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/wiper_negative_controls.py",
+      "sha256": "bfe316d1e0a917e10ff329e9390d92a89812edfa18f7a2ac8e8ec814c351dafc",
+      "bytes": 4883
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/qa/wipers.py",
+      "sha256": "c54c206544f18e381782d2dcc05f99503b08eadc289fecc8c9391b848b93918a",
+      "bytes": 12263
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot01/tools/vehicles/endurance_sedan/wheels.py",
+      "sha256": "05034d74b4422ace534670820bf3778e931f75beac4f18d26ece9a922a4201fd",
+      "bytes": 6903
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot12/create_endurance_sedan.py",
+      "sha256": "1127097440de3f14e0bcc8556f8d49df1f233fa1dad3b783df19b84547d77f28",
+      "bytes": 9760
+    },
+    {
+      "path": "reports/p1-018/rotor-reserve26-proposal01/snapshot12/optimization.py",
+      "sha256": "d97f270d187cdff013291d9a478c0967d4c049d6ca07280870d854d47b95e9f0",
+      "bytes": 12832
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/analysis10.json",
+      "sha256": "a19d4181445c3655004a13d46f8154120c54d6f425df2d8a044bb081222f5834",
+      "bytes": 423290
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/analysis10.py",
+      "sha256": "634e4cdaee90d7f7aa571dc898b3ad005849f1423706c46be8b67001f855a9ec",
+      "bytes": 4608
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/analysis11.json",
+      "sha256": "dcb84e2ef8d572bc88490eecaa25f6bdd80010a4cacf327cf32ae24fb76d88a1",
+      "bytes": 440782
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/budget-inputs12/EnduranceSedanPresentation.cs",
+      "sha256": "253321c8a2f061b3bb69d642cd5fbaf1521068d2fc0d397c54d513e19ebafba7",
+      "bytes": 32712
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/budget-inputs12/EnduranceSedanPresentation.tres",
+      "sha256": "547594005699a8750e216e53bc4ea54dbf2a1cfd83793bc971f7ed89da014202",
+      "bytes": 894
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/budget-inputs12/analysis11.json",
+      "sha256": "dcb84e2ef8d572bc88490eecaa25f6bdd80010a4cacf327cf32ae24fb76d88a1",
+      "bytes": 440782
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/budget-inputs12/generated06.json.gz",
+      "sha256": "7a71ec1cfbd467677f4c4bc20a7738cae2c231bf9e0b2a4fd53107747d0135b7",
+      "bytes": 4171371
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/budget-inputs12/lod_paint.py",
+      "sha256": "8b012d0ba3fb6751edb66522b86b0530190d50db3e695bfb8cb3e552b4bb5e86",
+      "bytes": 5367
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/budget-inputs12/review06.json",
+      "sha256": "4e0bd27a3ec142b94d44dd2e6021ce0c8cf77549fa57b18a7e618161d4eeceb5",
+      "bytes": 1401
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/budget-plan12.json",
+      "sha256": "b8bb1f166116ed4f92056c8d0ee6754d04075d3baef93222d6f11c9003379142",
+      "bytes": 17064
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/budget-plan13.json",
+      "sha256": "1c957e98a80315b72c3dc74682878e26a9e8dbcb85c9941f1fb61a0cadd22805",
+      "bytes": 17377
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/candidate05/lod_paint.py",
+      "sha256": "8b012d0ba3fb6751edb66522b86b0530190d50db3e695bfb8cb3e552b4bb5e86",
+      "bytes": 5367
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/candidate31/policy32.py",
+      "sha256": "407ebc8f5e946c2157e19948e44e6c2da1d431960edb4b3855cbb1e3bd4e8da9",
+      "bytes": 3564
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/candidate31/selective_lod.py",
+      "sha256": "1b29280b3b4a5572e9d3c1bb050e23121132123378b4042013fae3125e4a5750",
+      "bytes": 12650
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/checkpoint56-inventory.json",
+      "sha256": "3fb4e7b875e576427fdb0c8e28ea06497283b56ddfd3f6771bf634f22c2bf42f",
+      "bytes": 78383
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/checkpoint56.py",
+      "sha256": "50642ca9d4411b215a9b9637d16a8c72dadb54d14f218dc5a59f75b21c351749",
+      "bytes": 5288
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/controls07-command.json",
+      "sha256": "e1234aa10bc498a738515ceb9b88266c689c0493fe3e281e85493d24d12f9e67",
+      "bytes": 981
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/controls07.json",
+      "sha256": "8a787e5b542b495a3a5ec1d9b6c8687ea333a59cf22d0a9356cdc05c0aff3f2d",
+      "bytes": 6138
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/controls07.py",
+      "sha256": "cf77c8c5bb842fd86cc7f32a99f23853d2f599e67d9893f6f83a7af5da661674",
+      "bytes": 5210
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/controls07.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/controls07.stdout.log",
+      "sha256": "8d22ebc78d898fd4995124ef9b3fea92890d939f96290a4b23803fb3baf49f82",
+      "bytes": 121
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/controls37-command.json",
+      "sha256": "15e818163e166f58199724f5bae480e58c8761a110d1d1863df61b6831c01916",
+      "bytes": 981
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/controls37.json",
+      "sha256": "fd8f116dc034da38cb0b5ed34d535b75832070e81167bc75bf1e34f98c12b808",
+      "bytes": 3462
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/controls37.py",
+      "sha256": "cf310336ff508d16113730ab3be49ef09e64ee489e74e4a7d3724e6340ab8eb9",
+      "bytes": 7016
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/controls37.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/controls37.stdout.log",
+      "sha256": "e1e4cca084005f19049b5501c1ea0126d0fe6a3b937cae0186e0e37f5788a051",
+      "bytes": 112
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/correspondence38.json",
+      "sha256": "1d7ec5ed929eb955f6aecdf0913093f761c3c54d91ae4f3af0b253b3799decae",
+      "bytes": 37280
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/correspondence38.py",
+      "sha256": "b9e94fb6ca58643e167926ee366bc38a07fb0b14ba838f92ae95317d702f6a51",
+      "bytes": 5633
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/domain48-command.json",
+      "sha256": "4bc8cfb33375bb2885b4c2b2cad049ff273796e58d33159fcc24999a52880eac",
+      "bytes": 979
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/domain48.json",
+      "sha256": "b15e56c8f7adc9e0b9cb44237ba124887f3ea3a087f37ccc1d1ad531640d4957",
+      "bytes": 21962
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/domain48.json.gz",
+      "sha256": "9d4c098a3f5728661ee8d509e14c5dc97a4a52c4cd715ba099f43c54f24de106",
+      "bytes": 692765
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/domain48.py",
+      "sha256": "5c549a66986e98af5ab0bd03152508900e7c63c8172f268411eb9a28209de38a",
+      "bytes": 3533
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/domain48.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/domain48.stdout.log",
+      "sha256": "662c750f79a5dc306cd48e1f1f50ddaff7df5100a0ae60b338f90802068c21ab",
+      "bytes": 5046
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/domain49.json",
+      "sha256": "a06da8b8420c5bdba9327018a1d011cbb3f63a855b031bae2082e5bf3b49c419",
+      "bytes": 86155
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/domain49.py",
+      "sha256": "1427af2a3be24da9592430e2aef92b76a5a524b2e0adb6f9bd58f96b20901ba9",
+      "bytes": 2404
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front-band40-command.json",
+      "sha256": "5b2edc7945957b2d0b0dd5936da1d1da035e6ab98d2acebce9786615858e055b",
+      "bytes": 983
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front-band40.json",
+      "sha256": "5d4eeebc8f72c869ca3b2cd3382576cf2883698aa1bab495bca04abe15bd294e",
+      "bytes": 27961
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front-band40.py",
+      "sha256": "43de1674726b9e33cd6d57fe3f1dc96c4f2e0fd7565f1d2c1d3a588cb635c604",
+      "bytes": 8861
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front-band40.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front-band40.stdout.log",
+      "sha256": "9f222c5d23be865896d9f41af9e8a3fb29e50ca485ba1060fa3c5bc783d67bee",
+      "bytes": 1582
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front43-command.json",
+      "sha256": "2917e6dc0d17f49f2ee378cce23f104c9ceb157e12d384b00c720dfc5608295b",
+      "bytes": 978
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front43.json",
+      "sha256": "17ff08ec4d30243c831017f62f4451eeadd31af5249e0e46672569401f414495",
+      "bytes": 256563
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front43.json.gz",
+      "sha256": "f0829f7a7c1da0b8cc3c30d8309288c9f2129ea1ed9e08c3edf756b9b120afe6",
+      "bytes": 84188
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front43.py",
+      "sha256": "f74e5a48d5cb78b0c0799e59de6cd830dc39b94b80cfd8d70a8372befa93a6f5",
+      "bytes": 4982
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front43.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front43.stdout.log",
+      "sha256": "932c5c2f23c1d86838f50264b696d7b072a06ca1b5d70d909dacaaaab3679b64",
+      "bytes": 346
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front46-command.json",
+      "sha256": "f5cfed89ccab6fb6e3028588b854e14abacd476333e9f14f340377bec26021eb",
+      "bytes": 1027
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front46.json.gz",
+      "sha256": "85dcf8b6ae0e4d30c24fd94a4637d0da4562f7937f633cfbc234b28a84dd4d7d",
+      "bytes": 677914
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front46.py",
+      "sha256": "529b1f57f707ee82ed402fd7aeb1f8d376732785997acc6f9fef9f02da1c0733",
+      "bytes": 5611
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front46.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/front46.stdout.log",
+      "sha256": "e8d707ecf4dca993098562e6db6b923c02b1cfca34a94679593a0b896053ae4d",
+      "bytes": 1292
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/generated03.json.gz",
+      "sha256": "6bd6ed9f1584339a76a9b00c81ff8fd1d0e64742a156dc2a5e9f4bbe0107ea4d",
+      "bytes": 1709510
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/generated06.json.gz",
+      "sha256": "7a71ec1cfbd467677f4c4bc20a7738cae2c231bf9e0b2a4fd53107747d0135b7",
+      "bytes": 4171371
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/generated15.json.gz",
+      "sha256": "cf95622cc3a4028a07f8e38e11c631028862378e96b0c8e2585c44cd7bbb604b",
+      "bytes": 599606
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/generated21.json.gz",
+      "sha256": "9bce66c350f0a899ad9e3d1b3be312ed59d075df03224ad6b3c65d9cf2289a4d",
+      "bytes": 53535
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/generated23.json.gz",
+      "sha256": "c9bf532917f5edfb7f8322993d601b247386a71dad64e736a6ec277be5e69f82",
+      "bytes": 53535
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/generated25.json.gz",
+      "sha256": "6f7d340148ef894b7394c6179749749a2b053b5955415d53d5d9f3ded3b6b3eb",
+      "bytes": 175314
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/generated32.json.gz",
+      "sha256": "6e195b304737dc79b40f7270907a8b7051bf07c40e3106715a53d540bd44c5e7",
+      "bytes": 3978402
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/generated36.json.gz",
+      "sha256": "e66dad40d315109da1e0312657d2d05dc09af432a548612e682e2d86dc5870b8",
+      "bytes": 3978486
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/generation46.json",
+      "sha256": "bca244e9441c5f92dfb2db63ef4ae3ea74d617a37861e34340f16add9f6d64c3",
+      "bytes": 685386
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/glyph-proposal27.json",
+      "sha256": "fdd417f67ae96f6493f066ac05cf7c297e894d89a09793daeea4833de2a02864",
+      "bytes": 7327
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/glyph-proposal27.py",
+      "sha256": "76ee39d87ef87f3d576f5fc582a95991dc3be782eb868a4d59c36037bc5fc87a",
+      "bytes": 4013
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/input03.json",
+      "sha256": "abfcf42cff80d0eaaff3e513747b05989b737c6654d6e45ea98e06d758922c88",
+      "bytes": 731624
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/input06.json",
+      "sha256": "abfcf42cff80d0eaaff3e513747b05989b737c6654d6e45ea98e06d758922c88",
+      "bytes": 731624
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/input32.json",
+      "sha256": "079197be9383891e79f4f00ad77b245378c8f01b60eeb352471fceaae9abfbd7",
+      "bytes": 649949
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/input36.json",
+      "sha256": "079197be9383891e79f4f00ad77b245378c8f01b60eeb352471fceaae9abfbd7",
+      "bytes": 649949
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/inspect18-command.json",
+      "sha256": "c08110e3684064fb65d480e1dcba60ba4cd7c3a5b86368c77c96f3046fc864bc",
+      "bytes": 980
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/inspect18.json",
+      "sha256": "5685a1617552182b6af72ecb20a0608121bc50f8ff0a26f824c0fe3be882fad0",
+      "bytes": 489778
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/inspect18.py",
+      "sha256": "d135e686540a9aff9728d1d136ee905aefb755d2f5146993a1911c747a4f0ec7",
+      "bytes": 2383
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/inspect18.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/inspect18.stdout.log",
+      "sha256": "66972aea26535d3ca5618d5444950ac03d69e29b61274810899b0f829600f3ff",
+      "bytes": 61078
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/installed08-command.json",
+      "sha256": "49f2bed828fbac0f750adb3179336b17fe6f4ad425e751329f182cd74134ac7b",
+      "bytes": 982
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/installed08.py",
+      "sha256": "3fc328edb635bd1926045093c659620a7c54f9b1e86171ce0df282fe484155ce",
+      "bytes": 3369
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/installed08.stderr.log",
+      "sha256": "2266b6c016b1b88915be7f7b8e2cd4b64eb8d8925754d8eb31465580f9f835d2",
+      "bytes": 979
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/installed08.stdout.log",
+      "sha256": "372b3046c0a54588a0f74d3c0250e13d1952a8a8a3253a97a0c0dcf77cf9d304",
+      "bytes": 74
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/installed09-command.json",
+      "sha256": "d8ff49c507a4e4f69de02d316abe3f42c01e2e4bcf2e6b99e033dc748fe6c1e3",
+      "bytes": 982
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/installed09.json",
+      "sha256": "650870de77b20f6fbd455986f6a21589989654e1b88f7df318bf583b8cd8f5e5",
+      "bytes": 200339
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/installed09.py",
+      "sha256": "83e310926b8b4c879a489d66e9119d3dd616c0fd8cd3ba01d24619c49c93186f",
+      "bytes": 3377
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/installed09.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/installed09.stdout.log",
+      "sha256": "de8c58bf365d4745f367f26c17b89498ab691f2562bb2e0da932fe3c106ec71e",
+      "bytes": 518
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/inventory26.json",
+      "sha256": "9323545e1e99a97821dd5d7b8789ff2cd9813d725df7878970bf1bb6e3b168cc",
+      "bytes": 25244
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/inventory26.py",
+      "sha256": "c3a82d4020fbae60efda48a4c8282d0736f3e2fb3428eb4a14f178da692f61b9",
+      "bytes": 8185
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native03-command.json",
+      "sha256": "e724978f4c623738f38ad28e45fb264087e91d0e5f0a21df0009a62b592fad8b",
+      "bytes": 979
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native03.py",
+      "sha256": "9fc56586b4eff4567cc963159d06854075f39cfffd675959978fb25b5cde16d0",
+      "bytes": 8982
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native03.stderr.log",
+      "sha256": "112688d78b50278198250c6447663451599737c1c2096f311ec8d8c8a68fddbb",
+      "bytes": 412
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native03.stdout.log",
+      "sha256": "cdf3a5dc4065b9c323010df87dd67df55b83d86859b3646e265af3f9a1bf0eae",
+      "bytes": 2806
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native06-command.json",
+      "sha256": "ec0e6ac39f1bcd370a3fe1c101db3f6729b2c8276ebcd5e1fdfe5a0e86d38b41",
+      "bytes": 979
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native06.py",
+      "sha256": "456d4422a9e98a9454718a46d81eeb4dd1a84d08bb330b667b032642c8e82c6a",
+      "bytes": 9368
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native06.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native06.stdout.log",
+      "sha256": "057c3fce5c44e91b2187e01227f63ea0fec76b9214ae1fa85ea4e8a9089d6382",
+      "bytes": 1590
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native14-command.json",
+      "sha256": "a7dda418017f5971de587570b14c437a348fa042cd196c6417ec62802fa188a3",
+      "bytes": 979
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native14.py",
+      "sha256": "51363a7d5e482502febab9a7884e08da7a1473b8cf9c424fa93b7ab8bdff3611",
+      "bytes": 8590
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native14.stderr.log",
+      "sha256": "9a642d03c3b9d3fb9e2129335d7ab4fed8f12cf340db63105946e49cef3ebac0",
+      "bytes": 474
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native14.stdout.log",
+      "sha256": "372b3046c0a54588a0f74d3c0250e13d1952a8a8a3253a97a0c0dcf77cf9d304",
+      "bytes": 74
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native15-command.json",
+      "sha256": "63feb26f26ef3f9423dfac92b2117b22709fc0bdcb3722adc9933f283146e012",
+      "bytes": 979
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native15.py",
+      "sha256": "b552abb432d4accf4b1968e38abd2ac8183cd7ee0f912a3b2778231b41145f3c",
+      "bytes": 8587
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native15.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native15.stdout.log",
+      "sha256": "c0eadd16934aa8f1a001551fee6d627ca94dd0df3a68c41af7393f04627a9e25",
+      "bytes": 2257
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native21-command.json",
+      "sha256": "df47d9834c1a2f878c0195ad5429142a84892200885404fb0c98630f341e5943",
+      "bytes": 979
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native21.py",
+      "sha256": "39a99f5f0b4b3c4beac2860f2a295bde553195d261b5fadea688b17a574fd631",
+      "bytes": 5534
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native21.stderr.log",
+      "sha256": "c6615ac84d6982ab9f14a82f87017c4c9bf0b477cbef19815a614ae2d2720b65",
+      "bytes": 385
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native21.stdout.log",
+      "sha256": "e49a714fdd353c1564b099f1ed8d96ec8cf75277a0e28a68e80e6f51099485ef",
+      "bytes": 1178
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native23-command.json",
+      "sha256": "60be98d5be540421045c150cf50ec1e90ea7d141ae05a5a1bf86e901e8c88de7",
+      "bytes": 979
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native23.py",
+      "sha256": "bea87616dad9f68775cb56b08e24a69c57525e032982b7871de2c3b2ef403b65",
+      "bytes": 5534
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native23.stderr.log",
+      "sha256": "176bf5623d479d0ff93b578f7450e92bd94c115a0b98480be658cc24fc145501",
+      "bytes": 385
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native23.stdout.log",
+      "sha256": "8ddc537d31211a57498848ffee3fcf27feecdd3d0fe7b7246cd2739c0045484c",
+      "bytes": 1178
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native25-command.json",
+      "sha256": "65383bc4e6d98bee9096548c41a1009652dc4088bbd93250ee7111811ad17019",
+      "bytes": 979
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native25.py",
+      "sha256": "7fffd3857de178bd26c9051a7fecac5f93ba46d3dc173ca47a80acc10c89f525",
+      "bytes": 8498
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native25.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native25.stdout.log",
+      "sha256": "f3b0c5ad8c4edac345932c7ebe860f85c34a387327a4f8c9c2879ae738b36588",
+      "bytes": 1199
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native32-command.json",
+      "sha256": "e841f2d7d0d192d1de9730843db2e658de940b8f367322dd9c7476472bba8b50",
+      "bytes": 979
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native32.py",
+      "sha256": "44626cea21dfc4cf3f448f4a43b79f5ed36a4cba8e0bdb82076ad3431dc23332",
+      "bytes": 9057
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native32.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native32.stdout.log",
+      "sha256": "fac95dbf9bfa71fc9d5c9e219b82943d7f4c784ab01d7ffbb64127da97d26f0a",
+      "bytes": 24320
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native36-command.json",
+      "sha256": "0598a6de95e66f9209490e573d46c25dafd75249f83e13a2691131f56e0b7093",
+      "bytes": 1028
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native36.py",
+      "sha256": "17d4a53b723c74be9cfae8dd7b80aa5d3b51d2f3408aaa756af6a22b5632532d",
+      "bytes": 9764
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native36.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/native36.stdout.log",
+      "sha256": "230ee17c7257d8b520e4e2452916ddd6fde638f4867b1cbb3ca985e364c58db0",
+      "bytes": 25872
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/outline28.json",
+      "sha256": "22acac32db8e9ad7f83e53e3e9d6f453757ea2066deea1dba0ab5f67ac7441f8",
+      "bytes": 16907
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/outline28.log",
+      "sha256": "f055d6f245cca00e32ebfbca6aba1b2ad8f8d284747e1c661484a1e4af3adca1",
+      "bytes": 17256
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/outline28.py",
+      "sha256": "c963d58726d515ac67723f42f7fc35c7b53f3687dab4f0b65cf577820fae15da",
+      "bytes": 6229
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/outline29.json",
+      "sha256": "b947a3668749e60dc55072d6983a807645954d42ae066fc4ae6673c5076f8d6a",
+      "bytes": 22117
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/outline29.log",
+      "sha256": "286bdc3c28b37a6fc66ebd6d50941ac0fa614e18757206296f3a4c075e88de47",
+      "bytes": 25050
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/outline29.py",
+      "sha256": "96eefb7aa7eeba1e5512292e4705383a8f959aa0f5969f63f7552d38254f99b1",
+      "bytes": 7024
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/paint-before32.json.gz",
+      "sha256": "3926bad8bdbadaebfb36cf84607e766e11d30b00c89e4c1d62d5d682f4093e9d",
+      "bytes": 841037
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/paint-before36.json.gz",
+      "sha256": "69b2f33c26c5372ed3594357a864c6d82b0b6b8239b59e4364807852457e5dde",
+      "bytes": 841037
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/plan20.json",
+      "sha256": "416104be8bf32bd629a6cf93c2a2cefb8da81ec4e07b9fd00bc375ec96405dbe",
+      "bytes": 1759
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/plan22.json",
+      "sha256": "9cd11909e66fdcd9a97a812060d89421548630bd0ec6105156e15be3a039e940",
+      "bytes": 2575
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/plan24.json",
+      "sha256": "41c1f6a056befaade5ed149fd299eb2f73f6b77cef81efa2c1222e9c2407cb35",
+      "bytes": 15527
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/plan31.json",
+      "sha256": "229869bfb119c387c4de4890a3419cf46e4f7cee63d406e23c44c5180af8ba9c",
+      "bytes": 6539
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/plan42.json",
+      "sha256": "34293c8b4867ded7ee27d8da4dc85d7015fb416ddc21a80e5451ca0caa5ac575",
+      "bytes": 1523
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/plan45.json",
+      "sha256": "2321568dac30c89df9ffea7a47617755cb4b25feeadab245139330fd25cf21e1",
+      "bytes": 1190
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/pre-repair03-summary.json",
+      "sha256": "3844398bb12d5a87ed1222050ad93d0553248212affcb13d481c1212805a06ce",
+      "bytes": 110
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/pre-repair03.json.gz",
+      "sha256": "cdb8fa381662fcae01522ab4254f40d616346f04213436d7e0a8e12812b9fa55",
+      "bytes": 1709431
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/pre-repair06.json.gz",
+      "sha256": "591412f65d88b7779d1ae75536fdc68223325dbed7d8292689e7f04ab8ee1767",
+      "bytes": 3984874
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/preparation01.json",
+      "sha256": "90375e9d5c4141bd12d5daa5dc28848881af56d2cfd4b5857ac67b6c2bf0da56",
+      "bytes": 24919
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/preparation30-failure.json",
+      "sha256": "5218943779fa9447e5c017c1a2baa2827f8165e972710260e797b915c340c348",
+      "bytes": 347
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/prepare-budget12.py",
+      "sha256": "734f5064ac717033e5f777675c43d5b109a122a8e377543c0e1975c0623c4503",
+      "bytes": 6618
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/prepare-budget13.py",
+      "sha256": "b5fec9c502f1e8e63b21a1fd51f94193e2831927d9bdb6d89e51265a829ba255",
+      "bytes": 1079
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/prepare01.py",
+      "sha256": "faab41fbf60d44fba708308758026aca3da3542e5aabbdf232c8f937accb0088",
+      "bytes": 2016
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/prepare30.py",
+      "sha256": "a6cc4974f6904d9540b823cd13d6c7adc071ec12674abbf908abe3740ef9b179",
+      "bytes": 5626
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/prepare31.py",
+      "sha256": "827dfa3727ab2089f5c11daf249613788ec1b77648bbd83970f851c73e85fe13",
+      "bytes": 5689
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/prepare45.py",
+      "sha256": "8d4abd5a49c729a60509506deaffb00c4427cd73bfaded80db20f8d37f2f80f5",
+      "bytes": 3318
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/probe04-command.json",
+      "sha256": "b320bde43a3f1b7017fc2d3f1fe3c4ca73e504135d4b9cd6543649ce62718deb",
+      "bytes": 978
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/probe04.json",
+      "sha256": "d63f935d6771098880a2713e5e6c4a1d16ba6d6ab49cb2cdd36d9232438818ef",
+      "bytes": 16673
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/probe04.py",
+      "sha256": "1f04737f48d14ebac561bae4173f21976efd43b81f71185bc77538248116ba7a",
+      "bytes": 6570
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/probe04.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/probe04.stdout.log",
+      "sha256": "7fa76e96e2aec23dbda1e0285e41f61f344e0161c7924609be2d70cf774868b7",
+      "bytes": 1269
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/rays44.json",
+      "sha256": "8de56450424c901707f6dbd3b818bff995fc113cd7389c6b4e0a4e5ee031605d",
+      "bytes": 9976
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/rays44.py",
+      "sha256": "4d97b2873b57f89b1c0f8f104605e177bd58c33312fefc89c9e80361a9154069",
+      "bytes": 3160
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render-plan33.json",
+      "sha256": "69a0a8449d01ad47e0bb76b10099b1db2c34bcc6f57b840c19605ef67e0ae90a",
+      "bytes": 1717
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render35.py",
+      "sha256": "984ba9a4028608c4133f467a7727d09088d120a981bd6f1b87d8c3177cc766c7",
+      "bytes": 6859
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render36/LOD0-front3q.png",
+      "sha256": "f2d16e309fcb1b285691694b5a1a7adc33b62381903044777a89635e7d78bbc2",
+      "bytes": 2453669
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render36/LOD0-left.png",
+      "sha256": "6ea688d296e657c17d5e1b634f5fada0906412b073c68da21f22ed39f23499f6",
+      "bytes": 2396038
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render36/LOD0-rear3q.png",
+      "sha256": "ab1a78ab3745f36aafabc3464ce14e5ad4f5bff89cabe14bb1decb9f943514c9",
+      "bytes": 2433218
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render36/LOD1-prior-paint-front3q.png",
+      "sha256": "500d54bba632029649dc081a09e50796f2a4fec8fc21fff5396c11c08872bf35",
+      "bytes": 2261502
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render36/LOD1-prior-paint-left.png",
+      "sha256": "f4ada7809a57a635d47da9e5f736252db51451ceb7cc3e348f6946cc6d711af8",
+      "bytes": 2380741
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render36/LOD1-prior-paint-rear3q.png",
+      "sha256": "5d6b62819a0fae28bde7a51ccdbe39466861b613f00f86026b42a84f478665fa",
+      "bytes": 2431608
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render36/LOD1-reused-paint-front3q.png",
+      "sha256": "897197daac78726ff8ea09b9232d03f449382c618d0060a013e898caf6a5fd5a",
+      "bytes": 2259198
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render36/LOD1-reused-paint-left.png",
+      "sha256": "ff089f5eb9b558cc162559adb36a081b56216caac356b8e43d2d4e927132d554",
+      "bytes": 2380881
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render36/LOD1-reused-paint-rear3q.png",
+      "sha256": "c27c8a0b59e52560f7a5470a49bd2976d197a078b26409d76b886cc63d17a89a",
+      "bytes": 2429825
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render36/manifest.json",
+      "sha256": "b22b20c024c7015b5e35f6eb25d61b2b4146a79d38adc4752b38202381ee5b55",
+      "bytes": 237714
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-normal26-diagnosis01/render45.py",
+      "sha256": "6d6b8d7e5bd2187e48a1fb96b33f3593452c98937b89673ccc3eca86c6c4c045",
+      "bytes": 6665
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/art-checkpoint-v27-04.zip",
+      "sha256": "44c6bcd28c27c9d8252d53afb19f5a6f9cadf76d98f43161fed1f6481f1094fb",
+      "bytes": 102341375,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-retention01/art-checkpoint-v27-04-repeat.zip",
+      "sha256": "44c6bcd28c27c9d8252d53afb19f5a6f9cadf76d98f43161fed1f6481f1094fb",
+      "bytes": 102341375,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-12T22:07:20.551612+00:00"
+}

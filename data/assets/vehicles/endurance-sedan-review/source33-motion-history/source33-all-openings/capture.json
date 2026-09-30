@@ -1,0 +1,4060 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\sources\\endurance-sedan.blend",
+  "configuration": {
+    "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+    "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 24,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {},
+    "lighting": "neutral",
+    "sequence": "all-openings",
+    "frame_count": 121,
+    "fps": 30,
+    "views": "front3q,rear3q,left,front,rear,top",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 0,
+    "inspection_fill_disk_diameter_m": {
+      "default": 0.35,
+      "pedals": 0.14
+    },
+    "inspection_fill_camera_local_m": [
+      0,
+      0,
+      0.025
+    ],
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "abe2a87bdedebcfc464a4ffda2bc0f02a1f0c4757d05b68b03e252505fb1f2eb",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "000001",
+      "capture_view": "front3q",
+      "path": "000001.png",
+      "sha256": "d71ec5ce3ae881ce3177b36858a34cebb73271c14e1fd4e08eb8a6ffcd25b9c1",
+      "seconds": 2.4836772000053315,
+      "cold": true,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1.0,
+      "time_seconds": 0.0,
+      "animated_controls": {
+        "Door_FL_open": 0.0,
+        "Door_FR_open": 0.0,
+        "Door_RL_open": 0.0,
+        "Door_RR_open": 0.0,
+        "Hood_Hinge_open": 0.0,
+        "Trunk_Hinge_open": 0.0
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000002",
+      "capture_view": "front3q",
+      "path": "000002.png",
+      "sha256": "e2a7b6f1f9c7dbd2561eb4c408c4a13790fa28676de9611694ea50fe2d48303a",
+      "seconds": 1.891388599993661,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 3.0,
+      "time_seconds": 0.03333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.0006852326227130629,
+        "Door_FR_open": 0.0006852326227130629,
+        "Door_RL_open": 0.0006852326227130629,
+        "Door_RR_open": 0.0006852326227130629,
+        "Hood_Hinge_open": 0.0006852326227130629,
+        "Trunk_Hinge_open": 0.0006852326227130629
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000003",
+      "capture_view": "front3q",
+      "path": "000003.png",
+      "sha256": "f6ef2cbbdd9c1f6af2ead9f8a537c65c851c77d2c803ede31132c966326c8928",
+      "seconds": 1.8732560999997077,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 5.0,
+      "time_seconds": 0.06666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.0027390523158633312,
+        "Door_FR_open": 0.0027390523158633312,
+        "Door_RL_open": 0.0027390523158633312,
+        "Door_RR_open": 0.0027390523158633312,
+        "Hood_Hinge_open": 0.0027390523158633312,
+        "Trunk_Hinge_open": 0.0027390523158633312
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000004",
+      "capture_view": "front3q",
+      "path": "000004.png",
+      "sha256": "3a4a30bb9d503f22d5bf005e8ad8ec5352d1a285fb74b30034f9e2eb6da38683",
+      "seconds": 1.8848819000049843,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 7.0,
+      "time_seconds": 0.1,
+      "animated_controls": {
+        "Door_FL_open": 0.0061558297024311365,
+        "Door_FR_open": 0.0061558297024311365,
+        "Door_RL_open": 0.0061558297024311365,
+        "Door_RR_open": 0.0061558297024311365,
+        "Hood_Hinge_open": 0.0061558297024311365,
+        "Trunk_Hinge_open": 0.0061558297024311365
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000005",
+      "capture_view": "front3q",
+      "path": "000005.png",
+      "sha256": "a5ce6f8bf66ade1ab6241664b3b3e36f107cf2c47fe7237834ddd5fb3ad0ac2d",
+      "seconds": 1.8821055999942473,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 9.0,
+      "time_seconds": 0.13333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.010926199633097178,
+        "Door_FR_open": 0.010926199633097178,
+        "Door_RL_open": 0.010926199633097178,
+        "Door_RR_open": 0.010926199633097178,
+        "Hood_Hinge_open": 0.010926199633097178,
+        "Trunk_Hinge_open": 0.010926199633097178
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000006",
+      "capture_view": "front3q",
+      "path": "000006.png",
+      "sha256": "aa87a65296f41dbb3aca540d96f8b63621ea98a8ed7b2e106d4a2ef88e7e9f0d",
+      "seconds": 1.8570844999994733,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 11.0,
+      "time_seconds": 0.16666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.01703708685546585,
+        "Door_FR_open": 0.01703708685546585,
+        "Door_RL_open": 0.01703708685546585,
+        "Door_RR_open": 0.01703708685546585,
+        "Hood_Hinge_open": 0.01703708685546585,
+        "Trunk_Hinge_open": 0.01703708685546585
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000007",
+      "capture_view": "front3q",
+      "path": "000007.png",
+      "sha256": "68379cd3ced33cf1dba3eaeaafdd5081ba6d690c151c1731cf90fb11de2a4aea",
+      "seconds": 1.8606959999960964,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 13.0,
+      "time_seconds": 0.2,
+      "animated_controls": {
+        "Door_FL_open": 0.024471741852423214,
+        "Door_FR_open": 0.024471741852423214,
+        "Door_RL_open": 0.024471741852423214,
+        "Door_RR_open": 0.024471741852423214,
+        "Hood_Hinge_open": 0.024471741852423214,
+        "Trunk_Hinge_open": 0.024471741852423214
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000008",
+      "capture_view": "front3q",
+      "path": "000008.png",
+      "sha256": "7e63c921e1d3770a62c57df11ce4193dd92f9828d011cd9c212a2ff64cec6985",
+      "seconds": 1.876919900001667,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 15.0,
+      "time_seconds": 0.23333333333333334,
+      "animated_controls": {
+        "Door_FL_open": 0.03320978675139913,
+        "Door_FR_open": 0.03320978675139913,
+        "Door_RL_open": 0.03320978675139913,
+        "Door_RR_open": 0.03320978675139913,
+        "Hood_Hinge_open": 0.03320978675139913,
+        "Trunk_Hinge_open": 0.03320978675139913
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000009",
+      "capture_view": "front3q",
+      "path": "000009.png",
+      "sha256": "2dbf1e1ea03ecfe913df0432ba62f2303bbdb2cd812bf9d0c6ffddc9fd864258",
+      "seconds": 1.8781144999957178,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 17.0,
+      "time_seconds": 0.26666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.043227271178699546,
+        "Door_FR_open": 0.043227271178699546,
+        "Door_RL_open": 0.043227271178699546,
+        "Door_RR_open": 0.043227271178699546,
+        "Hood_Hinge_open": 0.043227271178699546,
+        "Trunk_Hinge_open": 0.043227271178699546
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000010",
+      "capture_view": "front3q",
+      "path": "000010.png",
+      "sha256": "3fd3fb339c8126c929c73dc38bd8664ab92ae3bc1af5c92561bef4b81654d8b0",
+      "seconds": 1.8999186000000918,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 19.0,
+      "time_seconds": 0.3,
+      "animated_controls": {
+        "Door_FL_open": 0.05449673790581606,
+        "Door_FR_open": 0.05449673790581606,
+        "Door_RL_open": 0.05449673790581606,
+        "Door_RR_open": 0.05449673790581606,
+        "Hood_Hinge_open": 0.05449673790581606,
+        "Trunk_Hinge_open": 0.05449673790581606
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000011",
+      "capture_view": "front3q",
+      "path": "000011.png",
+      "sha256": "981c408b1fc7803e92939c440dbaae1242baf0ea9b9ee763066d4ec9f9e20cbb",
+      "seconds": 1.8962861000036355,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 21.0,
+      "time_seconds": 0.3333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.06698729810778066,
+        "Door_FR_open": 0.06698729810778066,
+        "Door_RL_open": 0.06698729810778066,
+        "Door_RR_open": 0.06698729810778066,
+        "Hood_Hinge_open": 0.06698729810778066,
+        "Trunk_Hinge_open": 0.06698729810778066
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000012",
+      "capture_view": "front3q",
+      "path": "000012.png",
+      "sha256": "c5f0e1fc57e0814edb1f778415c18b3e454718e6eefb22719578173ca7dc59a1",
+      "seconds": 1.908352400001604,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 23.0,
+      "time_seconds": 0.36666666666666664,
+      "animated_controls": {
+        "Door_FL_open": 0.08066471602728797,
+        "Door_FR_open": 0.08066471602728797,
+        "Door_RL_open": 0.08066471602728797,
+        "Door_RR_open": 0.08066471602728797,
+        "Hood_Hinge_open": 0.08066471602728797,
+        "Trunk_Hinge_open": 0.08066471602728797
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000013",
+      "capture_view": "front3q",
+      "path": "000013.png",
+      "sha256": "34bc3f7fa112f84ed0fb7cac97a233aeb0e49e7ccb2d3272d7e3cd0f99c72fb6",
+      "seconds": 1.8890592000025208,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 25.0,
+      "time_seconds": 0.4,
+      "animated_controls": {
+        "Door_FL_open": 0.09549150281252627,
+        "Door_FR_open": 0.09549150281252627,
+        "Door_RL_open": 0.09549150281252627,
+        "Door_RR_open": 0.09549150281252627,
+        "Hood_Hinge_open": 0.09549150281252627,
+        "Trunk_Hinge_open": 0.09549150281252627
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000014",
+      "capture_view": "front3q",
+      "path": "000014.png",
+      "sha256": "89112c97d5b5f3b12f1423b7ed9008bc6683fdf3143aee1fb9281f41df4754ca",
+      "seconds": 1.8713901000010082,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 27.0,
+      "time_seconds": 0.43333333333333335,
+      "animated_controls": {
+        "Door_FL_open": 0.11142701927151458,
+        "Door_FR_open": 0.11142701927151458,
+        "Door_RL_open": 0.11142701927151458,
+        "Door_RR_open": 0.11142701927151458,
+        "Hood_Hinge_open": 0.11142701927151458,
+        "Trunk_Hinge_open": 0.11142701927151458
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000015",
+      "capture_view": "front3q",
+      "path": "000015.png",
+      "sha256": "b5a801b1f8ebb3df2797fa67c0644b5688eacd68ec67361809d781eca7854b2e",
+      "seconds": 1.8954308999964269,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 29.0,
+      "time_seconds": 0.4666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.12842758726130288,
+        "Door_FR_open": 0.12842758726130288,
+        "Door_RL_open": 0.12842758726130288,
+        "Door_RR_open": 0.12842758726130288,
+        "Hood_Hinge_open": 0.12842758726130288,
+        "Trunk_Hinge_open": 0.12842758726130288
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000016",
+      "capture_view": "front3q",
+      "path": "000016.png",
+      "sha256": "9dd42e20a751fbb443e2f6bc38980d6d110b22b1f341ca50d015ed84aa1ecab0",
+      "seconds": 1.903252899996005,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 31.0,
+      "time_seconds": 0.5,
+      "animated_controls": {
+        "Door_FL_open": 0.14644660940672624,
+        "Door_FR_open": 0.14644660940672624,
+        "Door_RL_open": 0.14644660940672624,
+        "Door_RR_open": 0.14644660940672624,
+        "Hood_Hinge_open": 0.14644660940672624,
+        "Trunk_Hinge_open": 0.14644660940672624
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000017",
+      "capture_view": "front3q",
+      "path": "000017.png",
+      "sha256": "756edaaa89622306e36819019ca784d5a29047b258a1c782abf6862867b7639a",
+      "seconds": 1.8921587000004365,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 33.0,
+      "time_seconds": 0.5333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.16543469682057085,
+        "Door_FR_open": 0.16543469682057085,
+        "Door_RL_open": 0.16543469682057085,
+        "Door_RR_open": 0.16543469682057085,
+        "Hood_Hinge_open": 0.16543469682057085,
+        "Trunk_Hinge_open": 0.16543469682057085
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000018",
+      "capture_view": "front3q",
+      "path": "000018.png",
+      "sha256": "ee4c6c0efbd35a4ef8b84c04b7cebaee9b2104a2a9f3c36d96f53f0c13819e68",
+      "seconds": 1.892830299999332,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 35.0,
+      "time_seconds": 0.5666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.18533980447508122,
+        "Door_FR_open": 0.18533980447508122,
+        "Door_RL_open": 0.18533980447508122,
+        "Door_RR_open": 0.18533980447508122,
+        "Hood_Hinge_open": 0.18533980447508122,
+        "Trunk_Hinge_open": 0.18533980447508122
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000019",
+      "capture_view": "front3q",
+      "path": "000019.png",
+      "sha256": "88a2c0a1047ba0064d57ce42aedb8317a3c712c34b252c036208e74b2d4f49f4",
+      "seconds": 1.9095971000060672,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 37.0,
+      "time_seconds": 0.6,
+      "animated_controls": {
+        "Door_FL_open": 0.2061073738537634,
+        "Door_FR_open": 0.2061073738537634,
+        "Door_RL_open": 0.2061073738537634,
+        "Door_RR_open": 0.2061073738537634,
+        "Hood_Hinge_open": 0.2061073738537634,
+        "Trunk_Hinge_open": 0.2061073738537634
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000020",
+      "capture_view": "front3q",
+      "path": "000020.png",
+      "sha256": "f7926adfbcb21367641312e73f2876d9808080dc15c51328579421da5abe443e",
+      "seconds": 1.9051626000000397,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 39.0,
+      "time_seconds": 0.6333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.22768048249248646,
+        "Door_FR_open": 0.22768048249248646,
+        "Door_RL_open": 0.22768048249248646,
+        "Door_RR_open": 0.22768048249248646,
+        "Hood_Hinge_open": 0.22768048249248646,
+        "Trunk_Hinge_open": 0.22768048249248646
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000021",
+      "capture_view": "front3q",
+      "path": "000021.png",
+      "sha256": "ba10d182d781e0a6aed97c7384be4b7e1d86700eee24c3b7184aaa704f86e774",
+      "seconds": 1.8983578999977908,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 41.0,
+      "time_seconds": 0.6666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.24999999999999994,
+        "Door_FR_open": 0.24999999999999994,
+        "Door_RL_open": 0.24999999999999994,
+        "Door_RR_open": 0.24999999999999994,
+        "Hood_Hinge_open": 0.24999999999999994,
+        "Trunk_Hinge_open": 0.24999999999999994
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000022",
+      "capture_view": "front3q",
+      "path": "000022.png",
+      "sha256": "987b75269bbace78e5f6f125be70698a0abd377304fd656a3370953865495afd",
+      "seconds": 1.9062038999982178,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 43.0,
+      "time_seconds": 0.7,
+      "animated_controls": {
+        "Door_FL_open": 0.2730047501302265,
+        "Door_FR_open": 0.2730047501302265,
+        "Door_RL_open": 0.2730047501302265,
+        "Door_RR_open": 0.2730047501302265,
+        "Hood_Hinge_open": 0.2730047501302265,
+        "Trunk_Hinge_open": 0.2730047501302265
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000023",
+      "capture_view": "front3q",
+      "path": "000023.png",
+      "sha256": "bcc7c24399d2e66ecee36b992d27d1e40b5e4d357dd12ef12e0134bb09feac0d",
+      "seconds": 1.9109831000023405,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 45.0,
+      "time_seconds": 0.7333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.29663167846209976,
+        "Door_FR_open": 0.29663167846209976,
+        "Door_RL_open": 0.29663167846209976,
+        "Door_RR_open": 0.29663167846209976,
+        "Hood_Hinge_open": 0.29663167846209976,
+        "Trunk_Hinge_open": 0.29663167846209976
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000024",
+      "capture_view": "front3q",
+      "path": "000024.png",
+      "sha256": "d2edb3df2652e183b7967472398624ea61300fbad93119c8447453a75eba4373",
+      "seconds": 1.9369021000020439,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 47.0,
+      "time_seconds": 0.7666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.32081602522734987,
+        "Door_FR_open": 0.32081602522734987,
+        "Door_RL_open": 0.32081602522734987,
+        "Door_RR_open": 0.32081602522734987,
+        "Hood_Hinge_open": 0.32081602522734987,
+        "Trunk_Hinge_open": 0.32081602522734987
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000025",
+      "capture_view": "front3q",
+      "path": "000025.png",
+      "sha256": "f0b4cad0a1b4e9db1e6bab329785f0a5d872793ebd6dc2ccad2d2dd3ef108dee",
+      "seconds": 1.9307256000029156,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 49.0,
+      "time_seconds": 0.8,
+      "animated_controls": {
+        "Door_FL_open": 0.3454915028125263,
+        "Door_FR_open": 0.3454915028125263,
+        "Door_RL_open": 0.3454915028125263,
+        "Door_RR_open": 0.3454915028125263,
+        "Hood_Hinge_open": 0.3454915028125263,
+        "Trunk_Hinge_open": 0.3454915028125263
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000026",
+      "capture_view": "front3q",
+      "path": "000026.png",
+      "sha256": "2f8dc11c600844ab3d2fb8543bd45de1785c6d8e30304ff4566804983e22264f",
+      "seconds": 1.9263810999982525,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 51.0,
+      "time_seconds": 0.8333333333333334,
+      "animated_controls": {
+        "Door_FL_open": 0.37059047744873963,
+        "Door_FR_open": 0.37059047744873963,
+        "Door_RL_open": 0.37059047744873963,
+        "Door_RR_open": 0.37059047744873963,
+        "Hood_Hinge_open": 0.37059047744873963,
+        "Trunk_Hinge_open": 0.37059047744873963
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000027",
+      "capture_view": "front3q",
+      "path": "000027.png",
+      "sha256": "5805345d3939a70bd863b90702c22689418840dba1e3c60383822f4f8ef966b1",
+      "seconds": 1.932605899994087,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 53.0,
+      "time_seconds": 0.8666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.3960441545911204,
+        "Door_FR_open": 0.3960441545911204,
+        "Door_RL_open": 0.3960441545911204,
+        "Door_RR_open": 0.3960441545911204,
+        "Hood_Hinge_open": 0.3960441545911204,
+        "Trunk_Hinge_open": 0.3960441545911204
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000028",
+      "capture_view": "front3q",
+      "path": "000028.png",
+      "sha256": "b39b0086ee322625efd8f19498daf65ee81c0bf4da4bb3b3bd67ec62ef7f1e46",
+      "seconds": 1.9221640999967349,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 55.0,
+      "time_seconds": 0.9,
+      "animated_controls": {
+        "Door_FL_open": 0.4217827674798846,
+        "Door_FR_open": 0.4217827674798846,
+        "Door_RL_open": 0.4217827674798846,
+        "Door_RR_open": 0.4217827674798846,
+        "Hood_Hinge_open": 0.4217827674798846,
+        "Trunk_Hinge_open": 0.4217827674798846
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000029",
+      "capture_view": "front3q",
+      "path": "000029.png",
+      "sha256": "e73fac3916b3d7dace74bfe5c870d137809207db9d0abb7edb43815f9800efa2",
+      "seconds": 1.9162675999978092,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 57.0,
+      "time_seconds": 0.9333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.4477357683661733,
+        "Door_FR_open": 0.4477357683661733,
+        "Door_RL_open": 0.4477357683661733,
+        "Door_RR_open": 0.4477357683661733,
+        "Hood_Hinge_open": 0.4477357683661733,
+        "Trunk_Hinge_open": 0.4477357683661733
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000030",
+      "capture_view": "front3q",
+      "path": "000030.png",
+      "sha256": "1651852ca5c2653aea825d91a0b6082d7c6cda2e7f370ae930468b8a4d6b3430",
+      "seconds": 1.9255866000021342,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 59.0,
+      "time_seconds": 0.9666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.47383202187852796,
+        "Door_FR_open": 0.47383202187852796,
+        "Door_RL_open": 0.47383202187852796,
+        "Door_RR_open": 0.47383202187852796,
+        "Hood_Hinge_open": 0.47383202187852796,
+        "Trunk_Hinge_open": 0.47383202187852796
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000031",
+      "capture_view": "front3q",
+      "path": "000031.png",
+      "sha256": "6091883bcca8aa0ec1e6f2733f43cfecc818966b106fa8ad2166915cdf5d2a9d",
+      "seconds": 1.9333508999989135,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 61.0,
+      "time_seconds": 1.0,
+      "animated_controls": {
+        "Door_FL_open": 0.5000000000000001,
+        "Door_FR_open": 0.5000000000000001,
+        "Door_RL_open": 0.5000000000000001,
+        "Door_RR_open": 0.5000000000000001,
+        "Hood_Hinge_open": 0.5000000000000001,
+        "Trunk_Hinge_open": 0.5000000000000001
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000032",
+      "capture_view": "front3q",
+      "path": "000032.png",
+      "sha256": "1c31540058ea48b873ca1b13db360c32fb69d76bf7d6278a01e9c30e52c49fd7",
+      "seconds": 1.9393497000055504,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 63.0,
+      "time_seconds": 1.0333333333333334,
+      "animated_controls": {
+        "Door_FL_open": 0.5261679781214719,
+        "Door_FR_open": 0.5261679781214719,
+        "Door_RL_open": 0.5261679781214719,
+        "Door_RR_open": 0.5261679781214719,
+        "Hood_Hinge_open": 0.5261679781214719,
+        "Trunk_Hinge_open": 0.5261679781214719
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000033",
+      "capture_view": "front3q",
+      "path": "000033.png",
+      "sha256": "b885935fb50234261cc00964773235664bc964a48ec255c9234ac160790e8c0b",
+      "seconds": 1.9179144000008819,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 65.0,
+      "time_seconds": 1.0666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.5522642316338265,
+        "Door_FR_open": 0.5522642316338265,
+        "Door_RL_open": 0.5522642316338265,
+        "Door_RR_open": 0.5522642316338265,
+        "Hood_Hinge_open": 0.5522642316338265,
+        "Trunk_Hinge_open": 0.5522642316338265
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000034",
+      "capture_view": "front3q",
+      "path": "000034.png",
+      "sha256": "f638c5303a85bc89da73e7a4a1224debf38f0e283a5e86dc5022a35202d14f3c",
+      "seconds": 1.9181161000014981,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 67.0,
+      "time_seconds": 1.1,
+      "animated_controls": {
+        "Door_FL_open": 0.5782172325201156,
+        "Door_FR_open": 0.5782172325201156,
+        "Door_RL_open": 0.5782172325201156,
+        "Door_RR_open": 0.5782172325201156,
+        "Hood_Hinge_open": 0.5782172325201156,
+        "Trunk_Hinge_open": 0.5782172325201156
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000035",
+      "capture_view": "front3q",
+      "path": "000035.png",
+      "sha256": "a57f1a1a9c47301caa35ed67190761d8b50c5b215bf46ca172fa8d3bc580c087",
+      "seconds": 1.9395484999986365,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 69.0,
+      "time_seconds": 1.1333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.6039558454088795,
+        "Door_FR_open": 0.6039558454088795,
+        "Door_RL_open": 0.6039558454088795,
+        "Door_RR_open": 0.6039558454088795,
+        "Hood_Hinge_open": 0.6039558454088795,
+        "Trunk_Hinge_open": 0.6039558454088795
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000036",
+      "capture_view": "front3q",
+      "path": "000036.png",
+      "sha256": "aaa14c5b64eccf9622880eeb14637ce30a54774f0c9fb0be3e6066d18c76a908",
+      "seconds": 1.9280878999998095,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 71.0,
+      "time_seconds": 1.1666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.6294095225512604,
+        "Door_FR_open": 0.6294095225512604,
+        "Door_RL_open": 0.6294095225512604,
+        "Door_RR_open": 0.6294095225512604,
+        "Hood_Hinge_open": 0.6294095225512604,
+        "Trunk_Hinge_open": 0.6294095225512604
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000037",
+      "capture_view": "front3q",
+      "path": "000037.png",
+      "sha256": "c57e6bddd1f3984209f87c2fa5e894a7cff050031345a8096998a098c2f0616f",
+      "seconds": 1.9239802000010968,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 73.0,
+      "time_seconds": 1.2,
+      "animated_controls": {
+        "Door_FL_open": 0.6545084971874737,
+        "Door_FR_open": 0.6545084971874737,
+        "Door_RL_open": 0.6545084971874737,
+        "Door_RR_open": 0.6545084971874737,
+        "Hood_Hinge_open": 0.6545084971874737,
+        "Trunk_Hinge_open": 0.6545084971874737
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000038",
+      "capture_view": "front3q",
+      "path": "000038.png",
+      "sha256": "d182004be7a425c0c96f2a74080f6d5e124a5996d002e002192f092e4ecf253b",
+      "seconds": 1.955832299994654,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 75.0,
+      "time_seconds": 1.2333333333333334,
+      "animated_controls": {
+        "Door_FL_open": 0.6791839747726502,
+        "Door_FR_open": 0.6791839747726502,
+        "Door_RL_open": 0.6791839747726502,
+        "Door_RR_open": 0.6791839747726502,
+        "Hood_Hinge_open": 0.6791839747726502,
+        "Trunk_Hinge_open": 0.6791839747726502
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000039",
+      "capture_view": "front3q",
+      "path": "000039.png",
+      "sha256": "45ea67e523cf4e28cd79b9ac94797aa2e05dbf0c62f4ead81800edeff65ff2df",
+      "seconds": 1.935301099998469,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 77.0,
+      "time_seconds": 1.2666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.7033683215379,
+        "Door_FR_open": 0.7033683215379,
+        "Door_RL_open": 0.7033683215379,
+        "Door_RR_open": 0.7033683215379,
+        "Hood_Hinge_open": 0.7033683215379,
+        "Trunk_Hinge_open": 0.7033683215379
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000040",
+      "capture_view": "front3q",
+      "path": "000040.png",
+      "sha256": "ab47cf2a239cf5a6a4331d8b3f0ac4165300ec67f6e6131c0f76030bf8d382e8",
+      "seconds": 1.9394513000006555,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 79.0,
+      "time_seconds": 1.3,
+      "animated_controls": {
+        "Door_FL_open": 0.7269952498697734,
+        "Door_FR_open": 0.7269952498697734,
+        "Door_RL_open": 0.7269952498697734,
+        "Door_RR_open": 0.7269952498697734,
+        "Hood_Hinge_open": 0.7269952498697734,
+        "Trunk_Hinge_open": 0.7269952498697734
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000041",
+      "capture_view": "front3q",
+      "path": "000041.png",
+      "sha256": "03b14d244e04657c7f9b6a40707183345db5204e70ee8aafc4084397313a1567",
+      "seconds": 1.9497647000025609,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 81.0,
+      "time_seconds": 1.3333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.7499999999999999,
+        "Door_FR_open": 0.7499999999999999,
+        "Door_RL_open": 0.7499999999999999,
+        "Door_RR_open": 0.7499999999999999,
+        "Hood_Hinge_open": 0.7499999999999999,
+        "Trunk_Hinge_open": 0.7499999999999999
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000042",
+      "capture_view": "front3q",
+      "path": "000042.png",
+      "sha256": "ab383ccbea2ae2a4d95d8e3d65e664f80adbadf25495e4a68cd80497a82cbb95",
+      "seconds": 1.9613003999984358,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 83.0,
+      "time_seconds": 1.3666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.7723195175075136,
+        "Door_FR_open": 0.7723195175075136,
+        "Door_RL_open": 0.7723195175075136,
+        "Door_RR_open": 0.7723195175075136,
+        "Hood_Hinge_open": 0.7723195175075136,
+        "Trunk_Hinge_open": 0.7723195175075136
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000043",
+      "capture_view": "front3q",
+      "path": "000043.png",
+      "sha256": "d74238a79890a9fd447c8125fcf75bcbed4b77809657043f093b6ab789bd3ea8",
+      "seconds": 1.9582798999981605,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 85.0,
+      "time_seconds": 1.4,
+      "animated_controls": {
+        "Door_FL_open": 0.7938926261462365,
+        "Door_FR_open": 0.7938926261462365,
+        "Door_RL_open": 0.7938926261462365,
+        "Door_RR_open": 0.7938926261462365,
+        "Hood_Hinge_open": 0.7938926261462365,
+        "Trunk_Hinge_open": 0.7938926261462365
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000044",
+      "capture_view": "front3q",
+      "path": "000044.png",
+      "sha256": "9a5e6a9da643b1aad94cff8d25ff13e46e4609c496b303d149493a3dc3240863",
+      "seconds": 1.9756952000025194,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 87.0,
+      "time_seconds": 1.4333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.8146601955249185,
+        "Door_FR_open": 0.8146601955249185,
+        "Door_RL_open": 0.8146601955249185,
+        "Door_RR_open": 0.8146601955249185,
+        "Hood_Hinge_open": 0.8146601955249185,
+        "Trunk_Hinge_open": 0.8146601955249185
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000045",
+      "capture_view": "front3q",
+      "path": "000045.png",
+      "sha256": "53e84b16b570bdf6459760fc3b790ef719ff2a92a4bfba576fda09b5c56a64a9",
+      "seconds": 1.9617579000041587,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 89.0,
+      "time_seconds": 1.4666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.834565303179429,
+        "Door_FR_open": 0.834565303179429,
+        "Door_RL_open": 0.834565303179429,
+        "Door_RR_open": 0.834565303179429,
+        "Hood_Hinge_open": 0.834565303179429,
+        "Trunk_Hinge_open": 0.834565303179429
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000046",
+      "capture_view": "front3q",
+      "path": "000046.png",
+      "sha256": "1d3891adee70c45fb572056835961e24462eceea70b2564f9ff2237e783a021d",
+      "seconds": 1.9863734000027762,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 91.0,
+      "time_seconds": 1.5,
+      "animated_controls": {
+        "Door_FL_open": 0.8535533905932737,
+        "Door_FR_open": 0.8535533905932737,
+        "Door_RL_open": 0.8535533905932737,
+        "Door_RR_open": 0.8535533905932737,
+        "Hood_Hinge_open": 0.8535533905932737,
+        "Trunk_Hinge_open": 0.8535533905932737
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000047",
+      "capture_view": "front3q",
+      "path": "000047.png",
+      "sha256": "9a85fc6fd601c9ab3883898e77910a5856d339e699e975bc35949f0eb655e5f4",
+      "seconds": 1.965754899996682,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 93.0,
+      "time_seconds": 1.5333333333333334,
+      "animated_controls": {
+        "Door_FL_open": 0.8715724127386971,
+        "Door_FR_open": 0.8715724127386971,
+        "Door_RL_open": 0.8715724127386971,
+        "Door_RR_open": 0.8715724127386971,
+        "Hood_Hinge_open": 0.8715724127386971,
+        "Trunk_Hinge_open": 0.8715724127386971
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000048",
+      "capture_view": "front3q",
+      "path": "000048.png",
+      "sha256": "865d273cae872b882c63bc681abb4e895592c7cc7a165a9389df2627742133ca",
+      "seconds": 1.9617741999973077,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 95.0,
+      "time_seconds": 1.5666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.8885729807284855,
+        "Door_FR_open": 0.8885729807284855,
+        "Door_RL_open": 0.8885729807284855,
+        "Door_RR_open": 0.8885729807284855,
+        "Hood_Hinge_open": 0.8885729807284855,
+        "Trunk_Hinge_open": 0.8885729807284855
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000049",
+      "capture_view": "front3q",
+      "path": "000049.png",
+      "sha256": "4b84469db8826518cb1f4c9b805d54c13c6991d2ea611ecb3a7b2f2642cdac88",
+      "seconds": 1.9552215000003343,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 97.0,
+      "time_seconds": 1.6,
+      "animated_controls": {
+        "Door_FL_open": 0.9045084971874736,
+        "Door_FR_open": 0.9045084971874736,
+        "Door_RL_open": 0.9045084971874736,
+        "Door_RR_open": 0.9045084971874736,
+        "Hood_Hinge_open": 0.9045084971874736,
+        "Trunk_Hinge_open": 0.9045084971874736
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000050",
+      "capture_view": "front3q",
+      "path": "000050.png",
+      "sha256": "ac4c27482698dc22d6704610ebe2629b17d12c8bf57eb2e5f12dfb6c06e75945",
+      "seconds": 1.967619899995043,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 99.0,
+      "time_seconds": 1.6333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.919335283972712,
+        "Door_FR_open": 0.919335283972712,
+        "Door_RL_open": 0.919335283972712,
+        "Door_RR_open": 0.919335283972712,
+        "Hood_Hinge_open": 0.919335283972712,
+        "Trunk_Hinge_open": 0.919335283972712
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000051",
+      "capture_view": "front3q",
+      "path": "000051.png",
+      "sha256": "597b888da42bd50feb90575fcbc94e0d095b7dc49cc660c01dd8ecefdc79fba9",
+      "seconds": 1.965094399994996,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 101.0,
+      "time_seconds": 1.6666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.9330127018922194,
+        "Door_FR_open": 0.9330127018922194,
+        "Door_RL_open": 0.9330127018922194,
+        "Door_RR_open": 0.9330127018922194,
+        "Hood_Hinge_open": 0.9330127018922194,
+        "Trunk_Hinge_open": 0.9330127018922194
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000052",
+      "capture_view": "front3q",
+      "path": "000052.png",
+      "sha256": "1f829e8e194c73cdc5851e6bb370562632d5e0bfb779377d063b9841da9bf430",
+      "seconds": 1.9772807999979705,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 103.0,
+      "time_seconds": 1.7,
+      "animated_controls": {
+        "Door_FL_open": 0.9455032620941839,
+        "Door_FR_open": 0.9455032620941839,
+        "Door_RL_open": 0.9455032620941839,
+        "Door_RR_open": 0.9455032620941839,
+        "Hood_Hinge_open": 0.9455032620941839,
+        "Trunk_Hinge_open": 0.9455032620941839
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000053",
+      "capture_view": "front3q",
+      "path": "000053.png",
+      "sha256": "a76280dbe5118cd1380ff0d6cd10044e46e83391a4dd4f3eb192be2c0a991106",
+      "seconds": 1.9681868999978178,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 105.0,
+      "time_seconds": 1.7333333333333334,
+      "animated_controls": {
+        "Door_FL_open": 0.9567727288213006,
+        "Door_FR_open": 0.9567727288213006,
+        "Door_RL_open": 0.9567727288213006,
+        "Door_RR_open": 0.9567727288213006,
+        "Hood_Hinge_open": 0.9567727288213006,
+        "Trunk_Hinge_open": 0.9567727288213006
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000054",
+      "capture_view": "front3q",
+      "path": "000054.png",
+      "sha256": "89bcebf6ffd4846dc11b6dde576c6e8b3a10ae6b7cb59371133fb6aa104fa2b0",
+      "seconds": 1.9664749000003212,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 107.0,
+      "time_seconds": 1.7666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.9667902132486007,
+        "Door_FR_open": 0.9667902132486007,
+        "Door_RL_open": 0.9667902132486007,
+        "Door_RR_open": 0.9667902132486007,
+        "Hood_Hinge_open": 0.9667902132486007,
+        "Trunk_Hinge_open": 0.9667902132486007
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000055",
+      "capture_view": "front3q",
+      "path": "000055.png",
+      "sha256": "1872114028b902407cf827b1223b6932e507959dc310462c943c2b425d296b75",
+      "seconds": 1.968529400000989,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 109.0,
+      "time_seconds": 1.8,
+      "animated_controls": {
+        "Door_FL_open": 0.9755282581475768,
+        "Door_FR_open": 0.9755282581475768,
+        "Door_RL_open": 0.9755282581475768,
+        "Door_RR_open": 0.9755282581475768,
+        "Hood_Hinge_open": 0.9755282581475768,
+        "Trunk_Hinge_open": 0.9755282581475768
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000056",
+      "capture_view": "front3q",
+      "path": "000056.png",
+      "sha256": "6d4d69ad16239a38d986448776efc553567fcda63191182bfe1ce794cf98652f",
+      "seconds": 1.976553000000422,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 111.0,
+      "time_seconds": 1.8333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.9829629131445341,
+        "Door_FR_open": 0.9829629131445341,
+        "Door_RL_open": 0.9829629131445341,
+        "Door_RR_open": 0.9829629131445341,
+        "Hood_Hinge_open": 0.9829629131445341,
+        "Trunk_Hinge_open": 0.9829629131445341
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000057",
+      "capture_view": "front3q",
+      "path": "000057.png",
+      "sha256": "5769f23f0569c6679d0340caa8af7d4d038df642c773ea564b3567d2cfb3ef68",
+      "seconds": 1.9815462999977171,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 113.0,
+      "time_seconds": 1.8666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.9890738003669027,
+        "Door_FR_open": 0.9890738003669027,
+        "Door_RL_open": 0.9890738003669027,
+        "Door_RR_open": 0.9890738003669027,
+        "Hood_Hinge_open": 0.9890738003669027,
+        "Trunk_Hinge_open": 0.9890738003669027
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000058",
+      "capture_view": "front3q",
+      "path": "000058.png",
+      "sha256": "376971fa6243a481975362f771d3d468f51cb7c9a3ae208cf38faceebb2d20df",
+      "seconds": 2.020652400002291,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 115.0,
+      "time_seconds": 1.9,
+      "animated_controls": {
+        "Door_FL_open": 0.9938441702975689,
+        "Door_FR_open": 0.9938441702975689,
+        "Door_RL_open": 0.9938441702975689,
+        "Door_RR_open": 0.9938441702975689,
+        "Hood_Hinge_open": 0.9938441702975689,
+        "Trunk_Hinge_open": 0.9938441702975689
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000059",
+      "capture_view": "front3q",
+      "path": "000059.png",
+      "sha256": "abce0a4c058fc333ea3fcb595930a0c595cf090bf60f0eee86ca0fb2a78abc12",
+      "seconds": 1.9797773999962374,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 117.0,
+      "time_seconds": 1.9333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.9972609476841365,
+        "Door_FR_open": 0.9972609476841365,
+        "Door_RL_open": 0.9972609476841365,
+        "Door_RR_open": 0.9972609476841365,
+        "Hood_Hinge_open": 0.9972609476841365,
+        "Trunk_Hinge_open": 0.9972609476841365
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000060",
+      "capture_view": "front3q",
+      "path": "000060.png",
+      "sha256": "262f091fb9610671f2d3c59c4836565687c9cb275aac8817ba9bc2791b4d085c",
+      "seconds": 2.001132899997174,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 119.0,
+      "time_seconds": 1.9666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.9993147673772869,
+        "Door_FR_open": 0.9993147673772869,
+        "Door_RL_open": 0.9993147673772869,
+        "Door_RR_open": 0.9993147673772869,
+        "Hood_Hinge_open": 0.9993147673772869,
+        "Trunk_Hinge_open": 0.9993147673772869
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000061",
+      "capture_view": "front3q",
+      "path": "000061.png",
+      "sha256": "c748a852eab1fec0da8509a4769002bf3576cabce0f34b3e329e9491c1738b79",
+      "seconds": 1.9803923000072245,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 121.0,
+      "time_seconds": 2.0,
+      "animated_controls": {
+        "Door_FL_open": 1.0,
+        "Door_FR_open": 1.0,
+        "Door_RL_open": 1.0,
+        "Door_RR_open": 1.0,
+        "Hood_Hinge_open": 1.0,
+        "Trunk_Hinge_open": 1.0
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000062",
+      "capture_view": "front3q",
+      "path": "000062.png",
+      "sha256": "83c576ecb45e683f545e2a5dadb4baf942f0976fe9f3f0a6fcb210c1102af653",
+      "seconds": 2.0025562000009813,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 123.0,
+      "time_seconds": 2.033333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.9993147673772869,
+        "Door_FR_open": 0.9993147673772869,
+        "Door_RL_open": 0.9993147673772869,
+        "Door_RR_open": 0.9993147673772869,
+        "Hood_Hinge_open": 0.9993147673772869,
+        "Trunk_Hinge_open": 0.9993147673772869
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000063",
+      "capture_view": "front3q",
+      "path": "000063.png",
+      "sha256": "d0349f2efe3c9695d53fcc4d63562a578e1e1b0d46a00707bb6f3c4cf9c52420",
+      "seconds": 2.0533702000029734,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 125.0,
+      "time_seconds": 2.066666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.9972609476841365,
+        "Door_FR_open": 0.9972609476841365,
+        "Door_RL_open": 0.9972609476841365,
+        "Door_RR_open": 0.9972609476841365,
+        "Hood_Hinge_open": 0.9972609476841365,
+        "Trunk_Hinge_open": 0.9972609476841365
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000064",
+      "capture_view": "front3q",
+      "path": "000064.png",
+      "sha256": "b70d3152274008953a360b845df9a083b147948473f75c1090b70990fe0c06fb",
+      "seconds": 2.0800693000055617,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 127.0,
+      "time_seconds": 2.1,
+      "animated_controls": {
+        "Door_FL_open": 0.9938441702975689,
+        "Door_FR_open": 0.9938441702975689,
+        "Door_RL_open": 0.9938441702975689,
+        "Door_RR_open": 0.9938441702975689,
+        "Hood_Hinge_open": 0.9938441702975689,
+        "Trunk_Hinge_open": 0.9938441702975689
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000065",
+      "capture_view": "front3q",
+      "path": "000065.png",
+      "sha256": "af301a9d7e04814088c76c642cc01493154d8d5c040a8767b63543a626d7f509",
+      "seconds": 1.9884400999944774,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 129.0,
+      "time_seconds": 2.1333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.989073800366903,
+        "Door_FR_open": 0.989073800366903,
+        "Door_RL_open": 0.989073800366903,
+        "Door_RR_open": 0.989073800366903,
+        "Hood_Hinge_open": 0.989073800366903,
+        "Trunk_Hinge_open": 0.989073800366903
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000066",
+      "capture_view": "front3q",
+      "path": "000066.png",
+      "sha256": "d752a0664a126d526b3c27c381675627b4a91b4730542c84e25ce7ce47f2e19a",
+      "seconds": 1.967891399996006,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 131.0,
+      "time_seconds": 2.1666666666666665,
+      "animated_controls": {
+        "Door_FL_open": 0.9829629131445343,
+        "Door_FR_open": 0.9829629131445343,
+        "Door_RL_open": 0.9829629131445343,
+        "Door_RR_open": 0.9829629131445343,
+        "Hood_Hinge_open": 0.9829629131445343,
+        "Trunk_Hinge_open": 0.9829629131445343
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000067",
+      "capture_view": "front3q",
+      "path": "000067.png",
+      "sha256": "6004f59a929f2b3efa0b78797d94f1247fe6c1875a023cb3f233c93b24feb9ee",
+      "seconds": 1.9746455000058631,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 133.0,
+      "time_seconds": 2.2,
+      "animated_controls": {
+        "Door_FL_open": 0.9755282581475766,
+        "Door_FR_open": 0.9755282581475766,
+        "Door_RL_open": 0.9755282581475766,
+        "Door_RR_open": 0.9755282581475766,
+        "Hood_Hinge_open": 0.9755282581475766,
+        "Trunk_Hinge_open": 0.9755282581475766
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000068",
+      "capture_view": "front3q",
+      "path": "000068.png",
+      "sha256": "f28e1b2bf71524acea0a09260cbfaf515c105aaa4d6e2aa3036167539ff103f6",
+      "seconds": 1.9701199000046472,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 135.0,
+      "time_seconds": 2.2333333333333334,
+      "animated_controls": {
+        "Door_FL_open": 0.9667902132486009,
+        "Door_FR_open": 0.9667902132486009,
+        "Door_RL_open": 0.9667902132486009,
+        "Door_RR_open": 0.9667902132486009,
+        "Hood_Hinge_open": 0.9667902132486009,
+        "Trunk_Hinge_open": 0.9667902132486009
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000069",
+      "capture_view": "front3q",
+      "path": "000069.png",
+      "sha256": "ee55e0422945fa965c34897f789b9bab3efa0229d18e200df7fd0b28bad619b1",
+      "seconds": 1.9652310000019497,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 137.0,
+      "time_seconds": 2.2666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.9567727288213006,
+        "Door_FR_open": 0.9567727288213006,
+        "Door_RL_open": 0.9567727288213006,
+        "Door_RR_open": 0.9567727288213006,
+        "Hood_Hinge_open": 0.9567727288213006,
+        "Trunk_Hinge_open": 0.9567727288213006
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000070",
+      "capture_view": "front3q",
+      "path": "000070.png",
+      "sha256": "82831464f4893b3b0d474ac18ad34b14f01f3e1f93a06606a3476657bf2629da",
+      "seconds": 1.9728635999999824,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 139.0,
+      "time_seconds": 2.3,
+      "animated_controls": {
+        "Door_FL_open": 0.945503262094184,
+        "Door_FR_open": 0.945503262094184,
+        "Door_RL_open": 0.945503262094184,
+        "Door_RR_open": 0.945503262094184,
+        "Hood_Hinge_open": 0.945503262094184,
+        "Trunk_Hinge_open": 0.945503262094184
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000071",
+      "capture_view": "front3q",
+      "path": "000071.png",
+      "sha256": "e20949fcbe09754790e48cb6232917e2f486a95df5af4048f7280a0a48f79196",
+      "seconds": 1.9783142000014777,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 141.0,
+      "time_seconds": 2.3333333333333335,
+      "animated_controls": {
+        "Door_FL_open": 0.9330127018922194,
+        "Door_FR_open": 0.9330127018922194,
+        "Door_RL_open": 0.9330127018922194,
+        "Door_RR_open": 0.9330127018922194,
+        "Hood_Hinge_open": 0.9330127018922194,
+        "Trunk_Hinge_open": 0.9330127018922194
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000072",
+      "capture_view": "front3q",
+      "path": "000072.png",
+      "sha256": "274ee0496685d1789847b43e75c4fc949a4739fdf42f6cb68834ef8b3c63bb99",
+      "seconds": 1.9835321999998996,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 143.0,
+      "time_seconds": 2.3666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.919335283972712,
+        "Door_FR_open": 0.919335283972712,
+        "Door_RL_open": 0.919335283972712,
+        "Door_RR_open": 0.919335283972712,
+        "Hood_Hinge_open": 0.919335283972712,
+        "Trunk_Hinge_open": 0.919335283972712
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000073",
+      "capture_view": "front3q",
+      "path": "000073.png",
+      "sha256": "5febe1b4171054aff329ba4e4aef87e40e48681584950f2ef9d64cbc92013732",
+      "seconds": 1.9571569999970961,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 145.0,
+      "time_seconds": 2.4,
+      "animated_controls": {
+        "Door_FL_open": 0.9045084971874738,
+        "Door_FR_open": 0.9045084971874738,
+        "Door_RL_open": 0.9045084971874738,
+        "Door_RR_open": 0.9045084971874738,
+        "Hood_Hinge_open": 0.9045084971874738,
+        "Trunk_Hinge_open": 0.9045084971874738
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000074",
+      "capture_view": "front3q",
+      "path": "000074.png",
+      "sha256": "a501239eecc0b52416f8b997642b03b858d388135c4290307a2be86a26de301a",
+      "seconds": 1.975185600000259,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 147.0,
+      "time_seconds": 2.433333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.8885729807284855,
+        "Door_FR_open": 0.8885729807284855,
+        "Door_RL_open": 0.8885729807284855,
+        "Door_RR_open": 0.8885729807284855,
+        "Hood_Hinge_open": 0.8885729807284855,
+        "Trunk_Hinge_open": 0.8885729807284855
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000075",
+      "capture_view": "front3q",
+      "path": "000075.png",
+      "sha256": "f2b40f9e6cadaa4bedc8da346abc1aad9833600177869f9b2f53d35958d92cb4",
+      "seconds": 1.9660441000014544,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 149.0,
+      "time_seconds": 2.466666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.8715724127386971,
+        "Door_FR_open": 0.8715724127386971,
+        "Door_RL_open": 0.8715724127386971,
+        "Door_RR_open": 0.8715724127386971,
+        "Hood_Hinge_open": 0.8715724127386971,
+        "Trunk_Hinge_open": 0.8715724127386971
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000076",
+      "capture_view": "front3q",
+      "path": "000076.png",
+      "sha256": "7c624b517d5dd82707859fea0a32c5ffc90559e06cdec0230f61406ab4798657",
+      "seconds": 1.969722300003923,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 151.0,
+      "time_seconds": 2.5,
+      "animated_controls": {
+        "Door_FL_open": 0.8535533905932737,
+        "Door_FR_open": 0.8535533905932737,
+        "Door_RL_open": 0.8535533905932737,
+        "Door_RR_open": 0.8535533905932737,
+        "Hood_Hinge_open": 0.8535533905932737,
+        "Trunk_Hinge_open": 0.8535533905932737
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000077",
+      "capture_view": "front3q",
+      "path": "000077.png",
+      "sha256": "eb901ba61ca344cdd2a2be412c55393530eb46ef38b749c13703d5db4c3a641b",
+      "seconds": 1.9698839000047883,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 153.0,
+      "time_seconds": 2.533333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.8345653031794292,
+        "Door_FR_open": 0.8345653031794292,
+        "Door_RL_open": 0.8345653031794292,
+        "Door_RR_open": 0.8345653031794292,
+        "Hood_Hinge_open": 0.8345653031794292,
+        "Trunk_Hinge_open": 0.8345653031794292
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000078",
+      "capture_view": "front3q",
+      "path": "000078.png",
+      "sha256": "d9dd0259bd0420ff34a6c1a7218cfbfb7228364561d53e7ce08b296928e7dea3",
+      "seconds": 1.956885699997656,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 155.0,
+      "time_seconds": 2.566666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.8146601955249185,
+        "Door_FR_open": 0.8146601955249185,
+        "Door_RL_open": 0.8146601955249185,
+        "Door_RR_open": 0.8146601955249185,
+        "Hood_Hinge_open": 0.8146601955249185,
+        "Trunk_Hinge_open": 0.8146601955249185
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000079",
+      "capture_view": "front3q",
+      "path": "000079.png",
+      "sha256": "ca0c6ec17ddccd7a310d97d939cb9c8a75215927ac3de1888e2751a651e95894",
+      "seconds": 1.976496600000246,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 157.0,
+      "time_seconds": 2.6,
+      "animated_controls": {
+        "Door_FL_open": 0.7938926261462367,
+        "Door_FR_open": 0.7938926261462367,
+        "Door_RL_open": 0.7938926261462367,
+        "Door_RR_open": 0.7938926261462367,
+        "Hood_Hinge_open": 0.7938926261462367,
+        "Trunk_Hinge_open": 0.7938926261462367
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000080",
+      "capture_view": "front3q",
+      "path": "000080.png",
+      "sha256": "b27b63b819568a431ec6efda37d22c63106f345179ae0c1b16b68c7e08e5b714",
+      "seconds": 1.9554269000000204,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 159.0,
+      "time_seconds": 2.6333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.7723195175075136,
+        "Door_FR_open": 0.7723195175075136,
+        "Door_RL_open": 0.7723195175075136,
+        "Door_RR_open": 0.7723195175075136,
+        "Hood_Hinge_open": 0.7723195175075136,
+        "Trunk_Hinge_open": 0.7723195175075136
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000081",
+      "capture_view": "front3q",
+      "path": "000081.png",
+      "sha256": "0decf37296e1188c7a29f1cae764ae7bf7990db4fa2ba8aadf13847fcda9e78b",
+      "seconds": 1.935367199999746,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 161.0,
+      "time_seconds": 2.6666666666666665,
+      "animated_controls": {
+        "Door_FL_open": 0.7500000000000001,
+        "Door_FR_open": 0.7500000000000001,
+        "Door_RL_open": 0.7500000000000001,
+        "Door_RR_open": 0.7500000000000001,
+        "Hood_Hinge_open": 0.7500000000000001,
+        "Trunk_Hinge_open": 0.7500000000000001
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000082",
+      "capture_view": "front3q",
+      "path": "000082.png",
+      "sha256": "93a7791babe9f2e16e40173e52674eea61902c75d5b0ea9ed8a54640a32e5b98",
+      "seconds": 1.9444189999994705,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 163.0,
+      "time_seconds": 2.7,
+      "animated_controls": {
+        "Door_FL_open": 0.7269952498697735,
+        "Door_FR_open": 0.7269952498697735,
+        "Door_RL_open": 0.7269952498697735,
+        "Door_RR_open": 0.7269952498697735,
+        "Hood_Hinge_open": 0.7269952498697735,
+        "Trunk_Hinge_open": 0.7269952498697735
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000083",
+      "capture_view": "front3q",
+      "path": "000083.png",
+      "sha256": "b5604b940e0cd20995704fc2dcfd50a35f5d3353aa61e4a66121629b676a84dc",
+      "seconds": 1.9348339999996824,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 165.0,
+      "time_seconds": 2.7333333333333334,
+      "animated_controls": {
+        "Door_FL_open": 0.7033683215379002,
+        "Door_FR_open": 0.7033683215379002,
+        "Door_RL_open": 0.7033683215379002,
+        "Door_RR_open": 0.7033683215379002,
+        "Hood_Hinge_open": 0.7033683215379002,
+        "Trunk_Hinge_open": 0.7033683215379002
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000084",
+      "capture_view": "front3q",
+      "path": "000084.png",
+      "sha256": "32035a0e94b441aa90861935d11fc5aa5c2013c1926948896857e024a4b21880",
+      "seconds": 1.9289213000010932,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 167.0,
+      "time_seconds": 2.7666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.6791839747726504,
+        "Door_FR_open": 0.6791839747726504,
+        "Door_RL_open": 0.6791839747726504,
+        "Door_RR_open": 0.6791839747726504,
+        "Hood_Hinge_open": 0.6791839747726504,
+        "Trunk_Hinge_open": 0.6791839747726504
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000085",
+      "capture_view": "front3q",
+      "path": "000085.png",
+      "sha256": "6e5496bfae1a39c18730f8907cf2d2afffa6fe50c1e8f77dded4005accfa35b8",
+      "seconds": 1.9334215999988373,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 169.0,
+      "time_seconds": 2.8,
+      "animated_controls": {
+        "Door_FL_open": 0.6545084971874737,
+        "Door_FR_open": 0.6545084971874737,
+        "Door_RL_open": 0.6545084971874737,
+        "Door_RR_open": 0.6545084971874737,
+        "Hood_Hinge_open": 0.6545084971874737,
+        "Trunk_Hinge_open": 0.6545084971874737
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000086",
+      "capture_view": "front3q",
+      "path": "000086.png",
+      "sha256": "808e3e6a4312ac9776dd922c3dab32316c01f3f39258366c81508903aacf0600",
+      "seconds": 1.929946000003838,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 171.0,
+      "time_seconds": 2.8333333333333335,
+      "animated_controls": {
+        "Door_FL_open": 0.6294095225512604,
+        "Door_FR_open": 0.6294095225512604,
+        "Door_RL_open": 0.6294095225512604,
+        "Door_RR_open": 0.6294095225512604,
+        "Hood_Hinge_open": 0.6294095225512604,
+        "Trunk_Hinge_open": 0.6294095225512604
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000087",
+      "capture_view": "front3q",
+      "path": "000087.png",
+      "sha256": "4f1c213a601e855b1711ac2c669adfa2abe0e51a43d2f17147e76d1c148eabcf",
+      "seconds": 1.9435726000010618,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 173.0,
+      "time_seconds": 2.8666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.6039558454088799,
+        "Door_FR_open": 0.6039558454088799,
+        "Door_RL_open": 0.6039558454088799,
+        "Door_RR_open": 0.6039558454088799,
+        "Hood_Hinge_open": 0.6039558454088799,
+        "Trunk_Hinge_open": 0.6039558454088799
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000088",
+      "capture_view": "front3q",
+      "path": "000088.png",
+      "sha256": "ab7eb0e6ee8825cec273e0954f0a6f2d595b20bda071a90524debc65403c4648",
+      "seconds": 1.945840500004124,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 175.0,
+      "time_seconds": 2.9,
+      "animated_controls": {
+        "Door_FL_open": 0.5782172325201155,
+        "Door_FR_open": 0.5782172325201155,
+        "Door_RL_open": 0.5782172325201155,
+        "Door_RR_open": 0.5782172325201155,
+        "Hood_Hinge_open": 0.5782172325201155,
+        "Trunk_Hinge_open": 0.5782172325201155
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000089",
+      "capture_view": "front3q",
+      "path": "000089.png",
+      "sha256": "6a330d4ef426e9fe87e3e2767b70db6088faa3a6c23273a05651bf14032183f3",
+      "seconds": 1.9215933000014047,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 177.0,
+      "time_seconds": 2.933333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.5522642316338271,
+        "Door_FR_open": 0.5522642316338271,
+        "Door_RL_open": 0.5522642316338271,
+        "Door_RR_open": 0.5522642316338271,
+        "Hood_Hinge_open": 0.5522642316338271,
+        "Trunk_Hinge_open": 0.5522642316338271
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000090",
+      "capture_view": "front3q",
+      "path": "000090.png",
+      "sha256": "76290844a938ab2f67135cf2b97e46282699777a2ef9c0d2081c78f732537634",
+      "seconds": 1.9420801999949617,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 179.0,
+      "time_seconds": 2.966666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.5261679781214718,
+        "Door_FR_open": 0.5261679781214718,
+        "Door_RL_open": 0.5261679781214718,
+        "Door_RR_open": 0.5261679781214718,
+        "Hood_Hinge_open": 0.5261679781214718,
+        "Trunk_Hinge_open": 0.5261679781214718
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000091",
+      "capture_view": "front3q",
+      "path": "000091.png",
+      "sha256": "3f7c7bbbb6897c754e4c17edeb9d837b9749ef39cb94c8f61b98bfdb8026568b",
+      "seconds": 1.929721900000004,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 181.0,
+      "time_seconds": 3.0,
+      "animated_controls": {
+        "Door_FL_open": 0.5000000000000001,
+        "Door_FR_open": 0.5000000000000001,
+        "Door_RL_open": 0.5000000000000001,
+        "Door_RR_open": 0.5000000000000001,
+        "Hood_Hinge_open": 0.5000000000000001,
+        "Trunk_Hinge_open": 0.5000000000000001
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000092",
+      "capture_view": "front3q",
+      "path": "000092.png",
+      "sha256": "505b8434f8f91b27f0c1fe57d7e6489d3cece3d8d94a1c84f675345f7485ce1e",
+      "seconds": 1.9272208999973373,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 183.0,
+      "time_seconds": 3.033333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.47383202187852846,
+        "Door_FR_open": 0.47383202187852846,
+        "Door_RL_open": 0.47383202187852846,
+        "Door_RR_open": 0.47383202187852846,
+        "Hood_Hinge_open": 0.47383202187852846,
+        "Trunk_Hinge_open": 0.47383202187852846
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000093",
+      "capture_view": "front3q",
+      "path": "000093.png",
+      "sha256": "07d6e9f7fe7ffd10cda6ca27c3978c4e0e56208bd5427d771c2511c5d8aa9a75",
+      "seconds": 1.9247318999987328,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 185.0,
+      "time_seconds": 3.066666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.447735768366173,
+        "Door_FR_open": 0.447735768366173,
+        "Door_RL_open": 0.447735768366173,
+        "Door_RR_open": 0.447735768366173,
+        "Hood_Hinge_open": 0.447735768366173,
+        "Trunk_Hinge_open": 0.447735768366173
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000094",
+      "capture_view": "front3q",
+      "path": "000094.png",
+      "sha256": "560d1cb19ed61a2a505742ff86ec50ad7f3b252b83dbb0ddaa75aa7658b8e62e",
+      "seconds": 1.9143774999974994,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 187.0,
+      "time_seconds": 3.1,
+      "animated_controls": {
+        "Door_FL_open": 0.4217827674798847,
+        "Door_FR_open": 0.4217827674798847,
+        "Door_RL_open": 0.4217827674798847,
+        "Door_RR_open": 0.4217827674798847,
+        "Hood_Hinge_open": 0.4217827674798847,
+        "Trunk_Hinge_open": 0.4217827674798847
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000095",
+      "capture_view": "front3q",
+      "path": "000095.png",
+      "sha256": "b4303829aac085994b52dd98aa06ca3f77103ab0adfdbbcc18391b0c00e9986a",
+      "seconds": 1.9261318999997457,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 189.0,
+      "time_seconds": 3.1333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.39604415459112025,
+        "Door_FR_open": 0.39604415459112025,
+        "Door_RL_open": 0.39604415459112025,
+        "Door_RR_open": 0.39604415459112025,
+        "Hood_Hinge_open": 0.39604415459112025,
+        "Trunk_Hinge_open": 0.39604415459112025
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000096",
+      "capture_view": "front3q",
+      "path": "000096.png",
+      "sha256": "5b1be80637e9fd67a19caedc4b7d1b2f0d193fa879fa0e29a47a12163524d6c2",
+      "seconds": 1.9182952999981353,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 191.0,
+      "time_seconds": 3.1666666666666665,
+      "animated_controls": {
+        "Door_FL_open": 0.3705904774487399,
+        "Door_FR_open": 0.3705904774487399,
+        "Door_RL_open": 0.3705904774487399,
+        "Door_RR_open": 0.3705904774487399,
+        "Hood_Hinge_open": 0.3705904774487399,
+        "Trunk_Hinge_open": 0.3705904774487399
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000097",
+      "capture_view": "front3q",
+      "path": "000097.png",
+      "sha256": "ed643f7566aadfbf6fbaea556f048970f2154b3dfc44e11f494e0b109545e803",
+      "seconds": 1.9159784000003128,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 193.0,
+      "time_seconds": 3.2,
+      "animated_controls": {
+        "Door_FL_open": 0.34549150281252644,
+        "Door_FR_open": 0.34549150281252644,
+        "Door_RL_open": 0.34549150281252644,
+        "Door_RR_open": 0.34549150281252644,
+        "Hood_Hinge_open": 0.34549150281252644,
+        "Trunk_Hinge_open": 0.34549150281252644
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000098",
+      "capture_view": "front3q",
+      "path": "000098.png",
+      "sha256": "77bfec23ad28b7c2f5b5e74148df9067473b8950a2be2e8d5edb20d2db527e8f",
+      "seconds": 1.9297458000000915,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 195.0,
+      "time_seconds": 3.2333333333333334,
+      "animated_controls": {
+        "Door_FL_open": 0.32081602522734987,
+        "Door_FR_open": 0.32081602522734987,
+        "Door_RL_open": 0.32081602522734987,
+        "Door_RR_open": 0.32081602522734987,
+        "Hood_Hinge_open": 0.32081602522734987,
+        "Trunk_Hinge_open": 0.32081602522734987
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000099",
+      "capture_view": "front3q",
+      "path": "000099.png",
+      "sha256": "70dcac207292ca2074e235136c0e3c4e390a11611b91ca5ebb6676214a35290d",
+      "seconds": 1.9424530000032973,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 197.0,
+      "time_seconds": 3.2666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.29663167846210015,
+        "Door_FR_open": 0.29663167846210015,
+        "Door_RL_open": 0.29663167846210015,
+        "Door_RR_open": 0.29663167846210015,
+        "Hood_Hinge_open": 0.29663167846210015,
+        "Trunk_Hinge_open": 0.29663167846210015
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000100",
+      "capture_view": "front3q",
+      "path": "000100.png",
+      "sha256": "a2a08e2a63fcf8087c5b75f348f2c0044d7662615a227d35d8d05c20902bb947",
+      "seconds": 1.9316737000044668,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 199.0,
+      "time_seconds": 3.3,
+      "animated_controls": {
+        "Door_FL_open": 0.2730047501302266,
+        "Door_FR_open": 0.2730047501302266,
+        "Door_RL_open": 0.2730047501302266,
+        "Door_RR_open": 0.2730047501302266,
+        "Hood_Hinge_open": 0.2730047501302266,
+        "Trunk_Hinge_open": 0.2730047501302266
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000101",
+      "capture_view": "front3q",
+      "path": "000101.png",
+      "sha256": "e1a65a68253e92e193f8b9cdbcd3f90543e6524077962a117834b815cdf7311e",
+      "seconds": 1.9063309999983176,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 201.0,
+      "time_seconds": 3.3333333333333335,
+      "animated_controls": {
+        "Door_FL_open": 0.24999999999999994,
+        "Door_FR_open": 0.24999999999999994,
+        "Door_RL_open": 0.24999999999999994,
+        "Door_RR_open": 0.24999999999999994,
+        "Hood_Hinge_open": 0.24999999999999994,
+        "Trunk_Hinge_open": 0.24999999999999994
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000102",
+      "capture_view": "front3q",
+      "path": "000102.png",
+      "sha256": "bb6efc88bb0eeb15b5e3b7771f1f3ecdebfef56726f8c23d088e5a6fcad7d1c1",
+      "seconds": 1.9198063999938313,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 203.0,
+      "time_seconds": 3.3666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.22768048249248665,
+        "Door_FR_open": 0.22768048249248665,
+        "Door_RL_open": 0.22768048249248665,
+        "Door_RR_open": 0.22768048249248665,
+        "Hood_Hinge_open": 0.22768048249248665,
+        "Trunk_Hinge_open": 0.22768048249248665
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000103",
+      "capture_view": "front3q",
+      "path": "000103.png",
+      "sha256": "0c00ae28adb300786d2913bae770b773b0983202e61d98fa16d22a1ab6d516e0",
+      "seconds": 1.923270200000843,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 205.0,
+      "time_seconds": 3.4,
+      "animated_controls": {
+        "Door_FL_open": 0.2061073738537635,
+        "Door_FR_open": 0.2061073738537635,
+        "Door_RL_open": 0.2061073738537635,
+        "Door_RR_open": 0.2061073738537635,
+        "Hood_Hinge_open": 0.2061073738537635,
+        "Trunk_Hinge_open": 0.2061073738537635
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000104",
+      "capture_view": "front3q",
+      "path": "000104.png",
+      "sha256": "f7bd8b6529c068774176da6151bbdde8b5d27bace66ceb1332c7759635512bee",
+      "seconds": 1.9059281000008923,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 207.0,
+      "time_seconds": 3.433333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.1853398044750816,
+        "Door_FR_open": 0.1853398044750816,
+        "Door_RL_open": 0.1853398044750816,
+        "Door_RR_open": 0.1853398044750816,
+        "Hood_Hinge_open": 0.1853398044750816,
+        "Trunk_Hinge_open": 0.1853398044750816
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000105",
+      "capture_view": "front3q",
+      "path": "000105.png",
+      "sha256": "1f2e8bfcfde3c5820aa6ff6769bf5547c57a074ba1a2028732dbc538148be2e5",
+      "seconds": 1.9042774999979883,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 209.0,
+      "time_seconds": 3.466666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.16543469682057077,
+        "Door_FR_open": 0.16543469682057077,
+        "Door_RL_open": 0.16543469682057077,
+        "Door_RR_open": 0.16543469682057077,
+        "Hood_Hinge_open": 0.16543469682057077,
+        "Trunk_Hinge_open": 0.16543469682057077
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000106",
+      "capture_view": "front3q",
+      "path": "000106.png",
+      "sha256": "77f9571ab0ea620afd2d33dcc2d4e25c705f86ebb256d82883ec6ad83ea11011",
+      "seconds": 1.9159599999984493,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 211.0,
+      "time_seconds": 3.5,
+      "animated_controls": {
+        "Door_FL_open": 0.14644660940672632,
+        "Door_FR_open": 0.14644660940672632,
+        "Door_RL_open": 0.14644660940672632,
+        "Door_RR_open": 0.14644660940672632,
+        "Hood_Hinge_open": 0.14644660940672632,
+        "Trunk_Hinge_open": 0.14644660940672632
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000107",
+      "capture_view": "front3q",
+      "path": "000107.png",
+      "sha256": "92f2fc23745e19e5e761e92ace1c7e6d55f1c85e870417ce2637c45b9e25073a",
+      "seconds": 1.8938452000002144,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 213.0,
+      "time_seconds": 3.533333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.12842758726130316,
+        "Door_FR_open": 0.12842758726130316,
+        "Door_RL_open": 0.12842758726130316,
+        "Door_RR_open": 0.12842758726130316,
+        "Hood_Hinge_open": 0.12842758726130316,
+        "Trunk_Hinge_open": 0.12842758726130316
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000108",
+      "capture_view": "front3q",
+      "path": "000108.png",
+      "sha256": "f93bac2f3c5b3bfff3aa147ab9ee9c5612d8c133a4771020829daf8c616fcfa3",
+      "seconds": 1.886125600001833,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 215.0,
+      "time_seconds": 3.566666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.11142701927151444,
+        "Door_FR_open": 0.11142701927151444,
+        "Door_RL_open": 0.11142701927151444,
+        "Door_RR_open": 0.11142701927151444,
+        "Hood_Hinge_open": 0.11142701927151444,
+        "Trunk_Hinge_open": 0.11142701927151444
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000109",
+      "capture_view": "front3q",
+      "path": "000109.png",
+      "sha256": "c3e43fa4c8ce008944e19d9a809ae5d33df49c5f24d0f70b601d47d6ac8631af",
+      "seconds": 1.8777896000028704,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 217.0,
+      "time_seconds": 3.6,
+      "animated_controls": {
+        "Door_FL_open": 0.09549150281252634,
+        "Door_FR_open": 0.09549150281252634,
+        "Door_RL_open": 0.09549150281252634,
+        "Door_RR_open": 0.09549150281252634,
+        "Hood_Hinge_open": 0.09549150281252634,
+        "Trunk_Hinge_open": 0.09549150281252634
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000110",
+      "capture_view": "front3q",
+      "path": "000110.png",
+      "sha256": "8b259a3c50afe306213f289a10ffab7286080ccac13e5fca843bdd22374f36fa",
+      "seconds": 1.8883739000011701,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 219.0,
+      "time_seconds": 3.6333333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.08066471602728797,
+        "Door_FR_open": 0.08066471602728797,
+        "Door_RL_open": 0.08066471602728797,
+        "Door_RR_open": 0.08066471602728797,
+        "Hood_Hinge_open": 0.08066471602728797,
+        "Trunk_Hinge_open": 0.08066471602728797
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000111",
+      "capture_view": "front3q",
+      "path": "000111.png",
+      "sha256": "f5ab8d491b9ed2d2648323b9aaaf39ad1ea96a833a028c7978a28af070b56046",
+      "seconds": 1.8743639000022085,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 221.0,
+      "time_seconds": 3.6666666666666665,
+      "animated_controls": {
+        "Door_FL_open": 0.06698729810778081,
+        "Door_FR_open": 0.06698729810778081,
+        "Door_RL_open": 0.06698729810778081,
+        "Door_RR_open": 0.06698729810778081,
+        "Hood_Hinge_open": 0.06698729810778081,
+        "Trunk_Hinge_open": 0.06698729810778081
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000112",
+      "capture_view": "front3q",
+      "path": "000112.png",
+      "sha256": "8419ec660a4fcd3a19748c5848d9efb4794020f2375ff749165767b8eb4d13bb",
+      "seconds": 1.8704765000002226,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 223.0,
+      "time_seconds": 3.7,
+      "animated_controls": {
+        "Door_FL_open": 0.05449673790581613,
+        "Door_FR_open": 0.05449673790581613,
+        "Door_RL_open": 0.05449673790581613,
+        "Door_RR_open": 0.05449673790581613,
+        "Hood_Hinge_open": 0.05449673790581613,
+        "Trunk_Hinge_open": 0.05449673790581613
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000113",
+      "capture_view": "front3q",
+      "path": "000113.png",
+      "sha256": "336b96657ea156bdb09840d76004dae49453dc3507881554b860b3bc02edf363",
+      "seconds": 1.8689578999983496,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 225.0,
+      "time_seconds": 3.7333333333333334,
+      "animated_controls": {
+        "Door_FL_open": 0.043227271178699546,
+        "Door_FR_open": 0.043227271178699546,
+        "Door_RL_open": 0.043227271178699546,
+        "Door_RR_open": 0.043227271178699546,
+        "Hood_Hinge_open": 0.043227271178699546,
+        "Trunk_Hinge_open": 0.043227271178699546
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000114",
+      "capture_view": "front3q",
+      "path": "000114.png",
+      "sha256": "effe128a7b081e0fbf022f2c4e74461caf91d0d0a325d1fa20bc1fdfd74c6aa6",
+      "seconds": 1.880476300000737,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 227.0,
+      "time_seconds": 3.7666666666666666,
+      "animated_controls": {
+        "Door_FL_open": 0.03320978675139922,
+        "Door_FR_open": 0.03320978675139922,
+        "Door_RL_open": 0.03320978675139922,
+        "Door_RR_open": 0.03320978675139922,
+        "Hood_Hinge_open": 0.03320978675139922,
+        "Trunk_Hinge_open": 0.03320978675139922
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000115",
+      "capture_view": "front3q",
+      "path": "000115.png",
+      "sha256": "670cd6c5c26a78a59994d5c70feacc8c13c21b45e5aaa02b1b170dee43324500",
+      "seconds": 1.8661350999973365,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 229.0,
+      "time_seconds": 3.8,
+      "animated_controls": {
+        "Door_FL_open": 0.02447174185242325,
+        "Door_FR_open": 0.02447174185242325,
+        "Door_RL_open": 0.02447174185242325,
+        "Door_RR_open": 0.02447174185242325,
+        "Hood_Hinge_open": 0.02447174185242325,
+        "Trunk_Hinge_open": 0.02447174185242325
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000116",
+      "capture_view": "front3q",
+      "path": "000116.png",
+      "sha256": "1cefd8b2d46b15141b5303ac5de124ba0a1d7be6ad2e5bba70d8b9672577835f",
+      "seconds": 1.870198899996467,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 231.0,
+      "time_seconds": 3.8333333333333335,
+      "animated_controls": {
+        "Door_FL_open": 0.01703708685546585,
+        "Door_FR_open": 0.01703708685546585,
+        "Door_RL_open": 0.01703708685546585,
+        "Door_RR_open": 0.01703708685546585,
+        "Hood_Hinge_open": 0.01703708685546585,
+        "Trunk_Hinge_open": 0.01703708685546585
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000117",
+      "capture_view": "front3q",
+      "path": "000117.png",
+      "sha256": "8b06d408110f6df0ccd7cd2a5e0e15499240e45192f8ec85b9cd4b5c8819c258",
+      "seconds": 1.8864561000009417,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 233.0,
+      "time_seconds": 3.8666666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.010926199633097235,
+        "Door_FR_open": 0.010926199633097235,
+        "Door_RL_open": 0.010926199633097235,
+        "Door_RR_open": 0.010926199633097235,
+        "Hood_Hinge_open": 0.010926199633097235,
+        "Trunk_Hinge_open": 0.010926199633097235
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000118",
+      "capture_view": "front3q",
+      "path": "000118.png",
+      "sha256": "0ea42a4310db31b789720e2c73feb4362224bcc7679b3696ba065731cceaccc8",
+      "seconds": 1.8763288999980432,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 235.0,
+      "time_seconds": 3.9,
+      "animated_controls": {
+        "Door_FL_open": 0.0061558297024311565,
+        "Door_FR_open": 0.0061558297024311565,
+        "Door_RL_open": 0.0061558297024311565,
+        "Door_RR_open": 0.0061558297024311565,
+        "Hood_Hinge_open": 0.0061558297024311565,
+        "Trunk_Hinge_open": 0.0061558297024311565
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000119",
+      "capture_view": "front3q",
+      "path": "000119.png",
+      "sha256": "4c79e78bdfb7997b869954e5ffb96416ffac14036fb15aa4faa194c04473748d",
+      "seconds": 1.8665485000019544,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 237.0,
+      "time_seconds": 3.933333333333333,
+      "animated_controls": {
+        "Door_FL_open": 0.0027390523158633755,
+        "Door_FR_open": 0.0027390523158633755,
+        "Door_RL_open": 0.0027390523158633755,
+        "Door_RR_open": 0.0027390523158633755,
+        "Hood_Hinge_open": 0.0027390523158633755,
+        "Trunk_Hinge_open": 0.0027390523158633755
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000120",
+      "capture_view": "front3q",
+      "path": "000120.png",
+      "sha256": "c327b6427a02bd1d59fe8aa8c7f23dd6bc075d83ce35854f75889deaf8717037",
+      "seconds": 1.8622090999997454,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 239.0,
+      "time_seconds": 3.966666666666667,
+      "animated_controls": {
+        "Door_FL_open": 0.000685232622713054,
+        "Door_FR_open": 0.000685232622713054,
+        "Door_RL_open": 0.000685232622713054,
+        "Door_RR_open": 0.000685232622713054,
+        "Hood_Hinge_open": 0.000685232622713054,
+        "Trunk_Hinge_open": 0.000685232622713054
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000121",
+      "capture_view": "front3q",
+      "path": "000121.png",
+      "sha256": "9ddeefdb4303a14f6fbe9b814f83c2594a0edc6fb3fb8d2caabbd4d7b6260d95",
+      "seconds": 1.851247800004785,
+      "cold": false,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 241.0,
+      "time_seconds": 4.0,
+      "animated_controls": {
+        "Door_FL_open": 1.4997597826618576e-32,
+        "Door_FR_open": 1.4997597826618576e-32,
+        "Door_RL_open": 1.4997597826618576e-32,
+        "Door_RR_open": 1.4997597826618576e-32,
+        "Hood_Hinge_open": 1.4997597826618576e-32,
+        "Trunk_Hinge_open": 1.4997597826618576e-32
+      },
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    }
+  ]
+}

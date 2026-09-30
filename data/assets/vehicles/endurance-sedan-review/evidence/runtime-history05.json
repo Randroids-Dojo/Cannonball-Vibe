@@ -1,0 +1,1431 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T19:32:03.833363+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/runtime-history05-parts/part-01.manifest.json",
+    "sha256": "96e55b9b9817166dd37d3a4b0238484af6b0187887b0144a057a24a049f7abc8"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/runtime-history-04.json",
+      "sha256": "283975df2c02c34fb78d7e64c807c4d51b5f9723a17be55525f0327212e355c1",
+      "bytes": 1442146,
+      "reason": "Immutable history04 index locating the previously retained failures/corrections and closed aliases",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime-history-04.json"
+    },
+    {
+      "path": "reports/p1-018/runtime-history-05.json",
+      "bytes": 256809,
+      "sha256": "d6d7e2058a652b5f2375fcdfc8eeaf799947a1dac5451c30441609a25678a3f3",
+      "reason": "Complete original inventory including explicit aliases, exclusions and omissions"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/launch-evidence.json",
+      "sha256": "65befbe145f8da40ff687047060e4a3982e09407b830c360c86107fe6ffa1faf",
+      "bytes": 34923,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/launch-evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/launch-input.py",
+      "sha256": "4dd0a44954f5fed2db900e262bd9b66733de0508d51f10d085293bf06286f71b",
+      "bytes": 2833,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/launch-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/launch.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/launch.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/launch.stdout.log",
+      "sha256": "1c86cf704fc3daaa3a9665e70fc4456fe2c89147bbca1c50b94309f5f01a6885",
+      "bytes": 140,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/launch.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/01-static-ride.png",
+      "sha256": "0b9a94f94e59c2d0d7c7bf2b5dda19311a809099f7840f10d077703ad6802503",
+      "bytes": 718254,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/01-static-ride.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/02-keyboard-acceleration.png",
+      "sha256": "3671aa5f492a530bcc7b74d1723ff5db1512924bb8ea4cab9eb6e242fee4ecf6",
+      "bytes": 711618,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/02-keyboard-acceleration.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/03-keyboard-braking.png",
+      "sha256": "f8ba89d4b384d13646147364db20d9b7fdf23b715e94afd075d90cb2f8b43425",
+      "bytes": 709371,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/03-keyboard-braking.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/04-controller-acceleration.png",
+      "sha256": "2b1e26d429e070a2c8ecfe1a05fd0507f8cf9ec771a46ab43b3c652e2a9b9e79",
+      "bytes": 714003,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/04-controller-acceleration.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/05-controller-braking.png",
+      "sha256": "3b10cc937cf50070ddfa0372818675501f0c12e46739b915d6ee12c27baff7d0",
+      "bytes": 711163,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/05-controller-braking.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/06-reverse.png",
+      "sha256": "5fe40d3281afa55377709940b83aea1f861e64f557756c370c5078fb2d95568f",
+      "bytes": 719341,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/06-reverse.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/07-steer-left.png",
+      "sha256": "03a594641064aef724533a305fc37f25b1d0a4c7cdef447069e1e47f5c2e6eaa",
+      "bytes": 723830,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/07-steer-left.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/08-steer-right.png",
+      "sha256": "b0a8e5b2019c533f35a47211d73897513f9308cccfa62e0dd47c7829bde021a5",
+      "bytes": 725502,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/08-steer-right.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/09-suspension.png",
+      "sha256": "08e3c27ffdc42a2fa59f9a39dc7116185a59f80b7c17210ae6da67aae72f95a4",
+      "bytes": 716022,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/09-suspension.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/10-collision.png",
+      "sha256": "91f30d8e35235f84fc31b99acef203c417b47118fd7ec670c43171dd8811baca",
+      "bytes": 716150,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/10-collision.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/11-reset.png",
+      "sha256": "e9c4b886352d84ce3cbcce71ce900fd813c7105aeea721e82060c4e02f5742eb",
+      "bytes": 717974,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/11-reset.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/12-cameras.png",
+      "sha256": "ea2db253a2dd6d8387937348adcbdb7300a57b98330e73ccdb6ead2e20917fb9",
+      "bytes": 977857,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/12-cameras.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/13-natural-rebase.png",
+      "sha256": "944888faa6b5a37e4a47277fa469b66a64443ba729f48d029b94a12c2d00451e",
+      "bytes": 4081484,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/13-natural-rebase.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/14-forced-rebase.png",
+      "sha256": "e07f63d99d45297849636c923d2f9b4da8aade7a4a5bfe3f3aa5d06bb1186792",
+      "bytes": 3897460,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/14-forced-rebase.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/15-save-resume.png",
+      "sha256": "e1cea16d41652fe445e25c3dca805a3fc02e61124723a19836d946e7fb8b9d19",
+      "bytes": 3893410,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/15-save-resume.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/16-starter-policy.png",
+      "sha256": "939b8488ec2e11aa845e8cffb6c8bb47ebe3f326ca81b3a1f251f4eed1cf9652",
+      "bytes": 709023,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/16-starter-policy.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/build.stdout.log",
+      "sha256": "8c67ebbd73288ce99d0a2e24ed2064d5db4fb7fc9d0b4e14ea7ff06d250ad865",
+      "bytes": 769,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/capture-override.cfg",
+      "sha256": "b5e31897eea9e704115c60ae2ea5bba66eada5a8fc1d610322ed0faba0700fb6",
+      "bytes": 264,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/capture-override.cfg"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/capture-runner-input.py",
+      "sha256": "2dd3c542d851339397488d46ae1ea6d4c9ae26ed59b1eca710ac1144c8bd8102",
+      "bytes": 31373,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/capture-runner-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/dotnet-version.stdout.log",
+      "sha256": "3ccfabb187270882a308eb46f7bfdfdf2fbf7c14b9e4a704856cf8b1efb227aa",
+      "bytes": 10,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/dotnet-version.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/driving.ogv",
+      "sha256": "32625ee10cbfb4e9875ec0bdd9731b118dcc5e30654038bf24eba38c524869f7",
+      "bytes": 331739348,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/driving.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/engine.log",
+      "sha256": "b5f37184bdddb8c1c18a2ce5b6bf2fc1aaccba8655395aa90ee7e32e62078d31",
+      "bytes": 3358,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/ffmpeg-version.stdout.log",
+      "sha256": "548d07da79082ab0db5b6ab14edc7d2e4221996319ee19b2031ee3226416727b",
+      "bytes": 1500,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/ffmpeg-version.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/ffprobe-version.stdout.log",
+      "sha256": "3bfc09aacc86887f12c848ca8e75ae2ccf71dc14c2861fa4a88870141c5843d2",
+      "bytes": 1473,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/ffprobe-version.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/frames.jsonl",
+      "sha256": "fe6e593d288b1f11fc82eede873a5d01812a43631f919d4f14ea57c8654beefe",
+      "bytes": 19295898,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/git-revision.stdout.log",
+      "sha256": "ecce0265297ebb10699aa5c7669890689cc8f802ea5bef2efea4666e5d22ce0b",
+      "bytes": 41,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/git-revision.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/godot-version.stdout.log",
+      "sha256": "d1046084c2493a272b0b439dc2f6dc74b801cd74659c5010a67c1b2f3acc5866",
+      "bytes": 38,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/godot-version.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/godot.stdout.log",
+      "sha256": "60a2a74c0946021d7b113a2a128811b2ab75779f52c791b018157093ef16d735",
+      "bytes": 3967,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/import.stderr.log",
+      "sha256": "09b774ba42d9e3d28f67f8842661984e7fce11ff56006a6078091be582882a2a",
+      "bytes": 266,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/import.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/import.stdout.log",
+      "sha256": "1e9f6bb5c8d051b4d21ca7b6f789b506699e0e927d9b43c92653ec55e8069fe2",
+      "bytes": 38112,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/import.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/movie-probe.stdout.log",
+      "sha256": "cbad2a76940b113d98b15149677e36ca043ee78ff45a073831a54d0e5174e080",
+      "bytes": 419,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/movie-probe.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/process.json",
+      "sha256": "98e01e14e6d0975df04a899067892124795ffec569ffe26904543910ec575773",
+      "bytes": 140480,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/resume-frame-01.png",
+      "sha256": "89985e1f67817be3d92baf5e1ba11bc2a202bfeef63f4616ca8b1efa230922cf",
+      "bytes": 3893743,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/resume-frame-01.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/resume-frame-02.png",
+      "sha256": "3b5507b31da4ff9e3a7b6bdf84d5e4e1cc8e23088b0757934ba6bd7e7a9dfe87",
+      "bytes": 3893481,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/resume-frame-02.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/run-save.json",
+      "sha256": "3753d69184a7524393f67670034fe9bd17188f25f2c8c248ae1c71d70d8196e6",
+      "bytes": 4737,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/run-save.json.bak",
+      "sha256": "8d393265e8501362cd989f6454eb633c8bd26aff96d413bff299eea399d37780",
+      "bytes": 4680,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/summary.json",
+      "sha256": "0d6dacbfe5c76f1eb0eaebf3b7172b4846f35c7cba21c7d2e9354231a97f3eec",
+      "bytes": 90579,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/telemetry.jsonl",
+      "sha256": "415fd3bb18a64d415c1ce908b922601784b634fa6598ab897b83c5499acd4e61",
+      "bytes": 6780,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/blockout/reconstruction-revalidation-06/native/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/baseline.stdout.log",
+      "sha256": "fdf9f32a3d70eeb0b0bb4ae9f70cddb8aa3fcf91b1b11d398d1500ef31926d23",
+      "bytes": 225,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/baseline.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/evidence.json",
+      "sha256": "40bb7d08bc034e9b109c2c74003b0a24fbc276122d2cc7f8487ad1263239773e",
+      "bytes": 16556,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/external-texture-construct.stdout.log",
+      "sha256": "156ce8bc2765bbc6aaaa94da722eccfe3f5a338a681024758566fa6426cf0833",
+      "bytes": 231,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/external-texture-construct.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/external-texture-reject.stderr.log",
+      "sha256": "51ea41817b876792c168f4f7a1a3bb2195eb37cf314e1d3348f7044206c445c8",
+      "bytes": 776,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/external-texture-reject.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/external-texture-reject.stdout.log",
+      "sha256": "972c2d7e0dbf0cd921c92394afef44f68171e1064de6037f3f80bbeb1fddd172",
+      "bytes": 382,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/external-texture-reject.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/external-texture.blend",
+      "sha256": "d08cfa8037c83497170399690ba8a63b6f0afe88a2bf1161836f55eeb65bf52b",
+      "bytes": 23959054,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/external-texture.blend"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/external-texture.png",
+      "sha256": "0696c768821eab278324a6ac7b06d9fca91c7222dead6dae46b7d1c455a686a2",
+      "bytes": 250,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/external-texture.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/missing-semantic-node-construct.stdout.log",
+      "sha256": "ad5948d155197562944cc6aa12d25f1a2ea0eac512388030f231e57ac20a7147",
+      "bytes": 236,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/missing-semantic-node-construct.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/missing-semantic-node-reject.stderr.log",
+      "sha256": "d87860d5642736d74caafe76643f8fc5f6083bd1073261c0662f66ab2b04209f",
+      "bytes": 647,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/missing-semantic-node-reject.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/missing-semantic-node-reject.stdout.log",
+      "sha256": "fda0a61842c16eb3b8aa8c1fa692d0098ccf6fbacdf1c073f1434a239cf9da30",
+      "bytes": 392,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/missing-semantic-node-reject.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/missing-semantic-node.blend",
+      "sha256": "4704d2ad3ee6d2781e751f35885d2c253bafaad76da10b33716e208df1804885",
+      "bytes": 23958657,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/missing-semantic-node.blend"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/mutator-input.py",
+      "sha256": "bc9c7c392a4dad0e61d6a7d13d809d628480dea4a5b8f57b909a38a4c7bbc9e9",
+      "bytes": 1804,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/mutator-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/probe-input.py",
+      "sha256": "e521dd91ca34a202ec9e8566a02929f1fa573e8edc8682b3a3ccecf7ef78bc77",
+      "bytes": 1741,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/probe-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/profile-input.json",
+      "sha256": "9183cbf5f5c25a0e5da826962b5bdb60271569396fde56bf4b313498d7b9ee63",
+      "bytes": 756,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/profile-input.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/runner-input.py",
+      "sha256": "c9c1ebf40884d51cc49ae59922ec0c8480c76dfe68a83afe368a39ee4bb3e432",
+      "bytes": 7079,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/runner-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/source-inventory.json",
+      "sha256": "743f63cc841aed7afd27873e4fc7baf9f8e3090ece6c9858ad4b0d121e54834e",
+      "bytes": 71151,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/source-inventory.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/unapplied-scale-construct.stdout.log",
+      "sha256": "edb09080128bad26e073a979be098a6c9db13123672ca32f9d9c0fd9e651626b",
+      "bytes": 230,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/unapplied-scale-construct.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/unapplied-scale-reject.stderr.log",
+      "sha256": "3f485c1429387ba2c70b433dc249dd40c586472f23cd862330d7ac98507f59b0",
+      "bytes": 661,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/unapplied-scale-reject.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/unapplied-scale-reject.stdout.log",
+      "sha256": "5980461fc8b56bf42d7b7f35431557de69b02d70e30314781b654bebe7647856",
+      "bytes": 380,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/unapplied-scale-reject.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/unapplied-scale.blend",
+      "sha256": "c389b113900b37c1cf136bce08fe88437a70a211a7db7c127b904f0f17ec081a",
+      "bytes": 23958528,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/unapplied-scale.blend"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/validator-input.py",
+      "sha256": "ef896c2108ac0bb19fe93655aece2e89724e0e39aa7049a8861f91c20642ce92",
+      "bytes": 14961,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/corrected/validator-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/handoff/evidence.json",
+      "sha256": "8e04d4add51272d175d66cc7ac81c6931785b9b18b2a0afd06601e4765f2159d",
+      "bytes": 5292,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/handoff/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/handoff/fixture-only.patch",
+      "sha256": "fce5851ef7ec37e86de2cf6060c086883ee0d55c145b1436c14124b788c45535",
+      "bytes": 449,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/handoff/fixture-only.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/handoff/runner-input.py",
+      "sha256": "f3a8f09c74614b5c296d2dc671673f3afc9a0dcc557a2fb6feb6bb30264667cf",
+      "bytes": 3419,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/handoff/runner-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/evidence.json",
+      "sha256": "38e86bfb2e2cb5e3ec9b16776db18bc1437e7a69cff3c6bdafd5806a17796d07",
+      "bytes": 14107,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/external-texture-reject.stderr.log",
+      "sha256": "f9e20f377f1a927017b08bb4a663325260f4e6d01bcde37c19a2374ddb9b02c6",
+      "bytes": 770,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/external-texture-reject.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/external-texture-reject.stdout.log",
+      "sha256": "f6ef5652b8e89cd9a7441bac9e9c919cda96e9aba4dfff37e9c9bbfbc27a7b6d",
+      "bytes": 370,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/external-texture-reject.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/external-texture.blend",
+      "sha256": "064aa72bbd962f960e229cd31695a64d04a3c18564f8627e28185242e31ef0d8",
+      "bytes": 23958918,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/external-texture.blend"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/missing-semantic-node-construct.stdout.log",
+      "sha256": "cf111af89945dd65235641a21b05e592c5711441c3693a8c65046cba6f7b2909",
+      "bytes": 236,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/missing-semantic-node-construct.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/missing-semantic-node-reject.stdout.log",
+      "sha256": "3e76f965ad993a69422dc28ced87bcbb7de1e159790679ed35ab5f6787ed8f73",
+      "bytes": 380,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/missing-semantic-node-reject.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/missing-semantic-node.blend",
+      "sha256": "0ee8f5fc8ad8e88af82853c374e6a2db997def4b43620e150edbf5380cfb5fd5",
+      "bytes": 23958696,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/missing-semantic-node.blend"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/mutator-input.py",
+      "sha256": "f7bcd10c98d721d5afa2bf7bf8a46b19e17d1ac8a0b25fdcc515b32cf4c34e45",
+      "bytes": 1809,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/mutator-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/runner-input.py",
+      "sha256": "6c25eb0f28afb919fca461f3bf821eb3892cb36a7ea634b3958d53df7ad1e758",
+      "bytes": 7094,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/runner-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/unapplied-scale-construct.stderr.log",
+      "sha256": "553d9b247e47310dc0e28b07d93f159447d6a1c2a0d2bf2794bd31a8df99d467",
+      "bytes": 620,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/unapplied-scale-construct.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/unapplied-scale-construct.stdout.log",
+      "sha256": "a9e522018947fec20a151229b334c0889df286e7e6b31c8e8658cf12bf5c9f50",
+      "bytes": 190,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/hero-mutation-fixture-01/old/unapplied-scale-construct.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production-tooling-v5/verify_reconstruction_frontdoor.py",
+      "sha256": "1279632e854004f84aaa7bd5d8741e9c12424e62cd0d10148f6afa1af162b1a2",
+      "bytes": 4509,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production-tooling-v5/verify_reconstruction_frontdoor.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/production-tooling-v7/probe_texture_staging.py",
+      "sha256": "648ba52dbfa10022697a16244ddbdf5f8a5ed1b95b0e8fdecba56b8cdd9c209b",
+      "bytes": 5879,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production-tooling-v7/probe_texture_staging.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/production-tooling-v8/texture_staging_controls.py",
+      "sha256": "fa41408e33e64cb5ace386dfafa892be704615e6c028aaec8058d1bdb65b6bd8",
+      "bytes": 6107,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production-tooling-v8/texture_staging_controls.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/production-tooling-v8/texture_staging_handoff.py",
+      "sha256": "fd57424a69c0af1050fc390d744fbbcfc48479525164b18db1c10caf75f55c88",
+      "bytes": 5888,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production-tooling-v8/texture_staging_handoff.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/production-tooling-v9/retain_runtime_history05.py",
+      "sha256": "f3e88e224b3b52f5db54d806b7326b47ee1fabe82f8f9c5fc61d4fe4c752ba08",
+      "bytes": 6724,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production-tooling-v9/retain_runtime_history05.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/actual-corrected-first3.json",
+      "sha256": "85c93ad74cde6af7254abca6e72d3b66168cc6dbd418e3bef19268af9b9b276a",
+      "bytes": 301112,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/actual-corrected-first3.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/actual-historical-missing-first-frame-coverage.json",
+      "sha256": "e14b1af75085c0f91aa3e5d54653b2335969df5804504771accb2efa4b5ecabf",
+      "bytes": 69677,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/actual-historical-missing-first-frame-coverage.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/actual-png-hash-mismatch.json",
+      "sha256": "922ffd3efeeb5a7d721ac53eb48d04398835132a7db8bf4e73a5a04b26cf9daf",
+      "bytes": 301112,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/actual-png-hash-mismatch.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/evidence.json",
+      "sha256": "1c1d4c63e21ef72981bee026713bd96e44faaa324c87a2b6831cd15351eb2048",
+      "bytes": 4376,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/first-arm-not-placed.json",
+      "sha256": "72d7cb787d3e2a08700de1c85e57d7e1658cf5f227bcd4ddefb0495b5c25532b",
+      "bytes": 301092,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/first-arm-not-placed.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/missing-first-frame.json",
+      "sha256": "9c40a64481380a4ccc2bdd9140cd13eb5d1611cc13268ea15d278904a71ad41b",
+      "bytes": 299196,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/missing-first-frame.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/nonconsecutive-render-gap.json",
+      "sha256": "2ab245b80b0d00338d3fd85752f52af9add4fd58b87291d10db9555dbc713158",
+      "bytes": 301112,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/nonconsecutive-render-gap.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/stale-physics-boundary.json",
+      "sha256": "0990bf129923d024234073330a4bdd4ae88920fc4ed25996b2edb7180bc0d1d4",
+      "bytes": 301100,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/stale-physics-boundary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/unmeasured-target-size.json",
+      "sha256": "0784da87f8509cdccc0a0f0a9ee297621815411de69454b54271feb983056a84",
+      "bytes": 301111,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/reconstruction-frontdoor-controls-01/unmeasured-target-size.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/before-verifier.mjs",
+      "sha256": "885ffbf60dc852447d4a07a19f42afaece7d1e4b13283e275c433a7455167c05",
+      "bytes": 35113,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/before-verifier.mjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag-launcher.log",
+      "sha256": "9704f344464fe02b0c56e1c376f8f6f6efe949d264f9ed76c11dfa7ce3be2445",
+      "bytes": 245,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag-launcher.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag.mjs",
+      "sha256": "6bf45ff11258fecc9362a3f12432002eaf49e33cf7f22cca2db34527d0875937",
+      "bytes": 24296,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag.mjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag.patch",
+      "sha256": "2f6ed8efb3488984ecac3958a1cfa711ce7d61502476be7c6517a30a7ac9c7e1",
+      "bytes": 649,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/build.stdout.log",
+      "sha256": "3e3fd77baa35228a21f5651d65aa711fb87fb60dccaf3c94f4255e57b7187480",
+      "bytes": 829,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/control-locked-texture-import.stdout.log",
+      "sha256": "b86f7bbcc7a6bc152f3c87cee8f6e8c874d07d9fb81ba1e27441b2786e145cbc",
+      "bytes": 3296,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/control-locked-texture-import.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/evidence.json",
+      "sha256": "44f8ec0e45231af742c2574de61b34ea98a937048bfc9e7df59b65fe854aea62",
+      "bytes": 162205,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_fabric_normal_v1.png-48b09f2ca0c765a65d97aecb1d5fb1a9.s3tc.ctex",
+      "sha256": "f5373b56818bf3496b934fbc9e95fa85a95489d92f7208bdc48d1572d14336a0",
+      "bytes": 174828,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_fabric_normal_v1.png-48b09f2ca0c765a65d97aecb1d5fb1a9.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_fabric_roughness_v1.png-39d275fc2a50dd28ea2c50f0f894a776.s3tc.ctex",
+      "sha256": "68502657509552bd7fa9fa4b545e4d62135f93d8e0644748468a28265f1a1d9d",
+      "bytes": 174828,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_fabric_roughness_v1.png-39d275fc2a50dd28ea2c50f0f894a776.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_leather_normal_v1.png-3762ca8eed0af5a445ecc76bc1e5741a.s3tc.ctex",
+      "sha256": "85681abf271ff267a30052165615e7d8b1ff51a45a1afcb7eb2fb9848915c8d9",
+      "bytes": 174828,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_leather_normal_v1.png-3762ca8eed0af5a445ecc76bc1e5741a.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_leather_roughness_v1.png-37cd85f273567481802bb4892af74c97.s3tc.ctex",
+      "sha256": "c0ac12d71dae90f50e4d65eaec59c7139401a7925334f9292c084dddac9f402a",
+      "bytes": 174828,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_leather_roughness_v1.png-37cd85f273567481802bb4892af74c97.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_paint_normal_v1.png-59b1970f7ec06b52dff5f9d658f0ea3f.s3tc.ctex",
+      "sha256": "0f50b742531e147d67fe86854848d3c85bfe6db2ecb2aa93590ff47b3849e433",
+      "bytes": 174828,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_paint_normal_v1.png-59b1970f7ec06b52dff5f9d658f0ea3f.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_paint_roughness_v1.png-80f711123eaa5549c78254af2cc62104.s3tc.ctex",
+      "sha256": "26ce6e4df659df11636107b8617efad3b661de5a936e9531ea4913e598763d78",
+      "bytes": 174828,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/.godot/imported/endurance-sedan_Meridian_paint_roughness_v1.png-80f711123eaa5549c78254af2cc62104.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
+      "sha256": "2eb966adfc9853046385edd4431e79ca2ed13266d69edc27ac1310ce3bf91d35",
+      "bytes": 1164,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
+      "sha256": "8e70149274f401f2b8f604dc45770a411f22a5481ec5c861abf4b43420c90def",
+      "bytes": 10954061,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan.glb",
+      "sha256": "130c7c053fcd3250b3f3ee626666b8c0deeb65948410dcc4f07f60967b09ef74",
+      "bytes": 11260508,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan.glb"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan.glb.import",
+      "sha256": "8316e81ad6cb9f8e228e3183554ffbdfcb3d6c1ca626fce266fc2119747e40ae",
+      "bytes": 1212,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan.glb.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png",
+      "sha256": "f3f2a2901e1d02fa518d8e46367d1e26ab0fe88308e9b33d96319175fe326494",
+      "bytes": 431143,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png.import",
+      "sha256": "838f477c3fec0fa0626cf2f61527cb42f34350bf4c7b1d6c1724b07ba2caca73",
+      "bytes": 1174,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png",
+      "sha256": "f06dcd0d2ba4b388b2070e781a0f022ec9b53dfa655367ce62fa85167e058117",
+      "bytes": 174368,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png.import",
+      "sha256": "66e8229c300a49dca08294deca7c5c5726519a701f45b080879b5987cf049372",
+      "bytes": 1183,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png",
+      "sha256": "90eec226e0e4cf92aac9dacf97bada11395a038972de6daa7c7432c06d1a1464",
+      "bytes": 332931,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png.import",
+      "sha256": "99a20b48556e117fc4b1c6b4f4bda00427e02319b8650b720fc5e1bd87ccc028",
+      "bytes": 1177,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png",
+      "sha256": "86adaa53ba7059d148783ce8cd30409edf10cce7fbd06da6fb6ec141ac928228",
+      "bytes": 206491,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png.import",
+      "sha256": "763f6d8a89d13e73672f595d0636ea965915c08c129c1c665f956e68f1d66db4",
+      "bytes": 1186,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png",
+      "sha256": "7e1ab964114d665f17cdf3047da20b3d1c86dbe6dedbabdc26b22bef1b8224d2",
+      "bytes": 168960,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png.import",
+      "sha256": "503c01e8629d879be321cb5915886f3d1c734bb11e596e3394d8c318a4945537",
+      "bytes": 1171,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png",
+      "sha256": "eca7f1b0b9c7d734565ed343d68ae7ee1ad0991845eef9611245645e353e8a14",
+      "bytes": 159467,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png.import",
+      "sha256": "6eda2e78063b21f9ffda059f05837630a7bc8e7b15c3329e8eecf7dc8485ff78",
+      "bytes": 1180,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/data/assets/vehicles/sources/endurance-sedan.blend",
+      "sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+      "bytes": 4971259,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/data/assets/vehicles/sources/endurance-sedan.blend"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/docs/vehicles/endurance-sedan/specification.json",
+      "sha256": "6502d96dd00a9595c8e9989c45f0bdb38148996dbf5cc4ff638114b8bafa6eda",
+      "bytes": 51775,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/docs/vehicles/endurance-sedan/specification.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/tools/assets/profiles/godot-4.7.1-v1.json",
+      "sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
+      "bytes": 533,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/project/tools/assets/profiles/godot-4.7.1-v1.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/verifier-input.mjs",
+      "sha256": "8ffd8f74ebcc017bf39c922afe06b9ff86cc7bb8064f6520e7bde0f14ca11783",
+      "bytes": 41064,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/ctex-mipmap-flag/verifier-input.mjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/evidence.json",
+      "sha256": "11e4d23e6694f88b817ae72a9794e6dc00526bd018982cb89f0225c5892b349b",
+      "bytes": 3990,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off-launcher.log",
+      "sha256": "55cff7a48e8537d27bce13ed89847a29b77dd24f17161b3cb7eff416478066d6",
+      "bytes": 95,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off-launcher.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off.mjs",
+      "sha256": "884e599d08876a375484bac198c8049c4eb9f1bb24de7813b86d64475519dae8",
+      "bytes": 24180,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off.mjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/build.stdout.log",
+      "sha256": "70589c1281e7a3fe7b15ca859b8a942decae7475b39ee77eadbf652a7a830d64",
+      "bytes": 837,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/evidence.json",
+      "sha256": "b33772c3ae4275257a18fccef4d7808e39292e41fb0124714726119687a38071",
+      "bytes": 165148,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_fabric_normal_v1.png-48b09f2ca0c765a65d97aecb1d5fb1a9.s3tc.ctex",
+      "sha256": "8cc3f7f78e82d12797320f5e037e68f768d01c3c40c19d718cfea42bdc730933",
+      "bytes": 131124,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_fabric_normal_v1.png-48b09f2ca0c765a65d97aecb1d5fb1a9.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_fabric_roughness_v1.png-39d275fc2a50dd28ea2c50f0f894a776.s3tc.ctex",
+      "sha256": "04de96665e902c2f0050213ebc8bcce415e48633301e6e78fc175dff8e4ead1a",
+      "bytes": 131124,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_fabric_roughness_v1.png-39d275fc2a50dd28ea2c50f0f894a776.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_leather_normal_v1.png-3762ca8eed0af5a445ecc76bc1e5741a.s3tc.ctex",
+      "sha256": "e7c440bb8037c62de04a713867debce984c42cbff30d5b9c6136e3298c4fdbcb",
+      "bytes": 131124,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_leather_normal_v1.png-3762ca8eed0af5a445ecc76bc1e5741a.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_leather_roughness_v1.png-37cd85f273567481802bb4892af74c97.s3tc.ctex",
+      "sha256": "ffa519883ea2ea80ae281b6b1d4dcf3b6f4257624a215bcee17605520b07aa18",
+      "bytes": 131124,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_leather_roughness_v1.png-37cd85f273567481802bb4892af74c97.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_paint_normal_v1.png-59b1970f7ec06b52dff5f9d658f0ea3f.s3tc.ctex",
+      "sha256": "1ccf89a2de0404055f4d58a3a20e58eef2d38e4ecc516a1b43cd9a3c53c4d559",
+      "bytes": 131124,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_paint_normal_v1.png-59b1970f7ec06b52dff5f9d658f0ea3f.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_paint_roughness_v1.png-80f711123eaa5549c78254af2cc62104.s3tc.ctex",
+      "sha256": "e4b12700fe24179d74f8d1e66e104b98c32bd0668079f1e028e0451d0dac6bfa",
+      "bytes": 131124,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/.godot/imported/endurance-sedan_Meridian_paint_roughness_v1.png-80f711123eaa5549c78254af2cc62104.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png.import",
+      "sha256": "958ad125f35370b92c35d88c9058ff8e6ffa26a8c9e0e033ff8ba6f1e59ebf4c",
+      "bytes": 1175,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png.import",
+      "sha256": "999d2dad35e517983a0c406607762cbfefde2e5851cf4490e75b218f789ced81",
+      "bytes": 1184,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png.import",
+      "sha256": "73b51c848a42a663e809414a42f90bbe08b0e6d7e578f696c1ac4c7ca60eb5e6",
+      "bytes": 1178,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png.import",
+      "sha256": "e567cae26fead29800b91d946fdfd2d03b8776776c1e5c592c1107f9ba65b618",
+      "bytes": 1187,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png.import",
+      "sha256": "825c416c9acfb7028a9cfbe0966138467aefb6c2ec0254db6aa09067f24cb145",
+      "bytes": 1172,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png.import",
+      "sha256": "0cb634586190948f38804b134dfa9ff6e4e1e42a67087334033dbcffa57bc428",
+      "bytes": 1181,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/locked-mipmaps-off/project/assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png.import"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters-launcher.log",
+      "sha256": "1005455b933e116047a84c886dd0f26b2c5dc29761280575fbac38439cffe453",
+      "bytes": 225,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters-launcher.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters.mjs",
+      "sha256": "90f0b0d1852c0c0c1b46725c3442fd9153d7692d11447ca8e4162907e040c3c3",
+      "bytes": 24186,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters.mjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters.patch",
+      "sha256": "3fec47d2f80a127a6e2fd17c00893a6e3e8311b2323753229c100d3dff8e16f2",
+      "bytes": 588,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters/build.stdout.log",
+      "sha256": "ea347a51f6edad1a1c13c10689a8783a5b21d17254690ebff1e90d53c6c04be0",
+      "bytes": 853,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters/build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters/evidence.json",
+      "sha256": "41af3a2ac8e370f7629c6b5d1d9bda2a347a27f1d0c0e4413ff50ae749e5f99c",
+      "bytes": 162466,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters/project/.godot/imported/endurance-sedan_Meridian_fabric_normal_v1.png-48b09f2ca0c765a65d97aecb1d5fb1a9.s3tc.ctex",
+      "sha256": "dbbf7f26c09d27b96b2d5b1b751df71bf768ce580c87a6c2e5edf7731f1777c0",
+      "bytes": 174828,
+      "reason": "Explicit byte witness for the fresh texture extraction/locked import/rejection check; this individual file is retained, not its copied project/cache",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/skip-locked-parameters/project/.godot/imported/endurance-sedan_Meridian_fabric_normal_v1.png-48b09f2ca0c765a65d97aecb1d5fb1a9.s3tc.ctex"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/stale-png-launcher.log",
+      "sha256": "12333e5aa83b61dc059d18f84819d32b87856fcf70896222a510c6ab5c6b0446",
+      "bytes": 158,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/stale-png-launcher.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/stale-png.mjs",
+      "sha256": "3c1a783b9f6ae9010caa49336549e8cd6542ff9375878d478a579d04c04a7713",
+      "bytes": 24155,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/stale-png.mjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/stale-png.patch",
+      "sha256": "034d93f2de4a9765277bd2a6d6c1782c13e89d35620b3a4c87693a751febfc49",
+      "bytes": 748,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/stale-png.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/stale-png/evidence.json",
+      "sha256": "0e71f9e326c5fc0d95996b26e37b2d485554b04b5200edc730d9665f2ad24163",
+      "bytes": 144498,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/controls-01/stale-png/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01-launcher.log",
+      "sha256": "d8c384fedb0835a05b068d249a10eb9df9e41a8467a77f3b49e0616e6471b211",
+      "bytes": 90,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01-launcher.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01-probe-input.mjs",
+      "sha256": "5869f86034860d91fd6f1825bc49cbde85cf3fc5bee5918edec4a5356ac5bec2",
+      "bytes": 24877,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01-probe-input.mjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01-process.json",
+      "sha256": "d16e56b0462b3d38a755557e68433552f9c25a43d6a807f6b95b4ae21ebd17d3",
+      "bytes": 1244,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01-process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/evidence.json",
+      "sha256": "c85cec1dce9bdfd355d15e85ccacec63af86bd1e7414b1402cc50641e42a3f20",
+      "bytes": 201647,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/first-build.stdout.log",
+      "sha256": "ed875ba480edc221f1d9ec6f690bdd143dbe204efb186b819dfd7c011552b518",
+      "bytes": 789,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/first-build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/first-normalize.stdout.log",
+      "sha256": "a92b651297c4a642c1cfb29438c4f22792e088072e2e1bd435cbf0e708503ebd",
+      "bytes": 329,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/first-normalize.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/first-wrapper.stdout.log",
+      "sha256": "5cb94609c3c786d474066b0a08ab32c741d0660229a255031ef037ecd1c440d6",
+      "bytes": 171,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/first-wrapper.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/first/godot.json",
+      "sha256": "bd7c39ede65f1a7b9be1ed0bbb257685563918504eee9df11060f665880f2e01",
+      "bytes": 57606,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/first/godot.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/second-build.stdout.log",
+      "sha256": "82a3b69a536e91a22549bb9a59cb09a54f72e1a0db75d9024faf7f46d8219336",
+      "bytes": 793,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/corrected-01/second-build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/handoff-01/evidence.json",
+      "sha256": "4115b1da42a0f728559b2aa2542c1a9b6779123c5434ed7b513445ffee9bb0cd",
+      "bytes": 73238,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/handoff-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/handoff-01/official-source/core/io/image.h",
+      "sha256": "51bfdbf95e7c2ea73bfe16aed3771b70518d8011a7a597a30d32423974180f2d",
+      "bytes": 20546,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/handoff-01/official-source/core/io/image.h"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/handoff-01/official-source/scene/resources/compressed_texture.cpp",
+      "sha256": "a7972f1b9960c5ea3a04adbf8a1d559f135bd3369d9c2fac89edaca2a666f45b",
+      "bytes": 23355,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/handoff-01/official-source/scene/resources/compressed_texture.cpp"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/handoff-01/official-source/scene/resources/compressed_texture.h",
+      "sha256": "fa10ec5c6a3d469ba9cb987944baf85f2f02f9eb39db8a2e3bc510f18550b722",
+      "bytes": 8251,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/handoff-01/official-source/scene/resources/compressed_texture.h"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/handoff-01/staging-only.patch",
+      "sha256": "223419a2936651e2cbaf4bb824ccc3d6bb6af5fdedaf00c556bf6ef1ec9461a2",
+      "bytes": 8159,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/handoff-01/staging-only.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/old-01-launcher.log",
+      "sha256": "600dcbbb306fa1b202e9ed7854c14edbd14c1f22fa198343ebd49eaa62dd6c58",
+      "bytes": 58,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/old-01-launcher.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/old-01-probe-input.mjs",
+      "sha256": "8125c7f20dc99c9ed6c27ce40c871e526ed769c0fb1d6161810cc95c89cb1b53",
+      "bytes": 19022,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/old-01-probe-input.mjs"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/old-01-process.json",
+      "sha256": "c69918849740938657f9f257ac8f0ea8312c8e67e0e7a3957c5b9aa799f67018",
+      "bytes": 1255,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/old-01-process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/old-01/evidence.json",
+      "sha256": "adfe4e67bdd0ea75ed42d2a219cf7f6ce6c52cc4dba886c0127f466402aaf480",
+      "bytes": 147725,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/old-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/old-01/first-build.stdout.log",
+      "sha256": "4b9585c7018a92e880fb705f0a61bdb8f2a021c1c94a33c5639ad13edeb8085a",
+      "bytes": 765,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/old-01/first-build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/old-01/first-clean-import.stderr.log",
+      "sha256": "3f9e0e4b888b0ed92a7da026f5a1fcd82fc64209865c55e7fcced7ed1d474845",
+      "bytes": 4568,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/old-01/first-clean-import.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/texture-import-staging-01/scope.json",
+      "sha256": "3f657d80cc206d0d7ff28027088fb96f5bf5d91ae9954a456e22e5c736471e5b",
+      "bytes": 1070,
+      "reason": "New runtime correction/capture report, exact command input, actual output, failure or confirming verification since history04",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/texture-import-staging-01/scope.json"
+    },
+    {
+      "path": "tools/vehicles/endurance_sedan/partition_evidence.py",
+      "bytes": 5693,
+      "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+      "reason": "Exact deterministic partition recipe"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history05.zip",
+      "sha256": "f94f3b72f2d35d6d78ba90526b1a942aa3cd70c8d59c158bc23b65ce0f2910fe",
+      "bytes": 497737856,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention-repeats/runtime-history05.zip",
+      "sha256": "f94f3b72f2d35d6d78ba90526b1a942aa3cd70c8d59c158bc23b65ce0f2910fe",
+      "bytes": 497737856,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T19:32:33.088462+00:00"
+}

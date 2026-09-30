@@ -1,0 +1,2048 @@
+{
+  "task_id": "P1-018",
+  "utc": "2026-09-11T14:56:32.471166+00:00",
+  "source_sha256": "3eb7af3998c9f87ab3cd4ca6762a98df0582ea7168ab93946eef77b729eb7951",
+  "status": "proposed_exact_interface_contract_requires_independent_full_triangle_QA",
+  "numerical_guard_m": 1e-06,
+  "rules": [
+    {
+      "contact_index": 1,
+      "pair": [
+        "LOD0_AuxFillerCap",
+        "LOD0_AuxFillerCollar"
+      ],
+      "classification": "coincident_seated_plane",
+      "title": "Filler cap seated on collar top",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          -0.56,
+          -2.03,
+          0.832
+        ],
+        "end_m": [
+          -0.56,
+          -2.03,
+          0.832
+        ],
+        "outer_radius_m": 0.028,
+        "inner_radius_m": 0,
+        "axis_source": [
+          0,
+          0,
+          1
+        ]
+      },
+      "solid_policy": "zero_solid_intrusion",
+      "rationale": "Collar top and cap bottom both Z .832 m. All contacts must remain on that plane; no buried grip/collar exception.",
+      "original_witness_bounds_m": [
+        [
+          -0.5858686566352844,
+          -2.058000087738037,
+          0.8320000171661377
+        ],
+        [
+          -0.5329931974411011,
+          -2.001999855041504,
+          0.8320000171661377
+        ]
+      ]
+    },
+    {
+      "contact_index": 2,
+      "pair": [
+        "LOD0_AuxFillerCap",
+        "LOD0_AuxFillerGrip"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Molded cap grip foot",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.5815,
+          -2.035,
+          0.847
+        ],
+        "high_m": [
+          -0.5385,
+          -2.025,
+          0.848
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "The grip lower 1 mm is embedded in the cap, confined to its .043 \u00c3\u2014 .010 m mounting footprint.",
+      "original_witness_bounds_m": [
+        [
+          -0.5810856819152832,
+          -2.034585952758789,
+          0.847000002861023
+        ],
+        [
+          -0.5389142036437988,
+          -2.025413990020752,
+          0.8479999899864197
+        ]
+      ]
+    },
+    {
+      "contact_index": 3,
+      "pair": [
+        "LOD0_AuxFillNeck",
+        "LOD0_AuxFillerCollar"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Fill neck inserted into collar",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          -0.56,
+          -2.03,
+          0.814
+        ],
+        "end_m": [
+          -0.56,
+          -2.03,
+          0.824
+        ],
+        "outer_radius_m": 0.022,
+        "inner_radius_m": 0
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the final 10 mm axial engagement of the 22 mm-radius neck lies in the larger collar.",
+      "original_witness_bounds_m": [
+        [
+          -0.5819995999336243,
+          -2.051999568939209,
+          0.8140000104904175
+        ],
+        [
+          -0.5380004048347473,
+          -2.008000373840332,
+          0.8240000009536743
+        ]
+      ]
+    },
+    {
+      "contact_index": 4,
+      "pair": [
+        "LOD0_AuxFillNeck",
+        "LOD0_AuxiliaryTank"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Auxiliary fill-neck tank-top socket",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          -0.3208185673064594,
+          -1.9358375795069571,
+          0.689783149698895
+        ],
+        "end_m": [
+          -0.3892599477454232,
+          -1.9499536142224936,
+          0.7244315985461205
+        ],
+        "outer_radius_m": 0.0221,
+        "inner_radius_m": 0
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "The angled 22 mm neck intersects the tank top only near its first endpoint. This bounded closed-solid junction is inspection geometry; no hidden threaded bore or fluid simulation is claimed.",
+      "original_witness_bounds_m": [
+        [
+          -0.3894863724708557,
+          -1.9636129140853882,
+          0.6802896857261658
+        ],
+        [
+          -0.33655601739883423,
+          -1.918453574180603,
+          0.699999988079071
+        ]
+      ]
+    },
+    {
+      "contact_index": 5,
+      "pair": [
+        "LOD0_AuxVent",
+        "LOD0_AuxiliaryTank"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Auxiliary vent tank-top entry",
+      "allowed_contact_region": {
+        "kind": "sphere",
+        "center_m": [
+          0.38,
+          -1.87,
+          0.7
+        ],
+        "radius_m": 0.018
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the first 6 mm-radius hose endpoint at the top face participates.",
+      "original_witness_bounds_m": [
+        [
+          0.37670230865478516,
+          -1.8782703876495361,
+          0.6947745084762573
+        ],
+        [
+          0.39017748832702637,
+          -1.8649874925613403,
+          0.699999988079071
+        ]
+      ]
+    },
+    {
+      "contact_index": 7,
+      "pair": [
+        "LOD0_AuxiliaryTank",
+        "LOD0_PumpInletUnion_0.451"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Auxiliary outlet union engagement",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.448,
+          -1.92,
+          0.46
+        ],
+        "end_m": [
+          0.45,
+          -1.92,
+          0.46
+        ],
+        "outer_radius_m": 0.012,
+        "inner_radius_m": 0
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "The .451-centered six-millimeter-long union engages the tank wall by 2 mm at the declared outlet.",
+      "original_witness_bounds_m": [
+        [
+          0.4480000138282776,
+          -1.931999921798706,
+          0.4480000138282776
+        ],
+        [
+          0.44999998807907104,
+          -1.9079999923706055,
+          0.47200000286102295
+        ]
+      ]
+    },
+    {
+      "contact_index": 10,
+      "pair": [
+        "LOD0_AuxiliaryTank",
+        "LOD0_TransferPumpInlet"
+      ],
+      "classification": "coincident_seated_plane",
+      "title": "Auxiliary inlet hose butt at tank outlet",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.45,
+          -1.92,
+          0.46
+        ],
+        "end_m": [
+          0.45,
+          -1.92,
+          0.46
+        ],
+        "outer_radius_m": 0.008,
+        "inner_radius_m": 0,
+        "axis_source": [
+          1,
+          0,
+          0
+        ]
+      },
+      "solid_policy": "zero_solid_intrusion",
+      "rationale": "The pipe starts exactly at X .450 on the tank side face.",
+      "original_witness_bounds_m": [
+        [
+          0.44999998807907104,
+          -1.9279999732971191,
+          0.4520000219345093
+        ],
+        [
+          0.44999998807907104,
+          -1.9119999408721924,
+          0.46799999475479126
+        ]
+      ]
+    },
+    {
+      "contact_index": 11,
+      "pair": [
+        "LOD0_AuxiliaryTank",
+        "LOD0_VentRolloverValve"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Rollover-valve tank-top socket",
+      "allowed_contact_region": {
+        "kind": "sphere",
+        "center_m": [
+          0.38,
+          -1.87,
+          0.696
+        ],
+        "radius_m": 0.029
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Bounded valve base at the same tank-top vent port; separate passive modeled hardware only.",
+      "original_witness_bounds_m": [
+        [
+          0.3710829019546509,
+          -1.8836164474487305,
+          0.6890103816986084
+        ],
+        [
+          0.39674562215805054,
+          -1.8585249185562134,
+          0.699999988079071
+        ]
+      ]
+    },
+    {
+      "contact_index": 12,
+      "pair": [
+        "LOD0_AuxVent",
+        "LOD0_VentExternalCover"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "External vent cap engagement",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.934,
+          -2.155,
+          0.8
+        ],
+        "end_m": [
+          0.936,
+          -2.155,
+          0.8
+        ],
+        "outer_radius_m": 0.0061,
+        "inner_radius_m": 0
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Final 2 mm of the vent terminates inside the external cover; no other quarter-panel contact is allowed.",
+      "original_witness_bounds_m": [
+        [
+          0.9340000152587891,
+          -2.1610000133514404,
+          0.7940000891685486
+        ],
+        [
+          0.9359999895095825,
+          -2.1489999294281006,
+          0.8059999346733093
+        ]
+      ]
+    },
+    {
+      "contact_index": 13,
+      "pair": [
+        "LOD0_AuxVent",
+        "LOD0_VentRolloverValve"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Vent hose joined through rollover-valve socket",
+      "allowed_contact_region": {
+        "kind": "sphere",
+        "center_m": [
+          0.39,
+          -1.88,
+          0.709
+        ],
+        "radius_m": 0.032
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Both modeled parts meet only at the first valve/hose segment above the auxiliary tank.",
+      "original_witness_bounds_m": [
+        [
+          0.37592634558677673,
+          -1.8892942667007446,
+          0.6947745084762573
+        ],
+        [
+          0.4107763171195984,
+          -1.8649874925613403,
+          0.7255455851554871
+        ]
+      ]
+    },
+    {
+      "contact_index": 14,
+      "pair": [
+        "LOD0_DctBellhousing",
+        "LOD0_SevenSpeedTransaxle"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Bellhousing to gearbox cast-case envelope",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.1815,
+          0.8085,
+          0.1915
+        ],
+        "high_m": [
+          0.1815,
+          0.8885,
+          0.5005
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Exact overlap slab of the original connected case envelopes. These are joined visible cast volumes, not a claim that independently removable bolted flanges or internal gearing are modeled. The 80 mm axial envelope must be stated, not mislabeled as a small contact tolerance.",
+      "original_witness_bounds_m": [
+        [
+          -0.09878077358007431,
+          0.8085000514984131,
+          0.2813434898853302
+        ],
+        [
+          0.09878085553646088,
+          0.8884999752044678,
+          0.44274458289146423
+        ]
+      ]
+    },
+    {
+      "contact_index": 15,
+      "pair": [
+        "LOD0_DctBellhousing",
+        "LOD0_V8Crankcase"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Bellhousing to crankcase cast-case envelope",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.205,
+          1.044,
+          0.3205
+        ],
+        "high_m": [
+          0.205,
+          1.0735,
+          0.554
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Exact 29.5 mm axial envelope where the case shells join; no clearance or independently removable flange claim.",
+      "original_witness_bounds_m": [
+        [
+          -0.12618811428546906,
+          1.0440000295639038,
+          0.3205000162124634
+        ],
+        [
+          0.12618818879127502,
+          1.0734999179840088,
+          0.49441057443618774
+        ]
+      ]
+    },
+    {
+      "contact_index": 16,
+      "pair": [
+        "LOD0_FHalfShaft_-1",
+        "LOD0_FrontFinalDrive"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Front halfshaft differential socket",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          -0.116,
+          1.46,
+          0.35
+        ],
+        "end_m": [
+          -0.137,
+          1.46,
+          0.34976592356687897
+        ],
+        "outer_radius_m": 0.0201,
+        "inner_radius_m": 0
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the inboard end of the 20 mm-radius shaft enters the independently named final-drive housing. The remainder remains subject to ordinary clearance.",
+      "original_witness_bounds_m": [
+        [
+          -0.12610861659049988,
+          1.4422547817230225,
+          0.3308649957180023
+        ],
+        [
+          -0.11578799039125443,
+          1.4777452945709229,
+          0.3463200032711029
+        ]
+      ]
+    },
+    {
+      "contact_index": 17,
+      "pair": [
+        "LOD0_FHalfShaft_1",
+        "LOD0_FrontFinalDrive"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Front halfshaft differential socket",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.116,
+          1.46,
+          0.35
+        ],
+        "end_m": [
+          0.137,
+          1.46,
+          0.34976592356687897
+        ],
+        "outer_radius_m": 0.0201,
+        "inner_radius_m": 0
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the inboard end of the 20 mm-radius shaft enters the independently named final-drive housing. The remainder remains subject to ordinary clearance.",
+      "original_witness_bounds_m": [
+        [
+          0.11578799039125443,
+          1.4422547817230225,
+          0.3308649957180023
+        ],
+        [
+          0.12610861659049988,
+          1.4777452945709229,
+          0.3463200330734253
+        ]
+      ]
+    },
+    {
+      "contact_index": 18,
+      "pair": [
+        "LOD0_ForwardReturnDrive",
+        "LOD0_FrontFinalDrive"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Front return-drive terminal case socket",
+      "allowed_contact_region": {
+        "kind": "sphere",
+        "center_m": [
+          0.125,
+          1.46,
+          0.301
+        ],
+        "radius_m": 0.066
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "The final .066 m neighborhood of the 25 mm-radius terminal tube is joined to the final-drive case; no whole return-shaft exception.",
+      "original_witness_bounds_m": [
+        [
+          0.10162805765867233,
+          1.4038423299789429,
+          0.27584487199783325
+        ],
+        [
+          0.13499997556209564,
+          1.4635943174362183,
+          0.3259918987751007
+        ]
+      ]
+    },
+    {
+      "contact_index": 19,
+      "pair": [
+        "LOD0_FrontFinalDrive",
+        "LOD0_Sump"
+      ],
+      "classification": "matched_boolean_boundary",
+      "title": "Final-drive case seated in its actual shaped recess",
+      "allowed_contact_region": {
+        "kind": "actual_mesh_boundary",
+        "mesh": "LOD0_FrontFinalDrive",
+        "maximum_surface_distance_m": 1e-06
+      },
+      "solid_policy": "zero_solid_intrusion",
+      "rationale": "The frozen constructor subtracts this exact final-drive mesh from each named casing. Require actual triangle coincidence within the existing 1 \u00c2\u00b5m numerical guard and independently require no solid overlap. Do not accept general overlap inside the final-drive AABB.",
+      "original_witness_bounds_m": [
+        [
+          -0.1303999274969101,
+          1.336698055267334,
+          0.2918146252632141
+        ],
+        [
+          0.13499997556209564,
+          1.5833020210266113,
+          0.3455740511417389
+        ]
+      ]
+    },
+    {
+      "contact_index": 20,
+      "pair": [
+        "LOD0_FrontFinalDrive",
+        "LOD0_V8Crankcase"
+      ],
+      "classification": "matched_boolean_boundary",
+      "title": "Final-drive case seated in its actual shaped recess",
+      "allowed_contact_region": {
+        "kind": "actual_mesh_boundary",
+        "mesh": "LOD0_FrontFinalDrive",
+        "maximum_surface_distance_m": 1e-06
+      },
+      "solid_policy": "zero_solid_intrusion",
+      "rationale": "The frozen constructor subtracts this exact final-drive mesh from each named casing. Require actual triangle coincidence within the existing 1 \u00c2\u00b5m numerical guard and independently require no solid overlap. Do not accept general overlap inside the final-drive AABB.",
+      "original_witness_bounds_m": [
+        [
+          -0.13040105998516083,
+          1.3392585515975952,
+          0.32402873039245605
+        ],
+        [
+          0.13040119409561157,
+          1.5766273736953735,
+          0.38696739077568054
+        ]
+      ]
+    },
+    {
+      "contact_index": 21,
+      "pair": [
+        "LOD0_FuelBulkheadGland",
+        "LOD0_StructuralBody"
+      ],
+      "classification": "named_compressible_seat",
+      "title": "Compressible annular floor-gland seating",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.387333333,
+          -1.995333333,
+          0.322
+        ],
+        "end_m": [
+          0.376666667,
+          -1.993809524,
+          0.29
+        ],
+        "outer_radius_m": 0.019,
+        "inner_radius_m": 0.017846007504728586
+      },
+      "solid_policy": "bounded_compressible_radial_shell",
+      "rationale": "Only this rubber gland is seated in its explicit 18 mm-radius 24-sided floor passage. Nominal radial interference is1 mm; polygonal worst envelope is .019-.018*cos(pi/24)=1.1539925 mm. The entire contact must lie in this finite annulus, not anywhere in body or carpet. No rigid-part exemption.",
+      "original_witness_bounds_m": [
+        [
+          0.3604550063610077,
+          -2.013047695159912,
+          0.28405237197875977
+        ],
+        [
+          0.39832183718681335,
+          -1.9748661518096924,
+          0.2950000464916229
+        ]
+      ]
+    },
+    {
+      "contact_index": 22,
+      "pair": [
+        "LOD0_FuelBulkheadGland",
+        "LOD0_TrunkCarpet"
+      ],
+      "classification": "named_compressible_seat",
+      "title": "Compressible annular floor-gland seating",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.387333333,
+          -1.995333333,
+          0.322
+        ],
+        "end_m": [
+          0.376666667,
+          -1.993809524,
+          0.29
+        ],
+        "outer_radius_m": 0.019,
+        "inner_radius_m": 0.017846007504728586
+      },
+      "solid_policy": "bounded_compressible_radial_shell",
+      "rationale": "Only this rubber gland is seated in its explicit 18 mm-radius 24-sided floor passage. Nominal radial interference is1 mm; polygonal worst envelope is .019-.018*cos(pi/24)=1.1539925 mm. The entire contact must lie in this finite annulus, not anywhere in body or carpet. No rigid-part exemption.",
+      "original_witness_bounds_m": [
+        [
+          0.35952362418174744,
+          -2.013918161392212,
+          0.29853230714797974
+        ],
+        [
+          0.40447601675987244,
+          -1.9752248525619507,
+          0.3134688138961792
+        ]
+      ]
+    },
+    {
+      "contact_index": 23,
+      "pair": [
+        "LOD0_FuelTransferLine",
+        "LOD0_MainFuelLobe_1"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Main-reservoir transfer-line endpoint",
+      "allowed_contact_region": {
+        "kind": "sphere",
+        "center_m": [
+          0.43,
+          -1.27,
+          0.21
+        ],
+        "radius_m": 0.011
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "The final pipe endpoint is the declared right-reservoir rear-face connection. All prior outlet-route geometry must clear the auxiliary tank and body.",
+      "original_witness_bounds_m": [
+        [
+          0.42247265577316284,
+          -1.2699999809265137,
+          0.2043319046497345
+        ],
+        [
+          0.43000006675720215,
+          -1.266234278678894,
+          0.21555277705192566
+        ]
+      ]
+    },
+    {
+      "contact_index": 25,
+      "pair": [
+        "LOD0_Hood",
+        "LOD0_HoodOffsetArm_-1"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Hood offset-arm tip welded to inner hood skin",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.44637,
+          0.84,
+          0.983
+        ],
+        "high_m": [
+          -0.42837,
+          0.859,
+          1.0
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Local tip footprint only; require same Hood_Hinge ancestor. No pin or fixed-body intersection is included.",
+      "original_witness_bounds_m": [
+        [
+          -0.4389192461967468,
+          0.8418775200843811,
+          0.9968335628509521
+        ],
+        [
+          -0.43567800521850586,
+          0.849330484867096,
+          0.9975321292877197
+        ]
+      ]
+    },
+    {
+      "contact_index": 26,
+      "pair": [
+        "LOD0_HoodHem",
+        "LOD0_HoodOffsetArm_-1"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Hood arm joined at rear hem reinforcement",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.44637,
+          0.81,
+          0.98
+        ],
+        "high_m": [
+          -0.42837,
+          0.827,
+          1.0
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the crossing of the arm with the rear hem immediately in front of the hinge is a shared fixed weld. Keep pin/bearing and every other hood/body clearance independent.",
+      "original_witness_bounds_m": [
+        [
+          -0.446370005607605,
+          0.8123844861984253,
+          0.984122097492218
+        ],
+        [
+          -0.42836999893188477,
+          0.8256075382232666,
+          0.9953604340553284
+        ]
+      ]
+    },
+    {
+      "contact_index": 27,
+      "pair": [
+        "LOD0_HoodHingeMovingKnuckle_-1",
+        "LOD0_HoodOffsetArm_-1"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Hood arm-to-moving-sleeve weld",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          -0.44637,
+          0.77,
+          0.99
+        ],
+        "end_m": [
+          -0.42837,
+          0.77,
+          0.99
+        ],
+        "outer_radius_m": 0.008,
+        "inner_radius_m": 0.005119406879332062
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Actual arm bore is5.3 mm and sleeve outer radius8 mm; weld is confined to the sleeve wall annulus. The12-sided5.3 mm arm bore has5.1194069 mm apothem; sleeve inner bore4.5 mm and pin4 mm remain independently clear.",
+      "original_witness_bounds_m": [
+        [
+          -0.446370005607605,
+          0.7689287066459656,
+          0.9819999933242798
+        ],
+        [
+          -0.42836999893188477,
+          0.777999997138977,
+          0.9977129697799683
+        ]
+      ]
+    },
+    {
+      "contact_index": 28,
+      "pair": [
+        "LOD0_Hood",
+        "LOD0_HoodOffsetArm_1"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Hood offset-arm tip welded to inner hood skin",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.42837,
+          0.84,
+          0.983
+        ],
+        "high_m": [
+          0.44637,
+          0.859,
+          1.0
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Local tip footprint only; require same Hood_Hinge ancestor. No pin or fixed-body intersection is included.",
+      "original_witness_bounds_m": [
+        [
+          0.43567800521850586,
+          0.8418775200843811,
+          0.9968335628509521
+        ],
+        [
+          0.4389192461967468,
+          0.849330484867096,
+          0.9975321292877197
+        ]
+      ]
+    },
+    {
+      "contact_index": 29,
+      "pair": [
+        "LOD0_HoodHem",
+        "LOD0_HoodOffsetArm_1"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Hood arm joined at rear hem reinforcement",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.42837,
+          0.81,
+          0.98
+        ],
+        "high_m": [
+          0.44637,
+          0.827,
+          1.0
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the crossing of the arm with the rear hem immediately in front of the hinge is a shared fixed weld. Keep pin/bearing and every other hood/body clearance independent.",
+      "original_witness_bounds_m": [
+        [
+          0.42836999893188477,
+          0.8123844861984253,
+          0.9841421842575073
+        ],
+        [
+          0.446370005607605,
+          0.8256075978279114,
+          0.9953751564025879
+        ]
+      ]
+    },
+    {
+      "contact_index": 30,
+      "pair": [
+        "LOD0_HoodHingeMovingKnuckle_1",
+        "LOD0_HoodOffsetArm_1"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Hood arm-to-moving-sleeve weld",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.42837,
+          0.77,
+          0.99
+        ],
+        "end_m": [
+          0.44637,
+          0.77,
+          0.99
+        ],
+        "outer_radius_m": 0.008,
+        "inner_radius_m": 0.005119406879332062
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Actual arm bore is5.3 mm and sleeve outer radius8 mm; weld is confined to the sleeve wall annulus. The12-sided5.3 mm arm bore has5.1194069 mm apothem; sleeve inner bore4.5 mm and pin4 mm remain independently clear.",
+      "original_witness_bounds_m": [
+        [
+          0.42836999893188477,
+          0.7689287066459656,
+          0.9819999933242798
+        ],
+        [
+          0.446370005607605,
+          0.777999997138977,
+          0.9977129697799683
+        ]
+      ]
+    },
+    {
+      "contact_index": 31,
+      "pair": [
+        "LOD0_MainFuelLobe_-1",
+        "LOD0_MainTankCrossover_-1"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Main-reservoir crossover top socket",
+      "allowed_contact_region": {
+        "kind": "sphere",
+        "center_m": [
+          -0.27,
+          -0.745,
+          0.235
+        ],
+        "radius_m": 0.01
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the first 9 mm-radius crossover endpoint at the reservoir top face participates.",
+      "original_witness_bounds_m": [
+        [
+          -0.2699996829032898,
+          -0.7535595297813416,
+          0.2347581535577774
+        ],
+        [
+          -0.2609997093677521,
+          -0.7364404797554016,
+          0.23499998450279236
+        ]
+      ]
+    },
+    {
+      "contact_index": 32,
+      "pair": [
+        "LOD0_MainFuelLobe_1",
+        "LOD0_MainTankCrossover_1"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Main-reservoir crossover top socket",
+      "allowed_contact_region": {
+        "kind": "sphere",
+        "center_m": [
+          0.27,
+          -0.745,
+          0.235
+        ],
+        "radius_m": 0.01
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the first 9 mm-radius crossover endpoint at the reservoir top face participates.",
+      "original_witness_bounds_m": [
+        [
+          0.2609997093677521,
+          -0.7535595297813416,
+          0.2347581535577774
+        ],
+        [
+          0.2699994444847107,
+          -0.7364404797554016,
+          0.23499999940395355
+        ]
+      ]
+    },
+    {
+      "contact_index": 33,
+      "pair": [
+        "LOD0_PumpInletUnion_0.451",
+        "LOD0_TransferPumpInlet"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Tank-side outlet union around inlet hose",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.45,
+          -1.92,
+          0.46
+        ],
+        "end_m": [
+          0.454,
+          -1.92,
+          0.46
+        ],
+        "outer_radius_m": 0.008,
+        "inner_radius_m": 0
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Overlap is limited to the actual four-millimeter hose/union insertion range.",
+      "original_witness_bounds_m": [
+        [
+          0.44999998807907104,
+          -1.9279999732971191,
+          0.4520000219345093
+        ],
+        [
+          0.45399999618530273,
+          -1.9119999408721924,
+          0.46799999475479126
+        ]
+      ]
+    },
+    {
+      "contact_index": 34,
+      "pair": [
+        "LOD0_PumpInletUnion_0.478",
+        "LOD0_TransferPump"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Pump-side inlet union engagement",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.4795,
+          -1.92,
+          0.46
+        ],
+        "end_m": [
+          0.481,
+          -1.92,
+          0.46
+        ],
+        "outer_radius_m": 0.012,
+        "inner_radius_m": 0
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the declared 1.5 mm threaded/socket engagement at pump inlet; outlet is unrelated and must remain clear.",
+      "original_witness_bounds_m": [
+        [
+          0.4794999957084656,
+          -1.931999921798706,
+          0.4480000138282776
+        ],
+        [
+          0.48100000619888306,
+          -1.9079999923706055,
+          0.47200000286102295
+        ]
+      ]
+    },
+    {
+      "contact_index": 35,
+      "pair": [
+        "LOD0_PumpInletUnion_0.478",
+        "LOD0_TransferPumpInlet"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Pump-side outlet union around inlet hose",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.475,
+          -1.92,
+          0.46
+        ],
+        "end_m": [
+          0.4795,
+          -1.92,
+          0.46
+        ],
+        "outer_radius_m": 0.008,
+        "inner_radius_m": 0
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the modeled inlet hose through the pump-side union.",
+      "original_witness_bounds_m": [
+        [
+          0.4749999940395355,
+          -1.9279999732971191,
+          0.4520000219345093
+        ],
+        [
+          0.4794999957084656,
+          -1.9119999408721924,
+          0.46799999475479126
+        ]
+      ]
+    },
+    {
+      "contact_index": 36,
+      "pair": [
+        "LOD0_TransferPump",
+        "LOD0_TransferPumpInlet"
+      ],
+      "classification": "coincident_seated_plane",
+      "title": "Inlet hose butt against pump inlet",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.4795,
+          -1.92,
+          0.46
+        ],
+        "end_m": [
+          0.4795,
+          -1.92,
+          0.46
+        ],
+        "outer_radius_m": 0.008,
+        "inner_radius_m": 0,
+        "axis_source": [
+          1,
+          0,
+          0
+        ]
+      },
+      "solid_policy": "zero_solid_intrusion",
+      "rationale": "The inlet terminates at X .4795; require zero solid intrusion outside that plane.",
+      "original_witness_bounds_m": [
+        [
+          0.4794999957084656,
+          -1.9279999732971191,
+          0.4520000219345093
+        ],
+        [
+          0.4794999957084656,
+          -1.9119999408721924,
+          0.46799999475479126
+        ]
+      ]
+    },
+    {
+      "contact_index": 37,
+      "pair": [
+        "LOD0_TrunkHem",
+        "LOD0_TrunkOffsetArm_-1"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Trunk arm joined at front hem reinforcement",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.46406000000000003,
+          -2.044,
+          0.978
+        ],
+        "high_m": [
+          -0.44606,
+          -2.028,
+          0.99
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only this local arm/hem crossing is joined. Require same Trunk_Hinge ancestor; no fixed hinge or body exception.",
+      "original_witness_bounds_m": [
+        [
+          -0.46251583099365234,
+          -2.042571544647217,
+          0.9803606271743774
+        ],
+        [
+          -0.44743770360946655,
+          -2.030341386795044,
+          0.9867315292358398
+        ]
+      ]
+    },
+    {
+      "contact_index": 38,
+      "pair": [
+        "LOD0_TrunkHingeMovingKnuckle_-1",
+        "LOD0_TrunkOffsetArm_-1"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Trunk arm-to-moving-sleeve weld",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          -0.46406000000000003,
+          -1.996,
+          0.99
+        ],
+        "end_m": [
+          -0.44606,
+          -1.996,
+          0.99
+        ],
+        "outer_radius_m": 0.008,
+        "inner_radius_m": 0.005119406879332062
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Actual arm bore5.3 mm and sleeve outer radius8 mm; only the sleeve-wall annulus is joined. The12-sided5.3 mm arm bore has5.1194069 mm apothem. Independently verify inner bore/pin separation.",
+      "original_witness_bounds_m": [
+        [
+          -0.4640600085258484,
+          -2.003999948501587,
+          0.9819999933242798
+        ],
+        [
+          -0.4460600018501282,
+          -1.992252230644226,
+          0.9969958066940308
+        ]
+      ]
+    },
+    {
+      "contact_index": 39,
+      "pair": [
+        "LOD0_TrunkHem",
+        "LOD0_TrunkOffsetArm_1"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Trunk arm joined at front hem reinforcement",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.44606,
+          -2.044,
+          0.978
+        ],
+        "high_m": [
+          0.46406000000000003,
+          -2.028,
+          0.99
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only this local arm/hem crossing is joined. Require same Trunk_Hinge ancestor; no fixed hinge or body exception.",
+      "original_witness_bounds_m": [
+        [
+          0.4474673867225647,
+          -2.042571544647217,
+          0.98036128282547
+        ],
+        [
+          0.46254488825798035,
+          -2.030351161956787,
+          0.9867299795150757
+        ]
+      ]
+    },
+    {
+      "contact_index": 40,
+      "pair": [
+        "LOD0_TrunkHingeMovingKnuckle_1",
+        "LOD0_TrunkOffsetArm_1"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Trunk arm-to-moving-sleeve weld",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.44606,
+          -1.996,
+          0.99
+        ],
+        "end_m": [
+          0.46406000000000003,
+          -1.996,
+          0.99
+        ],
+        "outer_radius_m": 0.008,
+        "inner_radius_m": 0.005119406879332062
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Actual arm bore5.3 mm and sleeve outer radius8 mm; only the sleeve-wall annulus is joined. The12-sided5.3 mm arm bore has5.1194069 mm apothem. Independently verify inner bore/pin separation.",
+      "original_witness_bounds_m": [
+        [
+          0.4460600018501282,
+          -2.003999948501587,
+          0.9819999933242798
+        ],
+        [
+          0.4640600085258484,
+          -1.992252230644226,
+          0.9969958066940308
+        ]
+      ]
+    },
+    {
+      "contact_index": 41,
+      "pair": [
+        "LOD0_VentBulkheadFlange",
+        "LOD0_VentBulkheadUnion"
+      ],
+      "classification": "joined_inspection_assembly",
+      "title": "Vent flange to bulkhead union engagement",
+      "allowed_contact_region": {
+        "kind": "finite_cylinder",
+        "start_m": [
+          0.788,
+          -2.155,
+          0.8
+        ],
+        "end_m": [
+          0.79,
+          -2.155,
+          0.8
+        ],
+        "outer_radius_m": 0.01,
+        "inner_radius_m": 0.007727406610312547
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "The 2 mm axial flange/union engagement is confined to their common annular wall. Neither the pipe nor quarter-panel bore receives an overlap exception.",
+      "original_witness_bounds_m": [
+        [
+          0.7879999876022339,
+          -2.1649999618530273,
+          0.7900000214576721
+        ],
+        [
+          0.7900000214576721,
+          -2.1449999809265137,
+          0.8100000023841858
+        ]
+      ]
+    },
+    {
+      "contact_index": null,
+      "pair": [
+        "LOD0_TankStrapReturn_-0.313",
+        "LOD0_TankStrap_-0.313"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Corrected rigid strap return joined at top strap ends",
+      "allowed_contact_region": {
+        "kind": "union",
+        "regions": [
+          {
+            "kind": "box",
+            "low_m": [
+              -0.321,
+              -2.173,
+              0.701
+            ],
+            "high_m": [
+              -0.305,
+              -2.163,
+              0.707
+            ]
+          },
+          {
+            "kind": "box",
+            "low_m": [
+              -0.321,
+              -1.677,
+              0.701
+            ],
+            "high_m": [
+              -0.305,
+              -1.667,
+              0.707
+            ]
+          }
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the two small top ends of the rigid cage join the corresponding top strap. Tank surfaces have a separate measured positive gap."
+    },
+    {
+      "contact_index": null,
+      "pair": [
+        "LOD0_TankStrapReturn_0.313",
+        "LOD0_TankStrap_0.313"
+      ],
+      "classification": "same_rigid_weld",
+      "title": "Corrected rigid strap return joined at top strap ends",
+      "allowed_contact_region": {
+        "kind": "union",
+        "regions": [
+          {
+            "kind": "box",
+            "low_m": [
+              0.305,
+              -2.173,
+              0.701
+            ],
+            "high_m": [
+              0.321,
+              -2.163,
+              0.707
+            ]
+          },
+          {
+            "kind": "box",
+            "low_m": [
+              0.305,
+              -1.677,
+              0.701
+            ],
+            "high_m": [
+              0.321,
+              -1.667,
+              0.707
+            ]
+          }
+        ]
+      },
+      "solid_policy": "bounded_joined_volume",
+      "rationale": "Only the two small top ends of the rigid cage join the corresponding top strap. Tank surfaces have a separate measured positive gap."
+    }
+  ],
+  "observation_region_verification": [
+    {
+      "index": 1,
+      "pair": [
+        "LOD0_AuxFillerCap",
+        "LOD0_AuxFillerCollar"
+      ],
+      "points_checked": 55,
+      "maximum_outside_m": 1.4495849599838184e-07,
+      "witness": [
+        -0.5600000023841858,
+        -2.001999855041504,
+        0.8320000171661377
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 2,
+      "pair": [
+        "LOD0_AuxFillerCap",
+        "LOD0_AuxFillerGrip"
+      ],
+      "points_checked": 68,
+      "maximum_outside_m": -2.8610229740877458e-09,
+      "witness": [
+        -0.5795000195503235,
+        -2.0329999923706055,
+        0.847000002861023
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 3,
+      "pair": [
+        "LOD0_AuxFillNeck",
+        "LOD0_AuxFillerCollar"
+      ],
+      "points_checked": 82,
+      "maximum_outside_m": 1.0211946176869047e-07,
+      "witness": [
+        -0.549115777015686,
+        -2.010880947113037,
+        0.8240000009536743
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 4,
+      "pair": [
+        "LOD0_AuxFillNeck",
+        "LOD0_AuxiliaryTank"
+      ],
+      "points_checked": 54,
+      "maximum_outside_m": -9.989819402292377e-05,
+      "witness": [
+        -0.34193700551986694,
+        -1.9596469402313232,
+        0.6901448369026184
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 5,
+      "pair": [
+        "LOD0_AuxVent",
+        "LOD0_AuxiliaryTank"
+      ],
+      "points_checked": 39,
+      "maximum_outside_m": -0.005822957305368748,
+      "witness": [
+        0.39017748832702637,
+        -1.8766857385635376,
+        0.699999988079071
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 7,
+      "pair": [
+        "LOD0_AuxiliaryTank",
+        "LOD0_PumpInletUnion_0.451"
+      ],
+      "points_checked": 40,
+      "maximum_outside_m": 6.588097347867694e-08,
+      "witness": [
+        0.4480000138282776,
+        -1.9115146398544312,
+        0.4684852957725525
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 10,
+      "pair": [
+        "LOD0_AuxiliaryTank",
+        "LOD0_TransferPumpInlet"
+      ],
+      "points_checked": 48,
+      "maximum_outside_m": 5.9127811898387894e-08,
+      "witness": [
+        0.44999998807907104,
+        -1.9119999408721924,
+        0.46000000834465027
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 11,
+      "pair": [
+        "LOD0_AuxiliaryTank",
+        "LOD0_VentRolloverValve"
+      ],
+      "points_checked": 57,
+      "maximum_outside_m": -0.010922847974883985,
+      "witness": [
+        0.3961670696735382,
+        -1.8770291805267334,
+        0.699999988079071
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 12,
+      "pair": [
+        "LOD0_AuxVent",
+        "LOD0_VentExternalCover"
+      ],
+      "points_checked": 40,
+      "maximum_outside_m": -1.0490417534647634e-08,
+      "witness": [
+        0.9359999895095825,
+        -2.1610000133514404,
+        0.7999738454818726
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 13,
+      "pair": [
+        "LOD0_AuxVent",
+        "LOD0_VentRolloverValve"
+      ],
+      "points_checked": 57,
+      "maximum_outside_m": -0.005659166275143485,
+      "witness": [
+        0.41062214970588684,
+        -1.8857249021530151,
+        0.7243555188179016
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 14,
+      "pair": [
+        "LOD0_DctBellhousing",
+        "LOD0_SevenSpeedTransaxle"
+      ],
+      "points_checked": 151,
+      "maximum_outside_m": -2.4795532183041757e-08,
+      "witness": [
+        0.0,
+        0.8884999752044678,
+        0.34599998593330383
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 15,
+      "pair": [
+        "LOD0_DctBellhousing",
+        "LOD0_V8Crankcase"
+      ],
+      "points_checked": 113,
+      "maximum_outside_m": -1.6212463371800823e-08,
+      "witness": [
+        0.059174150228500366,
+        1.0475939512252808,
+        0.3205000162124634
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 16,
+      "pair": [
+        "LOD0_FHalfShaft_-1",
+        "LOD0_FrontFinalDrive"
+      ],
+      "points_checked": 43,
+      "maximum_outside_m": 7.162362933023055e-09,
+      "witness": [
+        -0.11595897376537323,
+        1.4600000381469727,
+        0.3463200032711029
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 17,
+      "pair": [
+        "LOD0_FHalfShaft_1",
+        "LOD0_FrontFinalDrive"
+      ],
+      "points_checked": 43,
+      "maximum_outside_m": 7.49453379006649e-09,
+      "witness": [
+        0.11595897376537323,
+        1.4600000381469727,
+        0.3463200330734253
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 18,
+      "pair": [
+        "LOD0_ForwardReturnDrive",
+        "LOD0_FrontFinalDrive"
+      ],
+      "points_checked": 87,
+      "maximum_outside_m": -0.009587820354136328,
+      "witness": [
+        0.1196630448102951,
+        1.4038423299789429,
+        0.3005913197994232
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 19,
+      "pair": [
+        "LOD0_FrontFinalDrive",
+        "LOD0_Sump"
+      ],
+      "points_checked": 0,
+      "maximum_outside_m": null,
+      "witness": null,
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": true
+    },
+    {
+      "index": 20,
+      "pair": [
+        "LOD0_FrontFinalDrive",
+        "LOD0_V8Crankcase"
+      ],
+      "points_checked": 0,
+      "maximum_outside_m": null,
+      "witness": null,
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": true
+    },
+    {
+      "index": 21,
+      "pair": [
+        "LOD0_FuelBulkheadGland",
+        "LOD0_StructuralBody"
+      ],
+      "points_checked": 359,
+      "maximum_outside_m": 1.660253102567233e-07,
+      "witness": [
+        0.3705679774284363,
+        -2.011765718460083,
+        0.2911778688430786
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 22,
+      "pair": [
+        "LOD0_FuelBulkheadGland",
+        "LOD0_TrunkCarpet"
+      ],
+      "points_checked": 368,
+      "maximum_outside_m": 1.0573832532473348e-07,
+      "witness": [
+        0.37308016419410706,
+        -2.012124538421631,
+        0.29871442914009094
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 23,
+      "pair": [
+        "LOD0_FuelTransferLine",
+        "LOD0_MainFuelLobe_1"
+      ],
+      "points_checked": 30,
+      "maximum_outside_m": -0.0032196657061488755,
+      "witness": [
+        0.42247265577316284,
+        -1.2699999809265137,
+        0.21196791529655457
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 25,
+      "pair": [
+        "LOD0_Hood",
+        "LOD0_HoodOffsetArm_-1"
+      ],
+      "points_checked": 15,
+      "maximum_outside_m": -0.0018775200843811346,
+      "witness": [
+        -0.4373700022697449,
+        0.8418775200843811,
+        0.9969258904457092
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 26,
+      "pair": [
+        "LOD0_HoodHem",
+        "LOD0_HoodOffsetArm_-1"
+      ],
+      "points_checked": 76,
+      "maximum_outside_m": 5.607604991464399e-09,
+      "witness": [
+        -0.446370005607605,
+        0.823302686214447,
+        0.9864005446434021
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 27,
+      "pair": [
+        "LOD0_HoodHingeMovingKnuckle_-1",
+        "LOD0_HoodOffsetArm_-1"
+      ],
+      "points_checked": 126,
+      "maximum_outside_m": 6.675742942816032e-09,
+      "witness": [
+        -0.4399644732475281,
+        0.7699999809265137,
+        0.9819999933242798
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 28,
+      "pair": [
+        "LOD0_Hood",
+        "LOD0_HoodOffsetArm_1"
+      ],
+      "points_checked": 15,
+      "maximum_outside_m": -0.0018775200843811346,
+      "witness": [
+        0.4373700022697449,
+        0.8418775200843811,
+        0.9969258904457092
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 29,
+      "pair": [
+        "LOD0_HoodHem",
+        "LOD0_HoodOffsetArm_1"
+      ],
+      "points_checked": 68,
+      "maximum_outside_m": 5.607604991464399e-09,
+      "witness": [
+        0.446370005607605,
+        0.8149706721305847,
+        0.9857261180877686
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 30,
+      "pair": [
+        "LOD0_HoodHingeMovingKnuckle_1",
+        "LOD0_HoodOffsetArm_1"
+      ],
+      "points_checked": 126,
+      "maximum_outside_m": 6.675742942816032e-09,
+      "witness": [
+        0.43477553129196167,
+        0.7699999809265137,
+        0.9819999933242798
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 31,
+      "pair": [
+        "LOD0_MainFuelLobe_-1",
+        "LOD0_MainTankCrossover_-1"
+      ],
+      "points_checked": 37,
+      "maximum_outside_m": -0.0009994120756320248,
+      "witness": [
+        -0.262718141078949,
+        -0.7502900958061218,
+        0.23499998450279236
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 32,
+      "pair": [
+        "LOD0_MainFuelLobe_1",
+        "LOD0_MainTankCrossover_1"
+      ],
+      "points_checked": 37,
+      "maximum_outside_m": -0.0009994120756320248,
+      "witness": [
+        0.262718141078949,
+        -0.7502900958061218,
+        0.23499998450279236
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 33,
+      "pair": [
+        "LOD0_PumpInletUnion_0.451",
+        "LOD0_TransferPumpInlet"
+      ],
+      "points_checked": 64,
+      "maximum_outside_m": 5.9127811898387894e-08,
+      "witness": [
+        0.44999998807907104,
+        -1.9119999408721924,
+        0.46000000834465027
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 34,
+      "pair": [
+        "LOD0_PumpInletUnion_0.478",
+        "LOD0_TransferPump"
+      ],
+      "points_checked": 40,
+      "maximum_outside_m": 6.588097347867694e-08,
+      "witness": [
+        0.48100000619888306,
+        -1.9115146398544312,
+        0.4684852957725525
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 35,
+      "pair": [
+        "LOD0_PumpInletUnion_0.478",
+        "LOD0_TransferPumpInlet"
+      ],
+      "points_checked": 64,
+      "maximum_outside_m": 5.9127811898387894e-08,
+      "witness": [
+        0.4794999957084656,
+        -1.9119999408721924,
+        0.46000000834465027
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 36,
+      "pair": [
+        "LOD0_TransferPump",
+        "LOD0_TransferPumpInlet"
+      ],
+      "points_checked": 48,
+      "maximum_outside_m": 5.9127811898387894e-08,
+      "witness": [
+        0.4794999957084656,
+        -1.9119999408721924,
+        0.46000000834465027
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 37,
+      "pair": [
+        "LOD0_TrunkHem",
+        "LOD0_TrunkOffsetArm_-1"
+      ],
+      "points_checked": 48,
+      "maximum_outside_m": -0.0013777036094665407,
+      "witness": [
+        -0.44743770360946655,
+        -2.037278413772583,
+        0.9803606271743774
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 38,
+      "pair": [
+        "LOD0_TrunkHingeMovingKnuckle_-1",
+        "LOD0_TrunkOffsetArm_-1"
+      ],
+      "points_checked": 134,
+      "maximum_outside_m": 5.537750590554891e-08,
+      "witness": [
+        -0.4602215588092804,
+        -2.0029282569885254,
+        0.9940000176429749
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 39,
+      "pair": [
+        "LOD0_TrunkHem",
+        "LOD0_TrunkOffsetArm_1"
+      ],
+      "points_checked": 48,
+      "maximum_outside_m": -0.0014073867225646852,
+      "witness": [
+        0.4474673867225647,
+        -2.037278413772583,
+        0.98036128282547
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 40,
+      "pair": [
+        "LOD0_TrunkHingeMovingKnuckle_1",
+        "LOD0_TrunkOffsetArm_1"
+      ],
+      "points_checked": 134,
+      "maximum_outside_m": 5.5377505903814184e-08,
+      "witness": [
+        0.44989845156669617,
+        -2.0029282569885254,
+        0.9940000176429749
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    },
+    {
+      "index": 41,
+      "pair": [
+        "LOD0_VentBulkheadFlange",
+        "LOD0_VentBulkheadUnion"
+      ],
+      "points_checked": 183,
+      "maximum_outside_m": 1.1222127563846607e-07,
+      "witness": [
+        0.7900000214576721,
+        -2.1463396549224854,
+        0.8050000667572021
+      ],
+      "all_observed_contact_points_in_region": true,
+      "requires_actual_boundary_check": false
+    }
+  ],
+  "unintended_contacts": [
+    {
+      "indices": [
+        6
+      ],
+      "finding": "The pump OUTLET route crosses the auxiliary reservoir wall; this is not its separately modeled inlet connection."
+    },
+    {
+      "indices": [
+        8,
+        9
+      ],
+      "finding": "The rigid metallic strap returns cross auxiliary tank sides and bottom. No rubber-compression policy applies."
+    },
+    {
+      "indices": [
+        24
+      ],
+      "finding": "The outlet pipe penetrates the pump after an insufficiently extended7 mm cutter; a passage requires measured separation."
+    }
+  ],
+  "candidate": "fixture-candidate03.json; four replacement meshes with unrelated static gap>=1 mm",
+  "limits": [
+    "These are proposed original construction semantics, not product/human approval or mechanical operation claims.",
+    "Observed vertex/edge membership does not by itself prove entire triangles or all solid regions satisfy the zones. The reusable QA gate must clip actual contact triangles to these convex regions and independently rule out containment outside them.",
+    "Every unlisted pair retains the normal positive-clearance/contact requirement. Added contacts require explicit new scope, not a blanket material/ancestor exemption."
+  ],
+  "human_approval_reference": null
+}

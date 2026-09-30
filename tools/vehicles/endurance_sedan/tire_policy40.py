@@ -1,0 +1,21 @@
+"""Original current44 tire specification; portable host selector contract."""
+POLICY = {
+    'schema': 'source-tire-radial40.v1',
+    'members': ['LOD0_Tire_FL', 'LOD0_Tire_FR', 'LOD0_Tire_RL', 'LOD0_Tire_RR'],
+    'historical_stations': 52,
+    'current_stations': 44,
+    'floor_stations': 36,
+    'floor_radius_m': .339625,
+    'meridian_points': 28,
+    'shoulder_cutters': 56,
+    'source_profile_ast_sha256': 'd4e2e7fec17d985c6ca8b586ec10da2918ed85c1bd43fdea16635c5332c47af4',
+    'source_tire_prefix_ast_sha256': 'f9da8cde43c1ae8f3c35b00a1e126fd2dd43541c2d12812ee91383e06375459b',
+    'historical_triangles': 4472,
+    'current_raw_triangles': 4268,
+    'current_triangles': 4140,
+    'form_error_m': .001,
+    'native_normal_degrees': .025,
+    'raw_normal_unit_error': 1e-6,
+    'uv_error': 1e-6,
+    'identity': 'Same original meridian, recesses and cardinal envelope; current44 circumferential sampling and unchanged36 groove floors.',
+}

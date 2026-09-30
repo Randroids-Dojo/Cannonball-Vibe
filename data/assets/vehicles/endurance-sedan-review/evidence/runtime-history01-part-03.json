@@ -1,0 +1,1115 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T17:01:18.225095+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/runtime-history01-parts/part-03.manifest.json",
+    "sha256": "b3ae7dab7fdcf544a7abbacb25a153759ca0965946539060ac1019c4f89f22be"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/runtime/production18-native-driving-01/driving.ogv",
+      "sha256": "734c8cc350f006b8b65e5bb5b723fdc7bb14b3e257f27aa5b6689f6ac5469d56",
+      "bytes": 334121443,
+      "reason": "full actual native movie; production18-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-driving-01/driving.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-driving-01/engine.log",
+      "sha256": "4e159cc2b43271eb2a80a5827136ba44c8d76ff7d7d273e8b80da651984b2cca",
+      "bytes": 3428,
+      "reason": "exact retained command or engine log; production18-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-driving-01/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-driving-01/frames.jsonl",
+      "sha256": "dda0c44500c0d2a2ce6573074f58258f18d558ee56c2718c670ba3013ec9553d",
+      "bytes": 22075773,
+      "reason": "raw per-frame telemetry or event trace; production18-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-driving-01/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-driving-01/godot.stdout.log",
+      "sha256": "7c20289432653c2967e607072c98eac64ca1bf90a3a54ad405efd888103e28d5",
+      "bytes": 4023,
+      "reason": "exact retained command or engine log; production18-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-driving-01/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-driving-01/process.json",
+      "sha256": "52786ea57869af39e4cb79b9fe911ee0e0804f2b2767eb3749385bcec7bb7b3d",
+      "bytes": 29852,
+      "reason": "structured command, input, metric, failure or comparison record; production18-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-driving-01/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-driving-01/run-save.json",
+      "sha256": "61299bd0abc774477270b5cfd16199bd197246075a2acb1b83f2e0cecbdd2acf",
+      "bytes": 4727,
+      "reason": "structured command, input, metric, failure or comparison record; production18-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-driving-01/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-driving-01/run-save.json.bak",
+      "sha256": "38b5512f4e5d322946d82b9ced2f9f5fc9822b4dc9495e48e66cf503a3705175",
+      "bytes": 4460,
+      "reason": "retained diagnostic input or recipe; production18-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-driving-01/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-driving-01/summary.json",
+      "sha256": "1d54eb3f6bd4513169b08bea1dd55176b884f4730e54d37338b7ea9308aab6d9",
+      "bytes": 27913,
+      "reason": "structured command, input, metric, failure or comparison record; production18-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-driving-01/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-driving-01/telemetry.jsonl",
+      "sha256": "39e6b99c3352a4019965e217e278ad09fdfc23158198f5091682e52ea0e2df0b",
+      "bytes": 7785,
+      "reason": "raw per-frame telemetry or event trace; production18-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-driving-01/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/01-contract.png",
+      "sha256": "988e8efa181c0acbdc8e99846792579b4df40e0f54715c57255bcfbf6cfcf948",
+      "bytes": 745877,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/01-contract.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/02-view-front.png",
+      "sha256": "0d124ae203f24319ee28e2148d7237f5db82ac58ed172cec69cf0c8bd4a3213d",
+      "bytes": 736022,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/02-view-front.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/03-view-rear.png",
+      "sha256": "8875b77c29e0fc5a667d523159a93113c2917586acc6fd4ae5be6dc4a41c14b1",
+      "bytes": 782387,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/03-view-rear.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/04-view-left.png",
+      "sha256": "471d8ae4b13c617f4b110d8d08837f67f8ad80f7e488cb2a2228b1a6aba7b9fe",
+      "bytes": 896102,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/04-view-left.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/05-view-right.png",
+      "sha256": "93d56f879f16125847d22f11a7d57460a2c902b90403123d21ab60a8fdb3cb17",
+      "bytes": 866609,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/05-view-right.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/06-view-top.png",
+      "sha256": "3a81bba5f1fbd68d3f0ad3e73b4b483a83f1ec080314a99ffe25b77e68be35ea",
+      "bytes": 505496,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/06-view-top.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/07-view-underside.png",
+      "sha256": "d02ebb87799b04b642fb831dc958fac689b6a828841d2fa15704bde2c46ffa13",
+      "bytes": 1647211,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/07-view-underside.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/09-view-rear-three-quarter.png",
+      "sha256": "78eecf9317d57e75239386c42555ac25279eec562d2cef503b9931cae091136d",
+      "bytes": 678562,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/09-view-rear-three-quarter.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/10-turntable.png",
+      "sha256": "abefdf958a065ec3e2044131c77669e06fc063e7a9c942918132b5f4a6a58da7",
+      "bytes": 668675,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/10-turntable.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/12-view-footwell.png",
+      "sha256": "38b98d522970653212067354fdc0a9cbd14e221866a5b141c3e14f95aeb59c32",
+      "bytes": 1411964,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/12-view-footwell.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/13-view-rear-cabin.png",
+      "sha256": "f38f063db33be847ff06a84d5fe7aef45002865c73bef1709ac97b39e7abb918",
+      "bytes": 1848843,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/13-view-rear-cabin.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/14-inspection-keyboard.png",
+      "sha256": "3e05af8ec903657babed1b30ba68ae44614f78b378d519e64b7630575508d70b",
+      "bytes": 794995,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/14-inspection-keyboard.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/16-open-Door_FL.png",
+      "sha256": "b7c3f4b2bd1f5807f42f8bc0c587b74180ee8091fa6d49775a12effb722e078f",
+      "bytes": 1221898,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/16-open-Door_FL.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/17-close-Door_FL.png",
+      "sha256": "a7331e0e20c74518211903cc444336d96f6f4daddfc531082a6c12ebd35ac212",
+      "bytes": 1126400,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/17-close-Door_FL.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/18-open-Door_FR.png",
+      "sha256": "bbf13f1dee4c3615af4d842a1c5ca748c4a54b2ecf5ac7c35e6bd5245784dd42",
+      "bytes": 1237771,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/18-open-Door_FR.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/19-close-Door_FR.png",
+      "sha256": "d2764b435d6891cb360b7ed0f4d135f8b9374c760c630899d676d6b25cb9a06b",
+      "bytes": 1141032,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/19-close-Door_FR.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/20-open-Door_RL.png",
+      "sha256": "fe8f12266619b52712d2d23a6549e58ea113b3833abe80abc9fcced821e42931",
+      "bytes": 1152313,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/20-open-Door_RL.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/22-open-Door_RR.png",
+      "sha256": "b92cce7fb6c13167c4b012a51a4d2889b0b26fa2663e1f28def7080567dc390f",
+      "bytes": 1156053,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/22-open-Door_RR.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/24-open-Hood_Hinge.png",
+      "sha256": "c897cd29d4cab0f936f15ba06e03bc37eb9721be72ddbfbd924701a201fbba4c",
+      "bytes": 1098747,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/24-open-Hood_Hinge.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/25-close-Hood_Hinge.png",
+      "sha256": "c1331cdbbea52866c2cca9e5e8d315b38f7dd72fcd90fa79b0a059381e906d39",
+      "bytes": 992356,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/25-close-Hood_Hinge.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/26-open-Trunk_Hinge.png",
+      "sha256": "e1b933dc7f28db705f659dea14ae70d41affe3b2a7eeda4231f6647038f19cd3",
+      "bytes": 908680,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/26-open-Trunk_Hinge.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/27-close-Trunk_Hinge.png",
+      "sha256": "729f7a8bdaa7f2caca977f4f6b163cdcb965f73fa82047a9dee5d3d20d7ad500",
+      "bytes": 899929,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/27-close-Trunk_Hinge.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/28-lights-off.png",
+      "sha256": "0cccf3b0412c13cc2befe1f51658a93d5aa431f88b0d55890d3769847a41b4d2",
+      "bytes": 841567,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/28-lights-off.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/29-headlights.png",
+      "sha256": "70b55f66439efa51d16b0338e0261d6b0ee1a911dd2f4dd545d5a416eecf08e0",
+      "bytes": 905929,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/29-headlights.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/30-brake-lights.png",
+      "sha256": "f006ee52abe0149bdfab3c4b5a18eacb4c5f6b3970b29beac7dc58d65001475f",
+      "bytes": 1071975,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/30-brake-lights.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/31-reverse-lights.png",
+      "sha256": "d92fd3a3f678b0c3057fa43d74c5bc1a648ba9654d0765fff1f80922da84820d",
+      "bytes": 1130535,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/31-reverse-lights.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/32-left-indicator.png",
+      "sha256": "d49585206d5e88428dd9f0d43950497d6db25c8775e9a06c1c698e0c66a6e95b",
+      "bytes": 1008956,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/32-left-indicator.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/33-right-indicator.png",
+      "sha256": "5e239540dab78e558c7ca83ffdd96d65a0a0c964b56fff9cd1f87ca253d0cb57",
+      "bytes": 1009126,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/33-right-indicator.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/34-hazards.png",
+      "sha256": "608434554777bee881251bb555ba6442020f62d61fda2075bde8cba868c73464",
+      "bytes": 1008933,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/34-hazards.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/35-wipers-sweep.png",
+      "sha256": "4a33a41e6f78b9d765bd4f01987678f3faa300523a1aa7107777026fbc7bab5c",
+      "bytes": 951961,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/35-wipers-sweep.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/36-wipers-park.png",
+      "sha256": "3120c166b6f42ff3ced37b07efc5d2c0ae8d4cd634b66d7b3f43033a6be5c7f1",
+      "bytes": 951970,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/36-wipers-park.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/37-steering-small-right.png",
+      "sha256": "b4818d0add1ba98c47d11e6e9d05df8817c07c8d23b042feea0e59a8471d9b56",
+      "bytes": 1757301,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/37-steering-small-right.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/38-controls-left.png",
+      "sha256": "362a048e1c008106e26af88890bcc90f3f4e705fe781f19342db519e282167ea",
+      "bytes": 1759192,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/38-controls-left.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/39-controls-right.png",
+      "sha256": "643209b1090cce408dd283b55b8f253b6e378699fe6e55a97dd43c818e3d4ad0",
+      "bytes": 1779806,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/39-controls-right.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/40-instruments-forward.png",
+      "sha256": "2516179c06db4cfd3bdb8662096f7033b91a303b02419e412da6698a9845d8dd",
+      "bytes": 1757360,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/40-instruments-forward.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/41-instruments-reverse.png",
+      "sha256": "26b3b9901a53011b22d4fc414f17aab58ac6a8ca3f45560f8aef98d000dd15d4",
+      "bytes": 1699975,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/41-instruments-reverse.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/42-instruments-low-fuel.png",
+      "sha256": "cc00f6d5228466837dd01629fc2af05ef5efff6b469dccf6fdb3b87518ef6c7e",
+      "bytes": 1757091,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/42-instruments-low-fuel.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/43-mirrors-configuration.png",
+      "sha256": "5fa39cb341c13484fc42733bb775f05cc6b848b61923cd013fd10bf39b4ffa65",
+      "bytes": 1755619,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/43-mirrors-configuration.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/44-lod-near.png",
+      "sha256": "d0c162474f499f313782a9f8c7af68dc6a5b5e03bd66decaec6e1363a4100207",
+      "bytes": 611833,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/44-lod-near.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/45-lod-middle.png",
+      "sha256": "75ca6bc912c884f0f12a8d78a6e1c9c56cfbda866efd1f0cd131f1cd1f805817",
+      "bytes": 578040,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/45-lod-middle.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/46-lod-far.png",
+      "sha256": "33587067022f1e780fc5c864e231234c45588f9524d73bf9981dbb8830ac7baa",
+      "bytes": 575501,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/46-lod-far.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/display-cockpit.png",
+      "sha256": "bfb2b92eb5dbce6a95ce0a831253171dc4ba6cb0c7dd6c3590cd5d1ec0063c10",
+      "bytes": 7413,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/display-cockpit.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/display-instruments-forward.png",
+      "sha256": "ab16320ccadab788c7f01e528e7c876e3f65218d1cbd51e3f07775774a43d273",
+      "bytes": 8094,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/display-instruments-forward.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/display-instruments-low-fuel.png",
+      "sha256": "ac77a9c6943f5db467d2d666c115356c9c9eb1799c659fef12caa68915b83fcc",
+      "bytes": 8408,
+      "reason": "actual image or declared diagnostic texture input; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/display-instruments-low-fuel.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/engine.log",
+      "sha256": "11e275c3c7c6e1701a3ea479caaa4f0a5ab4fcc0fa19baa3fdb01215dbda93b6",
+      "bytes": 6727,
+      "reason": "exact retained command or engine log; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/godot.stderr.log",
+      "sha256": "d74df6662026b1e5780c251c0b004f02b1e0ef38b39c7951c7436d4efeb8f168",
+      "bytes": 2677,
+      "reason": "exact retained command or engine log; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/godot.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/godot.stdout.log",
+      "sha256": "bcf1b839a4e5ba270402b90b120e3a8731aa10ba9a75d59eebf5a8cecf7f8569",
+      "bytes": 4684,
+      "reason": "exact retained command or engine log; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/presentation-frames.jsonl",
+      "sha256": "2824f8e6939888388028977358626529da5da2917af5330248d09ff3945e8bc5",
+      "bytes": 12759308,
+      "reason": "raw per-frame telemetry or event trace; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/presentation.ogv",
+      "sha256": "ac0df426fec7e178f3f1aac77aba395f3968fda208a2379e615b6dd31963b3bb",
+      "bytes": 19493030,
+      "reason": "full actual native movie; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/presentation.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/process.json",
+      "sha256": "604dffe9c85495be039726c97ebb931cf156f22bef68ff2435dd3becb60b01c9",
+      "bytes": 33043,
+      "reason": "structured command, input, metric, failure or comparison record; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-native-presentation-01/telemetry.jsonl",
+      "sha256": "f1ec0c1d21dba46294ca71e1f16d32d435adbce4fd5199cf49c4294a3e001c06",
+      "bytes": 6186,
+      "reason": "raw per-frame telemetry or event trace; production18-native-presentation-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-native-presentation-01/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-presentation-decode-01/evidence.json",
+      "sha256": "31b5338dc6251ee0e7a9174e66c0bc57cfeff4c50646a8ed2981864e550af1bf",
+      "bytes": 17427,
+      "reason": "structured command, input, metric, failure or comparison record; production18-presentation-decode-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-presentation-decode-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-presentation-decode-01/probe.stdout.log",
+      "sha256": "426dd30219ff6e8f72c23c44d9b8fe22824aa16c01edfd1ee4105f44ab8c76eb",
+      "bytes": 382,
+      "reason": "exact retained command or engine log; production18-presentation-decode-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-presentation-decode-01/probe.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-tire-contact-01/failure.json",
+      "sha256": "d39ae4e570c07b83861e22a9c7ce12facb8db0ccd94563ed1a85e5e7b6fac65a",
+      "bytes": 1074,
+      "reason": "structured command, input, metric, failure or comparison record; production18-tire-contact-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-tire-contact-01/failure.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-tire-contact-01/runner-input.py",
+      "sha256": "a6b0479b59c5ecd399920750bc5b5b53fdd057049fd704cb3e10796bc9053604",
+      "bytes": 4476,
+      "reason": "reproducible Python recipe; production18-tire-contact-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-tire-contact-01/runner-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-tire-contact-02/evidence.json",
+      "sha256": "506cbc9ea77dabbda4ae6494bebed70efefe3f4bfd5c2520418ee317d259fe7b",
+      "bytes": 6556,
+      "reason": "structured command, input, metric, failure or comparison record; production18-tire-contact-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-tire-contact-02/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-01/build.log",
+      "sha256": "f7e721d71bed0e3ce52da13ce794b9000d5b1f94e2c26cb9694cefb0f9f55fd0",
+      "bytes": 729,
+      "reason": "exact retained command or engine log; production18-uv-regression-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-01/build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-01/case/presentation-frames.jsonl",
+      "sha256": "ef44cb39cf22794611e3db777341c5c848380ac569c2aec8c6724549c31ad565",
+      "bytes": 881550,
+      "reason": "raw per-frame telemetry or event trace; production18-uv-regression-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-01/case/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-01/case/presentation-summary.json",
+      "sha256": "833524fbcc486e34aa6152de9709a55776e00e6106757461a092e04e25f91ded",
+      "bytes": 5062,
+      "reason": "structured command, input, metric, failure or comparison record; production18-uv-regression-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-01/case/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-01/engine.log",
+      "sha256": "7a373ac80946a904b6337fef4e60ce575b5a9452b686b33378639f6b03bf9f64",
+      "bytes": 3689,
+      "reason": "exact retained command or engine log; production18-uv-regression-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-01/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-01/evidence.json",
+      "sha256": "e59a0bb8afcef04d806e4fe7590db4171035c0fe31f3d7f3dd7a284d4a316121",
+      "bytes": 140996,
+      "reason": "structured command, input, metric, failure or comparison record; production18-uv-regression-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-01/probe.log",
+      "sha256": "5a93e6e53e36553a6351b9c4a55e54c91412fe946dc61bae31e4b61ab40204e8",
+      "bytes": 3705,
+      "reason": "exact retained command or engine log; production18-uv-regression-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-01/probe.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-01/runner-input.py",
+      "sha256": "b9a72103766ca8e245997043024c7947b468fa450db26870180668821fcec0bd",
+      "bytes": 6899,
+      "reason": "reproducible Python recipe; production18-uv-regression-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-01/runner-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-01/scenario.patch",
+      "sha256": "d7f3cbda8f9e6dfa3078de0bcc1edaa86210c3f5c54618cb265194b110af5a6b",
+      "bytes": 15345,
+      "reason": "exact isolated mutation patch; production18-uv-regression-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-01/scenario.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-02/build.log",
+      "sha256": "ca2ef4c17472546ff468d2a82a6c9a8a651627431d07c6c80e5ef2578a33b27b",
+      "bytes": 729,
+      "reason": "exact retained command or engine log; production18-uv-regression-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-02/build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-02/case/presentation-summary.json",
+      "sha256": "1d42df3dade3e01e999b7ffb34e08b4ff5a34fa7a17a6db6e56c7896fa3a3532",
+      "bytes": 5115,
+      "reason": "structured command, input, metric, failure or comparison record; production18-uv-regression-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-02/case/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-02/engine.log",
+      "sha256": "ca93b55c312fdac7bf228af0dddc23f6951515e9f718abde3d2610bf009af9a2",
+      "bytes": 3688,
+      "reason": "exact retained command or engine log; production18-uv-regression-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-02/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-02/evidence.json",
+      "sha256": "cd5dede2e659ba1e766f965f9982978c05229784963c963b0ba6308204d73eb2",
+      "bytes": 140996,
+      "reason": "structured command, input, metric, failure or comparison record; production18-uv-regression-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-02/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-02/probe.log",
+      "sha256": "aac7a424d932b1d06d3831d3396b4f1b0f3d48177189b8c585f341875e3a14ee",
+      "bytes": 3704,
+      "reason": "exact retained command or engine log; production18-uv-regression-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-02/probe.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-02/scenario.patch",
+      "sha256": "50a1d889af96d4fb7dde73646b619b9803a751b3af8ef2363e1f0e71e99cd4df",
+      "bytes": 17681,
+      "reason": "exact isolated mutation patch; production18-uv-regression-02 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-02/scenario.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-03/build.log",
+      "sha256": "2d7c21ca4f9557cb17ac8e5a51a175fe331b904055a0fd41febd50e7de8bb3a0",
+      "bytes": 729,
+      "reason": "exact retained command or engine log; production18-uv-regression-03 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-03/build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-03/case/presentation-summary.json",
+      "sha256": "52dff3dd89822dfafafbca56685e580cc02fdbb776e2ac4057ef27c375213aa4",
+      "bytes": 5115,
+      "reason": "structured command, input, metric, failure or comparison record; production18-uv-regression-03 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-03/case/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-03/engine.log",
+      "sha256": "f78949d4180e1711227aecf8094d3b72e3a896e922443835db0fd3d03f9005f7",
+      "bytes": 3689,
+      "reason": "exact retained command or engine log; production18-uv-regression-03 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-03/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-03/evidence.json",
+      "sha256": "298404a828a3d8e77a065bd41daff7f138ae4a791c75dbcb048abef7876450a8",
+      "bytes": 140996,
+      "reason": "structured command, input, metric, failure or comparison record; production18-uv-regression-03 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-03/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-03/probe.log",
+      "sha256": "07f5dbf1c2d693585b45b1eaed21f8f78eee9338327c54966d04ca3e333278a6",
+      "bytes": 3705,
+      "reason": "exact retained command or engine log; production18-uv-regression-03 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-03/probe.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-uv-regression-03/scenario.patch",
+      "sha256": "6160428dd6c299d6d05bf8e1268384cb325b48fae09fae0585d6a2ba589dc20b",
+      "bytes": 22446,
+      "reason": "exact isolated mutation patch; production18-uv-regression-03 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production18-uv-regression-03/scenario.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/build.log",
+      "sha256": "fcdcdceade48dee265ccbee8c8cabe620f734868094e3b92633dbf8d4eb843dc",
+      "bytes": 1006,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/clean-import.log",
+      "sha256": "93fc500813f8436c266f370d32395e21437dd7e749ffa455d9e95f8af0d39902",
+      "bytes": 38319,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/clean-import.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/evidence.json",
+      "sha256": "79b6e90eaf811e9a31e9d259d42752b5db672ef6745fb49a047873c34c5e3f97",
+      "bytes": 152854,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/engine.log",
+      "sha256": "c28397d83abcbf13d1fb1bcf24d9c6cb3eebac987d2a50c83992e264e673198f",
+      "bytes": 3294,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/frames.jsonl",
+      "sha256": "bcd07d3f61421e6df8ebd50d1b8550096e0fd894ddacd6ecf161ff696836b53b",
+      "bytes": 22072300,
+      "reason": "raw per-frame telemetry or event trace; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/gate.json",
+      "sha256": "f28b8d0976e093436afa6083964aa3ab3c657edaa4c3a6c6a0e55ecec4928a5a",
+      "bytes": 1329,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/engine.log",
+      "sha256": "982d3371ae58bddd9ae86bb7ecb651059c578ac9107287ab4e752aabd53a6b2c",
+      "bytes": 4345,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/gate.json",
+      "sha256": "00c4f8c40b7b4856a054ba3435df30e2d2e3d6e45537a906021c345e6e7ef278",
+      "bytes": 2011,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/presentation-frames.jsonl",
+      "sha256": "9bc8f68051ff3ad330b32dedfe5678d2e579b75ea2a86734b5e80cb37b37627b",
+      "bytes": 52542778,
+      "reason": "raw per-frame telemetry or event trace; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/presentation-summary.json",
+      "sha256": "42fac83f127e0eed2131c6c0a2613dabf88dcb53abcd43b37d8d0f3fcf13416a",
+      "bytes": 749994,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/run-save.json",
+      "sha256": "94d9106b84e1b6355ba539d0daf79a53cf164b9a4df6f015b77458aa5f3a942c",
+      "bytes": 3773,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/transcript.log",
+      "sha256": "055580470b9d17040649f1fe724c4ad091323cb710b5def6d28de095ff7cee97",
+      "bytes": 5250,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/presentation/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/run-save.json",
+      "sha256": "af0cdc13a28a5b530aba599229efb71a30b7a1a01be4a2fead53c909c6f3159e",
+      "bytes": 4727,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/run-save.json.bak",
+      "sha256": "f1f4e5e835b828c854ca4708d61a5c97e6525457b2390f2de0c6f404fa2c6d98",
+      "bytes": 4720,
+      "reason": "retained diagnostic input or recipe; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/summary.json",
+      "sha256": "c3c96f8a4b3324aaab2f4d92670e7a7d83aeddcd8a8ecde68f3ab52ca9031f8f",
+      "bytes": 16306,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/transcript.log",
+      "sha256": "5d8b908cd9bc531d3545eec8f76e1d09827f527defd54c13a376bfb8dd1922ad",
+      "bytes": 4549,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/endurance-sedan/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/graybox/engine.log",
+      "sha256": "2f5630151345ac8f4018517f4cc7dc8ddef13b832728a0fda6db82854eccbc7a",
+      "bytes": 3035,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/graybox/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/graybox/frames.jsonl",
+      "sha256": "071efe2aebb1bc8d3769b9848ba1a64b3a5de3dd812d7f4730e52a7015a297e7",
+      "bytes": 17189941,
+      "reason": "raw per-frame telemetry or event trace; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/graybox/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/graybox/gate.json",
+      "sha256": "ea090edd6bc97b6a4ca4d87088f5a0cb0a581d552333344d554add638557fb99",
+      "bytes": 1305,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/graybox/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/graybox/run-save.json",
+      "sha256": "6b6a6f42efa16ae4ee5bb3f688e75797b63d6960f9b47b5221173c3b22598a23",
+      "bytes": 4748,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/graybox/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/graybox/run-save.json.bak",
+      "sha256": "f170c1b2cf8f1c433772a1126c79cfb7d1d050f92e0901e545e1a9a9329613e1",
+      "bytes": 4717,
+      "reason": "retained diagnostic input or recipe; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/graybox/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/graybox/summary.json",
+      "sha256": "26b1c0096de9f8325ee81a1114e2db2b16b67b67ea163ae2d09e3a552f1e54a0",
+      "bytes": 15206,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/graybox/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/graybox/transcript.log",
+      "sha256": "3926fa4d2b428ec0982d5f3972e1f120f773367b1e3460cfd04a10ef699983e6",
+      "bytes": 3914,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/graybox/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/hero-gt/engine.log",
+      "sha256": "9e58979da2c6d81eab8bc52336b5e4bffab9bda56af610fc3c13dda9a5a92ec0",
+      "bytes": 3036,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/hero-gt/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/hero-gt/frames.jsonl",
+      "sha256": "9150a0dc5f1c4759d7db4422ef7abd62ab46a3d4d092127bd3ca9120935052fe",
+      "bytes": 17205990,
+      "reason": "raw per-frame telemetry or event trace; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/hero-gt/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/hero-gt/gate.json",
+      "sha256": "84a93555a190671ee50e38ace0fe41dc94b0086b8bc76679b275b068d314b859",
+      "bytes": 1305,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/hero-gt/gate.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/hero-gt/run-save.json",
+      "sha256": "780d718d6cc07b866cc4573a7c4e67219c38276de11228be2e95ff3653a91fdb",
+      "bytes": 4725,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/hero-gt/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/hero-gt/run-save.json.bak",
+      "sha256": "3e73046da1717a186dee74283d43f47b5ab0482c547692d5e0aa3895ee442d62",
+      "bytes": 4717,
+      "reason": "retained diagnostic input or recipe; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/hero-gt/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/hero-gt/summary.json",
+      "sha256": "16770dcc82e556ff1d4bfd078af6977ae130b815d166b96a1ae45fb372e7ecd5",
+      "bytes": 15153,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/hero-gt/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/functional/hero-gt/transcript.log",
+      "sha256": "9d9888b1e3bf7d705775e21e804a11aae48ed2b44d4ad8b993461ca58a6bf917",
+      "bytes": 3915,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/functional/hero-gt/transcript.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/godot.json",
+      "sha256": "1c9d6f9cb38d954593c78038192675e492e6c4a83fe363482e654f932aa6505f",
+      "bytes": 56641,
+      "reason": "structured command, input, metric, failure or comparison record; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/godot.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-01/wrapper.log",
+      "sha256": "c723b332b02cdfeb513feab6f000008c9d35db7409ba64e0420ce5eb47afa13c",
+      "bytes": 171,
+      "reason": "exact retained command or engine log; production21-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-01/wrapper.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/01-static-ride.png",
+      "sha256": "b984862295755435e7243018cde87a74c4bd0265c97f70bf4538e605e59fc011",
+      "bytes": 739126,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/01-static-ride.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/02-keyboard-acceleration.png",
+      "sha256": "1aa43faf602bc25e3cd7c7671ef7b3597212e2923f3be726e26d656866e01d4f",
+      "bytes": 727283,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/02-keyboard-acceleration.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/03-keyboard-braking.png",
+      "sha256": "083531a79f6f8c7f89494d51e3b2f9da3b915cdb0b0db8d1fa2065a84ea00d2e",
+      "bytes": 726694,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/03-keyboard-braking.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/04-controller-acceleration.png",
+      "sha256": "810ce4f687bfc7a6806eb4ea0f4c62f08924d34d9ce02204f7dc978e9496fc80",
+      "bytes": 733694,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/04-controller-acceleration.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/05-controller-braking.png",
+      "sha256": "00af4a2dc3615d1f34699224aa74c3b4aa63c2603cc9894b32051218950ffedd",
+      "bytes": 732670,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/05-controller-braking.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/06-reverse.png",
+      "sha256": "259928a6df6d09c5127d1c1b5c05b8bd4b8455024e457faae1363fc28372321b",
+      "bytes": 758822,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/06-reverse.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/07-steer-left.png",
+      "sha256": "6bd95c0827e87907d9b697f43fdd2ab4a6d9b3623abc08f92223e6e657c83a60",
+      "bytes": 736061,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/07-steer-left.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/08-steer-right.png",
+      "sha256": "107b4a4453fe8d6200b2911374590a71137871801bce12bd69a09cfd1036cf57",
+      "bytes": 742579,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/08-steer-right.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/09-suspension.png",
+      "sha256": "71fec3f60da409954f8e2432595494fa9e7a789ac5b1fa6da978df832b717cf8",
+      "bytes": 733698,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/09-suspension.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/10-collision.png",
+      "sha256": "9385a4fb3bfe84c8f9a7783df0723b36515f686b1731c3c0757ad2870338e159",
+      "bytes": 730624,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/10-collision.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/11-reset.png",
+      "sha256": "7756c51ebe8aa72b26eacd6b41c4d7dd90cae58e856298e391cfdc192e53eba1",
+      "bytes": 744100,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/11-reset.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/12-cameras.png",
+      "sha256": "65025870277dbc1da28ae3c2726791e9801d4b961d297626bfa651b4209a9561",
+      "bytes": 1859753,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/12-cameras.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/13-natural-rebase.png",
+      "sha256": "ad2064911242a4b36dd4b50989032031637a396418686506c0b40d69f41cc910",
+      "bytes": 4110046,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/13-natural-rebase.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/14-forced-rebase.png",
+      "sha256": "e8f7144877352a9abb8933022875073ee4df57ee428fb42d3e55e047588d269e",
+      "bytes": 3922789,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/14-forced-rebase.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/15-save-resume.png",
+      "sha256": "a7def87abac827bdeb35e533a7e052cb6906f8080b240068773766ed870bd3c7",
+      "bytes": 3927458,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/15-save-resume.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/16-starter-policy.png",
+      "sha256": "bb273439c64622256f5452b0898866fdbe1bb5c956081fb604d59efcae6c74c2",
+      "bytes": 721981,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/16-starter-policy.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/17-lod-driving.png",
+      "sha256": "67dd01b0c3e73b0f9775db0877e8504a8a597568ca11591fad63e37c1bc21997",
+      "bytes": 632815,
+      "reason": "actual image or declared diagnostic texture input; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/17-lod-driving.png"
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-driving-01/build.stdout.log",
+      "sha256": "dd20f5c4e60bc3ae2878a154f44513d9c41c6ead0f9702bd08f8fd729051324e",
+      "bytes": 486,
+      "reason": "exact retained command or engine log; production21-native-driving-01 candidate evidence; separate from final asset acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production21-native-driving-01/build.stdout.log"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-03.zip",
+      "sha256": "c1f1f7aa4eddcfe6c443a2ada9b29c7fb8ea8a53915ed5df78a4c68362bc59ba",
+      "bytes": 429327404,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention/runtime-history01-part-03-repeat.zip",
+      "sha256": "c1f1f7aa4eddcfe6c443a2ada9b29c7fb8ea8a53915ed5df78a4c68362bc59ba",
+      "bytes": 429327404,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T17:01:45.214019+00:00"
+}

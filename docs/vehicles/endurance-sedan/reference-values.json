@@ -1,0 +1,3127 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "research_date_utc": "2026-09-10",
+  "status": "engineering_reference_and_lead_hardpoint_lock_before_blockout",
+  "selected_benchmark": {
+    "id": "audi_s6_2016_us",
+    "model_year": 2016,
+    "market": "US",
+    "generation": "C7 facelift / 4G",
+    "trim": "S6 Prestige",
+    "transmission": "7-speed S tronic",
+    "drive": "quattro",
+    "reference_options": [
+      "Black Optic",
+      "Individual Contour Seating"
+    ],
+    "identity_boundary": "Original fictional Meridian S8R candidate; lead owns final identity/styling. No factory trademark, fascia, lamp signature or cabin graphic is licensed by research."
+  },
+  "comparison_configurations": [
+    {
+      "id": "mercedes_e63_s_2016_us",
+      "model_year": 2016,
+      "market": "US",
+      "generation": "W212 facelift",
+      "trim": "AMG E63 S Sedan 4MATIC"
+    },
+    {
+      "id": "bmw_m5_2015_us_dct",
+      "model_year": 2015,
+      "market": "US",
+      "generation": "F10 facelift",
+      "trim": "M5 Sedan, DCT7, non-Competition, published20-inch wheel configuration"
+    }
+  ],
+  "units_policy": {
+    "length": "meters in authored/runtime lock; reference values retain printed units",
+    "mass": "kg; US curb values remain separate from EU mass including driver",
+    "power": "Retain US published hp. Never relabel as PS. 1 mechanical hp=745.699871582W;1PS=735.49875W; no automatic claim about test standard.",
+    "capacity": "1USgal=3.785411784L; imperialgal is a different unit",
+    "tire": "Nominal diameter=rim_in*.0254+2*section_width_mm/1000*aspect_ratio. Loaded radius requires separate modeling/physics choice."
+  },
+  "sources": [
+    {
+      "id": "AUDI-US-2016",
+      "title": "2016 Audi A6 / S6 US brochure",
+      "publisher": "Audi of America",
+      "url": "https://cdn.dealereprocess.org/cdn/brochures/audi/2016-a6.pdf",
+      "publication_date": null,
+      "edition": "2016 model year; US; manufacturer publication on dealer mirror",
+      "local_file": "audi-us-2016-a6-s6-brochure.pdf",
+      "kind": "manufacturer_brochure",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": "64796217be28466d2cc371c07e4219506b3a313f0703aeaaab59cf6658b04b1b",
+      "cached_path": "reports/p1-018/research/audi-us-2016-a6-s6-brochure.pdf",
+      "cache_capture_status": "existing_cache",
+      "cache_capture_checked_utc": "2026-09-10T21:58:42.509211+00:00"
+    },
+    {
+      "id": "AUDI-UK-2016",
+      "title": "Audi A6 and S6 Saloon and Avant pricing and specification guide",
+      "publisher": "Audi UK",
+      "url": "https://cache3.arabwheels.sa/system/brochures/48/original/a6-s6-saloon-avant_compressed.pdf?1762339880=",
+      "publication_date": "2015-10",
+      "edition": "Edition 2.3 10/15, 2016 model year; UK; manufacturer publication on archival mirror",
+      "local_file": "audi-uk-2016-a6-s6-brochure.pdf",
+      "kind": "manufacturer_brochure",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": "3b4a87c0ee1c93fa5ccf83517e48995ac4d651df7b03ac0fe2c3e036b5c08c01",
+      "cached_path": "reports/p1-018/research/audi-uk-2016-a6-s6-brochure.pdf",
+      "cache_capture_status": "existing_cache",
+      "cache_capture_checked_utc": "2026-09-10T21:58:42.515455+00:00"
+    },
+    {
+      "id": "MB-US-2016",
+      "title": "2016 E-Class Sedan and Wagon US brochure",
+      "publisher": "Mercedes-Benz USA",
+      "url": "https://s3.amazonaws.com/cdn.autoipacket.com/brochures/mercedes-benz/2016/2016-eclass-sedan_opt.pdf",
+      "publication_date": null,
+      "edition": "2016 model year; US; manufacturer publication on dealer-service mirror",
+      "local_file": "mercedes-us-2016-eclass-brochure.pdf",
+      "kind": "manufacturer_brochure",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": "dc84ff6890f15cce0602543605da8ed98ae555dd748a0c7c09a222ac84a0c489",
+      "cached_path": "reports/p1-018/research/mercedes-us-2016-eclass-brochure.pdf",
+      "cache_capture_status": "existing_cache",
+      "cache_capture_checked_utc": "2026-09-10T21:58:42.520276+00:00"
+    },
+    {
+      "id": "BMW-US-2015",
+      "title": "Technical Data 2015 BMW M5",
+      "publisher": "BMW US Media Information",
+      "url": "https://www.press.bmwgroup.com/usa/article/attachment/T0141998EN_US/361020",
+      "publication_date": null,
+      "edition": "2015 model year; US; M5 Sedan DKG 7 column, not manual column",
+      "local_file": "bmw-us-2015-m5-technical.pdf",
+      "kind": "manufacturer_technical_data",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": "0725d70bc7923a15753d67a942d9e68b897ec70ff1845f691f0c0761957bee7c",
+      "cached_path": "reports/p1-018/research/bmw-us-2015-m5-technical.pdf",
+      "cache_capture_status": "existing_cache",
+      "cache_capture_checked_utc": "2026-09-10T21:58:42.527834+00:00"
+    },
+    {
+      "id": "TOMAN-S6",
+      "title": "Current Cannonball Run Record Holder",
+      "publisher": "Arne's Antics / Arne Toman",
+      "author": "Arne Toman",
+      "url": "https://www.arnesantics.com/projects/current-cannonball-run-record-holder-audi-s6/",
+      "publication_date": null,
+      "edition": "Firsthand builder/driver account of May 2020 run in modified 2016 Audi S6; page title is historical, not a verified current record claim",
+      "local_file": null,
+      "kind": "firsthand_modified_car_account",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": "f20a4f6eca1fec985055ccfbc4177bc804cb07542bb0c8087076fcaebe8f5905",
+      "cached_path": "reports/p1-018/research/toman-s6.html",
+      "cache_capture_status": "acquired",
+      "cache_capture_checked_utc": "2026-09-10T21:58:42.529251+00:00"
+    },
+    {
+      "id": "TOMAN-E63",
+      "title": "Angry Ursula Cannonball Run E63 AMG",
+      "publisher": "Arne's Antics / Arne Toman",
+      "author": "Arne Toman",
+      "url": "https://www.arnesantics.com/projects/cannonball-run-world-record-holder-e63-amg/",
+      "publication_date": null,
+      "edition": "Firsthand builder/driver account of November 2019 run in modified 2015 E63 AMG; page does not independently establish S trim",
+      "local_file": null,
+      "kind": "firsthand_modified_car_account",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": "a9dd50791ef9fd9d06185c32c529f2b34904b37f496b5bd5c510ff947781590e",
+      "cached_path": "reports/p1-018/research/toman-e63.html",
+      "cache_capture_status": "acquired",
+      "cache_capture_checked_utc": "2026-09-10T21:58:43.093279+00:00"
+    },
+    {
+      "id": "AUDI-21H7",
+      "title": "Safety Recall 21H7 - Oil Strainer",
+      "publisher": "Audi of America and Audi Canada; NHTSA public repository",
+      "url": "https://static.nhtsa.gov/odi/rcl/2022/RCRIT-22V178-1437.pdf",
+      "publication_date": "2022-08-04",
+      "edition": "2013-2017 S6 among listed affected models; VIN-specific applicability",
+      "local_file": null,
+      "kind": "manufacturer_service_reference",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": "c5fe97a759a44e78014592a377570d8bf8f6e52046a702a942729bf974e241fb",
+      "cached_path": "reports/p1-018/research/audi-21h7.pdf",
+      "cache_capture_status": "acquired",
+      "cache_capture_checked_utc": "2026-09-10T21:58:43.738383+00:00"
+    },
+    {
+      "id": "AUDI-QRS-2014",
+      "title": "2014 A6/S6 Quick Reference Specification Book",
+      "publisher": "Audi of America; NHTSA public repository",
+      "url": "https://static.nhtsa.gov/odi/tsbs/2013/MC-10203510-9999.pdf",
+      "publication_date": "2013-09",
+      "edition": "2014 model year, pre-facelift 309 kW 4.0 TFSI; family reference only",
+      "local_file": null,
+      "kind": "manufacturer_service_reference",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": "8d432e4f14427fcf0b4e3632f41de2fc5f43f2562dda291abd3682f42f2503e6",
+      "cached_path": "reports/p1-018/research/audi-qrs-2014.pdf",
+      "cache_capture_status": "acquired",
+      "cache_capture_checked_utc": "2026-09-10T21:58:44.138471+00:00"
+    },
+    {
+      "id": "AUDI-FLUID-2016",
+      "title": "A6/S6 - 2016 Fluid Capacity Chart",
+      "publisher": "Audi of America; NHTSA public repository",
+      "url": "https://static.nhtsa.gov/odi/tsbs/2015/MC-10128487-9999.pdf",
+      "publication_date": "2015-07-30",
+      "edition": "2016 title but S6 cell says CEUC 420 hp; conflicting carryover data",
+      "local_file": null,
+      "kind": "manufacturer_service_reference_with_conflict",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": null,
+      "cached_path": null,
+      "cache_capture_status": "not_cached",
+      "cache_capture_checked_utc": "2026-09-10T21:58:44.572978+00:00",
+      "cache_capture_failure": "The read operation timed out"
+    },
+    {
+      "id": "AUDI-FLUID-2017",
+      "title": "S6 - 2017 Fluid Capacity Chart",
+      "publisher": "Audi of America; NHTSA public repository",
+      "url": "https://static.nhtsa.gov/odi/tsbs/2016/SB-10092581-0699.pdf",
+      "publication_date": "2016-07-22",
+      "edition": "2017 model year, CTGE 450 hp; later family cross-check only",
+      "local_file": null,
+      "kind": "manufacturer_service_reference",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": null,
+      "cached_path": null,
+      "cache_capture_status": "not_cached",
+      "cache_capture_checked_utc": "2026-09-10T21:59:04.834451+00:00",
+      "cache_capture_failure": "<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "id": "BMW-F10-LAUNCH",
+      "title": "Introducing The All-New 5th Generation BMW M5",
+      "publisher": "BMW Group US",
+      "url": "https://www.press.bmwgroup.com/usa/article/detail/T0114798EN_US/text.html",
+      "publication_date": "2011-06-22",
+      "edition": "F10 launch architecture; preliminary ratings are not substituted for 2015 technical data",
+      "local_file": null,
+      "kind": "manufacturer_press_release",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": null,
+      "cached_path": null,
+      "cache_capture_status": "not_cached",
+      "cache_capture_checked_utc": "2026-09-10T21:59:12.789652+00:00",
+      "cache_capture_failure": "<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "id": "MB-W212-HISTORY",
+      "title": "E wie Erfolgsgeschichte - die Historie der Mercedes-Benz E-Klasse",
+      "publisher": "Mercedes-Benz Media",
+      "url": "https://media.mercedes-benz.com/article/80c034f7-82c7-4232-8530-f6176b63405c",
+      "publication_date": null,
+      "edition": "Manufacturer history identifying facelift W212 E63 AMG S 4MATIC torque split",
+      "local_file": null,
+      "kind": "manufacturer_history",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": null,
+      "cached_path": null,
+      "cache_capture_status": "not_cached",
+      "cache_capture_checked_utc": "2026-09-10T21:59:12.790374+00:00",
+      "cache_capture_failure": "<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "id": "MB-US-MANUAL-2016",
+      "title": "E-Class Sedan and Wagon Operator Manual",
+      "publisher": "Mercedes-Benz USA / Daimler AG",
+      "url": "https://www.mbusa.com/content/dam/mb-nafta/us/owners/manuals/2016/operators/MY16_E-Class_Sedan_Wagon_Operator.pdf",
+      "publication_date": null,
+      "edition": "A-2016; part2125847502; editorial status2014-06-27; US/Canada variants; exact S-MODEL4MATIC tire table",
+      "local_file": null,
+      "kind": "manufacturer_operator_manual",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": null,
+      "cached_path": null,
+      "cache_capture_status": "not_cached",
+      "cache_capture_checked_utc": "2026-09-10T21:59:12.790779+00:00",
+      "cache_capture_failure": "<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "id": "ROY-ENDURANCE",
+      "title": "Why You Need A German Sedan To Break The Cannonball Run Record",
+      "publisher": "The Drive",
+      "author": "Alex Roy",
+      "url": "https://www.thedrive.com/news/31367/why-you-need-a-german-sedan-to-break-the-cannonball-run-record",
+      "publication_date": "2019-12-10",
+      "edition": "Firsthand2006 E39 M5 record participant; retrospective engineering opinion and packaging account",
+      "local_file": null,
+      "kind": "firsthand_endurance_account",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Local research reference only; no permission to ship source images, trademarks, models, textures or copied styling.",
+      "cached_sha256": null,
+      "cached_path": null,
+      "cache_capture_status": "not_cached",
+      "cache_capture_checked_utc": "2026-09-10T21:59:12.791011+00:00",
+      "cache_capture_failure": "<urlopen error [Errno 11001] getaddrinfo failed>"
+    },
+    {
+      "id": "LEAD-LOCK",
+      "title": "P1-018 lead hardpoint lock",
+      "publisher": "Cannonball-Vibe production lead",
+      "url": null,
+      "publication_date": "2026-09-10",
+      "edition": "Lead collaboration decision before blockout; original fictional design, not human approval",
+      "local_file": null,
+      "kind": "original_design_decision",
+      "retrieved_date_utc": "2026-09-10",
+      "rights_scope": "Original project design; final human rights review remains open.",
+      "cached_sha256": null,
+      "cached_path": null
+    }
+  ],
+  "reference_values": [
+    {
+      "id": "audi_us_length",
+      "vehicle": "audi_s6_2016_us",
+      "value": 193.9,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Height datum not specified; matches UK height including aerial, not its 1.430 m roof. US length/wheelbase/track differ from UK drawing; preserve separate values.",
+      "model_runtime_parameter": "body.length_m",
+      "converted": {
+        "value": 4.92506,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_body_width",
+      "vehicle": "audi_s6_2016_us",
+      "value": 73.8,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "body.width_without_mirrors_m",
+      "converted": {
+        "value": 1.87452,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_mirror_width",
+      "vehicle": "audi_s6_2016_us",
+      "value": 82.1,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "body.width_with_mirrors_m",
+      "converted": {
+        "value": 2.08534,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_height_published",
+      "vehicle": "audi_s6_2016_us",
+      "value": 57.8,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Height datum not specified; matches UK height including aerial, not its 1.430 m roof. US length/wheelbase/track differ from UK drawing; preserve separate values.",
+      "model_runtime_parameter": "body.source_height_m",
+      "converted": {
+        "value": 1.46812,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_wheelbase",
+      "vehicle": "audi_s6_2016_us",
+      "value": 114.7,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Height datum not specified; matches UK height including aerial, not its 1.430 m roof. US length/wheelbase/track differ from UK drawing; preserve separate values.",
+      "model_runtime_parameter": "chassis.wheelbase_m",
+      "converted": {
+        "value": 2.91338,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_front_track",
+      "vehicle": "audi_s6_2016_us",
+      "value": 63.6,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "chassis.front_track_m",
+      "converted": {
+        "value": 1.61544,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_rear_track",
+      "vehicle": "audi_s6_2016_us",
+      "value": 63.2,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Height datum not specified; matches UK height including aerial, not its 1.430 m roof. US length/wheelbase/track differ from UK drawing; preserve separate values.",
+      "model_runtime_parameter": "chassis.rear_track_m",
+      "converted": {
+        "value": 1.60528,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_curb_mass",
+      "vehicle": "audi_s6_2016_us",
+      "value": 4486,
+      "unit": "lb",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "dynamics.reference_curb_mass_kg",
+      "converted": {
+        "value": 2034.81537182,
+        "unit": "kg"
+      }
+    },
+    {
+      "id": "audi_us_drag_coefficient",
+      "vehicle": "audi_s6_2016_us",
+      "value": 0.29,
+      "unit": "1",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "dynamics.reference_cd",
+      "converted": null
+    },
+    {
+      "id": "audi_us_tank_capacity",
+      "vehicle": "audi_s6_2016_us",
+      "value": 19.8,
+      "unit": "US_gal",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Rounded US published capacity; 75 L metric tank is separately published by Audi UK.",
+      "model_runtime_parameter": "fuel.factory_capacity_l",
+      "converted": {
+        "value": 74.9511533232,
+        "unit": "L"
+      }
+    },
+    {
+      "id": "audi_us_front_headroom_sunshade",
+      "vehicle": "audi_s6_2016_us",
+      "value": 37.2,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "occupant.front_headroom_reference_m",
+      "converted": {
+        "value": 0.94488,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_rear_headroom_sunshade",
+      "vehicle": "audi_s6_2016_us",
+      "value": 37.8,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "occupant.rear_headroom_reference_m",
+      "converted": {
+        "value": 0.96012,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_front_legroom",
+      "vehicle": "audi_s6_2016_us",
+      "value": 41.3,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "occupant.front_legroom_reference_m",
+      "converted": {
+        "value": 1.04902,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_rear_legroom",
+      "vehicle": "audi_s6_2016_us",
+      "value": 37.4,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "occupant.rear_legroom_reference_m",
+      "converted": {
+        "value": 0.94996,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_front_shoulder_room",
+      "vehicle": "audi_s6_2016_us",
+      "value": 57.5,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "occupant.front_shoulder_reference_m",
+      "converted": {
+        "value": 1.4605,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_rear_shoulder_room",
+      "vehicle": "audi_s6_2016_us",
+      "value": 56.3,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "occupant.rear_shoulder_reference_m",
+      "converted": {
+        "value": 1.43002,
+        "unit": "m"
+      }
+    },
+    {
+      "id": "audi_us_trunk_volume_us",
+      "vehicle": "audi_s6_2016_us",
+      "value": 14.1,
+      "unit": "ft3",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "US brochure cargo method is not identified; do not equate with UK VDA 530 L.",
+      "model_runtime_parameter": "packaging.trunk_source_volume_l",
+      "converted": {
+        "value": 399.2675369472,
+        "unit": "L"
+      }
+    },
+    {
+      "id": "audi_us_seating_capacity",
+      "vehicle": "audi_s6_2016_us",
+      "value": 5,
+      "unit": "person",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p51 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "occupant.factory_seat_count",
+      "converted": null
+    },
+    {
+      "id": "audi_us_engine_displacement",
+      "vehicle": "audi_s6_2016_us",
+      "value": 3993,
+      "unit": "cm3",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "engine.reference_displacement_l",
+      "converted": null
+    },
+    {
+      "id": "audi_us_engine_bore",
+      "vehicle": "audi_s6_2016_us",
+      "value": 84.5,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "engine.model_bore_reference_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_us_engine_stroke",
+      "vehicle": "audi_s6_2016_us",
+      "value": 89,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "engine.model_stroke_reference_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_us_power",
+      "vehicle": "audi_s6_2016_us",
+      "value": 450,
+      "unit": "hp_US_published",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Factory comparison only. Does not replace starter speed policy, validation profiles or force-model tuning.",
+      "model_runtime_parameter": "engine.reference_power_hp",
+      "converted": null
+    },
+    {
+      "id": "audi_us_power_rpm",
+      "vehicle": "audi_s6_2016_us",
+      "value": [
+        5800,
+        6400
+      ],
+      "unit": "rpm",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "instruments.reference_power_band_rpm",
+      "converted": null
+    },
+    {
+      "id": "audi_us_torque",
+      "vehicle": "audi_s6_2016_us",
+      "value": 406,
+      "unit": "lb_ft",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "engine.reference_torque_lb_ft",
+      "converted": null
+    },
+    {
+      "id": "audi_us_torque_rpm",
+      "vehicle": "audi_s6_2016_us",
+      "value": [
+        1400,
+        5700
+      ],
+      "unit": "rpm",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "instruments.reference_torque_band_rpm",
+      "converted": null
+    },
+    {
+      "id": "audi_us_compression_ratio",
+      "vehicle": "audi_s6_2016_us",
+      "value": 10.1,
+      "unit": "1",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "engine.reference_compression_ratio",
+      "converted": null
+    },
+    {
+      "id": "audi_us_transmission_gears",
+      "vehicle": "audi_s6_2016_us",
+      "value": 7,
+      "unit": "forward_gear",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "instruments.gear_count_reference",
+      "converted": null
+    },
+    {
+      "id": "audi_us_front_brake_diameter",
+      "vehicle": "audi_s6_2016_us",
+      "value": 15.7,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "wheel.front_brake_disc_diameter_m",
+      "converted": null
+    },
+    {
+      "id": "audi_us_rear_brake_diameter",
+      "vehicle": "audi_s6_2016_us",
+      "value": 14,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "wheel.rear_brake_disc_diameter_m",
+      "converted": null
+    },
+    {
+      "id": "audi_us_steering_ratio",
+      "vehicle": "audi_s6_2016_us",
+      "value": 16.1,
+      "unit": "1",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "controls.reference_steering_ratio",
+      "converted": null
+    },
+    {
+      "id": "audi_us_turning_diameter",
+      "vehicle": "audi_s6_2016_us",
+      "value": 39,
+      "unit": "ft",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "dynamics.reference_turning_diameter_m",
+      "converted": null
+    },
+    {
+      "id": "audi_us_acceleration_0_60",
+      "vehicle": "audi_s6_2016_us",
+      "value": 4.4,
+      "unit": "s",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Factory comparison only. Does not replace starter speed policy, validation profiles or force-model tuning.",
+      "model_runtime_parameter": "performance.reference_0_60mph_s",
+      "converted": null
+    },
+    {
+      "id": "audi_us_speed_limiter",
+      "vehicle": "audi_s6_2016_us",
+      "value": 155,
+      "unit": "mph",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27 S6 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Factory comparison only. Does not replace starter speed policy, validation profiles or force-model tuning.",
+      "model_runtime_parameter": "performance.reference_factory_limit_mph",
+      "converted": null
+    },
+    {
+      "id": "audi_us_architecture",
+      "vehicle": "audi_s6_2016_us",
+      "value": {
+        "engine": "longitudinal turbocharged direct-injection V8, aluminum alloy block and heads, 32 valves, variable valve timing",
+        "transmission": "7-speed S tronic dual-clutch",
+        "drive": "quattro permanent all-wheel drive",
+        "rear_differential": "sport differential available as option",
+        "front_suspension": "five-link",
+        "rear_suspension": "trapezoidal-link",
+        "springs": "adaptive air, S calibration",
+        "steering": "electromechanical power assistance; dynamic steering optional",
+        "brakes": "ventilated discs front and rear",
+        "body": "aluminum exterior body panels and steel chassis"
+      },
+      "unit": "assembly",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p50 / PDF p27",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "assemblies.reference_architecture",
+      "converted": null
+    },
+    {
+      "id": "audi_us_reference_options",
+      "vehicle": "audi_s6_2016_us",
+      "value": {
+        "reference_trim": "Prestige",
+        "comfort_seats": "Individual Contour Seating package, 18-way heated/ventilated fronts, lumbar/massage; non-diamond leather",
+        "black_optic": "20-inch wheels with 255/35 summer tires, black grille/window trim, body-color mirror housings",
+        "prestige": "LED headlights, HUD, ambient lighting, power trunk",
+        "climate": "four-zone"
+      },
+      "unit": "option_configuration",
+      "source_ids": [
+        "AUDI-US-2016"
+      ],
+      "locator": "printed p43 / PDF p23",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "This is a coherent factory reference option set, not a claim about the exact options fitted to Toman's car. Fictional sedan deliberately uses original 19-inch wheels instead.",
+      "model_runtime_parameter": "cabin.reference_configuration",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_length",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 4931,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.body.reference_length_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_body_width",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1874,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.body.reference_width_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_mirror_width",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 2086,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.body.reference_mirror_width_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_roof_height",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1430,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.body.reference_roof_height_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_height_with_aerial",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1468,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.body.reference_aerial_height_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_wheelbase",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 2917,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.chassis.reference_wheelbase_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_front_track",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1615,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.chassis.reference_front_track_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_rear_track",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1607,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.chassis.reference_rear_track_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_front_overhang",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 924,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.body.reference_front_overhang_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_rear_overhang",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1090,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.body.reference_rear_overhang_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_max_front_headroom",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1046,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing. Not a US homologation dimension. Interior maximum headroom differs in definition from US with-sunshade figure. Drawing axes visually reviewed; 1176 mm is longitudinal trunk depth, 1050 mm transverse width.",
+      "model_runtime_parameter": "reference.occupant.reference_front_headroom_max_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_rear_headroom",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 962,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing. Not a US homologation dimension. Interior maximum headroom differs in definition from US with-sunshade figure. Drawing axes visually reviewed; 1176 mm is longitudinal trunk depth, 1050 mm transverse width.",
+      "model_runtime_parameter": "reference.occupant.reference_rear_headroom_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_front_elbow_room",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1527,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.occupant.reference_front_elbow_room_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_rear_elbow_room",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1491,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.occupant.reference_rear_elbow_room_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_front_shoulder_room",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1460,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.occupant.reference_front_shoulder_room_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_rear_shoulder_room",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1429,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.occupant.reference_rear_shoulder_room_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_trunk_length_drawing",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1176,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing. Not a US homologation dimension. Interior maximum headroom differs in definition from US with-sunshade figure. Drawing axes visually reviewed; 1176 mm is longitudinal trunk depth, 1050 mm transverse width.",
+      "model_runtime_parameter": "reference.packaging.reference_trunk_fore_aft_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_trunk_width_drawing",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 1050,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing. Not a US homologation dimension. Interior maximum headroom differs in definition from US with-sunshade figure. Drawing axes visually reviewed; 1176 mm is longitudinal trunk depth, 1050 mm transverse width.",
+      "model_runtime_parameter": "reference.packaging.reference_trunk_width_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_trunk_opening_width",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 949,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing. Not a US homologation dimension. Interior maximum headroom differs in definition from US with-sunshade figure. Drawing axes visually reviewed; 1176 mm is longitudinal trunk depth, 1050 mm transverse width.",
+      "model_runtime_parameter": "reference.packaging.reference_trunk_opening_width_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_trunk_sill_height",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 649,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing. Not a US homologation dimension. Interior maximum headroom differs in definition from US with-sunshade figure. Drawing axes visually reviewed; 1176 mm is longitudinal trunk depth, 1050 mm transverse width.",
+      "model_runtime_parameter": "reference.packaging.reference_trunk_sill_height_mm",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_trunk_volume_vda",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 530,
+      "unit": "L",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing. Not a US homologation dimension. Interior maximum headroom differs in definition from US with-sunshade figure. Drawing axes visually reviewed; 1176 mm is longitudinal trunk depth, 1050 mm transverse width.",
+      "model_runtime_parameter": "reference.packaging.reference_trunk_vda_l",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_trunk_volume_folded_vda",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 995,
+      "unit": "L",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing. Not a US homologation dimension. Interior maximum headroom differs in definition from US with-sunshade figure. Drawing axes visually reviewed; 1176 mm is longitudinal trunk depth, 1050 mm transverse width.",
+      "model_runtime_parameter": "reference.packaging.reference_trunk_folded_vda_l",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_turning_diameter",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 11.9,
+      "unit": "m",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p81 S6 Saloon drawing",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Unladen UK drawing; source precision 1 mm is not a stated manufacturing tolerance.",
+      "model_runtime_parameter": "reference.dynamics.reference_turning_diameter_m",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_tank",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 75,
+      "unit": "L",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p28 S6 equipment",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "fuel.reference_factory_capacity_l",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_wheel_width",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 8.5,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p28 S6 equipment",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "wheel.reference_rim_width_m",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_wheel_diameter",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 19,
+      "unit": "in",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p28 S6 equipment",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "wheel.reference_bead_diameter_m",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_tire_size",
+      "vehicle": "audi_s6_2016_uk",
+      "value": "255/40R19",
+      "unit": "tire_designation",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p28 S6 equipment",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "wheel.reference_tire_size",
+      "converted": null
+    },
+    {
+      "id": "audi_uk_ride_height_adjustment",
+      "vehicle": "audi_s6_2016_uk",
+      "value": 20,
+      "unit": "mm",
+      "source_ids": [
+        "AUDI-UK-2016"
+      ],
+      "locator": "printed/PDF p28 S6 equipment",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Up to 20 mm ride-height adjustment is not total suspension travel.",
+      "model_runtime_parameter": "suspension.reference_height_adjustment_mm",
+      "converted": null
+    },
+    {
+      "id": "mb_us_wheelbase",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 113.1,
+      "unit": "in",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.wheelbase",
+      "converted": null
+    },
+    {
+      "id": "mb_us_length",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 192.9,
+      "unit": "in",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.length",
+      "converted": null
+    },
+    {
+      "id": "mb_us_height",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 56.8,
+      "unit": "in",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.height",
+      "converted": null
+    },
+    {
+      "id": "mb_us_width_with_mirrors",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 81.5,
+      "unit": "in",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.mirror_width",
+      "converted": null
+    },
+    {
+      "id": "mb_us_curb_mass",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 4276,
+      "unit": "lb",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "4276 lb belongs to AMG sedan. Adjacent 4431 lb is E350 wagon; 4619 lb is AMG wagon. Base-sedan drawing does not establish AMG tracks or body width.",
+      "model_runtime_parameter": "comparison.curb_mass",
+      "converted": null
+    },
+    {
+      "id": "mb_us_power",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 577,
+      "unit": "hp_US_published",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.power",
+      "converted": null
+    },
+    {
+      "id": "mb_us_power_rpm",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 5500,
+      "unit": "rpm",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.power_rpm",
+      "converted": null
+    },
+    {
+      "id": "mb_us_torque",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 590,
+      "unit": "lb_ft",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.torque",
+      "converted": null
+    },
+    {
+      "id": "mb_us_torque_rpm",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": [
+        2000,
+        4000
+      ],
+      "unit": "rpm",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.torque_band",
+      "converted": null
+    },
+    {
+      "id": "mb_us_acceleration_0_60",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 3.5,
+      "unit": "s",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.acceleration",
+      "converted": null
+    },
+    {
+      "id": "mb_us_trunk_volume",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 12.9,
+      "unit": "ft3",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.trunk_volume",
+      "converted": null
+    },
+    {
+      "id": "mb_us_front_headroom",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 37.9,
+      "unit": "in",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.front_headroom",
+      "converted": null
+    },
+    {
+      "id": "mb_us_rear_headroom",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 38.2,
+      "unit": "in",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.rear_headroom",
+      "converted": null
+    },
+    {
+      "id": "mb_us_front_legroom",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 41.3,
+      "unit": "in",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.front_legroom",
+      "converted": null
+    },
+    {
+      "id": "mb_us_rear_legroom",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 35.8,
+      "unit": "in",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.rear_legroom",
+      "converted": null
+    },
+    {
+      "id": "mb_us_front_shoulder_room",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 57.8,
+      "unit": "in",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.front_shoulder_room",
+      "converted": null
+    },
+    {
+      "id": "mb_us_rear_shoulder_room",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 56.9,
+      "unit": "in",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 AMG E63 S Sedan column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.rear_shoulder_room",
+      "converted": null
+    },
+    {
+      "id": "mb_us_architecture",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": {
+        "engine": "handcrafted 5.5-liter biturbo direct-injection V8",
+        "transmission": "7-speed AMG SPEEDSHIFT MCT",
+        "drive": "AMG Performance 4MATIC AWD",
+        "suspension": "AMG Adaptive Sport Suspension, rear air springs",
+        "wheels": "staggered-width 19-inch"
+      },
+      "unit": "assembly",
+      "source_ids": [
+        "MB-US-2016"
+      ],
+      "locator": "PDF p25 specifications",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.architecture",
+      "converted": null
+    },
+    {
+      "id": "mb_w212_torque_split",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": [
+        33,
+        67
+      ],
+      "unit": "percent_front_rear",
+      "source_ids": [
+        "MB-W212-HISTORY"
+      ],
+      "locator": "2013 facelift W212 paragraph",
+      "classification": "factory_specification",
+      "confidence": "medium",
+      "source_uncertainty": "Manufacturer historical family description, not a separate 2016 US homologation sheet.",
+      "model_runtime_parameter": "comparison.awd_nominal_split",
+      "converted": null
+    },
+    {
+      "id": "mb_us_front_tire",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": "255/35ZR19 (96Y) XL",
+      "unit": "tire_designation",
+      "source_ids": [
+        "MB-US-MANUAL-2016"
+      ],
+      "locator": "printed p327 / PDF p329, E63 AMG S-MODEL4MATIC summer table",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.front_tire",
+      "converted": null
+    },
+    {
+      "id": "mb_us_rear_tire",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": "285/30ZR19 (98Y) XL",
+      "unit": "tire_designation",
+      "source_ids": [
+        "MB-US-MANUAL-2016"
+      ],
+      "locator": "printed p327 / PDF p329, E63 AMG S-MODEL4MATIC summer table",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.rear_tire",
+      "converted": null
+    },
+    {
+      "id": "mb_us_front_wheel",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": "9Jx19 H2",
+      "unit": "wheel_designation",
+      "source_ids": [
+        "MB-US-MANUAL-2016"
+      ],
+      "locator": "printed p327 / PDF p329, E63 AMG S-MODEL4MATIC summer table",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.front_wheel",
+      "converted": null
+    },
+    {
+      "id": "mb_us_rear_wheel",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": "9.5Jx19 H2",
+      "unit": "wheel_designation",
+      "source_ids": [
+        "MB-US-MANUAL-2016"
+      ],
+      "locator": "printed p327 / PDF p329, E63 AMG S-MODEL4MATIC summer table",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.rear_wheel",
+      "converted": null
+    },
+    {
+      "id": "mb_us_front_wheel_offset",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 37,
+      "unit": "mm",
+      "source_ids": [
+        "MB-US-MANUAL-2016"
+      ],
+      "locator": "printed p327 / PDF p329, E63 AMG S-MODEL4MATIC summer table",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.front_offset",
+      "converted": null
+    },
+    {
+      "id": "mb_us_rear_wheel_offset",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": 52,
+      "unit": "mm",
+      "source_ids": [
+        "MB-US-MANUAL-2016"
+      ],
+      "locator": "printed p327 / PDF p329, E63 AMG S-MODEL4MATIC summer table",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "comparison.rear_offset",
+      "converted": null
+    },
+    {
+      "id": "mb_us_fuel_capacity_alternatives",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": [
+        66,
+        80
+      ],
+      "unit": "L",
+      "source_ids": [
+        "MB-US-MANUAL-2016"
+      ],
+      "locator": "printed p338 / PDF p340, AMG vehicles",
+      "classification": "factory_specification",
+      "confidence": "medium",
+      "source_uncertainty": "Manual explicitly says capacity depends on equipment. Exact tank choice for reference US S sedan remains unverified; do not silently choose80L.",
+      "model_runtime_parameter": "comparison.tank_capacity_alternatives",
+      "converted": null
+    },
+    {
+      "id": "mb_us_manual_dimensions_conflicting",
+      "vehicle": "mercedes_e63_s_2016_us",
+      "value": {
+        "length_mm": 4892,
+        "height_mm": 1466,
+        "mirror_width_mm": 2071,
+        "wheelbase_mm": 2874
+      },
+      "unit": "mm",
+      "source_ids": [
+        "MB-US-MANUAL-2016"
+      ],
+      "locator": "printed p346 / PDF p348, AMG sedan and S-MODEL4MATIC height",
+      "classification": "factory_specification",
+      "confidence": "medium",
+      "source_uncertainty": "2016 manual has2014 editorial status and generic AMG variants; conflicts with exact2016 US sales brochure192.9in length/56.8in height. Keep sales comparison values, do not average or use for original body lock.",
+      "model_runtime_parameter": "comparison.alternate_manual_dimensions",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_length",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 4916,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.length",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_body_width",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 1891,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.body_width",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_height",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 1448,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.height",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_wheelbase",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 2964,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.wheelbase",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_front_track",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 1627,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.front_track",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_rear_track",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 1582,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.rear_track",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_ground_clearance",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 111,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.ground_clearance",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_turning_diameter",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 12.4,
+      "unit": "m",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.turning_diameter",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_curb_mass",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 1991,
+      "unit": "kg",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.curb_mass",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_front_rear_distribution",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": [
+        52.5,
+        47.5
+      ],
+      "unit": "percent",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.weight_distribution",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_gvw",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 2411,
+      "unit": "kg",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.gvw",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_payload",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 420,
+      "unit": "kg",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.payload",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_tank",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 80,
+      "unit": "L",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.tank_capacity",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_trunk",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 520,
+      "unit": "L",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.trunk_capacity",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_displacement",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 4395,
+      "unit": "cm3",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.displacement",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_power",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 560,
+      "unit": "hp_US_published",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.power",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_power_rpm",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": [
+        6000,
+        7000
+      ],
+      "unit": "rpm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.power_band",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_torque",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 500,
+      "unit": "lb_ft",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.torque",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_torque_rpm",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": [
+        1500,
+        5750
+      ],
+      "unit": "rpm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.torque_band",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_gear_ratios",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": [
+        4.806,
+        2.593,
+        1.701,
+        1.227,
+        1,
+        0.844,
+        0.671
+      ],
+      "unit": "ratio",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.gear_ratios",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_reverse_ratio",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 4.172,
+      "unit": "ratio",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.reverse_ratio",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_final_drive",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 3.154,
+      "unit": "ratio",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.final_drive",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_steering_ratio",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 12.7,
+      "unit": "ratio",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.steering_ratio",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_front_brake",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 16.1,
+      "unit": "in",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.front_brake_diameter",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_rear_brake",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 15.6,
+      "unit": "in",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.rear_brake_diameter",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_front_tire",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": "265/35ZR20 99Y XL",
+      "unit": "tire_designation",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.front_tire",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_rear_tire",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": "295/30ZR20 101Y XL",
+      "unit": "tire_designation",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.rear_tire",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_front_wheel",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": "9Jx20",
+      "unit": "wheel_designation",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.front_wheel",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_rear_wheel",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": "10Jx20",
+      "unit": "wheel_designation",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.rear_wheel",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_drag_coefficient",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 0.33,
+      "unit": "1",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.cd",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_frontal_area",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 2.4,
+      "unit": "m2",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.frontal_area",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_acceleration_0_60",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 4.1,
+      "unit": "s",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.acceleration",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_front_legroom",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 1052,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.front_legroom",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_rear_legroom",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 918,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.rear_legroom",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_max_front_headroom",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 1028,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.front_headroom",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_max_rear_headroom",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 973,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.rear_headroom",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_front_shoulder_room",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 1480,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.front_shoulder_room",
+      "converted": null
+    },
+    {
+      "id": "bmw_us_rear_shoulder_room",
+      "vehicle": "bmw_m5_2015_us_dct",
+      "value": 1427,
+      "unit": "mm",
+      "source_ids": [
+        "BMW-US-2015"
+      ],
+      "locator": "PDF p1, M5 Sedan DKG7 column",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Exact 2015 US DCT configuration, published 20-inch wheel set. Not 2016, manual, Competition Package, F90 or an E39 Cannonball car.",
+      "model_runtime_parameter": "comparison.rear_shoulder_room",
+      "converted": null
+    },
+    {
+      "id": "s6_record_aux_capacity",
+      "vehicle": "toman_s6_2020",
+      "value": 45,
+      "unit": "US_gal",
+      "source_ids": [
+        "TOMAN-S6"
+      ],
+      "locator": "modification list",
+      "classification": "firsthand_modified_car_claim",
+      "confidence": "medium",
+      "source_uncertainty": "Owner/builder claim, not an independently measured usable capacity. Interpret gallons as US for this US build. This is auxiliary, separate from factory tank.",
+      "model_runtime_parameter": "reference.modified_aux_capacity_l",
+      "converted": {
+        "value": 170.34353028,
+        "unit": "L"
+      }
+    },
+    {
+      "id": "s6_record_elapsed",
+      "vehicle": "toman_s6_2020",
+      "value": [
+        25,
+        39
+      ],
+      "unit": "hours_minutes",
+      "source_ids": [
+        "TOMAN-S6"
+      ],
+      "locator": "Cannonball Stats",
+      "classification": "firsthand_modified_car_claim",
+      "confidence": "medium",
+      "source_uncertainty": "May 2020, unusual pandemic traffic; not a factory durability certification or gameplay target.",
+      "model_runtime_parameter": "reference.modified_elapsed_time",
+      "converted": null
+    },
+    {
+      "id": "s6_record_preparation",
+      "vehicle": "toman_s6_2020",
+      "value": [
+        "RS7 turbochargers",
+        "ALPHA downpipes",
+        "ALPHA heat exchanger",
+        "Dyno Spectrum DS1 calibration",
+        "dual fuel transfer pumps"
+      ],
+      "unit": "assembly_claim",
+      "source_ids": [
+        "TOMAN-S6"
+      ],
+      "locator": "modification list",
+      "classification": "firsthand_modified_car_claim",
+      "confidence": "medium",
+      "source_uncertainty": "Published value; manufacturing and measurement uncertainty not stated.",
+      "model_runtime_parameter": "assemblies.endurance_reference",
+      "converted": null
+    },
+    {
+      "id": "e63_record_configuration",
+      "vehicle": "toman_e63_2019",
+      "value": {
+        "model_year": 2015,
+        "name": "Mercedes E63 AMG",
+        "elapsed_h_m": [
+          27,
+          25
+        ],
+        "aux_us_gal": 45,
+        "total_us_gal_claim": 65,
+        "power_hp_claim": 800
+      },
+      "unit": "modified_configuration",
+      "source_ids": [
+        "TOMAN-E63"
+      ],
+      "locator": "2015 Mercedes E63 AMG and Cannonball Stats",
+      "classification": "firsthand_modified_car_claim",
+      "confidence": "medium",
+      "source_uncertainty": "Exact S trim not established by this primary account. Do not silently equate modified 2015 donor with comparison 2016 S sedan.",
+      "model_runtime_parameter": "comparison.cannonball_relevance",
+      "converted": null
+    },
+    {
+      "id": "audi_cooling_visible_architecture",
+      "vehicle": "audi_s6_2016_us",
+      "value": {
+        "charge_air_cooler": "liquid-cooled: coolant hoses explicitly connect to charge-air cooler",
+        "location": "charge-air cooler housing above inner-V cover; twin turbo coolant and oil lines",
+        "visible_service_assemblies": [
+          "airbox and ducts",
+          "throttle valve",
+          "coolant crossover",
+          "wiring harness",
+          "oil separator",
+          "turbo coolant pipes"
+        ]
+      },
+      "unit": "assembly",
+      "source_ids": [
+        "AUDI-21H7"
+      ],
+      "locator": "pp17-26; p18 coolant hoses, p23 inner-V",
+      "classification": "factory_specification",
+      "confidence": "high",
+      "source_uncertainty": "Service coverage includes US 2013-2017 S6. Detailed hose dimensions and cooling performance are not supplied. Model arrangement; no mechanical simulation claim.",
+      "model_runtime_parameter": "assemblies.engine_bay",
+      "converted": null
+    },
+    {
+      "id": "audi_family_gearing_2014",
+      "vehicle": "audi_s6_2014_us_family",
+      "value": {
+        "forward": [
+          3.692,
+          2.15,
+          1.406,
+          1.025,
+          0.787,
+          0.625,
+          0.519
+        ],
+        "reverse": 2.944,
+        "front_total_final": 4.093,
+        "rear_bevel_final": 4.111
+      },
+      "unit": "ratio",
+      "source_ids": [
+        "AUDI-QRS-2014"
+      ],
+      "locator": "printed pp161-162, 0B5 NHH/NSV/PXK columns",
+      "classification": "factory_family_reference",
+      "confidence": "medium",
+      "source_uncertainty": "Pre-facelift 309 kW family, not verified exact 2016 gearbox code. NSK alternate has different ratios. Front/rear final ratios cannot be mixed as one literal axle ratio. Instrument proxy requires its own explicit fictional configuration.",
+      "model_runtime_parameter": "instruments.proposed_fictional_gearing_reference",
+      "converted": null
+    },
+    {
+      "id": "roy_endurance_packaging",
+      "vehicle": "roy_e39_2006",
+      "value": {
+        "model": "2000 BMW M5 E39",
+        "elapsed_h_m": [
+          31,
+          4
+        ],
+        "lessons": [
+          "crew and equipment mass matter",
+          "dashboard controls require real space",
+          "trunk carries fuel and spare",
+          "account for suspension loads"
+        ]
+      },
+      "unit": "firsthand_account",
+      "source_ids": [
+        "ROY-ENDURANCE"
+      ],
+      "locator": "Trunk Size and Adaptive Suspension sections",
+      "classification": "firsthand_modified_car_claim",
+      "confidence": "medium",
+      "source_uncertainty": "Firsthand2006 participant writing in2019. E39 record does not prove F10 Cannonball capability; reported near axle failure is anecdote, not an engineering failure analysis.",
+      "model_runtime_parameter": "packaging.endurance_reference",
+      "converted": null
+    }
+  ],
+  "locked_original_values": [
+    {
+      "id": "length",
+      "value": 4.94,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "body.length_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "body_width",
+      "value": 1.9,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "body.width_without_mirrors_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "mirror_width",
+      "value": 2.1,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "body.width_with_mirrors_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "roof_height",
+      "value": 1.45,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "body.roof_height_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "wheelbase",
+      "value": 2.92,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "chassis.wheelbase_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "front_track",
+      "value": 1.62,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "chassis.front_track_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "rear_track",
+      "value": 1.61,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "chassis.rear_track_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "front_overhang",
+      "value": 0.94,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "body.front_overhang_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "rear_overhang",
+      "value": 1.08,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "body.rear_overhang_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "nominal_tire_radius",
+      "value": 0.3433,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "wheel.nominal_radius_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "nominal_tire_diameter",
+      "value": 0.6866,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "wheel.nominal_diameter_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "ground_clearance",
+      "value": 0.135,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "chassis.minimum_static_clearance_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "bump_travel",
+      "value": 0.085,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "suspension.bump_from_ride_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "droop_travel",
+      "value": 0.075,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "suspension.droop_from_ride_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "cg_longitudinal",
+      "value": 0.1168,
+      "unit": "m",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "dynamics.cg_source_y_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "max_road_wheel_steer",
+      "value": 32,
+      "unit": "deg",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "steering.maximum_angle_deg",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "Geometric inspection maximum; speed-dependent gameplay steering policy remains authoritative.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "tire_size",
+      "value": "255/40R19",
+      "unit": "tire_designation",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "wheel.tire_size",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "Square fitment; greater nominal sidewall depth than 255/35R20. Not the literal US Black Optic wheel set.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "wheel_width",
+      "value": 8.5,
+      "unit": "in",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "wheel.bead_width_in",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "Matches published C7 19-inch package; original spoke, barrel and hub design.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "base_curb_mass",
+      "value": 2040,
+      "unit": "kg",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "dynamics.base_curb_mass_kg",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "Fictional base includes full 75 L factory tank; rounded near US S6 curb reference.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "preparation_mass",
+      "value": 31,
+      "unit": "kg",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "dynamics.preparation_mass_kg",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "Dry auxiliary tank, brackets, electronics and preparation; authored budget, not weighed hardware.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "aux_fuel_mass",
+      "value": 74.5,
+      "unit": "kg",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "dynamics.aux_fuel_mass_kg",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "100 L x .745 kg/L fictional reference density.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "crew_mass",
+      "value": 240,
+      "unit": "kg",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "dynamics.crew_mass_kg",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "Three occupants x 80 kg; five seats remain modeled.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "luggage_mass",
+      "value": 14.5,
+      "unit": "kg",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "dynamics.luggage_mass_kg",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "running_mass",
+      "value": 2400,
+      "unit": "kg",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "dynamics.loaded_mass_kg",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "2040 + 31 + 74.5 + 240 + 14.5 = 2400; no second addition of factory fuel.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "front_static_weight",
+      "value": 54,
+      "unit": "percent",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "dynamics.front_static_weight_percent",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "Original loaded distribution, not an Audi factory claim. Derived CG Y=.1168 with wheelbase2.92 and axle-midpoint origin.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "factory_tank_capacity",
+      "value": 75,
+      "unit": "L",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "fuel.factory_capacity_l",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "aux_tank_capacity",
+      "value": 100,
+      "unit": "L",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "fuel.aux_capacity_l",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "Nominal modeled capacity, not a certified real fuel-cell design. Smaller than firsthand record car auxiliary tank.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "total_tank_capacity",
+      "value": 175,
+      "unit": "L",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "fuel.total_capacity_l",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "75 L factory + 100 L auxiliary. Runtime state behavior belongs to integration acceptance.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "fuel_reference_density",
+      "value": 0.745,
+      "unit": "kg/L",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "fuel.reference_density_kg_per_l",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "Fictional constant for transparent mass accounting; actual gasoline varies with blend and temperature.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "aux_external_box",
+      "value": [
+        0.9,
+        0.48,
+        0.28
+      ],
+      "unit": "m_width_depth_height",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "packaging.aux_tank_outer_box_m",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "120.96 L gross rectangular envelope; 100 L nominal fluid leaves 20.96 L gross for walls, ullage and modeled internals. Not engineering certification.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "source_axes",
+      "value": {
+        "right": "+X",
+        "forward": "+Y",
+        "up": "+Z",
+        "origin": "axle midpoint on design ground plane"
+      },
+      "unit": "coordinate_contract",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "asset.source_axes",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "wheel_centers",
+      "value": {
+        "FL": [
+          -0.81,
+          1.46,
+          0.3433
+        ],
+        "FR": [
+          0.81,
+          1.46,
+          0.3433
+        ],
+        "RL": [
+          -0.805,
+          -1.46,
+          0.3433
+        ],
+        "RR": [
+          0.805,
+          -1.46,
+          0.3433
+        ]
+      },
+      "unit": "m_source_xyz",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "asset.wheel_centers_source",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "",
+      "human_approval_reference": null
+    },
+    {
+      "id": "contact_points",
+      "value": {
+        "FL": [
+          -0.81,
+          1.46,
+          0
+        ],
+        "FR": [
+          0.81,
+          1.46,
+          0
+        ],
+        "RL": [
+          -0.805,
+          -1.46,
+          0
+        ],
+        "RR": [
+          0.805,
+          -1.46,
+          0
+        ]
+      },
+      "unit": "m_source_xyz",
+      "classification": "original_fictional_choice",
+      "source_ids": [
+        "LEAD-LOCK"
+      ],
+      "confidence": "locked_design_intent",
+      "model_runtime_parameter": "asset.contact_points_source",
+      "source_uncertainty": "Not a factory measurement.",
+      "rationale": "Design reference points; actual physics ray contacts are runtime state, not these static authored points.",
+      "human_approval_reference": null
+    }
+  ],
+  "unverified_reference_values": [
+    {
+      "id": "audi_exact_2016_gearbox_code",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "instruments.gearing",
+      "resolution": "Use explicitly fictional gear/RPM display relationship; do not claim validated 2016 drivetrain simulation."
+    },
+    {
+      "id": "audi_us_front_rear_curb_distribution",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "dynamics.front_static_weight_percent",
+      "resolution": "Use lead 54% loaded fictional split; no claim that Audi has this factory distribution."
+    },
+    {
+      "id": "audi_ground_clearance",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "chassis.minimum_static_clearance_m",
+      "resolution": "Use original .135 m target and measure exported geometry."
+    },
+    {
+      "id": "audi_suspension_bump_droop",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "suspension.travel_m",
+      "resolution": "Use original +.085/-.075 m; 20 mm ride-height adjustment is a different quantity."
+    },
+    {
+      "id": "audi_wheel_offset",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "wheel.offset_mm",
+      "resolution": "No exact manufacturer wheel part/casting verified; lead must lock an original offset after barrel/caliper/arch checks."
+    },
+    {
+      "id": "audi_caster_camber_kingpin_scrub",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "steering.kinematics",
+      "resolution": "No alignment/steering-axis values verified for exact VIN/options; four-raycast runtime remains authoritative."
+    },
+    {
+      "id": "audi_steering_max_lock_ackermann",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "steering.maximum_angle_deg",
+      "resolution": "Use original32-degree inspection travel. Stock turning diameter alone does not identify both road-wheel angles."
+    },
+    {
+      "id": "audi_brake_disc_thickness_caliper_envelope",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "wheel.brake_geometry",
+      "resolution": "Disc diameter sourced; thickness/caliper dimensions must be fictional modeled values and inspected for clearance."
+    },
+    {
+      "id": "audi_h_points_eye_ellipse_cg_height",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "occupant.anchors",
+      "resolution": "Dimensioned cabin widths/headroom are available; source seating/eye/CG hardpoint coordinates are not. Use original measurable occupant envelope."
+    },
+    {
+      "id": "audi_panel_glass_seal_gauges",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "body.panel_thickness",
+      "resolution": "Use original plausible visual construction, label dimensions as design choices; no claim of production metal/glass gauge equivalence."
+    },
+    {
+      "id": "audi_cooling_rejection_capacity",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "engine.cooling_performance",
+      "resolution": "Model heat exchanger, ducts, hoses and heat shields. Do not claim thermodynamic performance or cooling simulation."
+    },
+    {
+      "id": "audi_exact_2016_oil_coolant_fill",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "engine.service_fluids",
+      "resolution": "2016 service chart includes420hp carryover conflict; no real service quantities prescribed."
+    },
+    {
+      "id": "mercedes_sedan_body_width_tracks_overhangs_clearance",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "comparison.dimensions",
+      "resolution": "Brochure bottom drawing is non-AMG sedan; leave AMG-specific values unknown."
+    },
+    {
+      "id": "mercedes_exact_tank_brakes_gearing",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "comparison.chassis",
+      "resolution": "Manual confirms tire/offset values and lists66 or80L tanks depending on equipment; exact tank, brake envelope and gearing remain unverified."
+    },
+    {
+      "id": "bmw_mirror_width_overhangs_offsets_travel",
+      "value": null,
+      "confidence": "unverified",
+      "model_runtime_parameter": "comparison.dimensions",
+      "resolution": "Not published in selected exact2015 US sheet; no invented values."
+    }
+  ],
+  "modeling_tolerances_proposed": {
+    "overall_body_dimension_m": 0.005,
+    "axle_center_position_m": 0.002,
+    "track_and_wheelbase_m": 0.002,
+    "wheel_radius_m": 0.001,
+    "panel_gap_target_m": 0.0035,
+    "panel_gap_variation_m": 0.0005,
+    "adjacent_panel_flush_m": 0.001,
+    "hinge_anchor_m": 0.002,
+    "animated_wheel_to_fixed_geometry_min_clearance_m": 0.008,
+    "opening_rigid_part_min_clearance_m": 0.003,
+    "wiper_blade_glass_distance_range_m": [
+      0,
+      0.002
+    ],
+    "static_occupant_headliner_min_clearance_m": 0.04,
+    "note": "Lead must adopt into feature acceptance matrix before production; these are proposed art/fit tolerances, not measured factory tolerances. Source uncertainty is tracked separately."
+  },
+  "runtime_boundary": "Shared custom four-raycast RigidBody3D stays authoritative. Research speeds, horsepower, gearing and capacities do not silently override accepted gameplay limits or create engine/thermal/fuel-transfer simulation.",
+  "human_approval_reference": null
+}

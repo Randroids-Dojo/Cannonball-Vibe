@@ -1,0 +1,508 @@
+{
+  "task_id": "P1-018",
+  "utc": "2026-09-13T05:51:14.443475+00:00",
+  "git_head_revision": "bd57332280ae5846b76066127174224fefc68273",
+  "tested_merge_revision": "a59ecda97e9e6dc94dbbb5e163a41870980bcf8f",
+  "members": [
+    {
+      "path": "automation/playgodot/src/cannonball_playgodot/launcher.py",
+      "bytes": 33970,
+      "sha256": "edf258c044c7a027993c923248140943d0c65c0786fca20288c31b24712e0d78"
+    },
+    {
+      "path": "automation/playgodot/tests/test_launcher.py",
+      "bytes": 45338,
+      "sha256": "14b3118ce33bfc644e2640ad2b79d214bb1b5456dd02a7945ddcf8c896455019"
+    },
+    {
+      "path": "automation/playgodot/tests/test_vehicle_showroom.py",
+      "bytes": 30934,
+      "sha256": "60c02b60e0067a439ad850fea0872c43daf6e8c2921944cd1181eaec5fa25898"
+    },
+    {
+      "path": "game/Main.cs",
+      "bytes": 171799,
+      "sha256": "a127414b5960f3b443350e15cfa1cf8705a050c52a638e0c9d5231df141c8820"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomInterface.cs",
+      "bytes": 11178,
+      "sha256": "944705d9c63c4ae632cbe43d1715a3bb128909fc68de4aba0c73ac72ada12ec5"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomInterface.cs.uid",
+      "bytes": 20,
+      "sha256": "0c3a96a8ac49476b813762ea0352fdaf29df665be539493bddcb3f793d0868bc"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomMetrics.cs",
+      "bytes": 3581,
+      "sha256": "dc630a75659bbdeb20d179fe62c98ddca036b79cfed921f25668e2010d6e1330"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomMetrics.cs.uid",
+      "bytes": 20,
+      "sha256": "0f3c4ea6a4cb839c7a7056dfa59f5ec55d174b214edafcad8d40530598b7ed3e"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomStudio.cs",
+      "bytes": 4175,
+      "sha256": "8e6c1ee0b22d1fede2ae634f8d1a937a08e33613510dac476302e02f5c9a6bfd"
+    },
+    {
+      "path": "game/Vehicle/Showroom/ShowroomStudio.cs.uid",
+      "bytes": 19,
+      "sha256": "82c9b55a5681fc873b651697fc27961f3f73cf5d12d14159d64cc5d1575d4dfe"
+    },
+    {
+      "path": "game/Vehicle/Showroom/VehicleShowroom.cs",
+      "bytes": 23515,
+      "sha256": "9c995b913583b59401b0cd1ba81dec3a0604b7d579d002e218b122d54dd94a0a"
+    },
+    {
+      "path": "game/Vehicle/Showroom/VehicleShowroom.cs.uid",
+      "bytes": 19,
+      "sha256": "9737a755815c22dba32069dceb21ad170d5701b637e1da17158cfa6e208370e4"
+    },
+    {
+      "path": "game/Vehicle/Showroom/VehicleShowroom.tscn",
+      "bytes": 200,
+      "sha256": "fa76f0ca1e943b7f38f495ae4b9d5ec2e5a58f67e2f27a2d74f781848741f394"
+    },
+    {
+      "path": "game/Vehicle/Showroom/studio_sky.gdshader",
+      "bytes": 1487,
+      "sha256": "047ba72d7ed90ac8480260533d2b9f556ac4adeb33ef29de322ce4278f1ff13f"
+    },
+    {
+      "path": "game/Vehicle/Showroom/studio_sky.gdshader.uid",
+      "bytes": 20,
+      "sha256": "2869766af68b6bef90392a5e65ee4f71028bb00b50ea54e5f3d5a07240652a43"
+    },
+    {
+      "path": "game/Vehicle/VehicleInspectionPanel.cs",
+      "bytes": 11397,
+      "sha256": "d006b321010a90145986f11385abd171d3891a375a3590a64daa51398e3d5494"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T053008.121386Z-showroom31-exports-linux-smoke-recovery.json",
+      "bytes": 885,
+      "sha256": "94fb1e82edd52c83ab7b1586565e0b8179bfe4612200efbad4936dc0f6eaa632"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T053008.121386Z-showroom31-exports-linux-smoke-recovery.log",
+      "bytes": 731,
+      "sha256": "2a0a154b3a8d1e27bd96edbd5edf05fb05238cb5664c1123411b261c7a154b62"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T053008.124745Z-showroom31-exports-build-recovery.json",
+      "bytes": 873,
+      "sha256": "ff81f3984e93b7ec491e5d7d1da7fdac1ccadccfc738839ff9f3d339d93fa8ea"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T053008.124745Z-showroom31-exports-build-recovery.log",
+      "bytes": 1647,
+      "sha256": "96a585925151a4dfa86c6ef176dc14ca59467afaea4cfb7ea656bc1be17787aa"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T053008.137025Z-showroom31-exports-windows-smoke-recovery.json",
+      "bytes": 889,
+      "sha256": "23c6c93af05b1b18d5f1487ab44c1731ad3d9ddc440f4188d5eb9765bb8035b5"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T053008.137025Z-showroom31-exports-windows-smoke-recovery.log",
+      "bytes": 699,
+      "sha256": "dc3926c519a1458d89c630072a90c8434afcc433d1f3527ba05398d9783e5bbd"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T053950.831159Z-showroom31-linux-package-artifact.json",
+      "bytes": 881,
+      "sha256": "23f514118a3d9d8c38ae0baad60cd5e8f4bd4eed2b2b0159a02109912b1ab69a"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T053950.831159Z-showroom31-linux-package-artifact.log",
+      "bytes": 410,
+      "sha256": "70593c0d57dd5559b9242dcee7989540484cdd8ace1fd526916249edbc2c8ed1"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T053950.840542Z-showroom31-windows-package-artifact.json",
+      "bytes": 885,
+      "sha256": "044d86165a118b8a5873c2e834588aca81192d65b1b0268ef7bf44dd88165664"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T053950.840542Z-showroom31-windows-package-artifact.log",
+      "bytes": 412,
+      "sha256": "3d15f8eabbe61a01c0ff8e215cea607f22eb54d1ad1337cae9e2f64eeee27bfa"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T054353.054547Z-showroom31-asset-linux-remaining.json",
+      "bytes": 884,
+      "sha256": "7e1fb7c26e2bded529c2ccc4926e31587a88b51f2364f40094367127d536f467"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T054353.054547Z-showroom31-asset-linux-remaining.log",
+      "bytes": 77,
+      "sha256": "04ccd238dd502f7e1d5d9eddd0dc9c3bf7f19fc9718ed53e60a2193923d108d1"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T054353.069274Z-showroom31-asset-windows-remaining.json",
+      "bytes": 888,
+      "sha256": "6468bb82c0fab59313dd1971d4beb70d0153ae54974e193e99b5aa4a26a96bcb"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T054353.069274Z-showroom31-asset-windows-remaining.log",
+      "bytes": 79,
+      "sha256": "a79dd25f69e55ce9409debd757cfd6950cbac62d3fffd0e361ff1e0f29bf7e67"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T054805.556690Z-showroom31-completed-platform-retention.json",
+      "bytes": 844,
+      "sha256": "7fb225e2c2630dff46126e916e039c71ac38ad50617940906ee2022f3fbd84b8"
+    },
+    {
+      "path": "reports/p1-018/commands/20260913T054805.556690Z-showroom31-completed-platform-retention.log",
+      "bytes": 245,
+      "sha256": "2fed78df9c130635b2431d1895e25a1676b09b9c5249b9b2047c70c294621b37"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/asset-linux.job.json",
+      "bytes": 5080,
+      "sha256": "2170ebf64f43eef4965ef986b1ecc8a312e0f19cd000cc3c0bc087aa9870a4fc"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/asset-linux.job.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/asset-linux.log",
+      "bytes": 77457,
+      "sha256": "80458fe1753a417ad0d0ff2d2d86edf41c22acefb552a210f2a09881fd7cd6bd"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/asset-linux.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/asset-linux.receipt.json",
+      "bytes": 1095,
+      "sha256": "8068700bdac426f4d09fcb20aa5fbb3a5192af58d2096fb4fa6e1f157810eab8"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/asset-windows.job.json",
+      "bytes": 5084,
+      "sha256": "5bc7759ab1c21c049576b26962c1fc6f2ff9cba52df6de9fa6610bb0ce117d63"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/asset-windows.job.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/asset-windows.log",
+      "bytes": 75398,
+      "sha256": "63b5194c6afbe50c81ee89da5e32132c5654e069a88c08b43971569a4da688b2"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/asset-windows.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/asset-windows.receipt.json",
+      "bytes": 1097,
+      "sha256": "0ccb10d706722b5d29ac619b1fba47ca4157e9750186c717135616c1f9616490"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-build.job.json",
+      "bytes": 4629,
+      "sha256": "9ac34f9803c18d8795a29a9af66c1939b92ace7c991513d286ce0b36390fa6c2"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-build.job.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-build.log",
+      "bytes": 511992,
+      "sha256": "d57556f6380905318b5bd4f635efe8528c61a8def48b85d29f45b578b721187c"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-build.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-build.receipt.json",
+      "bytes": 1089,
+      "sha256": "641ee1885e9e638dab40bc2fed8a27ba766885ca5da5b1a959aafcd30257710b"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-linux-smoke.job.json",
+      "bytes": 2379,
+      "sha256": "283d96b3077ca360303177140fecb51ad14b780b2496d9204673f221fcf5fbf2"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-linux-smoke.job.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-linux-smoke.log",
+      "bytes": 15631,
+      "sha256": "9d6085cac8dd1bd18750ce9798efc363cccdcf196f04a11ba133bf8885419281"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-linux-smoke.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-linux-smoke.receipt.json",
+      "bytes": 1094,
+      "sha256": "762a9b702ed0125cc58c76f095528204ddd3a3746a630493fef5baf690d1bef8"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-windows-smoke.job.json",
+      "bytes": 2381,
+      "sha256": "0df45c8ed20ed14a0de8ce12f08004a554e466bd088d63927611bfd2fec90cde"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-windows-smoke.job.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-windows-smoke.log",
+      "bytes": 24132,
+      "sha256": "648ec5ce48a8f9fb1fb609c9330c9b068912256aec837b4bbd47bf90bfca2314"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-windows-smoke.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/exports-windows-smoke.receipt.json",
+      "bytes": 1096,
+      "sha256": "a5a36598946659141cb423d2f16c7a4c2c64af76914a19fdd61224a3591ef03c"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/fetch.py",
+      "bytes": 2103,
+      "sha256": "2032928d4e0a2cc10caab6eb21c2f35ed6f4ea13f2f9e86712c254631fcf0433"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/fetch_asset_failures.py",
+      "bytes": 1818,
+      "sha256": "ec6153f415a322225654301a9eef0518f64fd6df2894f57a9387e820c6a12175"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/fetch_exports.py",
+      "bytes": 2084,
+      "sha256": "b7ddaf1b1cd2aa085cf48bb67ebc68db695fad6862f9d50b791df47cd8efb644"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/fetch_smoke_artifacts.py",
+      "bytes": 3261,
+      "sha256": "71a283b77490a7bf2cafe991c9bfacf8a6d8818e743e940674b92892d6a22203"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/m0-linux.job.json",
+      "bytes": 3371,
+      "sha256": "38369c9db391174b087e89504daa6a46f1cd8e1abc8abb957075127a3aa607a0"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/m0-linux.job.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/m0-linux.log",
+      "bytes": 75823,
+      "sha256": "883c47d93a306650efe1b1702c6512f9d872317893c4cde25c24335bdfb680b1"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/m0-linux.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/m0-linux.receipt.json",
+      "bytes": 1083,
+      "sha256": "8c96bddf532fafd56f39f62ff1381ecad22f65a9eeb2b7a70ac02049148815f8"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/m0-windows.job.json",
+      "bytes": 3373,
+      "sha256": "595dd38e8ea132e1aa93256036e9077e06874a5cc949f366590234839c87e5f2"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/m0-windows.job.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/m0-windows.log",
+      "bytes": 72668,
+      "sha256": "04e6e8df2d81185883ebcb8a6f748ccebc8f9b6a33f2b133f74ddaf168d9155a"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/m0-windows.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/m0-windows.receipt.json",
+      "bytes": 1085,
+      "sha256": "b0cc9ad36305b9f444a5eca9cad6cb0d69eb1660bb640411243f35371c13d319"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/package-smoke-linux-artifact.metadata.json",
+      "bytes": 772,
+      "sha256": "42e00c185950bf8ca07b3f4b4f544434445e6a766bd846317a199eaa74d0cef0"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/package-smoke-linux-artifact.metadata.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/package-smoke-linux-artifact.receipt.json",
+      "bytes": 16790,
+      "sha256": "c88b3f2a11b1771b0393e76be1be761d28df2a4c1c1cce08a5b5f39a82ee8232"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/package-smoke-linux-artifact.zip",
+      "bytes": 3419389,
+      "sha256": "354f1844b2a589f1b09380d7fb70df5c8ee52bf105d6f614b1a7ae9f9003637b"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/package-smoke-linux-artifact.zip.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/package-smoke-windows-artifact.metadata.json",
+      "bytes": 774,
+      "sha256": "80d2fd060f1d277298f4dd07b1800d37959c2a58134276b8211f402caa925cfa"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/package-smoke-windows-artifact.metadata.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/package-smoke-windows-artifact.receipt.json",
+      "bytes": 17296,
+      "sha256": "f6dbf4f4f96cc473a7e498403db75ac44e0de4055656831fa9a0d3fbec34fed3"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/package-smoke-windows-artifact.zip",
+      "bytes": 3454431,
+      "sha256": "77ad41627ba5ad004271327b451143b243cdca9e4c13b204fd7e39d743975870"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/package-smoke-windows-artifact.zip.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-linux.job.json",
+      "bytes": 3077,
+      "sha256": "b26fd58194fe78a584fbc87af7b4793ada94b342fcb064a4d8a109d3bb4d3f66"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-linux.job.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-linux.log",
+      "bytes": 52784,
+      "sha256": "5b51ce442c3cafbc7ddd619e7402178707c5ecc07d5dea8cbf563cf5a2136507"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-linux.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-linux.receipt.json",
+      "bytes": 1089,
+      "sha256": "4b39a71fe18a6320545c98f9b2b7c5cd178c688b7b91c6c9cc0ab5a638ede4ec"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-macos.job.json",
+      "bytes": 3075,
+      "sha256": "604518f43792c12bbdc789715f063f5421298f02263948024fce695c1e4f24d2"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-macos.job.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-macos.log",
+      "bytes": 70258,
+      "sha256": "6f61b5b797b5d587974421f65fb1299999014bd4dab74d4e419417d990366103"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-macos.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-macos.receipt.json",
+      "bytes": 1089,
+      "sha256": "fcfc6eb0b1218ae686e92a1c4abfd043d8ef94f35aff5e306b040dcc17825a5b"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-windows.job.json",
+      "bytes": 3079,
+      "sha256": "77125e963013d7a45a1c361e9bb98043c67d900a02181efd895b065c38588adf"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-windows.job.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-windows.log",
+      "bytes": 51647,
+      "sha256": "cf2d6531a191c99dca0d27184abf0bd382ea563bdc84750cb0992dd4833bce2c"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-windows.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-recovery01/semantic-windows.receipt.json",
+      "bytes": 1091,
+      "sha256": "453cdebb8691aff9d2695f76ced44462d16fe6f1ebda1a2198e8f553934811b1"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-retention01/build.py",
+      "bytes": 8154,
+      "sha256": "3f6c920ee5d0314032091e6fdc82fab1a64b10c01745e2a5a7e55654343c825f"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-retention01/build02.py",
+      "bytes": 8866,
+      "sha256": "8ac8e6cb853fa66f75e17b3e0ef220b103a62fcf17633ce38b98b6b04c5bc7d3"
+    },
+    {
+      "path": "reports/p1-018/showroom-ci31-retention01/prepare02.py",
+      "bytes": 1398,
+      "sha256": "576afb3b4630a72708ccabed82a6b059b78f7a6c2d0ffb4a58a0fe5bdde42520"
+    },
+    {
+      "path": "reports/p1-018/showroom29/frontdoor03-bindings.json",
+      "bytes": 3928,
+      "sha256": "79e2a067f212fb31f92f73f38a02a547d98df2a8beb3b44484915e025476fa09"
+    }
+  ]
+}

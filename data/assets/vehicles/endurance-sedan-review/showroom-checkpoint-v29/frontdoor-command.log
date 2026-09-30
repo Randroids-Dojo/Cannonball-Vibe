@@ -1,0 +1,189 @@
+Verified new check.sh report target: C:\Dev\Cannonball-Vibe-sedan\reports\p1-018\showroom29-frontdoor02
+
+== doctor ==
+dotnet       passed expected=10.0.102 actual=10.0.102
+uv           passed expected=0.9.24 actual=0.9.24
+git-lfs      passed expected=3.7.1 actual=3.7.1
+perl         passed expected=available actual=available
+godot        passed expected=4.7.1.stable.mono.official.a13da4feb actual=4.7.1.stable.mono.official.a13da4feb
+Doctor report: C:/Dev/Cannonball-Vibe-sedan/reports/p1-018/showroom29-frontdoor02/doctor.json
+
+== dotnet-build ==
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Cannonball.Core -> C:\Dev\Cannonball-Vibe-sedan\src\Cannonball.Core\bin\Debug\net8.0\Cannonball.Core.dll
+  Cannonball.Core.Tests -> C:\Dev\Cannonball-Vibe-sedan\tests\Cannonball.Core.Tests\bin\Debug\net8.0\Cannonball.Core.Tests.dll
+  Cannonball -> C:\Dev\Cannonball-Vibe-sedan\.godot\mono\temp\bin\Debug\Cannonball.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:06.73
+
+== dotnet-test ==
+Test run for C:\Dev\Cannonball-Vibe-sedan\tests\Cannonball.Core.Tests\bin\Debug\net8.0\Cannonball.Core.Tests.dll (.NETCoreApp,Version=v8.0)
+A total of 1 test files matched the specified pattern.
+Results File: C:\Dev\Cannonball-Vibe-sedan\reports\p1-018\showroom29-frontdoor02\dotnet\core-tests.trx
+
+Passed!  - Failed:     0, Passed:   157, Skipped:     0, Total:   157, Duration: 348 ms - Cannonball.Core.Tests.dll (net8.0)
+
+== ruff ==
+All checks passed!
+
+== frame-allocations ==
+frame-allocations: no per-frame Godot allocation found
+
+== continental-route ==
+continental-lock-ok: data\sources\continental-route-lock.json (nhpn_candidates_locked_3dep_pending)
+continental-transfers-ok: data\routes\continental\transfer-node-lock.v1.json (12 nodes)
+continental-edge-paths-ok: data\routes\continental\edge-path-lock.v1.json (8/12 connected)
+continental-nhs-fills-ok: data\routes\continental\nhs-fill-lock.v1.json (5 fill sites, 3 chained segments)
+continental-break-dispositions-ok: data\routes\continental\break-disposition.v1.json (14 sites: anchor_edge_split=2, bounded_reconstruction_exception=2, nhpn_scoped_acquisition=5, nhs_fill=5)
+continental-overlays-ok: data\routes\continental\reconstruction-overlay-lock.v1.json (2 overlays, 12/12 segments chaining anchor-to-anchor)
+continental-nhs-conflation-ok: data\routes\continental\nhs-conflation-lock.v1.json (5 spans, 10/10 seams within bound)
+continental-3dep-lock-ok: data\routes\continental\3dep-product-lock.v1.json (124 cells, 124 products, 3 verified samples)
+continental-directed-route-ok: data\routes\continental\directed-route-lock.v1.json (12 segments, 12582 elements, canonical 2791.77 mi)
+continental-corridor-elevation-ok: data\routes\continental\corridor-elevation-lock.v1.json (124 tiles, 101761 stations, 12 segments)
+continental-conditioned-profile-ok: data\routes\continental\conditioned-profile-lock.v1.json (154 records, 546 corrected stations, max sustained -6.939%)
+continental-endpoint-connectors-ok: data\routes\continental\endpoint-connector-lock.v1.json (2 connectors, 53634.038 m authored, 12 gates passed)
+continental-westbound-carriageway-ok: data\routes\continental\westbound-carriageway-lock.v1.json (12 segments, 6294.223 westbound miles, 96 gates passed, 3 span replacements, run length 2825.1 mi)
+continental-junction-geometry-ok: data\routes\continental\junction-geometry-lock.v1.json (12 movements, 7 junction anchors, 2 turn-around anchors, 160 gates passed)
+continental-lane-topology-ok: data\routes\continental\lane-topology-lock.v1.json (23 sections, 31 corner refinements, 44 lane connectors, 257 gates passed)
+continental-collision-ok: data\routes\continental\collision-chunk-lock.v1.json (26 hosts, 5109 chunks, zero open seams)
+continental-route-validation-ok
+
+== pytest-map-pipeline ==
+........................................................................ [ 20%]
+s....................................................................... [ 41%]
+........................................................................ [ 62%]
+........................................................................ [ 83%]
+..........................................................               [100%]
+345 passed, 1 skipped in 132.96s (0:02:12)
+
+== pytest-playgodot-unit ==
+........................................................................ [ 39%]
+........................................................................ [ 78%]
+........................................                                 [100%]
+184 passed in 13.06s
+
+== release-smoke-unit ==
+TAP version 13
+# Subtest: a clean packaged runtime with every required marker passes
+ok 1 - a clean packaged runtime with every required marker passes
+  ---
+  duration_ms: 135.3004
+  type: 'test'
+  ...
+# Subtest: a native fatal error after success markers fails even when the launcher exits zero
+ok 2 - a native fatal error after success markers fails even when the launcher exits zero
+  ---
+  duration_ms: 131.2647
+  type: 'test'
+  ...
+# Subtest: a nonzero runtime exit fails despite every success marker
+ok 3 - a nonzero runtime exit fails despite every success marker
+  ---
+  duration_ms: 143.8662
+  type: 'test'
+  ...
+# Subtest: gameplay markers without completed managed shutdown fail
+ok 4 - gameplay markers without completed managed shutdown fail
+  ---
+  duration_ms: 140.7497
+  type: 'test'
+  ...
+1..4
+# tests 4
+# suites 0
+# pass 4
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 625.7565
+
+== godot-smoke ==
+built: C:\Dev\Cannonball-Vibe-sedan\.tools\scenarios\official-corridor\route_graph-943e9d373aa236794960f1fca1dff168a7ce4c686ec3ccc6b86f399ad5339a06.cbrg (1 edges)
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Cannonball.Core -> C:\Dev\Cannonball-Vibe-sedan\src\Cannonball.Core\bin\Debug\net8.0\Cannonball.Core.dll
+  Cannonball.Core.Tests -> C:\Dev\Cannonball-Vibe-sedan\tests\Cannonball.Core.Tests\bin\Debug\net8.0\Cannonball.Core.Tests.dll
+  Cannonball -> C:\Dev\Cannonball-Vibe-sedan\.godot\mono\temp\bin\Debug\Cannonball.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:06.86
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+CANNONBALL_ROUTE_START_OK apron_m=20.0 barrier=True lane=lane-5a14bb53610a1bb0b854 lateral_m=-1.80
+CANNONBALL_READY engine=4.7.1-stable (official) physics_hz=120 content_source=packaged content_version=route-v5-4928c40733239740
+CANNONBALL_SAVE_OK distance_m=60.5
+CANNONBALL_GROUND_CONTRACT_OK collision_chunks=4 terrain_collision_chunks=4 collision_seams=3
+CANNONBALL_SMOKE_OK chunks=4 distance_m=60.5 peak_mph=85.7 rebases=0 max_chunk_build_ms=21.168 max_collision_build_ms=2.016 visual_chunks=4 collision_chunks=4 content_source=packaged
+CANNONBALL_SHUTDOWN_OK drains=2 producers_stopped=true elapsed_ms=32.332
+
+== managed-shutdown ==
+built: C:\Dev\Cannonball-Vibe-sedan\.tools\scenarios\official-corridor\route_graph-943e9d373aa236794960f1fca1dff168a7ce4c686ec3ccc6b86f399ad5339a06.cbrg (1 edges)
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Cannonball.Core -> C:\Dev\Cannonball-Vibe-sedan\src\Cannonball.Core\bin\Debug\net8.0\Cannonball.Core.dll
+  Cannonball.Core.Tests -> C:\Dev\Cannonball-Vibe-sedan\tests\Cannonball.Core.Tests\bin\Debug\net8.0\Cannonball.Core.Tests.dll
+  Cannonball -> C:\Dev\Cannonball-Vibe-sedan\.godot\mono\temp\bin\Debug\Cannonball.dll
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:05.82
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+CANNONBALL_ROUTE_START_OK apron_m=20.0 barrier=True lane=lane-5a14bb53610a1bb0b854 lateral_m=-1.80
+CANNONBALL_READY engine=4.7.1-stable (official) physics_hz=120 content_source=packaged content_version=route-v5-4928c40733239740
+CANNONBALL_SAVE_OK distance_m=60.2
+CANNONBALL_GROUND_CONTRACT_OK collision_chunks=4 terrain_collision_chunks=4 collision_seams=3
+CANNONBALL_SMOKE_OK chunks=4 distance_m=60.2 peak_mph=85.7 rebases=0 max_chunk_build_ms=19.881 max_collision_build_ms=2.015 visual_chunks=4 collision_chunks=4 content_source=packaged
+CANNONBALL_SHUTDOWN_PROBE_QUEUED wrappers=32 inaccessible=32 pending=32
+CANNONBALL_SHUTDOWN_PROBE_OK wrappers=32 finalized=32
+CANNONBALL_SHUTDOWN_OK drains=2 producers_stopped=true elapsed_ms=1578.363
+{"status": "passed", "scenario_exit_code": 0, "queued_wrappers_required": 32, "finalized_wrappers_required": 32, "shutdown_milliseconds": 1578.363, "missing_markers": [], "forbidden_diagnostics": [], "evidence_kind": "actual official-engine induced queued-finalizer scenario"}
+
+== camera-interpolation ==
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+CANNONBALL_CAMERA_INTERPOLATION_OK samples=360 relative_oscillation_m=0.000137 cockpit_oscillation_m=0.000000 limit_m=0.020 physics_hz=20 render_hz=120
+
+== starter-speed ==
+Godot Engine v4.7.1.stable.mono.official.a13da4feb - https://godotengine.org
+
+STARTER_PROBE_SAMPLE case=level grounded=3600/3600 position=(9.335324E-06, 0.80829346, -1583.9532) velocity=(3.379848E-07, 3.6111757E-07, -55.853516) peak=55.853516 final=55.853516 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=level assist=Accessible cap_mph=125 peak_mph=124.941 final_mph=124.941
+STARTER_PROBE_SAMPLE case=downhill grounded=3600/3600 position=(59.66797, -125.784225, -1582.4406) velocity=(1.9171971, -4.45305, -55.663013) peak=55.87376 final=55.873756 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=downhill assist=Accessible cap_mph=125 peak_mph=124.986 final_mph=124.986
+STARTER_PROBE_SAMPLE case=level grounded=3600/3600 position=(-1.3027148E-05, 0.80829334, -1583.9532) velocity=(-4.7381855E-07, 3.9268485E-07, -55.853516) peak=55.853516 final=55.853516 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=level assist=Balanced cap_mph=125 peak_mph=124.941 final_mph=124.941
+STARTER_PROBE_SAMPLE case=downhill grounded=3600/3600 position=(-3.4428606, -125.867744, -1583.484) velocity=(-0.120970495, -4.455439, -55.69571) peak=55.87377 final=55.873768 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=downhill assist=Balanced cap_mph=125 peak_mph=124.986 final_mph=124.986
+STARTER_PROBE_SAMPLE case=level grounded=3600/3600 position=(-1.3884332E-05, 0.80829346, -1583.9532) velocity=(-4.987448E-07, 1.567678E-07, -55.853516) peak=55.853516 final=55.853516 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=level assist=Raw cap_mph=125 peak_mph=124.941 final_mph=124.941
+STARTER_PROBE_SAMPLE case=downhill grounded=3600/3600 position=(37.732433, -125.83199, -1583.0375) velocity=(1.2262555, -4.45449, -55.68241) peak=55.873768 final=55.873756 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=downhill assist=Raw cap_mph=125 peak_mph=124.986 final_mph=124.986
+STARTER_PROBE_SAMPLE case=configured-150 grounded=3600/3600 position=(-1.4716979E-05, 0.7347954, -1877.9478) velocity=(-5.379458E-07, -9.996961E-08, -67.01921) peak=67.01921 final=67.01921 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=configured-150 assist=Balanced cap_mph=150 peak_mph=149.918 final_mph=149.918
+STARTER_PROBE_SAMPLE case=downhill-coast grounded=3600/3600 position=(5.231203, -328.01523, -1644.2048) velocity=(0.17428161, -10.9584465, -54.794678) peak=55.880005 final=55.88 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=downhill-coast assist=Balanced cap_mph=125 peak_mph=125.000 final_mph=125.000
+STARTER_PROBE_SAMPLE case=braking grounded=480/480 position=(-0.0011195141, 0.9754145, -59.954887) velocity=(0.046222374, -3.0557817E-06, 0.034875866) peak=55.65943 final=-0.036025826 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=braking assist=Balanced cap_mph=125 peak_mph=124.507 final_mph=-0.081
+STARTER_PROBE_SAMPLE case=reverse grounded=240/240 position=(-1.0866793E-07, 0.92050755, 34.264435) velocity=(-2.321347E-07, -0.057156477, 34.02505) peak=0 final=-34.02505 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=reverse assist=Balanced cap_mph=125 peak_mph=0.000 final_mph=-76.112
+STARTER_PROBE_SAMPLE case=resume-overspeed grounded=240/240 position=(-2.5663741E-08, 0.8082937, -111.79044) velocity=(-1.7562526E-08, -1.4226011E-06, -55.853523) peak=55.88 final=55.853523 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=resume-overspeed assist=Balanced cap_mph=125 peak_mph=125.000 final_mph=124.941
+STARTER_PROBE_SAMPLE case=airborne grounded=0/30 position=(0, 103.304184, -16.429031) velocity=(0, 6.8074994, -65.56387) peak=65.869354 final=65.56387 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=airborne assist=Balanced cap_mph=125 peak_mph=147.346 final_mph=146.662
+STARTER_PROBE_SAMPLE case=lateral-impact grounded=2/2 position=(0.16661912, 1.0181279, -1.0144192) velocity=(9.995903, 2.4386358, -55.865086) peak=55.880005 final=55.868618 resets=0
+CANNONBALL_STARTER_SPEED_CASE_OK case=lateral-impact assist=Balanced cap_mph=125 peak_mph=125.000 final_mph=124.975
+CANNONBALL_STARTER_SPEED_OK cases=13 physics_hz=120
+
+M0 verification passed. Reports: C:/Dev/Cannonball-Vibe-sedan/reports/p1-018/showroom29-frontdoor02

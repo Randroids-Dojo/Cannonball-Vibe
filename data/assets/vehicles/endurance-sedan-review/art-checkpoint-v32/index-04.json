@@ -1,0 +1,105 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-13T07:56:05.893388+00:00",
+  "git_revision": "b1cf65b64512508931eb3398af435f857926a503",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint32-retention01/manifest-04.json",
+    "sha256": "ef5a2b22f76c4980ce65a262199234f2190ab4a17ddffdd091bf5c64a7f55c53"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/front-fields/native-stage.json.gz",
+      "sha256": "374768872f47c4bdab5324d05f3904413a5f31f50958ffae440a84b7175cf7d9",
+      "bytes": 31059023
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/front-native-failed/native-stage.json.gz",
+      "sha256": "33eb87eb6b30221fafae9690d1233ceaf37f0b5ba6af12f9037884c3b1435476",
+      "bytes": 35511007
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/pre-front/native-stage.json.gz",
+      "sha256": "be552e0eca63562ac1e6aa7e850192f2c80faddb0063d742c5184220ede01111",
+      "bytes": 1113876
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/pre-front/source.blend",
+      "sha256": "ea882a32c26b10621ca8708f7258af0b1b7967b76ef24fc0231d7704b4c85016",
+      "bytes": 5118130
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/pre-front/source.construction.json.gz",
+      "sha256": "a52e3a8984c4e8cc2c10d841902a1e7fe7c7793e5527c586ab0268e1ed20e007",
+      "bytes": 6912719
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/pre-front/source.shoulder-profile.json",
+      "sha256": "c61117de292534d9ec0271d9392cbc065d9c4c9857e305d7707c389bddd6e2f7",
+      "bytes": 778
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/pre-front/source.shoulder.json.gz",
+      "sha256": "cb5d366c1e5b50aa13f20c93a8b4e414c9dccd4fdd20591c362a3883d0465d85",
+      "bytes": 1369101
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/pre-inlet/native-stage.json.gz",
+      "sha256": "92fdce6c6596f940e2c62e00bb466f7504a95f5021d0ba25b9a7227327d4d9bb",
+      "bytes": 25809600
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/pre-inlet/source.blend",
+      "sha256": "bf987f0a25d69558d2c84240dbbc749f321c7abfc5de242425980c412d737cda",
+      "bytes": 5190943
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/pre-inlet/source.construction.json.gz",
+      "sha256": "a52e3a8984c4e8cc2c10d841902a1e7fe7c7793e5527c586ab0268e1ed20e007",
+      "bytes": 6912719
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/pre-inlet/source.shoulder-profile.json",
+      "sha256": "c61117de292534d9ec0271d9392cbc065d9c4c9857e305d7707c389bddd6e2f7",
+      "bytes": 778
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/pre-inlet/source.shoulder.json.gz",
+      "sha256": "cb5d366c1e5b50aa13f20c93a8b4e414c9dccd4fdd20591c362a3883d0465d85",
+      "bytes": 1369101
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/source.failed.blend",
+      "sha256": "cefe2c729c1358ce96f5edd6e4c27892b5c39db721fbc1767ca1b15de9057556",
+      "bytes": 5199999
+    },
+    {
+      "path": "reports/p1-018/front-joined29-pilot01/fresh01/textures/Meridian_StaticLabels_v26.png",
+      "sha256": "d8a3f31ab6ad87f11cb62a13dfc0d23b3c81d4c1c7c4ce92e7a525e42f262d88",
+      "bytes": 24347
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/art-checkpoint-v32-04.zip",
+      "sha256": "f019ce4474e55d1c27e75864906d70c5e4e71a42af805276ec6772f728ca3708",
+      "bytes": 124349237,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/art-checkpoint-v32-04-repeat.zip",
+      "sha256": "f019ce4474e55d1c27e75864906d70c5e4e71a42af805276ec6772f728ca3708",
+      "bytes": 124349237,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-13T07:56:12.907387+00:00"
+}

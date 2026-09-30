@@ -1,0 +1,16 @@
+{
+  "task_id": "P1-018",
+  "utc": "2026-09-12T22:21:11.511214+00:00",
+  "every_archive_byte_equal": true,
+  "all_members_sha256_and_crc_verified_twice": true,
+  "index": {
+    "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/frontdoor-index.json",
+    "sha256": "bccc5a09a29c2c97489f722fbe78f0a75f4e1354bda7de04ea02ac14d8a873b9"
+  },
+  "archive": {
+    "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/frontdoor.zip",
+    "sha256": "8fe01b3123faabb55c6f7819b0ad9e9855c5ff4a708629fd5d08c04a3cea1025",
+    "bytes": 585214
+  },
+  "human_approval_reference": null
+}

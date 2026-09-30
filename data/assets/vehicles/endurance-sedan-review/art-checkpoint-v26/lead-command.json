@@ -1,0 +1,31 @@
+{
+  "task_id": "P1-018",
+  "start_utc": "2026-09-12T18:46:52.930524+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cwd": "C:\\Dev\\Cannonball-Vibe-sedan",
+  "argv": [
+    "python",
+    "reports/p1-018/art-checkpoint26-retention01/build02.py"
+  ],
+  "git_revision": "568252ce674997d9d20a6959a557c7922e2fbe91",
+  "input_artifacts": [
+    {
+      "path": "reports\\p1-018\\art-checkpoint26-retention01\\build02.py",
+      "sha256": "6b33b4fb9782d9cf8a0db9f909e031b7242e1964ec902cc8181320853ad3ce61"
+    },
+    {
+      "path": "reports\\p1-018\\art-checkpoint26-retention01\\inventory02.json",
+      "sha256": "412ddad90a18d2b6ba02c73431cfa05671904c19d70cfdd00b94c3c818b627e6"
+    },
+    {
+      "path": "tools\\vehicles\\endurance_sedan\\retain_evidence.py",
+      "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff"
+    }
+  ],
+  "log": "reports\\p1-018\\commands\\20260912T184652.930524Z-art26-checkpoint-resume-and-direct-byte-compare.log",
+  "human_approval_reference": null,
+  "environment": {},
+  "end_utc": "2026-09-12T18:47:50.280357+00:00",
+  "exit_status": 0,
+  "log_sha256": "47a4ecca605b917af227231e88c1fddacf9afe59e74a59fae21662d66ed8d408"
+}

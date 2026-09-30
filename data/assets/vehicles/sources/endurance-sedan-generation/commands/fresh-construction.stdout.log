@@ -1,0 +1,143 @@
+SEDAN_OWNED_SCENE {"pid": 40184, "file": "", "version": "5.1.2", "stage": "production"}
+Info: Applied modifier was not first, result may not be as expected
+Info: Applied modifier was not first, result may not be as expected
+Info: Applied modifier was not first, result may not be as expected
+Info: Applied modifier was not first, result may not be as expected
+Info: Applied modifier was not first, result may not be as expected
+Info: Applied modifier was not first, result may not be as expected
+SEDAN_FINAL_BOOLEAN LOD0_FrontBumper {"vertices": 3259, "triangles": 6534, "duplicate_faces": 0, "nonmanifold_edges": 0, "degenerate_faces": 0, "degenerate_triangles": 0, "triangulated_duplicate_faces": 0, "triangulated_nonmanifold_edges": 0, "uv_layers": 1, "normal_corners": 18946, "nonfinite_corner_normals": 0, "zero_corner_normals": 0, "nonunit_corner_normals": 0, "normal_length_min": 0.999999821331541, "normal_length_max": 1.0000001805184697}
+SEDAN_FINAL_BOOLEAN LOD0_FrontFender_L {"vertices": 1028, "triangles": 2052, "duplicate_faces": 0, "nonmanifold_edges": 0, "degenerate_faces": 0, "degenerate_triangles": 1, "triangulated_duplicate_faces": 0, "triangulated_nonmanifold_edges": 0, "uv_layers": 1, "normal_corners": 5974, "nonfinite_corner_normals": 0, "zero_corner_normals": 0, "nonunit_corner_normals": 0, "normal_length_min": 0.9999998358999361, "normal_length_max": 1.00000015485745}
+SEDAN_FINAL_BOOLEAN LOD0_FrontFender_R {"vertices": 1022, "triangles": 2040, "duplicate_faces": 0, "nonmanifold_edges": 0, "degenerate_faces": 0, "degenerate_triangles": 0, "triangulated_duplicate_faces": 0, "triangulated_nonmanifold_edges": 0, "uv_layers": 1, "normal_corners": 5944, "nonfinite_corner_normals": 0, "zero_corner_normals": 0, "nonunit_corner_normals": 0, "normal_length_min": 0.9999998172448092, "normal_length_max": 1.0000001716624913}
+SEDAN_FINAL_BOOLEAN LOD0_Door_FL {"vertices": 728, "triangles": 1452, "duplicate_faces": 0, "nonmanifold_edges": 0, "degenerate_faces": 1, "degenerate_triangles": 4, "triangulated_duplicate_faces": 0, "triangulated_nonmanifold_edges": 0, "uv_layers": 1, "normal_corners": 4218, "nonfinite_corner_normals": 0, "zero_corner_normals": 0, "nonunit_corner_normals": 0, "normal_length_min": 0.9999998336801287, "normal_length_max": 1.0000001523270152}
+SEDAN_FINAL_BOOLEAN LOD0_Door_FR {"vertices": 733, "triangles": 1462, "duplicate_faces": 0, "nonmanifold_edges": 0, "degenerate_faces": 0, "degenerate_triangles": 0, "triangulated_duplicate_faces": 0, "triangulated_nonmanifold_edges": 0, "uv_layers": 1, "normal_corners": 4248, "nonfinite_corner_normals": 0, "zero_corner_normals": 0, "nonunit_corner_normals": 0, "normal_length_min": 0.9999998272633703, "normal_length_max": 1.0000002017348313}
+SEDAN_FINAL_BOOLEAN LOD0_Door_RL {"vertices": 834, "triangles": 1660, "duplicate_faces": 0, "nonmanifold_edges": 0, "degenerate_faces": 0, "degenerate_triangles": 0, "triangulated_duplicate_faces": 0, "triangulated_nonmanifold_edges": 0, "uv_layers": 1, "normal_corners": 4884, "nonfinite_corner_normals": 0, "zero_corner_normals": 0, "nonunit_corner_normals": 0, "normal_length_min": 0.9999998347178448, "normal_length_max": 1.000000145850246}
+SEDAN_FINAL_BOOLEAN LOD0_Door_RR {"vertices": 830, "triangles": 1652, "duplicate_faces": 0, "nonmanifold_edges": 0, "degenerate_faces": 0, "degenerate_triangles": 0, "triangulated_duplicate_faces": 0, "triangulated_nonmanifold_edges": 0, "uv_layers": 1, "normal_corners": 4866, "nonfinite_corner_normals": 0, "zero_corner_normals": 0, "nonunit_corner_normals": 0, "normal_length_min": 0.9999998890229658, "normal_length_max": 1.0000001306876682}
+SEDAN_STAGE model complete
+SEDAN_STAGE evaluated LOD0 repair complete
+FRESH26 first assembly complete
+late-stage-start first_fit
+late-stage-end first_fit 24.655187500000466
+late-stage-start rear
+cut-start LOD0_StructuralBody PrivateLocalFormedArmRelief_-1
+cut-end LOD0_StructuralBody PrivateLocalFormedArmRelief_-1 0.6915669000009075
+cut-start LOD0_RearLowerLinkMount_-1_-1.29 LOD0_RLowerLink_-1-1.29
+cut-end LOD0_RearLowerLinkMount_-1_-1.29 LOD0_RLowerLink_-1-1.29 0.2908506999956444
+cut-start LOD0_StructuralBody PrivateLocalFormedArmRelief_1
+cut-end LOD0_StructuralBody PrivateLocalFormedArmRelief_1 0.7678098999895155
+cut-start LOD0_RearLowerLinkMount_1_-1.29 LOD0_RLowerLink_1-1.29
+cut-end LOD0_RearLowerLinkMount_1_-1.29 LOD0_RLowerLink_1-1.29 0.2688163999991957
+body-clean-start
+body-exact-repair-start
+body-field-restore-start
+late-stage-end rear 105.01920030001202
+late-stage-start front
+repair-start LOD0_StructuralBody
+restore-start LOD0_StructuralBody
+repair-start LOD0_InnerWheelTub_FL
+restore-start LOD0_InnerWheelTub_FL
+repair-start LOD0_InnerWheelTub_FR
+restore-start LOD0_InnerWheelTub_FR
+repair-start LOD0_TunnelBrace
+restore-start LOD0_TunnelBrace
+late-stage-end front 131.13869629998226
+Info: Saved as "source.blend"
+FRESH26 companions retained
+COMPONENT26 radial detail
+COMPONENT26 formed roof
+COMPONENT26 front wheelhouse
+COMPONENT26 main cooling
+COMPONENT26 complete
+Info: Saved as "source.blend"
+FRESH26 companions retained
+FRESH27 retained pre-front
+Info: Saved as "source.blend"
+FRESH26 companions retained
+FRESH27 retained pre-inlet
+FRESH27 retained front-fields
+FRONT27 native LOD0_AuxiliaryIntakeSlat_1 True
+FRONT27 native LOD0_AuxiliaryIntakeSlat_2 True
+FRONT27 native LOD0_BrakeDuctVane_L0 True
+FRONT27 native LOD0_BrakeDuctVane_L1 True
+FRONT27 native LOD0_BrakeDuctVane_L2 True
+FRONT27 native LOD0_BrakeDuctVane_R0 True
+FRONT27 native LOD0_BrakeDuctVane_R1 True
+FRONT27 native LOD0_BrakeDuctVane_R2 True
+FRONT27 native LOD0_FrontBumper True
+FRONT27 native LOD0_FrontIndicator_L True
+FRONT27 native LOD0_FrontIndicator_R True
+FRONT27 native LOD0_FrontSplitter True
+FRONT27 native LOD0_FrontUndertray_-1 True
+FRONT27 native LOD0_FrontUndertray_1 True
+FRONT27 native LOD0_HeadlightCover_L True
+FRONT27 native LOD0_HeadlightCover_R True
+FRONT27 native LOD0_HeadlightGuide_L True
+FRONT27 native LOD0_HeadlightGuide_R True
+FRONT27 native LOD0_HeadlightHousing_L True
+FRONT27 native LOD0_HeadlightHousing_R True
+FRONT27 native LOD0_HeadlightSideReturn_L-1 True
+FRONT27 native LOD0_HeadlightSideReturn_L1 True
+FRONT27 native LOD0_HeadlightSideReturn_R-1 True
+FRONT27 native LOD0_HeadlightSideReturn_R1 True
+FRONT27 native LOD0_HeadlightWall_L0.6785 True
+FRONT27 native LOD0_HeadlightWall_L0.8095 True
+FRONT27 native LOD0_HeadlightWall_R0.6785 True
+FRONT27 native LOD0_HeadlightWall_R0.8095 True
+FRONT27 native LOD0_MainGrilleRail_0 True
+FRONT27 native LOD0_MainGrilleRail_1 True
+FRONT27 native LOD0_MainGrilleRail_2 True
+FRONT27 native LOD0_MainGrilleRail_3 True
+FRONT27 native LOD0_MainGrilleUpright_0 True
+FRONT27 native LOD0_MainGrilleUpright_1 True
+FRONT27 native LOD0_MainGrilleUpright_10 True
+FRONT27 native LOD0_MainGrilleUpright_11 True
+FRONT27 native LOD0_MainGrilleUpright_12 True
+FRONT27 native LOD0_MainGrilleUpright_13 True
+FRONT27 native LOD0_MainGrilleUpright_14 True
+FRONT27 native LOD0_MainGrilleUpright_15 True
+FRONT27 native LOD0_MainGrilleUpright_16 True
+FRONT27 native LOD0_MainGrilleUpright_17 True
+FRONT27 native LOD0_MainGrilleUpright_18 True
+FRONT27 native LOD0_MainGrilleUpright_19 True
+FRONT27 native LOD0_MainGrilleUpright_2 True
+FRONT27 native LOD0_MainGrilleUpright_3 True
+FRONT27 native LOD0_MainGrilleUpright_4 True
+FRONT27 native LOD0_MainGrilleUpright_5 True
+FRONT27 native LOD0_MainGrilleUpright_6 True
+FRONT27 native LOD0_MainGrilleUpright_7 True
+FRONT27 native LOD0_MainGrilleUpright_8 True
+FRONT27 native LOD0_MainGrilleUpright_9 True
+FRONT27 native LOD0_ProjectorEmitter_L-1 True
+FRONT27 native LOD0_ProjectorEmitter_L1 True
+FRONT27 native LOD0_ProjectorEmitter_R-1 True
+FRONT27 native LOD0_ProjectorEmitter_R1 True
+FRONT27 native LOD0_ProjectorOptic_L-1 True
+FRONT27 native LOD0_ProjectorOptic_L1 True
+FRONT27 native LOD0_ProjectorOptic_R-1 True
+FRONT27 native LOD0_ProjectorOptic_R1 True
+FRONT27 native LOD0_ProjectorReflector_L-1 True
+FRONT27 native LOD0_ProjectorReflector_L1 True
+FRONT27 native LOD0_ProjectorReflector_R-1 True
+FRONT27 native LOD0_ProjectorReflector_R1 True
+FRONT27 native LOD0_SplitterMount_0 True
+FRONT27 native LOD0_SplitterMount_1 True
+FRONT27 native LOD0_SplitterMount_2 True
+FRONT27 native LOD0_SplitterMount_3 True
+FRONT27 native LOD0_StructuralBody True
+PORTABLE34 complete body/door fields
+PORTABLE34 complete actual front fields
+PORTABLE34 paired C skins, receiver and fitted members
+PORTABLE34 finite lamp surface; residual visual gate remains open
+PORTABLE34 current fields complete: 148898LOD0 triangles
+Info: Saved as "source.blend"
+FRESH39 current-input rear cover; pre-cover source and pre-encoding request retained
+Info: Saved as "source.blend"
+FRESH38 original recessed grooves; actual pre-groove source retained
+Info: Saved as "source.blend"
+FRESH26 all geometry/fields complete; LOD0 148452
+SEDAN_STAGE LOD construction complete
+Info: Saved as "source.blend"
+FRESH26 companions retained
+CANNONBALL_SEDAN_SOURCE_OK {"path": "C:\\Dev\\sedan-builds\\default03\\project\\data\\assets\\vehicles\\sources\\endurance-sedan-generation\\pre-lod\\source.blend", "objects": 1172, "stage": "production"}
+Blender 5.1.2 (hash ec6e62d40fa9 built 2026-05-19 01:37:34)
+
+Blender quit

@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "git_revision": "96b9bc6ca21a7726270712227d1351a113d92bd7",
+  "utc": "2026-09-13T10:21:51.315367+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "status": "fresh_source_and_isolated_repair_checkpoint_shipping_and_human_gates_open",
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v34/art-checkpoint-v34-01.zip",
+      "sha256": "acf55da14f4280d93d39c837a3691af6cf4eddd5610fce9b18622cb8c55ac523",
+      "bytes": 85893341,
+      "files": 162,
+      "two_build_bytes_identical": true,
+      "all_members_reread": true
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v34/art-checkpoint-v34-02.zip",
+      "sha256": "18c44bb3694c6d0d318200f6da494431b015d1f51497e63583967d7a20408b8a",
+      "bytes": 96409553,
+      "files": 24,
+      "two_build_bytes_identical": true,
+      "all_members_reread": true
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v34/art-checkpoint-v34-03.zip",
+      "sha256": "0378de0a145994e070569969ea21d97e94ded59c22f94e9d4c5360cf6f35a18a",
+      "bytes": 80492430,
+      "files": 15,
+      "two_build_bytes_identical": true,
+      "all_members_reread": true
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v34/art-checkpoint-v34-04.zip",
+      "sha256": "49fb4c2946017d10e86768eba573ef3591d856da3c868469278637aa4b972f29",
+      "bytes": 80260336,
+      "files": 584,
+      "two_build_bytes_identical": true,
+      "all_members_reread": true
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v34/art-checkpoint-v34-05.zip",
+      "sha256": "801f3f8f5b1b6d3906ce30daa0bf0adcedc2c593c51f29c64620bc75c742ad3c",
+      "bytes": 21243868,
+      "files": 247,
+      "two_build_bytes_identical": true,
+      "all_members_reread": true
+    }
+  ],
+  "inventory": {
+    "path": "reports/p1-018/art-retention34-01/inputs01.json",
+    "sha256": "095fc143b82285f34672a1fa3ccd4147003b854d1d253bb2efebb554e387daa3",
+    "bytes": 229548
+  },
+  "file_count": 1032,
+  "all_locked_inputs_unchanged": true,
+  "archive_builds": 2,
+  "all_archive_bytes_identical": true,
+  "all_members_reread_and_verified": true,
+  "fresh_source_review": {
+    "task_id": "P1-018",
+    "utc": "2026-09-13T10:15:26.212542+00:00",
+    "status": "fresh_current_source_checkpoint_not_shipping_acceptance",
+    "source": {
+      "path": "reports/p1-018/portable34-pilot01/fresh04/source.blend",
+      "sha256": "7f3022c917819409dec00be1cd42c0a9c6107dc4e7ee00119166a817e77fc2d8"
+    },
+    "construction": "Empty scene using immutable snapshot04 and actual native pre-void/pre-late references; no archived mesh constructor. All inputs unchanged throughout build.",
+    "reopen": {
+      "mesh_inventory": 1104,
+      "empty_inventory": 65,
+      "object_parent_matrix_basis_drivers": "Exact against previous isolated composition",
+      "current_field_target_readbacks_exact": 18,
+      "direct_mesh_field_equal": 1058,
+      "changed_record_count": 46,
+      "strict_semantic_raw_pass": 27,
+      "strict_semantic_evaluated_pass": 41,
+      "comparison_limits": "Remaining differences include original UV float rounding, Boolean index order and coordinate drift. Nearest-vertex diagnostics reach0.476837?m at the front bumper and0.491512?m at structural body, exceeding the old0.2?m edit-preservation guard. That old guard is not declared passed or widened; old strict fit/correspondence results for these changed artifacts are not carried over. Fresh native construction targets and direct current-source checks are separate evidence.",
+      "reports": [
+        "reopen05/record.json",
+        "reopen06/record.json",
+        "correspondence09.json",
+        "geometry_distance10.json"
+      ]
+    },
+    "direct_source_inspection": {
+      "path": "inspection11/inventory.json",
+      "status": "passed",
+      "lod0_triangles": 148898,
+      "collision_triangles": 24,
+      "materials": 26,
+      "encoded_texture_bytes": 1494277,
+      "scope": "Evaluated source only; no LOD1/2 or shipping export claimed."
+    },
+    "visual_review": {
+      "reviewer": "root",
+      "actual_images_viewed": 4,
+      "inputs": [
+        {
+          "path": "reports/p1-018/portable34-pilot01/render08/front3q.png",
+          "sha256": "0dd699fad1006051622a0e400b00a8d0144a76b3372437673416b32742405ac1",
+          "bytes": 3003128
+        },
+        {
+          "path": "reports/p1-018/portable34-pilot01/render08/rear3q.png",
+          "sha256": "c9926beff0b33ccad925449543dd0da3a8123b5455fb151f9cad95b789c4212f",
+          "bytes": 2951415
+        },
+        {
+          "path": "reports/p1-018/portable34-pilot01/render08/left.png",
+          "sha256": "03ae5af80769fdc80ca0242838729a3c6052a56ea65808f19ee4a3f54420f126",
+          "bytes": 2685325
+        },
+        {
+          "path": "reports/p1-018/portable34-pilot01/render08/top.png",
+          "sha256": "35dde502343a8e42de99b9303351610f220e9e3c8309ff10d0f8dfb656f4ce73",
+          "bytes": 2681491
+        },
+        {
+          "path": "reports/p1-018/portable34-pilot01/render08/manifest.json",
+          "sha256": "81455ce545f977684a95f2dcdd913f32c1c81b391d82cdceed6f2c24905d2620",
+          "bytes": 4475
+        }
+      ],
+      "observations": [
+        "Body/door/fender broad surfaces and corrected front/rear glazing retain the expected whole-car appearance. Four doors and sedan silhouette remain readable.",
+        "Lamp shoulder is improved but the grazing-reflection gate remains open; lower front fascia facets and pointed splitter ends remain visible.",
+        "Upper roof/window closure still has the diagnosed gap in this source; research return proposals are separate and uninstalled.",
+        "Rear lower trim still has projecting end form; QA is replacing its inherited backing/attachment construction.",
+        "Bright hood/trunk hinge hardware is externally visible in top/rear views. Independent inspection is required to identify intended service hardware versus unintended protrusion."
+      ],
+      "acceptance": "Progress checkpoint, not final art approval."
+    },
+    "failures_and_retries": [
+      {
+        "attempt": "build03",
+        "failure": "Reference recorder captured temporary StructuralBody.001 during non-provenance helper construction",
+        "correction": "snapshot04 restricts capture to capture_provenance",
+        "recovery": "fresh04 construction passed"
+      },
+      {
+        "attempt": "reopen05",
+        "failure": "Direct equality assumed identical old/fresh native lamp indexing",
+        "correction": "reopen06 captures both complete native inventories and retains exact/bounded correspondence limits",
+        "recovery": "Saved current18target fields reopen exactly; historical equality remains explicitly limited"
+      },
+      {
+        "attempt": "render07",
+        "failure": "Wrong CLI choices optix/size",
+        "correction": "Use renderer documented --device GPU --width/--height",
+        "recovery": "render08 four actual frames passed"
+      }
+    ],
+    "human_approval_reference": null
+  },
+  "additional_frozen_evidence": {
+    "glass": "qa/glazing30-review01/review02.json",
+    "lamp": "qa/front-transition30-proposal01/HANDOFF17.md",
+    "rejected_brake_lod": "runtime/brake-reserve30-proposal01/HANDOFF08.md",
+    "tire_representation_proposal": "runtime/source-reserve33-proposal01/HANDOFF04.md"
+  },
+  "source_replaced": false,
+  "runtime_exported": false,
+  "human_approval_reference": null
+}

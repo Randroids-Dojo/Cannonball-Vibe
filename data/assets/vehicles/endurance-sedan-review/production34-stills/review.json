@@ -1,0 +1,1828 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "completed",
+  "utc": "2026-09-11T20:37:32.647290+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\sources\\endurance-sedan.blend",
+  "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+  "tool_sha256": "c42dc8f64e3984bd888d02ed510011561c2449cec1e36d4c1a16f80e8c3c629c",
+  "python": "3.13.11",
+  "pillow": "11.3.0",
+  "commands": [
+    {
+      "argv": [
+        "C:\\Dev\\Cannonball-Vibe-sedan\\.tools\\ffmpeg-9.0.1\\ffmpeg-9.0.1-essentials_build\\bin\\ffmpeg.exe",
+        "-version"
+      ],
+      "started_utc": "2026-09-11T20:37:32.672993+00:00",
+      "finished_utc": "2026-09-11T20:37:32.696307+00:00",
+      "exit_status": 0,
+      "log": "ffmpeg-version.log",
+      "sha256": "548d07da79082ab0db5b6ab14edc7d2e4221996319ee19b2031ee3226416727b"
+    }
+  ],
+  "captures": [
+    {
+      "label": "neutral-exterior",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\neutral-exterior\\manifest.json",
+      "input_manifest_sha256": "f22838ffaf9a90220287454ae282b810137f2cfcd4336f74c96d0abff0b3ca6e",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 8,
+        "fps": 30,
+        "views": "front,rear,left,right,top,under,front3q,rear3q",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "neutral-exterior/contact-sheet.png",
+      "contact_sheet_sha256": "92aab10bd84ece48f624d1af627a2ebed8b03ad1c7b3b25dc0d3a6d7833cdc3c",
+      "sampled_contact_sheet_frames": [
+        "front",
+        "rear",
+        "left",
+        "right",
+        "top",
+        "under",
+        "front3q",
+        "rear3q"
+      ],
+      "actual_frame_count": 8
+    },
+    {
+      "label": "neutral-clay",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\neutral-clay\\manifest.json",
+      "input_manifest_sha256": "af37fbb6272804102b7210385a3d8b9b5364d1e10fa6f5315dc4ed07a744518a",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 48,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": true,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 8,
+        "fps": 30,
+        "views": "front,rear,left,right,top,under,front3q,rear3q",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "neutral-clay/contact-sheet.png",
+      "contact_sheet_sha256": "4f346f54f5f8f60bb28e5b3898d3c9b8b7aaab35451976de3f41499b928ce3e8",
+      "sampled_contact_sheet_frames": [
+        "front",
+        "rear",
+        "left",
+        "right",
+        "top",
+        "under",
+        "front3q",
+        "rear3q"
+      ],
+      "actual_frame_count": 8
+    },
+    {
+      "label": "technical-orthos",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\technical-orthos\\manifest.json",
+      "input_manifest_sha256": "6bea7d44ccd2ae5af2b2a8696eee7279d181b485a5846abaf6def1bd6bebef30",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 32,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 6,
+        "fps": 30,
+        "views": "front,rear,left,right,top,under",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": {
+          "mode": "technical x-ray; temporary materials and geometry",
+          "source_specification_revision": 17,
+          "ruler_minor_m": 0.5,
+          "ruler_major_m": 1,
+          "ruler_ticks": "crosses in both perpendicular planes",
+          "legend": {
+            "cyan": "wheel/contact/suspension",
+            "magenta": "camera",
+            "green": "occupant hip/eye/head envelope",
+            "yellow": "actual collision proxy",
+            "orange": "center of mass"
+          },
+          "markers": [
+            {
+              "name": "Wheel_FL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_FL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8100000023841858,
+                1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_FL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Wheel_FR",
+              "kind": "wheel",
+              "source_m": [
+                0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_FR",
+              "kind": "wheel",
+              "source_m": [
+                0.8100000023841858,
+                1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_FR",
+              "kind": "wheel",
+              "source_m": [
+                0.8100000023841858,
+                1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Wheel_RL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_RL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8050000071525574,
+                -1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_RL",
+              "kind": "wheel",
+              "source_m": [
+                -0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Wheel_RR",
+              "kind": "wheel",
+              "source_m": [
+                0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Contact_RR",
+              "kind": "wheel",
+              "source_m": [
+                0.8050000071525574,
+                -1.4600000381469727,
+                0.0
+              ]
+            },
+            {
+              "name": "Suspension_RR",
+              "kind": "wheel",
+              "source_m": [
+                0.8050000071525574,
+                -1.4600000381469727,
+                0.3433000147342682
+              ]
+            },
+            {
+              "name": "Camera_ChaseTarget",
+              "kind": "camera",
+              "source_m": [
+                0.0,
+                -0.10000000149011612,
+                0.8799999952316284
+              ]
+            },
+            {
+              "name": "Camera_Cockpit",
+              "kind": "camera",
+              "source_m": [
+                -0.4300000071525574,
+                -0.38999998569488525,
+                1.2100000381469727
+              ]
+            },
+            {
+              "name": "MirrorCamera_Left",
+              "kind": "camera",
+              "source_m": [
+                -1.0199999809265137,
+                0.546999990940094,
+                1.065000057220459
+              ]
+            },
+            {
+              "name": "MirrorCamera_Rear",
+              "kind": "camera",
+              "source_m": [
+                0.0,
+                0.1599999964237213,
+                1.2929999828338623
+              ]
+            },
+            {
+              "name": "MirrorCamera_Right",
+              "kind": "camera",
+              "source_m": [
+                1.0199999809265137,
+                0.546999990940094,
+                1.065000057220459
+              ]
+            },
+            {
+              "name": "CenterOfMass",
+              "kind": "com",
+              "source_m": [
+                0,
+                0.1168,
+                0.55
+              ]
+            },
+            {
+              "name": "front_left_hip",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -0.16,
+                0.45
+              ]
+            },
+            {
+              "name": "front_left_eye",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -0.39,
+                1.21
+              ]
+            },
+            {
+              "name": "front_right_hip",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -0.16,
+                0.45
+              ]
+            },
+            {
+              "name": "front_right_eye",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -0.39,
+                1.21
+              ]
+            },
+            {
+              "name": "rear_left_hip",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -1.08,
+                0.48
+              ]
+            },
+            {
+              "name": "rear_left_eye",
+              "kind": "occupant",
+              "source_m": [
+                -0.43,
+                -1.34,
+                1.17
+              ]
+            },
+            {
+              "name": "rear_right_hip",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -1.08,
+                0.48
+              ]
+            },
+            {
+              "name": "rear_right_eye",
+              "kind": "occupant",
+              "source_m": [
+                0.43,
+                -1.34,
+                1.17
+              ]
+            },
+            {
+              "name": "CollisionProxy_Body",
+              "kind": "collision",
+              "source_vertices_m": [
+                [
+                  -0.9100000262260437,
+                  -2.429999828338623,
+                  0.1599999964237213
+                ],
+                [
+                  -0.9100000262260437,
+                  -2.429999828338623,
+                  0.7799999713897705
+                ],
+                [
+                  -0.9100000262260437,
+                  2.2899999618530273,
+                  0.1599999964237213
+                ],
+                [
+                  -0.9100000262260437,
+                  2.2899999618530273,
+                  0.7799999713897705
+                ],
+                [
+                  0.9100000262260437,
+                  -2.429999828338623,
+                  0.1599999964237213
+                ],
+                [
+                  0.9100000262260437,
+                  -2.429999828338623,
+                  0.7799999713897705
+                ],
+                [
+                  0.9100000262260437,
+                  2.2899999618530273,
+                  0.1599999964237213
+                ],
+                [
+                  0.9100000262260437,
+                  2.2899999618530273,
+                  0.7799999713897705
+                ]
+              ]
+            },
+            {
+              "name": "CollisionProxy_Cabin",
+              "kind": "collision",
+              "source_vertices_m": [
+                [
+                  -0.7099999785423279,
+                  -1.3199999332427979,
+                  0.73499995470047
+                ],
+                [
+                  -0.7099999785423279,
+                  -1.3199999332427979,
+                  1.3350000381469727
+                ],
+                [
+                  -0.7099999785423279,
+                  0.18000000715255737,
+                  0.73499995470047
+                ],
+                [
+                  -0.7099999785423279,
+                  0.18000000715255737,
+                  1.3350000381469727
+                ],
+                [
+                  0.7099999785423279,
+                  -1.3199999332427979,
+                  0.73499995470047
+                ],
+                [
+                  0.7099999785423279,
+                  -1.3199999332427979,
+                  1.3350000381469727
+                ],
+                [
+                  0.7099999785423279,
+                  0.18000000715255737,
+                  0.73499995470047
+                ],
+                [
+                  0.7099999785423279,
+                  0.18000000715255737,
+                  1.3350000381469727
+                ]
+              ]
+            }
+          ],
+          "source_saved": false
+        },
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "technical-orthos/contact-sheet.png",
+      "contact_sheet_sha256": "a343188e5715fa093f5c8d05a63aa3ac5637688667acbdac2acc07a07978c3fb",
+      "sampled_contact_sheet_frames": [
+        "front",
+        "rear",
+        "left",
+        "right",
+        "top",
+        "under"
+      ],
+      "actual_frame_count": 6
+    },
+    {
+      "label": "material-swatches",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\material-swatches\\manifest.json",
+      "input_manifest_sha256": "80b2aa8a4a7f8baf2f2650827a216a6897720dfdf29af922db8a28e4e89e8bf8",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 10,
+        "fps": 30,
+        "views": "swatch_board,swatch_Paint,swatch_Trim,swatch_Rubber,swatch_Leather,swatch_Carpet,swatch_Fabric,swatch_Alloy,swatch_Metal,swatch_Glass",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {
+          "Paint": {
+            "source_material": "Material_Paint",
+            "sphere_diameter_m": 0.86,
+            "uv_meters_per_repeat": 0.25
+          },
+          "Trim": {
+            "source_material": "Material_Trim",
+            "sphere_diameter_m": 0.86,
+            "uv_meters_per_repeat": 0.25
+          },
+          "Rubber": {
+            "source_material": "Material_Rubber",
+            "sphere_diameter_m": 0.86,
+            "uv_meters_per_repeat": 0.25
+          },
+          "Leather": {
+            "source_material": "Material_Leather",
+            "sphere_diameter_m": 0.86,
+            "uv_meters_per_repeat": 0.25
+          },
+          "Carpet": {
+            "source_material": "Material_Carpet",
+            "sphere_diameter_m": 0.86,
+            "uv_meters_per_repeat": 0.25
+          },
+          "Fabric": {
+            "source_material": "Material_Fabric",
+            "sphere_diameter_m": 0.86,
+            "uv_meters_per_repeat": 0.25
+          },
+          "Alloy": {
+            "source_material": "Material_Alloy",
+            "sphere_diameter_m": 0.86,
+            "uv_meters_per_repeat": 0.25
+          },
+          "Metal": {
+            "source_material": "Material_Metal",
+            "sphere_diameter_m": 0.86,
+            "uv_meters_per_repeat": 0.25
+          },
+          "Glass": {
+            "source_material": "Material_Glass",
+            "sphere_diameter_m": 0.86,
+            "uv_meters_per_repeat": 0.25
+          }
+        },
+        "swatch_board_source_centers_m": {
+          "Paint": [
+            -1.05,
+            0,
+            2.56
+          ],
+          "Trim": [
+            0.0,
+            0,
+            2.56
+          ],
+          "Rubber": [
+            1.05,
+            0,
+            2.56
+          ],
+          "Leather": [
+            -1.05,
+            0,
+            1.51
+          ],
+          "Carpet": [
+            0.0,
+            0,
+            1.51
+          ],
+          "Fabric": [
+            1.05,
+            0,
+            1.51
+          ],
+          "Alloy": [
+            -1.05,
+            0,
+            0.46
+          ],
+          "Metal": [
+            0.0,
+            0,
+            0.46
+          ],
+          "Glass": [
+            1.05,
+            0,
+            0.46
+          ]
+        }
+      },
+      "contact_sheet": "material-swatches/contact-sheet.png",
+      "contact_sheet_sha256": "e757d83325f596d0a232ac773fdf22a97b29a933f8f94f80c4ec2ff887abacce",
+      "sampled_contact_sheet_frames": [
+        "swatch_board",
+        "swatch_Paint",
+        "swatch_Trim",
+        "swatch_Rubber",
+        "swatch_Leather",
+        "swatch_Carpet",
+        "swatch_Fabric",
+        "swatch_Alloy",
+        "swatch_Metal",
+        "swatch_Glass"
+      ],
+      "actual_frame_count": 10
+    },
+    {
+      "label": "neutral-closeups",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\neutral-closeups\\manifest.json",
+      "input_manifest_sha256": "b632dbfd9045a6e692a61fb3513cf906151d3471ecc82aad4ebb1916943b5e35",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 7,
+        "fps": 30,
+        "views": "paint,panel_gap,front_lamps,rear_lamps,wheel,glass_seal,wipers",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "neutral-closeups/contact-sheet.png",
+      "contact_sheet_sha256": "9fda3efaf97034a40ad5c559abb20e54a7994f3891f4b3b13c4052dc0182aa31",
+      "sampled_contact_sheet_frames": [
+        "paint",
+        "panel_gap",
+        "front_lamps",
+        "rear_lamps",
+        "wheel",
+        "glass_seal",
+        "wipers"
+      ],
+      "actual_frame_count": 7
+    },
+    {
+      "label": "neutral-cabin",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\neutral-cabin\\manifest.json",
+      "input_manifest_sha256": "76e862f50e280ef743326d3049384b3eda061d049e79248b4ebccebbbc7ff6f9",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 7,
+        "fps": 30,
+        "views": "cockpit,rear_cabin,rear_seats,pedals,upholstery,roof_front,roof_rear",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "neutral-cabin/contact-sheet.png",
+      "contact_sheet_sha256": "b5e81646cd5135c8a14eb4ff856b6f88b2e24032d1a2cd7b212a7483ac9df5a4",
+      "sampled_contact_sheet_frames": [
+        "cockpit",
+        "rear_cabin",
+        "rear_seats",
+        "pedals",
+        "upholstery",
+        "roof_front",
+        "roof_rear"
+      ],
+      "actual_frame_count": 7
+    },
+    {
+      "label": "daylight",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\daylight\\manifest.json",
+      "input_manifest_sha256": "d5d5649755fbe006807dbf125b69e198760b4a5c9c3ffc0bfa14bf2569dd5695",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "daylight",
+        "sequence": "none",
+        "frame_count": 6,
+        "fps": 30,
+        "views": "front3q,rear3q,left,paint,cockpit,rear_cabin",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "daylight/contact-sheet.png",
+      "contact_sheet_sha256": "c7df704dae9e241baa9f9d158dc07d214de781153f712fdb7732d7c1c428c7cd",
+      "sampled_contact_sheet_frames": [
+        "front3q",
+        "rear3q",
+        "left",
+        "paint",
+        "cockpit",
+        "rear_cabin"
+      ],
+      "actual_frame_count": 6
+    },
+    {
+      "label": "overcast",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\overcast\\manifest.json",
+      "input_manifest_sha256": "4597ce9cdc2b333d9a0ccc99cb4eb7c746e39c1a2a8d4ed5650b612a71342889",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "overcast",
+        "sequence": "none",
+        "frame_count": 6,
+        "fps": 30,
+        "views": "front3q,rear3q,left,paint,cockpit,rear_cabin",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "overcast/contact-sheet.png",
+      "contact_sheet_sha256": "d474c4d0783a2b468aea654d97308ca22f3ca27f8c35bb79aa7dd941fe59be91",
+      "sampled_contact_sheet_frames": [
+        "front3q",
+        "rear3q",
+        "left",
+        "paint",
+        "cockpit",
+        "rear_cabin"
+      ],
+      "actual_frame_count": 6
+    },
+    {
+      "label": "dusk",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\dusk\\manifest.json",
+      "input_manifest_sha256": "8c6f17c68ee1141d854685cd3eea43410ba09d53fc08f76c55e33381716560c9",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {
+          "headlights": 1.0
+        },
+        "lighting": "dusk",
+        "sequence": "none",
+        "frame_count": 6,
+        "fps": 30,
+        "views": "front3q,rear3q,left,paint,cockpit,rear_cabin",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "dusk/contact-sheet.png",
+      "contact_sheet_sha256": "2b2edfb8ecbc31589ffc300652890c8fa586f7fe44673353e7eee3f71a5aadc3",
+      "sampled_contact_sheet_frames": [
+        "front3q",
+        "rear3q",
+        "left",
+        "paint",
+        "cockpit",
+        "rear_cabin"
+      ],
+      "actual_frame_count": 6
+    },
+    {
+      "label": "night",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\night\\manifest.json",
+      "input_manifest_sha256": "a386192dd171fd4fcff6d17314cfa8729683626683f44a422fd64e170502649c",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {
+          "headlights": 1.0
+        },
+        "lighting": "night",
+        "sequence": "none",
+        "frame_count": 6,
+        "fps": 30,
+        "views": "front3q,rear3q,left,paint,cockpit,rear_cabin",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "night/contact-sheet.png",
+      "contact_sheet_sha256": "2f193fe17bdee3ab093a87d431d557a3b05a0e4663b99054d5ca12885e2ffa0a",
+      "sampled_contact_sheet_frames": [
+        "front3q",
+        "rear3q",
+        "left",
+        "paint",
+        "cockpit",
+        "rear_cabin"
+      ],
+      "actual_frame_count": 6
+    },
+    {
+      "label": "open-inspection-worklight",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\open-inspection-worklight\\manifest.json",
+      "input_manifest_sha256": "73bf3330773cf9addabd843b099b94f7731fa660357ebb483723168b51261d1c",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {
+          "Door_FL_open": 1.0,
+          "Door_FR_open": 1.0,
+          "Door_RL_open": 1.0,
+          "Door_RR_open": 1.0,
+          "Hood_Hinge_open": 1.0,
+          "Trunk_Hinge_open": 1.0
+        },
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 8,
+        "fps": 30,
+        "views": "front_door,rear_door,engine,trunk,hood_hinge,trunk_hinge,upholstery,rear_seats",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 20.0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "open-inspection-worklight/contact-sheet.png",
+      "contact_sheet_sha256": "92b1d00a01e4dfd241ef6bd532ebcb1cb3bb178d4988185341f47254a4d2bba1",
+      "sampled_contact_sheet_frames": [
+        "front_door",
+        "rear_door",
+        "engine",
+        "trunk",
+        "hood_hinge",
+        "trunk_hinge",
+        "upholstery",
+        "rear_seats"
+      ],
+      "actual_frame_count": 8
+    },
+    {
+      "label": "cabin-controls-worklight",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\cabin-controls-worklight\\manifest.json",
+      "input_manifest_sha256": "c9884c8835679d8955d7488de9f449148cfce3e0e07e7982d079f24ce0684450",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 3,
+        "fps": 30,
+        "views": "pedals,roof_front,roof_rear",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 20.0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "cabin-controls-worklight/contact-sheet.png",
+      "contact_sheet_sha256": "4c4c8fd4d3ee912f5270d9694baaaf46d3f22a35f7a380803520e61cf2772d92",
+      "sampled_contact_sheet_frames": [
+        "pedals",
+        "roof_front",
+        "roof_rear"
+      ],
+      "actual_frame_count": 3
+    },
+    {
+      "label": "steer-left-bump",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\steer-left-bump\\manifest.json",
+      "input_manifest_sha256": "21fa862119c78e3c5e4a6e7e8b2a293fdddd77c672dd6807b3e30051ff80b6f2",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 48,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {
+          "steering": -1.0,
+          "suspension": 0.085
+        },
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 4,
+        "fps": 30,
+        "views": "front3q,left,under,wheel",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "steer-left-bump/contact-sheet.png",
+      "contact_sheet_sha256": "8421d445dd57550fdb2614a25f14031ea023ca18c59469b7740821e1fc8ef6db",
+      "sampled_contact_sheet_frames": [
+        "front3q",
+        "left",
+        "under",
+        "wheel"
+      ],
+      "actual_frame_count": 4
+    },
+    {
+      "label": "steer-right-bump",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\steer-right-bump\\manifest.json",
+      "input_manifest_sha256": "0b46ea61b7371b8ce5b765017475a6b3c3d27a59f0b8e64fda6bc220523760ec",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 48,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {
+          "steering": 1.0,
+          "suspension": 0.085
+        },
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 4,
+        "fps": 30,
+        "views": "front3q,right,under,wheel",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "steer-right-bump/contact-sheet.png",
+      "contact_sheet_sha256": "67816650d239f8499fda6aad619e3de31220b362bf0597dc8be176ddb120be34",
+      "sampled_contact_sheet_frames": [
+        "front3q",
+        "right",
+        "under",
+        "wheel"
+      ],
+      "actual_frame_count": 4
+    },
+    {
+      "label": "steer-left-droop",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\steer-left-droop\\manifest.json",
+      "input_manifest_sha256": "617b9f6b408a6f4558060cb4c55a46a0f70c9290f82872a5d43de91c78f0bfe8",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 48,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {
+          "steering": -1.0,
+          "suspension": -0.075
+        },
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 4,
+        "fps": 30,
+        "views": "front3q,left,under,wheel",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "steer-left-droop/contact-sheet.png",
+      "contact_sheet_sha256": "ee40d16ef488d94f6439f36c134fa24e38221a9e93c68e21905cd6d7a0a009d2",
+      "sampled_contact_sheet_frames": [
+        "front3q",
+        "left",
+        "under",
+        "wheel"
+      ],
+      "actual_frame_count": 4
+    },
+    {
+      "label": "steer-right-droop",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\steer-right-droop\\manifest.json",
+      "input_manifest_sha256": "f447b44f74689446cf6db35e1e3fade58fdb715fa39776e1e0830a5638f6cdeb",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 48,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {
+          "steering": 1.0,
+          "suspension": -0.075
+        },
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 4,
+        "fps": 30,
+        "views": "front3q,right,under,wheel",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "steer-right-droop/contact-sheet.png",
+      "contact_sheet_sha256": "694e3331c76cf83e9de2ceef0fcf5f263f0efc36e05986eaf097e4f89b93440b",
+      "sampled_contact_sheet_frames": [
+        "front3q",
+        "right",
+        "under",
+        "wheel"
+      ],
+      "actual_frame_count": 4
+    },
+    {
+      "label": "restraints-worklight",
+      "kind": "Blender capture",
+      "input_manifest": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\source34-full-capture-suite-01\\restraints-worklight\\manifest.json",
+      "input_manifest_sha256": "daadd55100207cec4b80d32fd73e9284fab8b08883a97468fe2be6a8af195d3a",
+      "configuration": {
+        "source_sha256": "0b4220d5c3f0024054de17a3c36add3388a4f52be2046cc2b837f3bac9edf793",
+        "renderer_sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+        "blender": "5.1.2",
+        "build_hash": "ec6e62d40fa9",
+        "engine": "CYCLES",
+        "device": "GPU",
+        "devices": [
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "CUDA",
+            "enabled": false
+          },
+          {
+            "name": "AMD Ryzen 9 5900X 12-Core Processor",
+            "type": "CPU",
+            "enabled": false
+          },
+          {
+            "name": "NVIDIA GeForce RTX 3080 Ti",
+            "type": "OPTIX",
+            "enabled": true
+          }
+        ],
+        "size": [
+          2560,
+          1440
+        ],
+        "samples": 64,
+        "denoising": true,
+        "view_transform": "AgX",
+        "look": "AgX - Medium High Contrast",
+        "exposure": 0.0,
+        "clay": false,
+        "source_controls": {},
+        "lighting": "neutral",
+        "sequence": "none",
+        "frame_count": 2,
+        "fps": 30,
+        "views": "front_belt_left,rear_seats",
+        "ray_bounces": 10,
+        "source_timeline_fps": 60,
+        "inspection_fill_watts": 20.0,
+        "inspection_fill_disk_diameter_m": {
+          "default": 0.35,
+          "pedals": 0.14,
+          "rear_seats": 0.2,
+          "front_belt_left": 0.2
+        },
+        "inspection_fill_camera_local_m": [
+          0,
+          0,
+          0.025
+        ],
+        "denoiser": "OPENIMAGEDENOISE",
+        "denoising_use_gpu": true,
+        "denoising_prefilter": "ACCURATE",
+        "technical_overlay": null,
+        "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+        "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+        "material_swatches": {}
+      },
+      "contact_sheet": "restraints-worklight/contact-sheet.png",
+      "contact_sheet_sha256": "e05fca4e62b781b97f0d0b20555df865a16b8c05cc587acfa985cdac9f3b3649",
+      "sampled_contact_sheet_frames": [
+        "front_belt_left",
+        "rear_seats"
+      ],
+      "actual_frame_count": 2
+    }
+  ],
+  "human_approval_reference": null,
+  "ffmpeg": "ffmpeg version 9.0.1-essentials_build-www.gyan.dev Copyright (c) 2000-2026 the FFmpeg developers",
+  "gallery_sha256": "51b8b613e0313b43fb9c4b381182e0ead83a143864059c74e69a9b1ed5845b3f"
+}

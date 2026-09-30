@@ -1,0 +1,2 @@
+C:\Dev\sedan-builds\default03\project\tools\vehicles\create_endurance_sedan.py:97: DeprecationWarning: 'World.use_nodes' is expected to be removed in Blender 6.0
+  world=bpy.data.worlds.new('Neutral studio');world.use_nodes=True

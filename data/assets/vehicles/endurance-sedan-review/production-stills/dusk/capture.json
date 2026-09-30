@@ -1,0 +1,204 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\reports\\p1-018\\checkpoints\\production-33.blend",
+  "configuration": {
+    "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+    "renderer_sha256": "08b7c868fe0bd8b32e4cfa99c10aeb0655ae2ef32325d5ed501029e0dd73e057",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 64,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {
+      "headlights": 1.0
+    },
+    "lighting": "dusk",
+    "sequence": "none",
+    "frame_count": 6,
+    "fps": 30,
+    "views": "front3q,rear3q,left,paint,cockpit,rear_cabin",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 0,
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "cab803a00a40ad5b30367f32c012f789b75f6ab2a5e4312b2b66fe6511e3040f",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "front3q",
+      "capture_view": "front3q",
+      "path": "front3q.png",
+      "sha256": "34fe91531aed04c8427a27b6ca375af15eea20f828b7cce56d00418053adaea0",
+      "seconds": 4.354598999998416,
+      "cold": true,
+      "camera_location": [
+        -6,
+        7,
+        3.4
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "rear3q",
+      "capture_view": "rear3q",
+      "path": "rear3q.png",
+      "sha256": "f6013cb9a50d493956cc9cc38cf2e357da9077127d647aeaed7b75ca570d7ad8",
+      "seconds": 3.6772392999992007,
+      "cold": false,
+      "camera_location": [
+        6,
+        -7,
+        3.2
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.75
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "left",
+      "capture_view": "left",
+      "path": "left.png",
+      "sha256": "6805366d837e87fe8739ee1f2d7946b60f56ae04745e494baef87a7abef0be98",
+      "seconds": 2.0984726999959094,
+      "cold": false,
+      "camera_location": [
+        -8,
+        0,
+        0.78
+      ],
+      "camera_target": [
+        0,
+        0,
+        0.78
+      ],
+      "orthographic": true,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "paint",
+      "capture_view": "paint",
+      "path": "paint.png",
+      "sha256": "e66f9001520f3bd9ee09e9e2492eae80b09ed3547335c24996bbc129e6611496",
+      "seconds": 4.6360033999953885,
+      "cold": false,
+      "camera_location": [
+        -2.5,
+        3.2,
+        1.9
+      ],
+      "camera_target": [
+        -0.48,
+        1.73,
+        0.84
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "cockpit",
+      "capture_view": "cockpit",
+      "path": "cockpit.png",
+      "sha256": "02dc26483c8a7fa7ae06b2aaf02d7055c75894edc21e908c21661e6837f0e38c",
+      "seconds": 6.120755599993572,
+      "cold": false,
+      "camera_location": [
+        -0.43,
+        -0.39,
+        1.21
+      ],
+      "camera_target": [
+        -0.32,
+        0.7,
+        0.95
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    },
+    {
+      "view": "rear_cabin",
+      "capture_view": "rear_cabin",
+      "path": "rear_cabin.png",
+      "sha256": "0aed4a86ba6cb6905bb445e785ae0b042d2ea18e865f678902f944a96aaf279b",
+      "seconds": 5.958953599998495,
+      "cold": false,
+      "camera_location": [
+        0.0,
+        -1.2,
+        1.22
+      ],
+      "camera_target": [
+        0,
+        0.38,
+        0.72
+      ],
+      "orthographic": false,
+      "lens_mm": 24.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1,
+      "time_seconds": 0.0,
+      "animated_controls": {}
+    }
+  ]
+}

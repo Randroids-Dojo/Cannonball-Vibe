@@ -1,0 +1,1608 @@
+{
+  "all_required_nodes_resolved": true,
+  "asset_id": "endurance-sedan",
+  "automation_id": "vehicle.endurance-sedan.visual-rig",
+  "axis_mapping_verified": "source (x,y,z) -> Godot (x,z,-y)",
+  "bounds_godot_m": {
+    "maximum": [
+      1.04999995231628,
+      1.44983100891113,
+      2.54399871826172
+    ],
+    "minimum": [
+      -1.04999995231628,
+      0.0,
+      -2.39866161346436
+    ]
+  },
+  "collision_policy_verified": "authored two-box proxy dimensions match setup; actual RigidBody shape types are checked by the driving scenario",
+  "damage_zone_count": 5,
+  "generated_scene_sha256": "b7fee227a32b7c130776dea8bc210e0d8e5cb78d1c94bbd2e7474462d19d9e7a",
+  "glb_sha256": "1501414aad94cc5bb64fabc97305cb107b3b165a07b003814af5b3b6f23b5837",
+  "godot_version": "4.7.1.stable.mono.official.a13da4feb",
+  "hardpoint_measurements": {
+    "Camera_ChaseTarget": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.0,
+        0.879999995231628,
+        0.100000001490116
+      ],
+      "measured_godot_m": [
+        0.0,
+        0.879999995231628,
+        0.100000001490116
+      ]
+    },
+    "Camera_Cockpit": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.430000007152557,
+        1.21000003814697,
+        0.389999985694885
+      ],
+      "measured_godot_m": [
+        -0.430000007152557,
+        1.21000003814697,
+        0.389999985694885
+      ]
+    },
+    "Contact_FL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.810000002384186,
+        0.0,
+        -1.46000003814697
+      ],
+      "measured_godot_m": [
+        -0.810000002384186,
+        0.0,
+        -1.46000003814697
+      ]
+    },
+    "Contact_FR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.810000002384186,
+        0.0,
+        -1.46000003814697
+      ],
+      "measured_godot_m": [
+        0.810000002384186,
+        0.0,
+        -1.46000003814697
+      ]
+    },
+    "Contact_RL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.805000007152557,
+        0.0,
+        1.46000003814697
+      ],
+      "measured_godot_m": [
+        -0.805000007152557,
+        0.0,
+        1.46000003814697
+      ]
+    },
+    "Contact_RR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.805000007152557,
+        0.0,
+        1.46000003814697
+      ],
+      "measured_godot_m": [
+        0.805000007152557,
+        0.0,
+        1.46000003814697
+      ]
+    },
+    "Door_FL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.915000021457672,
+        0.5,
+        -0.720000028610229
+      ],
+      "measured_godot_m": [
+        -0.915000021457672,
+        0.5,
+        -0.720000028610229
+      ]
+    },
+    "Door_FR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.915000021457672,
+        0.5,
+        -0.720000028610229
+      ],
+      "measured_godot_m": [
+        0.915000021457672,
+        0.5,
+        -0.720000028610229
+      ]
+    },
+    "Door_RL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.915000021457672,
+        0.5,
+        0.584999978542328
+      ],
+      "measured_godot_m": [
+        -0.915000021457672,
+        0.5,
+        0.584999978542328
+      ]
+    },
+    "Door_RR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.915000021457672,
+        0.5,
+        0.584999978542328
+      ],
+      "measured_godot_m": [
+        0.915000021457672,
+        0.5,
+        0.584999978542328
+      ]
+    },
+    "Driver_Reference": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.430000007152557,
+        0.449999988079071,
+        0.159999996423721
+      ],
+      "measured_godot_m": [
+        -0.430000007152557,
+        0.449999988079071,
+        0.159999996423721
+      ]
+    },
+    "Exhaust_L": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.629999995231628,
+        0.259999990463257,
+        2.48000001907349
+      ],
+      "measured_godot_m": [
+        -0.629999995231628,
+        0.259999990463257,
+        2.48000001907349
+      ]
+    },
+    "Exhaust_R": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.629999995231628,
+        0.259999990463257,
+        2.48000001907349
+      ],
+      "measured_godot_m": [
+        0.629999995231628,
+        0.259999990463257,
+        2.48000001907349
+      ]
+    },
+    "Hood_Hinge": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.0,
+        0.990000009536743,
+        -0.769999980926514
+      ],
+      "measured_godot_m": [
+        0.0,
+        0.990000009536743,
+        -0.769999980926514
+      ]
+    },
+    "Instrument_Cluster": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.430000007152557,
+        1.05999994277954,
+        -0.400000005960464
+      ],
+      "measured_godot_m": [
+        -0.430000007152557,
+        1.05999994277954,
+        -0.400000005960464
+      ]
+    },
+    "Light_Brake_Center": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.0,
+        1.01400005817413,
+        1.91999995708466
+      ],
+      "measured_godot_m": [
+        0.0,
+        1.01400005817413,
+        1.91999995708466
+      ]
+    },
+    "Light_Brake_L": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.649999976158142,
+        0.855000019073486,
+        2.49000000953674
+      ],
+      "measured_godot_m": [
+        -0.649999976158142,
+        0.855000019073486,
+        2.49000000953674
+      ]
+    },
+    "Light_Brake_R": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.649999976158142,
+        0.855000019073486,
+        2.49000000953674
+      ],
+      "measured_godot_m": [
+        0.649999976158142,
+        0.855000019073486,
+        2.49000000953674
+      ]
+    },
+    "Light_Head_FL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.634999990463257,
+        0.735000014305115,
+        -2.30999994277954
+      ],
+      "measured_godot_m": [
+        -0.634999990463257,
+        0.735000014305115,
+        -2.30999994277954
+      ]
+    },
+    "Light_Head_FR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.634999990463257,
+        0.735000014305115,
+        -2.30999994277954
+      ],
+      "measured_godot_m": [
+        0.634999990463257,
+        0.735000014305115,
+        -2.30999994277954
+      ]
+    },
+    "Light_Indicator_FL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.720000028610229,
+        0.769999980926514,
+        -2.3199999332428
+      ],
+      "measured_godot_m": [
+        -0.720000028610229,
+        0.769999980926514,
+        -2.3199999332428
+      ]
+    },
+    "Light_Indicator_FR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.720000028610229,
+        0.769999980926514,
+        -2.3199999332428
+      ],
+      "measured_godot_m": [
+        0.720000028610229,
+        0.769999980926514,
+        -2.3199999332428
+      ]
+    },
+    "Light_Indicator_RL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.790000021457672,
+        0.860000014305115,
+        2.49000000953674
+      ],
+      "measured_godot_m": [
+        -0.790000021457672,
+        0.860000014305115,
+        2.49000000953674
+      ]
+    },
+    "Light_Indicator_RR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.790000021457672,
+        0.860000014305115,
+        2.49000000953674
+      ],
+      "measured_godot_m": [
+        0.790000021457672,
+        0.860000014305115,
+        2.49000000953674
+      ]
+    },
+    "Light_Reverse_L": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.419999986886978,
+        0.839999973773956,
+        2.49000000953674
+      ],
+      "measured_godot_m": [
+        -0.419999986886978,
+        0.839999973773956,
+        2.49000000953674
+      ]
+    },
+    "Light_Reverse_R": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.419999986886978,
+        0.839999973773956,
+        2.49000000953674
+      ],
+      "measured_godot_m": [
+        0.419999986886978,
+        0.839999973773956,
+        2.49000000953674
+      ]
+    },
+    "Light_Tail_RL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.649999976158142,
+        0.870000004768372,
+        2.48499989509583
+      ],
+      "measured_godot_m": [
+        -0.649999976158142,
+        0.870000004768372,
+        2.48499989509583
+      ]
+    },
+    "Light_Tail_RR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.649999976158142,
+        0.870000004768372,
+        2.48499989509583
+      ],
+      "measured_godot_m": [
+        0.649999976158142,
+        0.870000004768372,
+        2.48499989509583
+      ]
+    },
+    "MirrorCamera_Left": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -1.01999998092651,
+        1.06500005722046,
+        -0.546999990940094
+      ],
+      "measured_godot_m": [
+        -1.01999998092651,
+        1.06500005722046,
+        -0.546999990940094
+      ]
+    },
+    "MirrorCamera_Rear": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.0,
+        1.29299998283386,
+        -0.159999996423721
+      ],
+      "measured_godot_m": [
+        0.0,
+        1.29299998283386,
+        -0.159999996423721
+      ]
+    },
+    "MirrorCamera_Right": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        1.01999998092651,
+        1.06500005722046,
+        -0.546999990940094
+      ],
+      "measured_godot_m": [
+        1.01999998092651,
+        1.06500005722046,
+        -0.546999990940094
+      ]
+    },
+    "Mirror_Left": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.976999998092651,
+        1.04299998283386,
+        -0.600000023841858
+      ],
+      "measured_godot_m": [
+        -0.976999998092651,
+        1.04299998283386,
+        -0.600000023841858
+      ]
+    },
+    "Mirror_Rear": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.0,
+        1.29299998283386,
+        -0.200000002980232
+      ],
+      "measured_godot_m": [
+        0.0,
+        1.29299998283386,
+        -0.200000002980232
+      ]
+    },
+    "Mirror_Right": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.976999998092651,
+        1.04299998283386,
+        -0.600000023841858
+      ],
+      "measured_godot_m": [
+        0.976999998092651,
+        1.04299998283386,
+        -0.600000023841858
+      ]
+    },
+    "Pedal_Accelerator": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.280000001192093,
+        0.280000001192093,
+        -0.720000028610229
+      ],
+      "measured_godot_m": [
+        -0.280000001192093,
+        0.280000001192093,
+        -0.720000028610229
+      ]
+    },
+    "Pedal_Brake": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.469999998807907,
+        0.280000001192093,
+        -0.720000028610229
+      ],
+      "measured_godot_m": [
+        -0.469999998807907,
+        0.280000001192093,
+        -0.720000028610229
+      ]
+    },
+    "SteeringWheel_Pivot": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.430000007152557,
+        0.855000019073486,
+        -0.209999993443489
+      ],
+      "measured_godot_m": [
+        -0.430000007152557,
+        0.855000019073486,
+        -0.209999993443489
+      ]
+    },
+    "Suspension_FL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.810000002384186,
+        0.343300014734268,
+        -1.46000003814697
+      ],
+      "measured_godot_m": [
+        -0.810000002384186,
+        0.343300014734268,
+        -1.46000003814697
+      ]
+    },
+    "Suspension_FR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.810000002384186,
+        0.343300014734268,
+        -1.46000003814697
+      ],
+      "measured_godot_m": [
+        0.810000002384186,
+        0.343300014734268,
+        -1.46000003814697
+      ]
+    },
+    "Suspension_RL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.805000007152557,
+        0.343300014734268,
+        1.46000003814697
+      ],
+      "measured_godot_m": [
+        -0.805000007152557,
+        0.343300014734268,
+        1.46000003814697
+      ]
+    },
+    "Suspension_RR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.805000007152557,
+        0.343300014734268,
+        1.46000003814697
+      ],
+      "measured_godot_m": [
+        0.805000007152557,
+        0.343300014734268,
+        1.46000003814697
+      ]
+    },
+    "Trunk_Hinge": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.0,
+        0.990000009536743,
+        1.99600005149841
+      ],
+      "measured_godot_m": [
+        0.0,
+        0.990000009536743,
+        1.99600005149841
+      ]
+    },
+    "Wheel_FL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.810000002384186,
+        0.343300014734268,
+        -1.46000003814697
+      ],
+      "measured_godot_m": [
+        -0.810000002384186,
+        0.343300014734268,
+        -1.46000003814697
+      ]
+    },
+    "Wheel_FR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.810000002384186,
+        0.343300014734268,
+        -1.46000003814697
+      ],
+      "measured_godot_m": [
+        0.810000002384186,
+        0.343300014734268,
+        -1.46000003814697
+      ]
+    },
+    "Wheel_RL": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.805000007152557,
+        0.343300014734268,
+        1.46000003814697
+      ],
+      "measured_godot_m": [
+        -0.805000007152557,
+        0.343300014734268,
+        1.46000003814697
+      ]
+    },
+    "Wheel_RR": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.805000007152557,
+        0.343300014734268,
+        1.46000003814697
+      ],
+      "measured_godot_m": [
+        0.805000007152557,
+        0.343300014734268,
+        1.46000003814697
+      ]
+    },
+    "Wiper_L": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        -0.529999971389771,
+        0.985000014305115,
+        -0.735000014305115
+      ],
+      "measured_godot_m": [
+        -0.529999971389771,
+        0.985000014305115,
+        -0.735000014305115
+      ]
+    },
+    "Wiper_R": {
+      "error_m": 0.0,
+      "expected_godot_m": [
+        0.0599999986588955,
+        0.985000014305115,
+        -0.735000014305115
+      ],
+      "measured_godot_m": [
+        0.0599999986588955,
+        0.985000014305115,
+        -0.735000014305115
+      ]
+    }
+  },
+  "import_settings_sha256": "8316e81ad6cb9f8e228e3183554ffbdfcb3d6c1ca626fce266fc2119747e40ae",
+  "lod_count": 3,
+  "measured_dimensions_m": {
+    "body_width": 1.90250706672668,
+    "length": 4.94266033172607,
+    "mirror_width": 2.09999990463257
+  },
+  "mechanism_rest_bases_verified": [
+    "Door_FL",
+    "Door_FR",
+    "Door_RL",
+    "Door_RR",
+    "Hood_Hinge",
+    "Trunk_Hinge",
+    "SteeringWheel_Pivot",
+    "Pedal_Accelerator",
+    "Pedal_Brake",
+    "Wiper_L",
+    "Wiper_R"
+  ],
+  "mesh_nodes": [
+    "LOD0_Batch_069_Visual_LOD0_Material_AcousticCloth",
+    "LOD0_Batch_070_Visual_LOD0_Material_Alloy",
+    "LOD0_Batch_071_Visual_LOD0_Material_BrakeLight",
+    "LOD0_Batch_072_Visual_LOD0_Material_Carpet",
+    "LOD0_Batch_073_Visual_LOD0_Material_CoolingCore",
+    "LOD0_Batch_074_Visual_LOD0_Material_Fabric",
+    "LOD0_Batch_075_Visual_LOD0_Material_Glass",
+    "LOD0_Batch_076_Visual_LOD0_Material_GlassPrivacy",
+    "LOD0_Batch_077_Visual_LOD0_Material_Headlight",
+    "LOD0_Batch_078_Visual_LOD0_Material_Leather",
+    "LOD0_Batch_079_Visual_LOD0_Material_Metal",
+    "LOD0_Batch_080_Visual_LOD0_Material_Mirror",
+    "LOD0_Batch_081_Visual_LOD0_Material_OpticalGlass",
+    "LOD0_Batch_082_Visual_LOD0_Material_Paint",
+    "LOD0_Batch_083_Visual_LOD0_Material_Plate",
+    "LOD0_Batch_084_Visual_LOD0_Material_Rubber",
+    "LOD0_Batch_085_Visual_LOD0_Material_Screen",
+    "LOD0_Batch_086_Visual_LOD0_Material_Stitch",
+    "LOD0_Batch_087_Visual_LOD0_Material_Taillight",
+    "LOD0_Batch_088_Visual_LOD0_Material_Trim",
+    "LOD0_Batch_089_Visual_LOD0_Material",
+    "LOD0_CabinFloor",
+    "LOD0_ClimateSetpoint_-0_143",
+    "LOD0_ClimateSetpoint_0_143",
+    "LOD0_FrontBumper",
+    "LOD0_FrontFender_L",
+    "LOD0_FrontFender_R",
+    "LOD0_FrontUndertray_-1",
+    "LOD0_FrontUndertray_1",
+    "LOD0_MainFuelLobe_-1",
+    "LOD0_MainFuelLobe_1",
+    "LOD0_Mirror_RearHousing",
+    "LOD0_NavigationTitle",
+    "LOD0_RadioDisplay",
+    "LOD0_RearBumper",
+    "LOD0_RearMirrorMountPad",
+    "LOD0_RearMirrorStalk",
+    "LOD0_Roof",
+    "LOD0_StructuralBody",
+    "LOD0_Sump",
+    "LOD0_TransferPump",
+    "LOD0_V8Crankcase",
+    "LOD1_Batch_046_Visual_LOD1_Material_Carpet",
+    "LOD1_Batch_047_Visual_LOD1_Material_CoolingCore",
+    "LOD1_Batch_048_Visual_LOD1_Material_Fabric",
+    "LOD1_Batch_051_Visual_LOD1_Material_Leather",
+    "LOD1_Batch_052_Visual_LOD1_Material_Metal",
+    "LOD1_Batch_053_Visual_LOD1_Material_Mirror",
+    "LOD1_Batch_054_Visual_LOD1_Material_OpticalGlass",
+    "LOD1_Batch_055_Visual_LOD1_Material_Paint_BoundaryRemainder",
+    "LOD1_Batch_056_Visual_LOD1_Material_Plate",
+    "LOD1_Batch_057_Visual_LOD1_Material_Rubber_BoundaryRemainder",
+    "LOD1_Batch_058_Visual_LOD1_Material_Screen",
+    "LOD1_Batch_059_Visual_LOD1_Material_Taillight",
+    "LOD1_Batch_060_Visual_LOD1_Material_Trim",
+    "LOD1_Batch_061_Visual_LOD1_Material",
+    "LOD1_Field_Backlight",
+    "LOD1_Field_Windshield",
+    "LOD1_MixedProtectedFront",
+    "LOD1_OriginalWindshieldSeal",
+    "LOD1_ProtectedUpperA_L",
+    "LOD1_ProtectedUpperA_R",
+    "LOD2_Batch_046_Visual_LOD2_Material_Carpet",
+    "LOD2_Batch_047_Visual_LOD2_Material_CoolingCore",
+    "LOD2_Batch_048_Visual_LOD2_Material_Fabric",
+    "LOD2_Batch_051_Visual_LOD2_Material_Leather",
+    "LOD2_Batch_052_Visual_LOD2_Material_Metal",
+    "LOD2_Batch_053_Visual_LOD2_Material_Mirror",
+    "LOD2_Batch_054_Visual_LOD2_Material_OpticalGlass",
+    "LOD2_Batch_055_Visual_LOD2_Material_Paint_BoundaryRemainder",
+    "LOD2_Batch_056_Visual_LOD2_Material_Plate",
+    "LOD2_Batch_057_Visual_LOD2_Material_Rubber_BoundaryRemainder",
+    "LOD2_Batch_058_Visual_LOD2_Material_Screen",
+    "LOD2_Batch_059_Visual_LOD2_Material_Taillight",
+    "LOD2_Batch_060_Visual_LOD2_Material_Trim",
+    "LOD2_Batch_061_Visual_LOD2_Material",
+    "LOD2_Field_Backlight",
+    "LOD2_Field_Windshield",
+    "LOD2_MixedProtectedFront",
+    "LOD2_OriginalWindshieldSeal",
+    "LOD2_ProtectedUpperA_L",
+    "LOD2_ProtectedUpperA_R",
+    "CollisionProxy_Body",
+    "CollisionProxy_Cabin",
+    "LOD0_Batch_000_Door_FL_Material_AcousticCloth",
+    "LOD0_Batch_001_Door_FL_Material_Alloy",
+    "LOD0_Batch_002_Door_FL_Material_Fabric",
+    "LOD0_Batch_003_Door_FL_Material_Glass",
+    "LOD0_Batch_004_Door_FL_Material_Leather",
+    "LOD0_Batch_005_Door_FL_Material_Metal",
+    "LOD0_Batch_006_Door_FL_Material_Paint",
+    "LOD0_Batch_007_Door_FL_Material_Rubber",
+    "LOD0_Batch_008_Door_FL_Material_Trim",
+    "LOD0_Batch_009_Door_FL_Material",
+    "LOD0_Door_FL",
+    "LOD0_Mirror_LeftHousing",
+    "LOD0_Mirror_LeftStalk",
+    "LOD1_Batch_000_Door_FL_Material_Glass",
+    "LOD1_Batch_001_Door_FL_Material_Leather",
+    "LOD1_Batch_002_Door_FL_Material_Paint",
+    "LOD1_Batch_003_Door_FL_Material_Rubber",
+    "LOD1_Batch_004_Door_FL_Material_Trim",
+    "LOD2_Batch_000_Door_FL_Material_Glass",
+    "LOD2_Batch_001_Door_FL_Material_Leather",
+    "LOD2_Batch_002_Door_FL_Material_Paint",
+    "LOD2_Batch_003_Door_FL_Material_Rubber",
+    "LOD2_Batch_004_Door_FL_Material_Trim",
+    "LOD0_Mirror_LeftSurface",
+    "LOD1_Batch_035_Mirror_Left_Material_Mirror",
+    "LOD2_Batch_035_Mirror_Left_Material_Mirror",
+    "LOD0_Batch_010_Door_FR_Material_AcousticCloth",
+    "LOD0_Batch_011_Door_FR_Material_Alloy",
+    "LOD0_Batch_012_Door_FR_Material_Fabric",
+    "LOD0_Batch_013_Door_FR_Material_Glass",
+    "LOD0_Batch_014_Door_FR_Material_Leather",
+    "LOD0_Batch_015_Door_FR_Material_Metal",
+    "LOD0_Batch_016_Door_FR_Material_Paint",
+    "LOD0_Batch_017_Door_FR_Material_Rubber",
+    "LOD0_Batch_018_Door_FR_Material_Trim",
+    "LOD0_Batch_019_Door_FR_Material",
+    "LOD0_Door_FR",
+    "LOD0_DoorFrame_FR",
+    "LOD0_DoorGlassSeal_FR",
+    "LOD0_Mirror_RightHousing",
+    "LOD0_Mirror_RightStalk",
+    "LOD1_Batch_005_Door_FR_Material_Glass",
+    "LOD1_Batch_006_Door_FR_Material_Leather",
+    "LOD1_Batch_007_Door_FR_Material_Paint",
+    "LOD1_Batch_008_Door_FR_Material_Rubber",
+    "LOD1_Batch_009_Door_FR_Material_Trim",
+    "LOD2_Batch_005_Door_FR_Material_Glass",
+    "LOD2_Batch_006_Door_FR_Material_Leather",
+    "LOD2_Batch_007_Door_FR_Material_Paint",
+    "LOD2_Batch_008_Door_FR_Material_Rubber",
+    "LOD2_Batch_009_Door_FR_Material_Trim",
+    "LOD0_Mirror_RightSurface",
+    "LOD1_Batch_037_Mirror_Right_Material_Mirror",
+    "LOD2_Batch_037_Mirror_Right_Material_Mirror",
+    "LOD0_Batch_020_Door_RL_Material_AcousticCloth",
+    "LOD0_Batch_021_Door_RL_Material_Alloy",
+    "LOD0_Batch_022_Door_RL_Material_Fabric",
+    "LOD0_Batch_023_Door_RL_Material_GlassPrivacy",
+    "LOD0_Batch_024_Door_RL_Material_Leather",
+    "LOD0_Batch_025_Door_RL_Material_Metal",
+    "LOD0_Batch_026_Door_RL_Material_Paint",
+    "LOD0_Batch_027_Door_RL_Material_Rubber",
+    "LOD0_Batch_028_Door_RL_Material_Trim",
+    "LOD0_Batch_029_Door_RL_Material",
+    "LOD0_Door_RL",
+    "LOD0_DoorCard_RL",
+    "LOD1_Batch_010_Door_RL_Material_GlassPrivacy",
+    "LOD1_Batch_011_Door_RL_Material_Leather",
+    "LOD1_Batch_012_Door_RL_Material_Paint",
+    "LOD1_Batch_013_Door_RL_Material_Rubber",
+    "LOD1_Batch_014_Door_RL_Material_Trim",
+    "LOD2_Batch_010_Door_RL_Material_GlassPrivacy",
+    "LOD2_Batch_011_Door_RL_Material_Leather",
+    "LOD2_Batch_012_Door_RL_Material_Paint",
+    "LOD2_Batch_013_Door_RL_Material_Rubber",
+    "LOD2_Batch_014_Door_RL_Material_Trim",
+    "LOD0_Batch_030_Door_RR_Material_AcousticCloth",
+    "LOD0_Batch_031_Door_RR_Material_Alloy",
+    "LOD0_Batch_032_Door_RR_Material_Fabric",
+    "LOD0_Batch_033_Door_RR_Material_GlassPrivacy",
+    "LOD0_Batch_034_Door_RR_Material_Leather",
+    "LOD0_Batch_035_Door_RR_Material_Metal",
+    "LOD0_Batch_036_Door_RR_Material_Paint",
+    "LOD0_Batch_037_Door_RR_Material_Rubber",
+    "LOD0_Batch_038_Door_RR_Material_Trim",
+    "LOD0_Batch_039_Door_RR_Material",
+    "LOD0_Door_RR",
+    "LOD0_DoorCard_RR",
+    "LOD1_Batch_015_Door_RR_Material_GlassPrivacy",
+    "LOD1_Batch_016_Door_RR_Material_Leather",
+    "LOD1_Batch_017_Door_RR_Material_Paint",
+    "LOD1_Batch_018_Door_RR_Material_Rubber",
+    "LOD1_Batch_019_Door_RR_Material_Trim",
+    "LOD2_Batch_015_Door_RR_Material_GlassPrivacy",
+    "LOD2_Batch_016_Door_RR_Material_Leather",
+    "LOD2_Batch_017_Door_RR_Material_Paint",
+    "LOD2_Batch_018_Door_RR_Material_Rubber",
+    "LOD2_Batch_019_Door_RR_Material_Trim",
+    "LOD0_Batch_040_Hood_Hinge_Material_Metal",
+    "LOD0_Batch_041_Hood_Hinge_Material_Paint",
+    "LOD0_Batch_042_Hood_Hinge_Material_Trim",
+    "LOD0_Hood",
+    "LOD1_Batch_020_Hood_Hinge_Material_Paint",
+    "LOD2_Batch_020_Hood_Hinge_Material_Paint",
+    "LOD0_Batch_043_Instrument_Cluster_Material_Screen",
+    "LOD1_Batch_021_Instrument_Cluster_Material_Screen",
+    "LOD2_Batch_021_Instrument_Cluster_Material_Screen",
+    "LOD0_Batch_044_Light_Brake_Center_Material_BrakeLight",
+    "LOD1_Batch_022_Light_Brake_Center_Material_BrakeLight",
+    "LOD2_Batch_022_Light_Brake_Center_Material_BrakeLight",
+    "LOD0_Batch_045_Light_Brake_L_Material_BrakeLight",
+    "LOD1_Batch_023_Light_Brake_L_Material_BrakeLight",
+    "LOD2_Batch_023_Light_Brake_L_Material_BrakeLight",
+    "LOD0_Batch_046_Light_Brake_R_Material_BrakeLight",
+    "LOD1_Batch_024_Light_Brake_R_Material_BrakeLight",
+    "LOD2_Batch_024_Light_Brake_R_Material_BrakeLight",
+    "LOD0_Batch_047_Light_Head_FL_Material_Headlight",
+    "LOD1_Batch_025_Light_Head_FL_Material_Headlight",
+    "LOD2_Batch_025_Light_Head_FL_Material_Headlight",
+    "LOD0_Batch_048_Light_Head_FR_Material_Headlight",
+    "LOD1_Batch_026_Light_Head_FR_Material_Headlight",
+    "LOD2_Batch_026_Light_Head_FR_Material_Headlight",
+    "LOD0_Batch_049_Light_Indicator_FL_Material_IndicatorLeft",
+    "LOD1_Batch_027_Light_Indicator_FL_Material_IndicatorLeft",
+    "LOD2_Batch_027_Light_Indicator_FL_Material_IndicatorLeft",
+    "LOD0_Batch_050_Light_Indicator_FR_Material_IndicatorRight",
+    "LOD1_Batch_028_Light_Indicator_FR_Material_IndicatorRight",
+    "LOD2_Batch_028_Light_Indicator_FR_Material_IndicatorRight",
+    "LOD0_Batch_051_Light_Indicator_RL_Material_IndicatorLeft",
+    "LOD1_Batch_029_Light_Indicator_RL_Material_IndicatorLeft",
+    "LOD2_Batch_029_Light_Indicator_RL_Material_IndicatorLeft",
+    "LOD0_Batch_052_Light_Indicator_RR_Material_IndicatorRight",
+    "LOD1_Batch_030_Light_Indicator_RR_Material_IndicatorRight",
+    "LOD2_Batch_030_Light_Indicator_RR_Material_IndicatorRight",
+    "LOD0_Batch_053_Light_Reverse_L_Material_ReverseLight",
+    "LOD1_Batch_031_Light_Reverse_L_Material_ReverseLight",
+    "LOD2_Batch_031_Light_Reverse_L_Material_ReverseLight",
+    "LOD0_Batch_054_Light_Reverse_R_Material_ReverseLight",
+    "LOD1_Batch_032_Light_Reverse_R_Material_ReverseLight",
+    "LOD2_Batch_032_Light_Reverse_R_Material_ReverseLight",
+    "LOD0_Batch_055_Light_Tail_RL_Material_Taillight",
+    "LOD1_Batch_033_Light_Tail_RL_Material_Taillight",
+    "LOD2_Batch_033_Light_Tail_RL_Material_Taillight",
+    "LOD0_Batch_056_Light_Tail_RR_Material_Taillight",
+    "LOD1_Batch_034_Light_Tail_RR_Material_Taillight",
+    "LOD2_Batch_034_Light_Tail_RR_Material_Taillight",
+    "LOD0_Mirror_RearSurface",
+    "LOD1_Batch_036_Mirror_Rear_Material_Mirror",
+    "LOD2_Batch_036_Mirror_Rear_Material_Mirror",
+    "LOD0_Batch_057_Pedal_Accelerator_Material_Metal",
+    "LOD0_Pedal_AcceleratorPad",
+    "LOD0_Batch_058_Pedal_Brake_Material_Metal",
+    "LOD0_Pedal_BrakePad",
+    "LOD0_Batch_059_SteeringWheel_Pivot_Material_Leather",
+    "LOD0_Batch_060_SteeringWheel_Pivot_Material_Trim",
+    "LOD0_Batch_061_SteeringWheel_Pivot_Material",
+    "LOD1_Batch_038_SteeringWheel_Pivot_Material_Leather",
+    "LOD1_Batch_039_SteeringWheel_Pivot_Material_Trim",
+    "LOD1_Batch_040_SteeringWheel_Pivot_Material",
+    "LOD2_Batch_038_SteeringWheel_Pivot_Material_Leather",
+    "LOD2_Batch_039_SteeringWheel_Pivot_Material_Trim",
+    "LOD2_Batch_040_SteeringWheel_Pivot_Material",
+    "LOD0_Batch_062_Suspension_FL_Material_Caliper",
+    "LOD1_Batch_041_Suspension_FL_Material_Caliper",
+    "LOD2_Batch_041_Suspension_FL_Material_Caliper",
+    "LOD0_Batch_090_Wheel_FL_Material_Alloy",
+    "LOD0_Batch_091_Wheel_FL_Material_Metal",
+    "LOD0_Batch_092_Wheel_FL_Material_Rubber",
+    "LOD0_Batch_093_Wheel_FL_Material",
+    "LOD0_Tire_FL",
+    "LOD1_Batch_062_Wheel_FL_Material_Alloy",
+    "LOD1_Batch_063_Wheel_FL_Material_Metal",
+    "LOD1_Batch_065_Wheel_FL_Material",
+    "LOD1_DistantTire_FL",
+    "LOD2_Batch_062_Wheel_FL_Material_Alloy",
+    "LOD2_Batch_063_Wheel_FL_Material_Metal",
+    "LOD2_Batch_064_Wheel_FL_Material_Rubber",
+    "LOD2_Batch_065_Wheel_FL_Material",
+    "LOD0_Batch_063_Suspension_FR_Material_Caliper",
+    "LOD1_Batch_042_Suspension_FR_Material_Caliper",
+    "LOD2_Batch_042_Suspension_FR_Material_Caliper",
+    "LOD0_Batch_094_Wheel_FR_Material_Alloy",
+    "LOD0_Batch_095_Wheel_FR_Material_Metal",
+    "LOD0_Batch_096_Wheel_FR_Material_Rubber",
+    "LOD0_Batch_097_Wheel_FR_Material",
+    "LOD0_Tire_FR",
+    "LOD1_Batch_066_Wheel_FR_Material_Alloy",
+    "LOD1_Batch_067_Wheel_FR_Material_Metal",
+    "LOD1_Batch_069_Wheel_FR_Material",
+    "LOD1_DistantTire_FR",
+    "LOD2_Batch_066_Wheel_FR_Material_Alloy",
+    "LOD2_Batch_067_Wheel_FR_Material_Metal",
+    "LOD2_Batch_068_Wheel_FR_Material_Rubber",
+    "LOD2_Batch_069_Wheel_FR_Material",
+    "LOD0_Batch_064_Suspension_RL_Material_Caliper",
+    "LOD1_Batch_043_Suspension_RL_Material_Caliper",
+    "LOD2_Batch_043_Suspension_RL_Material_Caliper",
+    "LOD0_Batch_098_Wheel_RL_Material_Alloy",
+    "LOD0_Batch_099_Wheel_RL_Material_Metal",
+    "LOD0_Batch_100_Wheel_RL_Material_Rubber",
+    "LOD0_Batch_101_Wheel_RL_Material",
+    "LOD0_Tire_RL",
+    "LOD1_Batch_070_Wheel_RL_Material_Alloy",
+    "LOD1_Batch_071_Wheel_RL_Material_Metal",
+    "LOD1_Batch_073_Wheel_RL_Material",
+    "LOD1_DistantTire_RL",
+    "LOD2_Batch_070_Wheel_RL_Material_Alloy",
+    "LOD2_Batch_071_Wheel_RL_Material_Metal",
+    "LOD2_Batch_072_Wheel_RL_Material_Rubber",
+    "LOD2_Batch_073_Wheel_RL_Material",
+    "LOD0_Batch_065_Suspension_RR_Material_Caliper",
+    "LOD1_Batch_044_Suspension_RR_Material_Caliper",
+    "LOD2_Batch_044_Suspension_RR_Material_Caliper",
+    "LOD0_Batch_102_Wheel_RR_Material_Alloy",
+    "LOD0_Batch_103_Wheel_RR_Material_Metal",
+    "LOD0_Batch_104_Wheel_RR_Material_Rubber",
+    "LOD0_Batch_105_Wheel_RR_Material",
+    "LOD0_Tire_RR",
+    "LOD1_Batch_074_Wheel_RR_Material_Alloy",
+    "LOD1_Batch_075_Wheel_RR_Material_Metal",
+    "LOD1_Batch_077_Wheel_RR_Material",
+    "LOD1_DistantTire_RR",
+    "LOD2_Batch_074_Wheel_RR_Material_Alloy",
+    "LOD2_Batch_075_Wheel_RR_Material_Metal",
+    "LOD2_Batch_076_Wheel_RR_Material_Rubber",
+    "LOD2_Batch_077_Wheel_RR_Material",
+    "LOD0_Batch_066_Trunk_Hinge_Material_Metal",
+    "LOD0_Batch_067_Trunk_Hinge_Material_Paint",
+    "LOD0_Batch_068_Trunk_Hinge_Material_Trim",
+    "LOD0_Trunk",
+    "LOD1_Batch_045_Trunk_Hinge_Material_Paint",
+    "LOD2_Batch_045_Trunk_Hinge_Material_Paint",
+    "LOD0_Batch_106_Wiper_L_Material_Rubber",
+    "LOD0_Batch_107_Wiper_L_Material_Trim",
+    "LOD1_Batch_078_Wiper_L_Material_Rubber",
+    "LOD1_Batch_079_Wiper_L_Material_Trim",
+    "LOD2_Batch_078_Wiper_L_Material_Rubber",
+    "LOD2_Batch_079_Wiper_L_Material_Trim",
+    "LOD0_Batch_108_Wiper_R_Material_Rubber",
+    "LOD0_Batch_109_Wiper_R_Material_Trim",
+    "LOD1_Batch_080_Wiper_R_Material_Rubber",
+    "LOD1_Batch_081_Wiper_R_Material_Trim",
+    "LOD2_Batch_080_Wiper_R_Material_Rubber",
+    "LOD2_Batch_081_Wiper_R_Material_Trim"
+  ],
+  "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
+  "rear_track_meters": 1.61000001430511,
+  "release_dependency_count": 4,
+  "release_depends_on_blender": false,
+  "release_depends_on_test_automation": false,
+  "required_nodes": [
+    "AssetRoot",
+    "Chassis",
+    "Visual_LOD0",
+    "Visual_LOD1",
+    "Visual_LOD2",
+    "CollisionProxy",
+    "Wheel_FL",
+    "Wheel_FR",
+    "Wheel_RL",
+    "Wheel_RR",
+    "Suspension_FL",
+    "Suspension_FR",
+    "Suspension_RL",
+    "Suspension_RR",
+    "Contact_FL",
+    "Contact_FR",
+    "Contact_RL",
+    "Contact_RR",
+    "Camera_ChaseTarget",
+    "Camera_Cockpit",
+    "Light_Head_FL",
+    "Light_Head_FR",
+    "Light_Tail_RL",
+    "Light_Tail_RR",
+    "Exhaust_L",
+    "Exhaust_R",
+    "Driver_Reference",
+    "MaterialGroup_Body",
+    "MaterialGroup_Glass",
+    "MaterialGroup_Wheels",
+    "MaterialGroup_Interior",
+    "MaterialGroup_Lights",
+    "Damage_Front",
+    "Damage_Rear",
+    "Damage_Left",
+    "Damage_Right",
+    "Damage_Roof",
+    "RigControls",
+    "Door_FL",
+    "Door_FR",
+    "Door_RL",
+    "Door_RR",
+    "Hood_Hinge",
+    "Trunk_Hinge",
+    "SteeringWheel_Pivot",
+    "Pedal_Accelerator",
+    "Pedal_Brake",
+    "Wiper_L",
+    "Wiper_R",
+    "Mirror_Left",
+    "Mirror_Right",
+    "Mirror_Rear",
+    "MirrorCamera_Left",
+    "MirrorCamera_Right",
+    "MirrorCamera_Rear",
+    "Instrument_Cluster",
+    "Light_Brake_L",
+    "Light_Brake_R",
+    "Light_Brake_Center",
+    "Light_Reverse_L",
+    "Light_Reverse_R",
+    "Light_Indicator_FL",
+    "Light_Indicator_FR",
+    "Light_Indicator_RL",
+    "Light_Indicator_RR"
+  ],
+  "runtime_adapter_input_sha256": {
+    "res://game/Vehicle/CannonballVehicle.cs": "562bbf32b7d783ee82b7fe8fd11f4e9b8b08c640348329217d5f39a1dd7d75ad",
+    "res://game/Vehicle/CannonballVehicle.cs.uid": "64a192199f590396663af72b8e9d6a2934021754ad4332521c515db3155ef283",
+    "res://game/Vehicle/DrivingInputController.cs": "9eb579bb7d3b14115d1e7dc30f29b05667f9be30ec09d343cd6e7e1f956c170d",
+    "res://game/Vehicle/DrivingInputController.cs.uid": "da0c6f8cc4193a76983d769fc4dce7e278bbc87cc8b400c81fb9705898b60966",
+    "res://game/Vehicle/EnduranceSedanPresentation.cs": "add801221acf9bb65c051817a0bc09e3a97152bb4dcb3b8a51ecc7bfbcde82ee",
+    "res://game/Vehicle/EnduranceSedanPresentation.cs.uid": "ad9cc9c0126eaa5ab825e636842653b2aa98c933aadb54c1e805f73a72079bbc",
+    "res://game/Vehicle/EnduranceSedanPresentationSetup.cs": "8d8ae19bfb7eabbb73b02b600c83277bf5c6c81e623e5750523af6136f413ea0",
+    "res://game/Vehicle/EnduranceSedanPresentationSetup.cs.uid": "042449906318b3b5c205e5b77548bef246e284248d5d4800a5cec2561987dd2f",
+    "res://game/Vehicle/Setups/EnduranceSedan.tres": "12141c277249d25cefbe5f9c896dc1c2c3dbb7830b7419178101d3d6e6888678",
+    "res://game/Vehicle/Setups/EnduranceSedanPresentation.tres": "43d901cd221ed6e98c59e80ef246f9fa3052e42ed69193c9a5465a0150998769",
+    "res://game/Vehicle/Setups/HeroGt.tres": "128aa36890a5e3ce25c6fbaadeffe862df78895dfa7a939cbecd9b5b10a4af11",
+    "res://game/Vehicle/Showroom/ShowroomInterface.cs": "067e58edf282c7c8e6f1f01f299162eeb7e83651b9b6cc4273a1cdd8ff861832",
+    "res://game/Vehicle/Showroom/ShowroomInterface.cs.uid": "0c3a96a8ac49476b813762ea0352fdaf29df665be539493bddcb3f793d0868bc",
+    "res://game/Vehicle/Showroom/ShowroomMetrics.cs": "dc630a75659bbdeb20d179fe62c98ddca036b79cfed921f25668e2010d6e1330",
+    "res://game/Vehicle/Showroom/ShowroomMetrics.cs.uid": "0f3c4ea6a4cb839c7a7056dfa59f5ec55d174b214edafcad8d40530598b7ed3e",
+    "res://game/Vehicle/Showroom/ShowroomStudio.cs": "d33fa048251aa4f6c177cdff7b2bab76e7c0f4e4f682d8178f15a98d492d6a68",
+    "res://game/Vehicle/Showroom/ShowroomStudio.cs.uid": "82c9b55a5681fc873b651697fc27961f3f73cf5d12d14159d64cc5d1575d4dfe",
+    "res://game/Vehicle/Showroom/VehicleShowroom.cs": "a248a824c48b4c9500cc27aa811756a2840d2cbfcd3cc78e661c102245ca1095",
+    "res://game/Vehicle/Showroom/VehicleShowroom.cs.uid": "9737a755815c22dba32069dceb21ad170d5701b637e1da17158cfa6e208370e4",
+    "res://game/Vehicle/Showroom/VehicleShowroom.tscn": "fa76f0ca1e943b7f38f495ae4b9d5ec2e5a58f67e2f27a2d74f781848741f394",
+    "res://game/Vehicle/Showroom/studio_sky.gdshader": "047ba72d7ed90ac8480260533d2b9f556ac4adeb33ef29de322ce4278f1ff13f",
+    "res://game/Vehicle/Showroom/studio_sky.gdshader.uid": "2869766af68b6bef90392a5e65ee4f71028bb00b50ea54e5f3d5a07240652a43",
+    "res://game/Vehicle/VehicleContactShading.cs": "7d0c50a8710d4a7eeb437ee297756498dc84803af7c19e970f89b635f48b2c22",
+    "res://game/Vehicle/VehicleContactShading.cs.uid": "249349a841a0501e2463b54d8feda37b7bb98531f01fd8f0bab579ce1d8fece3",
+    "res://game/Vehicle/VehicleDynamicsProfile.cs": "c5e2c948db15fb7fcaf5f425ac2b365b3960e6fa9128f54964d9ba3074f94021",
+    "res://game/Vehicle/VehicleDynamicsProfile.cs.uid": "e725ab582dcb77e60c15ca6648c2c10bb1f0bba9b773c731233ee790f70bf48d",
+    "res://game/Vehicle/VehicleInspectionPanel.cs": "d006b321010a90145986f11385abd171d3891a375a3590a64daa51398e3d5494",
+    "res://game/Vehicle/VehicleInspectionPanel.cs.uid": "cf8123e664b9da5a3d9660e4a8a5ed7b073de26cda7da4c19f8fe491a429132f",
+    "res://game/Vehicle/VehicleRigSetup.cs": "7890736c826eb271b1b1069ec262e8ac018707191f43d6282c98c1605813113b",
+    "res://game/Vehicle/VehicleRigSetup.cs.uid": "a7e2be6d0b0968d95477b7837db9a54c3ecd2fb9761cd8cbbfe1f679f55326ee",
+    "res://game/Vehicle/VehicleSelectionSettings.cs": "661fb51858f1aeb53f8e9c8161fae63f02ffaf873cda1dee8ff4fd11ec729c08",
+    "res://game/Vehicle/VehicleSelectionSettings.cs.uid": "40130384f9552e13faa027440bd234896c2489009d496e60e36cb5d525c534f6",
+    "res://game/Vehicle/VehicleVisualRig.cs": "1ec0a84f89a47a75f4f230f4136152323373b44d9c05344b49cd538b48f73b22",
+    "res://game/Vehicle/VehicleVisualRig.cs.uid": "5b8d2cb3090581fa8d088b51b6beea5f5cf30f8b709efc33a6866f890ee6bbee",
+    "res://game/Vehicle/Visuals/EnduranceSedan.tscn": "2bf66baf9874b7001a033cce751835ecabed47756532ba8dea3dca680e09bdc1",
+    "res://game/Vehicle/Visuals/HeroGt.tscn": "b755f98d5609de5982c0f2637b802b2b500f7655d03602c219789569995dd5df",
+    "res://game/Vehicle/mirror_display.gdshader": "f9fb962398b29be3e1a6370ba51bd34d9367edd9486af8cb7af53d7ce81bd1be",
+    "res://game/Vehicle/mirror_display.gdshader.uid": "dacba4ab06a8f753a38c1a9d0c94d2e42aa3711a46e6f92df453bcb241876566"
+  },
+  "runtime_generated": {
+    "mesh_nodes": [
+      "Damage_Front_Indicator",
+      "Damage_Left_Indicator",
+      "Damage_Rear_Indicator",
+      "Damage_Right_Indicator",
+      "Damage_Roof_Indicator"
+    ],
+    "surface_count": 5,
+    "triangle_count": 21120
+  },
+  "runtime_setup_values": {
+    "BrakeForceNewtons": 36000.0,
+    "ChassisOriginHeightMeters": 0.649999976158142,
+    "EngineForceNewtons": 25000.0,
+    "FrontSpringRate": 84729.3671875,
+    "FrontTrackMeters": 1.62000000476837,
+    "GroundedDownforceCoefficient": 1.0,
+    "MassKilograms": 2400.0,
+    "MaximumGroundedDownforceG": 1.0,
+    "MaximumSteerRadians": 0.558505356311798,
+    "RearSpringRate": 72177.03125,
+    "RearTrackMeters": 1.61000001430511,
+    "SpringFreeLengthMeters": 0.159999996423721,
+    "StaticCompressionMeters": 0.0750000029802322,
+    "TireRadiusMeters": 0.343300014734268,
+    "WheelbaseMeters": 2.92000007629395
+  },
+  "schema_version": 1,
+  "screen_specular": {
+    "declared": true,
+    "mapping": "normal-incidence F0 only; grazing response differs",
+    "surfaces": [
+      {
+        "f0_only": true,
+        "metallic_specular": 0.173205077648163,
+        "path": "AssetRoot/Instrument_Cluster/LOD2_Batch_021_Instrument_Cluster_Material_Screen",
+        "source_factor": 0.119999997317791,
+        "surface": 0
+      },
+      {
+        "f0_only": true,
+        "metallic_specular": 0.173205077648163,
+        "path": "AssetRoot/Instrument_Cluster/LOD1_Batch_021_Instrument_Cluster_Material_Screen",
+        "source_factor": 0.119999997317791,
+        "surface": 0
+      },
+      {
+        "f0_only": true,
+        "metallic_specular": 0.173205077648163,
+        "path": "AssetRoot/Instrument_Cluster/LOD0_Batch_043_Instrument_Cluster_Material_Screen",
+        "source_factor": 0.119999997317791,
+        "surface": 0
+      },
+      {
+        "f0_only": true,
+        "metallic_specular": 0.173205077648163,
+        "path": "AssetRoot/Chassis/Visual_LOD2/LOD2_Batch_058_Visual_LOD2_Material_Screen",
+        "source_factor": 0.119999997317791,
+        "surface": 0
+      },
+      {
+        "f0_only": true,
+        "metallic_specular": 0.173205077648163,
+        "path": "AssetRoot/Chassis/Visual_LOD1/LOD1_Batch_058_Visual_LOD1_Material_Screen",
+        "source_factor": 0.119999997317791,
+        "surface": 0
+      },
+      {
+        "f0_only": true,
+        "metallic_specular": 0.173205077648163,
+        "path": "AssetRoot/Chassis/Visual_LOD0/LOD0_Batch_085_Visual_LOD0_Material_Screen",
+        "source_factor": 0.119999997317791,
+        "surface": 0
+      }
+    ]
+  },
+  "script_reference_present": true,
+  "semantic_name_counts": {
+    "AssetRoot": 1,
+    "Camera_ChaseTarget": 1,
+    "Camera_Cockpit": 1,
+    "Chassis": 1,
+    "CollisionProxy": 1,
+    "CollisionProxy_Body": 1,
+    "CollisionProxy_Cabin": 1,
+    "Contact_FL": 1,
+    "Contact_FR": 1,
+    "Contact_RL": 1,
+    "Contact_RR": 1,
+    "Damage_Front": 1,
+    "Damage_Front_Indicator": 1,
+    "Damage_Left": 1,
+    "Damage_Left_Indicator": 1,
+    "Damage_Rear": 1,
+    "Damage_Rear_Indicator": 1,
+    "Damage_Right": 1,
+    "Damage_Right_Indicator": 1,
+    "Damage_Roof": 1,
+    "Damage_Roof_Indicator": 1,
+    "Door_FL": 1,
+    "Door_FR": 1,
+    "Door_RL": 1,
+    "Door_RR": 1,
+    "Driver_Reference": 1,
+    "Exhaust_L": 1,
+    "Exhaust_R": 1,
+    "Hood_Hinge": 1,
+    "ImportedAsset": 1,
+    "Instrument_Cluster": 1,
+    "LOD0_Batch_000_Door_FL_Material_AcousticCloth": 1,
+    "LOD0_Batch_001_Door_FL_Material_Alloy": 1,
+    "LOD0_Batch_002_Door_FL_Material_Fabric": 1,
+    "LOD0_Batch_003_Door_FL_Material_Glass": 1,
+    "LOD0_Batch_004_Door_FL_Material_Leather": 1,
+    "LOD0_Batch_005_Door_FL_Material_Metal": 1,
+    "LOD0_Batch_006_Door_FL_Material_Paint": 1,
+    "LOD0_Batch_007_Door_FL_Material_Rubber": 1,
+    "LOD0_Batch_008_Door_FL_Material_Trim": 1,
+    "LOD0_Batch_009_Door_FL_Material": 2,
+    "LOD0_Batch_010_Door_FR_Material_AcousticCloth": 1,
+    "LOD0_Batch_011_Door_FR_Material_Alloy": 1,
+    "LOD0_Batch_012_Door_FR_Material_Fabric": 1,
+    "LOD0_Batch_013_Door_FR_Material_Glass": 1,
+    "LOD0_Batch_014_Door_FR_Material_Leather": 1,
+    "LOD0_Batch_015_Door_FR_Material_Metal": 1,
+    "LOD0_Batch_016_Door_FR_Material_Paint": 1,
+    "LOD0_Batch_017_Door_FR_Material_Rubber": 1,
+    "LOD0_Batch_018_Door_FR_Material_Trim": 1,
+    "LOD0_Batch_019_Door_FR_Material": 2,
+    "LOD0_Batch_020_Door_RL_Material_AcousticCloth": 1,
+    "LOD0_Batch_021_Door_RL_Material_Alloy": 1,
+    "LOD0_Batch_022_Door_RL_Material_Fabric": 1,
+    "LOD0_Batch_023_Door_RL_Material_GlassPrivacy": 1,
+    "LOD0_Batch_024_Door_RL_Material_Leather": 1,
+    "LOD0_Batch_025_Door_RL_Material_Metal": 1,
+    "LOD0_Batch_026_Door_RL_Material_Paint": 1,
+    "LOD0_Batch_027_Door_RL_Material_Rubber": 1,
+    "LOD0_Batch_028_Door_RL_Material_Trim": 1,
+    "LOD0_Batch_029_Door_RL_Material": 2,
+    "LOD0_Batch_030_Door_RR_Material_AcousticCloth": 1,
+    "LOD0_Batch_031_Door_RR_Material_Alloy": 1,
+    "LOD0_Batch_032_Door_RR_Material_Fabric": 1,
+    "LOD0_Batch_033_Door_RR_Material_GlassPrivacy": 1,
+    "LOD0_Batch_034_Door_RR_Material_Leather": 1,
+    "LOD0_Batch_035_Door_RR_Material_Metal": 1,
+    "LOD0_Batch_036_Door_RR_Material_Paint": 1,
+    "LOD0_Batch_037_Door_RR_Material_Rubber": 1,
+    "LOD0_Batch_038_Door_RR_Material_Trim": 1,
+    "LOD0_Batch_039_Door_RR_Material": 2,
+    "LOD0_Batch_040_Hood_Hinge_Material_Metal": 1,
+    "LOD0_Batch_041_Hood_Hinge_Material_Paint": 1,
+    "LOD0_Batch_042_Hood_Hinge_Material_Trim": 1,
+    "LOD0_Batch_043_Instrument_Cluster_Material_Screen": 1,
+    "LOD0_Batch_044_Light_Brake_Center_Material_BrakeLight": 1,
+    "LOD0_Batch_045_Light_Brake_L_Material_BrakeLight": 1,
+    "LOD0_Batch_046_Light_Brake_R_Material_BrakeLight": 1,
+    "LOD0_Batch_047_Light_Head_FL_Material_Headlight": 1,
+    "LOD0_Batch_048_Light_Head_FR_Material_Headlight": 1,
+    "LOD0_Batch_049_Light_Indicator_FL_Material_IndicatorLeft": 1,
+    "LOD0_Batch_050_Light_Indicator_FR_Material_IndicatorRight": 1,
+    "LOD0_Batch_051_Light_Indicator_RL_Material_IndicatorLeft": 1,
+    "LOD0_Batch_052_Light_Indicator_RR_Material_IndicatorRight": 1,
+    "LOD0_Batch_053_Light_Reverse_L_Material_ReverseLight": 1,
+    "LOD0_Batch_054_Light_Reverse_R_Material_ReverseLight": 1,
+    "LOD0_Batch_055_Light_Tail_RL_Material_Taillight": 1,
+    "LOD0_Batch_056_Light_Tail_RR_Material_Taillight": 1,
+    "LOD0_Batch_057_Pedal_Accelerator_Material_Metal": 1,
+    "LOD0_Batch_058_Pedal_Brake_Material_Metal": 1,
+    "LOD0_Batch_059_SteeringWheel_Pivot_Material_Leather": 1,
+    "LOD0_Batch_060_SteeringWheel_Pivot_Material_Trim": 1,
+    "LOD0_Batch_061_SteeringWheel_Pivot_Material": 2,
+    "LOD0_Batch_062_Suspension_FL_Material_Caliper": 1,
+    "LOD0_Batch_063_Suspension_FR_Material_Caliper": 1,
+    "LOD0_Batch_064_Suspension_RL_Material_Caliper": 1,
+    "LOD0_Batch_065_Suspension_RR_Material_Caliper": 1,
+    "LOD0_Batch_066_Trunk_Hinge_Material_Metal": 1,
+    "LOD0_Batch_067_Trunk_Hinge_Material_Paint": 1,
+    "LOD0_Batch_068_Trunk_Hinge_Material_Trim": 1,
+    "LOD0_Batch_069_Visual_LOD0_Material_AcousticCloth": 1,
+    "LOD0_Batch_070_Visual_LOD0_Material_Alloy": 1,
+    "LOD0_Batch_071_Visual_LOD0_Material_BrakeLight": 1,
+    "LOD0_Batch_072_Visual_LOD0_Material_Carpet": 1,
+    "LOD0_Batch_073_Visual_LOD0_Material_CoolingCore": 1,
+    "LOD0_Batch_074_Visual_LOD0_Material_Fabric": 1,
+    "LOD0_Batch_075_Visual_LOD0_Material_Glass": 1,
+    "LOD0_Batch_076_Visual_LOD0_Material_GlassPrivacy": 1,
+    "LOD0_Batch_077_Visual_LOD0_Material_Headlight": 1,
+    "LOD0_Batch_078_Visual_LOD0_Material_Leather": 1,
+    "LOD0_Batch_079_Visual_LOD0_Material_Metal": 1,
+    "LOD0_Batch_080_Visual_LOD0_Material_Mirror": 1,
+    "LOD0_Batch_081_Visual_LOD0_Material_OpticalGlass": 1,
+    "LOD0_Batch_082_Visual_LOD0_Material_Paint": 1,
+    "LOD0_Batch_083_Visual_LOD0_Material_Plate": 1,
+    "LOD0_Batch_084_Visual_LOD0_Material_Rubber": 1,
+    "LOD0_Batch_085_Visual_LOD0_Material_Screen": 1,
+    "LOD0_Batch_086_Visual_LOD0_Material_Stitch": 1,
+    "LOD0_Batch_087_Visual_LOD0_Material_Taillight": 1,
+    "LOD0_Batch_088_Visual_LOD0_Material_Trim": 1,
+    "LOD0_Batch_089_Visual_LOD0_Material": 2,
+    "LOD0_Batch_090_Wheel_FL_Material_Alloy": 1,
+    "LOD0_Batch_091_Wheel_FL_Material_Metal": 1,
+    "LOD0_Batch_092_Wheel_FL_Material_Rubber": 1,
+    "LOD0_Batch_093_Wheel_FL_Material": 2,
+    "LOD0_Batch_094_Wheel_FR_Material_Alloy": 1,
+    "LOD0_Batch_095_Wheel_FR_Material_Metal": 1,
+    "LOD0_Batch_096_Wheel_FR_Material_Rubber": 1,
+    "LOD0_Batch_097_Wheel_FR_Material": 2,
+    "LOD0_Batch_098_Wheel_RL_Material_Alloy": 1,
+    "LOD0_Batch_099_Wheel_RL_Material_Metal": 1,
+    "LOD0_Batch_100_Wheel_RL_Material_Rubber": 1,
+    "LOD0_Batch_101_Wheel_RL_Material": 2,
+    "LOD0_Batch_102_Wheel_RR_Material_Alloy": 1,
+    "LOD0_Batch_103_Wheel_RR_Material_Metal": 1,
+    "LOD0_Batch_104_Wheel_RR_Material_Rubber": 1,
+    "LOD0_Batch_105_Wheel_RR_Material": 2,
+    "LOD0_Batch_106_Wiper_L_Material_Rubber": 1,
+    "LOD0_Batch_107_Wiper_L_Material_Trim": 1,
+    "LOD0_Batch_108_Wiper_R_Material_Rubber": 1,
+    "LOD0_Batch_109_Wiper_R_Material_Trim": 1,
+    "LOD0_CabinFloor": 1,
+    "LOD0_ClimateSetpoint_-0_143": 1,
+    "LOD0_ClimateSetpoint_0_143": 1,
+    "LOD0_DoorCard_RL": 1,
+    "LOD0_DoorCard_RR": 1,
+    "LOD0_DoorFrame_FR": 1,
+    "LOD0_DoorGlassSeal_FR": 1,
+    "LOD0_Door_FL": 1,
+    "LOD0_Door_FR": 1,
+    "LOD0_Door_RL": 1,
+    "LOD0_Door_RR": 1,
+    "LOD0_FrontBumper": 1,
+    "LOD0_FrontFender_L": 1,
+    "LOD0_FrontFender_R": 1,
+    "LOD0_FrontUndertray_-1": 1,
+    "LOD0_FrontUndertray_1": 1,
+    "LOD0_Hood": 1,
+    "LOD0_MainFuelLobe_-1": 1,
+    "LOD0_MainFuelLobe_1": 1,
+    "LOD0_Mirror_LeftHousing": 1,
+    "LOD0_Mirror_LeftStalk": 1,
+    "LOD0_Mirror_LeftSurface": 1,
+    "LOD0_Mirror_RearHousing": 1,
+    "LOD0_Mirror_RearSurface": 1,
+    "LOD0_Mirror_RightHousing": 1,
+    "LOD0_Mirror_RightStalk": 1,
+    "LOD0_Mirror_RightSurface": 1,
+    "LOD0_NavigationTitle": 1,
+    "LOD0_Pedal_AcceleratorPad": 1,
+    "LOD0_Pedal_BrakePad": 1,
+    "LOD0_RadioDisplay": 1,
+    "LOD0_RearBumper": 1,
+    "LOD0_RearMirrorMountPad": 1,
+    "LOD0_RearMirrorStalk": 1,
+    "LOD0_Roof": 1,
+    "LOD0_StructuralBody": 1,
+    "LOD0_Sump": 1,
+    "LOD0_Tire_FL": 1,
+    "LOD0_Tire_FR": 1,
+    "LOD0_Tire_RL": 1,
+    "LOD0_Tire_RR": 1,
+    "LOD0_TransferPump": 1,
+    "LOD0_Trunk": 1,
+    "LOD0_V8Crankcase": 1,
+    "LOD1_Batch_000_Door_FL_Material_Glass": 1,
+    "LOD1_Batch_001_Door_FL_Material_Leather": 1,
+    "LOD1_Batch_002_Door_FL_Material_Paint": 1,
+    "LOD1_Batch_003_Door_FL_Material_Rubber": 1,
+    "LOD1_Batch_004_Door_FL_Material_Trim": 1,
+    "LOD1_Batch_005_Door_FR_Material_Glass": 1,
+    "LOD1_Batch_006_Door_FR_Material_Leather": 1,
+    "LOD1_Batch_007_Door_FR_Material_Paint": 1,
+    "LOD1_Batch_008_Door_FR_Material_Rubber": 1,
+    "LOD1_Batch_009_Door_FR_Material_Trim": 1,
+    "LOD1_Batch_010_Door_RL_Material_GlassPrivacy": 1,
+    "LOD1_Batch_011_Door_RL_Material_Leather": 1,
+    "LOD1_Batch_012_Door_RL_Material_Paint": 1,
+    "LOD1_Batch_013_Door_RL_Material_Rubber": 1,
+    "LOD1_Batch_014_Door_RL_Material_Trim": 1,
+    "LOD1_Batch_015_Door_RR_Material_GlassPrivacy": 1,
+    "LOD1_Batch_016_Door_RR_Material_Leather": 1,
+    "LOD1_Batch_017_Door_RR_Material_Paint": 1,
+    "LOD1_Batch_018_Door_RR_Material_Rubber": 1,
+    "LOD1_Batch_019_Door_RR_Material_Trim": 1,
+    "LOD1_Batch_020_Hood_Hinge_Material_Paint": 1,
+    "LOD1_Batch_021_Instrument_Cluster_Material_Screen": 1,
+    "LOD1_Batch_022_Light_Brake_Center_Material_BrakeLight": 1,
+    "LOD1_Batch_023_Light_Brake_L_Material_BrakeLight": 1,
+    "LOD1_Batch_024_Light_Brake_R_Material_BrakeLight": 1,
+    "LOD1_Batch_025_Light_Head_FL_Material_Headlight": 1,
+    "LOD1_Batch_026_Light_Head_FR_Material_Headlight": 1,
+    "LOD1_Batch_027_Light_Indicator_FL_Material_IndicatorLeft": 1,
+    "LOD1_Batch_028_Light_Indicator_FR_Material_IndicatorRight": 1,
+    "LOD1_Batch_029_Light_Indicator_RL_Material_IndicatorLeft": 1,
+    "LOD1_Batch_030_Light_Indicator_RR_Material_IndicatorRight": 1,
+    "LOD1_Batch_031_Light_Reverse_L_Material_ReverseLight": 1,
+    "LOD1_Batch_032_Light_Reverse_R_Material_ReverseLight": 1,
+    "LOD1_Batch_033_Light_Tail_RL_Material_Taillight": 1,
+    "LOD1_Batch_034_Light_Tail_RR_Material_Taillight": 1,
+    "LOD1_Batch_035_Mirror_Left_Material_Mirror": 1,
+    "LOD1_Batch_036_Mirror_Rear_Material_Mirror": 1,
+    "LOD1_Batch_037_Mirror_Right_Material_Mirror": 1,
+    "LOD1_Batch_038_SteeringWheel_Pivot_Material_Leather": 1,
+    "LOD1_Batch_039_SteeringWheel_Pivot_Material_Trim": 1,
+    "LOD1_Batch_040_SteeringWheel_Pivot_Material": 2,
+    "LOD1_Batch_041_Suspension_FL_Material_Caliper": 1,
+    "LOD1_Batch_042_Suspension_FR_Material_Caliper": 1,
+    "LOD1_Batch_043_Suspension_RL_Material_Caliper": 1,
+    "LOD1_Batch_044_Suspension_RR_Material_Caliper": 1,
+    "LOD1_Batch_045_Trunk_Hinge_Material_Paint": 1,
+    "LOD1_Batch_046_Visual_LOD1_Material_Carpet": 1,
+    "LOD1_Batch_047_Visual_LOD1_Material_CoolingCore": 1,
+    "LOD1_Batch_048_Visual_LOD1_Material_Fabric": 1,
+    "LOD1_Batch_051_Visual_LOD1_Material_Leather": 1,
+    "LOD1_Batch_052_Visual_LOD1_Material_Metal": 1,
+    "LOD1_Batch_053_Visual_LOD1_Material_Mirror": 1,
+    "LOD1_Batch_054_Visual_LOD1_Material_OpticalGlass": 1,
+    "LOD1_Batch_055_Visual_LOD1_Material_Paint_BoundaryRemainder": 1,
+    "LOD1_Batch_056_Visual_LOD1_Material_Plate": 1,
+    "LOD1_Batch_057_Visual_LOD1_Material_Rubber_BoundaryRemainder": 1,
+    "LOD1_Batch_058_Visual_LOD1_Material_Screen": 1,
+    "LOD1_Batch_059_Visual_LOD1_Material_Taillight": 1,
+    "LOD1_Batch_060_Visual_LOD1_Material_Trim": 1,
+    "LOD1_Batch_061_Visual_LOD1_Material": 2,
+    "LOD1_Batch_062_Wheel_FL_Material_Alloy": 1,
+    "LOD1_Batch_063_Wheel_FL_Material_Metal": 1,
+    "LOD1_Batch_065_Wheel_FL_Material": 2,
+    "LOD1_Batch_066_Wheel_FR_Material_Alloy": 1,
+    "LOD1_Batch_067_Wheel_FR_Material_Metal": 1,
+    "LOD1_Batch_069_Wheel_FR_Material": 2,
+    "LOD1_Batch_070_Wheel_RL_Material_Alloy": 1,
+    "LOD1_Batch_071_Wheel_RL_Material_Metal": 1,
+    "LOD1_Batch_073_Wheel_RL_Material": 2,
+    "LOD1_Batch_074_Wheel_RR_Material_Alloy": 1,
+    "LOD1_Batch_075_Wheel_RR_Material_Metal": 1,
+    "LOD1_Batch_077_Wheel_RR_Material": 2,
+    "LOD1_Batch_078_Wiper_L_Material_Rubber": 1,
+    "LOD1_Batch_079_Wiper_L_Material_Trim": 1,
+    "LOD1_Batch_080_Wiper_R_Material_Rubber": 1,
+    "LOD1_Batch_081_Wiper_R_Material_Trim": 1,
+    "LOD1_DistantTire_FL": 1,
+    "LOD1_DistantTire_FR": 1,
+    "LOD1_DistantTire_RL": 1,
+    "LOD1_DistantTire_RR": 1,
+    "LOD1_Field_Backlight": 1,
+    "LOD1_Field_Windshield": 1,
+    "LOD1_MixedProtectedFront": 1,
+    "LOD1_OriginalWindshieldSeal": 1,
+    "LOD1_ProtectedUpperA_L": 1,
+    "LOD1_ProtectedUpperA_R": 1,
+    "LOD2_Batch_000_Door_FL_Material_Glass": 1,
+    "LOD2_Batch_001_Door_FL_Material_Leather": 1,
+    "LOD2_Batch_002_Door_FL_Material_Paint": 1,
+    "LOD2_Batch_003_Door_FL_Material_Rubber": 1,
+    "LOD2_Batch_004_Door_FL_Material_Trim": 1,
+    "LOD2_Batch_005_Door_FR_Material_Glass": 1,
+    "LOD2_Batch_006_Door_FR_Material_Leather": 1,
+    "LOD2_Batch_007_Door_FR_Material_Paint": 1,
+    "LOD2_Batch_008_Door_FR_Material_Rubber": 1,
+    "LOD2_Batch_009_Door_FR_Material_Trim": 1,
+    "LOD2_Batch_010_Door_RL_Material_GlassPrivacy": 1,
+    "LOD2_Batch_011_Door_RL_Material_Leather": 1,
+    "LOD2_Batch_012_Door_RL_Material_Paint": 1,
+    "LOD2_Batch_013_Door_RL_Material_Rubber": 1,
+    "LOD2_Batch_014_Door_RL_Material_Trim": 1,
+    "LOD2_Batch_015_Door_RR_Material_GlassPrivacy": 1,
+    "LOD2_Batch_016_Door_RR_Material_Leather": 1,
+    "LOD2_Batch_017_Door_RR_Material_Paint": 1,
+    "LOD2_Batch_018_Door_RR_Material_Rubber": 1,
+    "LOD2_Batch_019_Door_RR_Material_Trim": 1,
+    "LOD2_Batch_020_Hood_Hinge_Material_Paint": 1,
+    "LOD2_Batch_021_Instrument_Cluster_Material_Screen": 1,
+    "LOD2_Batch_022_Light_Brake_Center_Material_BrakeLight": 1,
+    "LOD2_Batch_023_Light_Brake_L_Material_BrakeLight": 1,
+    "LOD2_Batch_024_Light_Brake_R_Material_BrakeLight": 1,
+    "LOD2_Batch_025_Light_Head_FL_Material_Headlight": 1,
+    "LOD2_Batch_026_Light_Head_FR_Material_Headlight": 1,
+    "LOD2_Batch_027_Light_Indicator_FL_Material_IndicatorLeft": 1,
+    "LOD2_Batch_028_Light_Indicator_FR_Material_IndicatorRight": 1,
+    "LOD2_Batch_029_Light_Indicator_RL_Material_IndicatorLeft": 1,
+    "LOD2_Batch_030_Light_Indicator_RR_Material_IndicatorRight": 1,
+    "LOD2_Batch_031_Light_Reverse_L_Material_ReverseLight": 1,
+    "LOD2_Batch_032_Light_Reverse_R_Material_ReverseLight": 1,
+    "LOD2_Batch_033_Light_Tail_RL_Material_Taillight": 1,
+    "LOD2_Batch_034_Light_Tail_RR_Material_Taillight": 1,
+    "LOD2_Batch_035_Mirror_Left_Material_Mirror": 1,
+    "LOD2_Batch_036_Mirror_Rear_Material_Mirror": 1,
+    "LOD2_Batch_037_Mirror_Right_Material_Mirror": 1,
+    "LOD2_Batch_038_SteeringWheel_Pivot_Material_Leather": 1,
+    "LOD2_Batch_039_SteeringWheel_Pivot_Material_Trim": 1,
+    "LOD2_Batch_040_SteeringWheel_Pivot_Material": 2,
+    "LOD2_Batch_041_Suspension_FL_Material_Caliper": 1,
+    "LOD2_Batch_042_Suspension_FR_Material_Caliper": 1,
+    "LOD2_Batch_043_Suspension_RL_Material_Caliper": 1,
+    "LOD2_Batch_044_Suspension_RR_Material_Caliper": 1,
+    "LOD2_Batch_045_Trunk_Hinge_Material_Paint": 1,
+    "LOD2_Batch_046_Visual_LOD2_Material_Carpet": 1,
+    "LOD2_Batch_047_Visual_LOD2_Material_CoolingCore": 1,
+    "LOD2_Batch_048_Visual_LOD2_Material_Fabric": 1,
+    "LOD2_Batch_051_Visual_LOD2_Material_Leather": 1,
+    "LOD2_Batch_052_Visual_LOD2_Material_Metal": 1,
+    "LOD2_Batch_053_Visual_LOD2_Material_Mirror": 1,
+    "LOD2_Batch_054_Visual_LOD2_Material_OpticalGlass": 1,
+    "LOD2_Batch_055_Visual_LOD2_Material_Paint_BoundaryRemainder": 1,
+    "LOD2_Batch_056_Visual_LOD2_Material_Plate": 1,
+    "LOD2_Batch_057_Visual_LOD2_Material_Rubber_BoundaryRemainder": 1,
+    "LOD2_Batch_058_Visual_LOD2_Material_Screen": 1,
+    "LOD2_Batch_059_Visual_LOD2_Material_Taillight": 1,
+    "LOD2_Batch_060_Visual_LOD2_Material_Trim": 1,
+    "LOD2_Batch_061_Visual_LOD2_Material": 2,
+    "LOD2_Batch_062_Wheel_FL_Material_Alloy": 1,
+    "LOD2_Batch_063_Wheel_FL_Material_Metal": 1,
+    "LOD2_Batch_064_Wheel_FL_Material_Rubber": 1,
+    "LOD2_Batch_065_Wheel_FL_Material": 2,
+    "LOD2_Batch_066_Wheel_FR_Material_Alloy": 1,
+    "LOD2_Batch_067_Wheel_FR_Material_Metal": 1,
+    "LOD2_Batch_068_Wheel_FR_Material_Rubber": 1,
+    "LOD2_Batch_069_Wheel_FR_Material": 2,
+    "LOD2_Batch_070_Wheel_RL_Material_Alloy": 1,
+    "LOD2_Batch_071_Wheel_RL_Material_Metal": 1,
+    "LOD2_Batch_072_Wheel_RL_Material_Rubber": 1,
+    "LOD2_Batch_073_Wheel_RL_Material": 2,
+    "LOD2_Batch_074_Wheel_RR_Material_Alloy": 1,
+    "LOD2_Batch_075_Wheel_RR_Material_Metal": 1,
+    "LOD2_Batch_076_Wheel_RR_Material_Rubber": 1,
+    "LOD2_Batch_077_Wheel_RR_Material": 2,
+    "LOD2_Batch_078_Wiper_L_Material_Rubber": 1,
+    "LOD2_Batch_079_Wiper_L_Material_Trim": 1,
+    "LOD2_Batch_080_Wiper_R_Material_Rubber": 1,
+    "LOD2_Batch_081_Wiper_R_Material_Trim": 1,
+    "LOD2_Field_Backlight": 1,
+    "LOD2_Field_Windshield": 1,
+    "LOD2_MixedProtectedFront": 1,
+    "LOD2_OriginalWindshieldSeal": 1,
+    "LOD2_ProtectedUpperA_L": 1,
+    "LOD2_ProtectedUpperA_R": 1,
+    "Light_Brake_Center": 1,
+    "Light_Brake_L": 1,
+    "Light_Brake_R": 1,
+    "Light_Head_FL": 1,
+    "Light_Head_FR": 1,
+    "Light_Indicator_FL": 1,
+    "Light_Indicator_FR": 1,
+    "Light_Indicator_RL": 1,
+    "Light_Indicator_RR": 1,
+    "Light_Reverse_L": 1,
+    "Light_Reverse_R": 1,
+    "Light_Tail_RL": 1,
+    "Light_Tail_RR": 1,
+    "MaterialGroup_Body": 1,
+    "MaterialGroup_Glass": 1,
+    "MaterialGroup_Interior": 1,
+    "MaterialGroup_Lights": 1,
+    "MaterialGroup_Wheels": 1,
+    "MirrorCamera_Left": 1,
+    "MirrorCamera_Rear": 1,
+    "MirrorCamera_Right": 1,
+    "Mirror_Left": 1,
+    "Mirror_Rear": 1,
+    "Mirror_Right": 1,
+    "Pedal_Accelerator": 1,
+    "Pedal_Brake": 1,
+    "RigControls": 1,
+    "SteeringWheel_Pivot": 1,
+    "Suspension_FL": 1,
+    "Suspension_FR": 1,
+    "Suspension_RL": 1,
+    "Suspension_RR": 1,
+    "Trunk_Hinge": 1,
+    "Visual_LOD0": 1,
+    "Visual_LOD1": 1,
+    "Visual_LOD2": 1,
+    "Wheel_FL": 1,
+    "Wheel_FR": 1,
+    "Wheel_RL": 1,
+    "Wheel_RR": 1,
+    "Wiper_L": 1,
+    "Wiper_R": 1
+  },
+  "specification_sha256": "c140fcbe9e53c76b3912a4c603c2c34ad220a104348ee04ca232e28f985cff0f",
+  "surface_count": 331,
+  "track_meters": 1.62000000476837,
+  "transitive_release_dependencies": {
+    "res://assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn": "b7fee227a32b7c130776dea8bc210e0d8e5cb78d1c94bbd2e7474462d19d9e7a",
+    "res://game/Vehicle/EnduranceSedanPresentationSetup.cs": "8d8ae19bfb7eabbb73b02b600c83277bf5c6c81e623e5750523af6136f413ea0",
+    "res://game/Vehicle/Setups/EnduranceSedan.tres": "12141c277249d25cefbe5f9c896dc1c2c3dbb7830b7419178101d3d6e6888678",
+    "res://game/Vehicle/Setups/EnduranceSedanPresentation.tres": "43d901cd221ed6e98c59e80ef246f9fa3052e42ed69193c9a5465a0150998769",
+    "res://game/Vehicle/VehicleRigSetup.cs": "7890736c826eb271b1b1069ec262e8ac018707191f43d6282c98c1605813113b",
+    "res://game/Vehicle/VehicleVisualRig.cs": "1ec0a84f89a47a75f4f230f4136152323373b44d9c05344b49cd538b48f73b22",
+    "res://game/Vehicle/Visuals/EnduranceSedan.tscn": "2bf66baf9874b7001a033cce751835ecabed47756532ba8dea3dca680e09bdc1"
+  },
+  "triangle_count": 198362,
+  "validator_sha256": "0be505f040e593362e0cf62cdb3ba1c07276f971804680c88aa0024d3087e856",
+  "wheelbase_meters": 2.92000007629395,
+  "wrapper": "res://game/Vehicle/Visuals/EnduranceSedan.tscn",
+  "wrapper_instantiated": true,
+  "wrapper_sha256": "2bf66baf9874b7001a033cce751835ecabed47756532ba8dea3dca680e09bdc1"
+}

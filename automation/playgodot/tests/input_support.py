@@ -76,3 +76,32 @@ async def wait_for_key_conditioner(
         if asyncio.get_running_loop().time() >= deadline:
             pytest.fail(f"{failure}; state={state}")
         await asyncio.sleep(0.02)
+
+
+async def wait_for_joy_conditioner(
+    client: PlayGodotClient,
+    *,
+    axis: str,
+    value: float,
+    device: int,
+    raw_field: str,
+    predicate: Callable[[ConditionerState], bool],
+    failure: str,
+    timeout: float = 2.0,
+) -> ConditionerState:
+    """Establish held input after startup focus resets, before lifecycle assertions."""
+    deadline = asyncio.get_running_loop().time() + timeout
+    params = {"axis": axis, "value": value, "device": device}
+    await client.request("input.joypad_motion", params)
+    while True:
+        state = (await client.describe("vehicle.input.conditioner"))["test_state"]
+        if state["input_suppressed"] is True:
+            await client.request("input.joypad_motion", {**params, "value": 0})
+        elif state[raw_field] != value:
+            await client.request("input.joypad_motion", params)
+        elif predicate(state):
+            return state
+
+        if asyncio.get_running_loop().time() >= deadline:
+            pytest.fail(f"{failure}; state={state}")
+        await asyncio.sleep(0.02)

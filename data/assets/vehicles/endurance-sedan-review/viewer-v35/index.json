@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "git_revision": "6be5deba1dd6a1342b638efc662b77b7f2da4240",
+  "utc": "2026-09-13T12:33:53.902177+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "status": "local_viewer_and_test_contract_verified_asset_production_in_progress",
+  "archive": {
+    "path": "data/assets/vehicles/endurance-sedan-review/viewer-v35/evidence.zip",
+    "sha256": "482f51b2e4479af578a6a1cd73f4d276edebc496f21180e32be99daee93a262e",
+    "bytes": 105647865
+  },
+  "inventory": {
+    "path": "reports/p1-018/viewer35-retention01/inputs01.json",
+    "sha256": "5ae83d1cb545f3ab6e175bbba4ba55937da6f5f02ca05574af0d5cb405b9fc89",
+    "bytes": 274490
+  },
+  "file_count": 1149,
+  "builds": 2,
+  "every_archive_byte_identical": true,
+  "every_member_reread_verified": true,
+  "all_locked_inputs_unchanged": true,
+  "root_review": {
+    "path": "reports/p1-018/viewer35-retention01/review01.json",
+    "sha256": "22f88c0b36231fadf9a3ca6f00da4323ff9f0b81e0ce104ca77777730734a10f",
+    "bytes": 8419
+  },
+  "agent_summary": {
+    "path": "reports/p1-018/runtime/ci-owner35-diagnosis01/summary08.json",
+    "sha256": "d5a89cd5c05905d416f47b9323ed243e430ee76406160ec81597e19b3adf5ff4",
+    "bytes": 25316
+  },
+  "agent_handoff": {
+    "path": "reports/p1-018/runtime/ci-owner35-diagnosis01/HANDOFF08.md",
+    "sha256": "380d462c2070bcc6abdb1cd85939945e94491a13b6c683daf37de00f161aba99",
+    "bytes": 3360
+  },
+  "full_frontdoor": {
+    "path": "reports/p1-018/viewer35-frontdoor02/summary.json",
+    "sha256": "af89cf52bf7f60c166ab832768f441eb3cbd4dea440cc806c66d2b0922fe49f1",
+    "bytes": 1482
+  },
+  "independent_visual_review": {
+    "path": "reports/p1-018/qa/showroom-shading35-01/review02.json",
+    "sha256": "35b1182afb9f5fb83c5b8db7efd7426f93f921db401d92c4164aa16e1a7cd4e3",
+    "bytes": 62951
+  },
+  "human_approval_reference": null,
+  "ledger_complete": false
+}

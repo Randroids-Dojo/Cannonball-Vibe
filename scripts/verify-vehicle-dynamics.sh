@@ -57,14 +57,42 @@ DOTNET_ROLL_FORWARD=Major dotnet test "$repo_root/Cannonball.sln" \
   --filter 'FullyQualifiedName~VehicleDynamics' --nologo |
   tee "$report_directory/core-tests.log"
 
+validate_identity() {
+  node - "$1" <<'NODE'
+const fs = require('node:fs');
+// BEGIN scoped dynamics identity reader
+function checkDynamicsIdentity(text) {
+  const rows = text.split(/\r?\n/).filter(line => line.startsWith('CANNONBALL_VEHICLE_DYNAMICS_IDENTITY '));
+  if (rows.length !== 1) return ['native Hero dynamics identity missing or duplicated'];
+  let r;
+  try { r = JSON.parse(rows[0].slice('CANNONBALL_VEHICLE_DYNAMICS_IDENTITY '.length)); }
+  catch { return ['native Hero dynamics identity is not JSON']; }
+  // The fixed legacy Hero fixture: VehicleDynamicsProfile and HeroGt.tres defaults.
+  if (r.asset_id !== 'hero-gt' || r.force_graybox !== false || r.uses_graybox !== false ||
+      r.mass_kg !== 1450 || r.center_of_mass_mode !== 'Custom' ||
+      !Array.isArray(r.configured_com) || r.configured_com.length !== 3 ||
+      r.configured_com[0] !== 0 || r.configured_com[1] !== Math.fround(-0.40) || r.configured_com[2] !== 0 ||
+      r.setup_id !== 'high-speed-validation' || r.forward_top_speed_mph !== 250 || r.physics_hz !== 120)
+    return ['native Hero dynamics identity/setup differs from the fixed baseline'];
+  return [];
+}
+// END scoped dynamics identity reader
+
+const failures = checkDynamicsIdentity(fs.readFileSync(process.argv[2], 'utf8'));
+if (failures.length) { console.error(failures.join('\n')); process.exit(1); }
+NODE
+}
+
 matrix_log="$report_directory/matrix.log"
 CANNONBALL_SCENARIO_TIMEOUT_SECONDS="$scenario_timeout_seconds" \
   CANNONBALL_GODOT_LOG_FILE="$matrix_log" "$repo_root/scripts/run-scenario.sh" \
   --fixture official-corridor \
   --profile vehicle-dynamics \
+  --vehicle=hero-gt \
   "--assist=$selected_profile" \
   "--dynamics-speed-bands=$speed_bands" \
   "--dynamics-fixtures=$fixtures"
+validate_identity "$matrix_log"
 
 if [[ "$profiles" == "all" && "$speed_bands" == "all" && "$fixtures" == "all" ]]; then
   expected_hash=""
@@ -75,10 +103,12 @@ if [[ "$profiles" == "all" && "$speed_bands" == "all" && "$fixtures" == "all" ]]
       "$repo_root/scripts/run-scenario.sh" \
       --fixture official-corridor \
       --profile vehicle-dynamics \
+      --vehicle=hero-gt \
       --assist=Accessible \
       --dynamics-speed-bands=push \
       --dynamics-fixtures=lane-change \
       "--engine-fixed-fps=$fixed_fps"
+    validate_identity "$frame_rate_log"
     marker="$(grep 'CANNONBALL_VEHICLE_DYNAMICS_SUITE_OK' "$frame_rate_log" | tail -n 1)"
     result_hash="$(sed -n 's/.*result_hash=\([0-9a-f]\{64\}\).*/\1/p' <<< "$marker")"
     if [[ -z "$result_hash" ]]; then

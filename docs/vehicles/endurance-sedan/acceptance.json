@@ -1,0 +1,538 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "specification": "specification.json",
+  "qa_plan": "qa-plan.md",
+  "status": "pending",
+  "rows": [
+    {
+      "id": "Q01",
+      "stage": "specification",
+      "required_evidence": "Referenced dimension sheet with exact year/market/trim/configuration, width definitions, units, confidence, stock/modified/fictional labels and model/runtime mapping; comparison with chosen engineering benchmark",
+      "failure_condition": "Missing key packaging value, inconsistent PS/hp/kW or width definition, unresolved conflicting dimensions, or reference estimate presented as a factory fact",
+      "status": "pending",
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/REVIEW01.md",
+          "bytes": 6697,
+          "sha256": "e63883dfd6f31568111a0d33efcf1ece3f8af99c1ed4fb152c974938ad1beb6a"
+        },
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/readback01.json",
+          "bytes": 25721,
+          "sha256": "4724ae02d98a10b70c6ea014147b6c6e1c11414a0e2503349bc5f94aa050ca82"
+        },
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/retention01.json",
+          "bytes": 13105,
+          "sha256": "332f71193f287559c5705c406aff2766b857a3f185dd2f9bd01173128057070c"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/review.json",
+          "bytes": 127278,
+          "sha256": "3be33d15aefac52f53415a3b88840e22d5abc8df30a1ab6f64efdadf6873b2f8"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "The retained research registry, metadata, conflicts and core arithmetic are verified within their recorded scope:135 value records,17 conversions and8 cached sources. Six web-reviewed sources were not cached. Current reference documents retain their historical hashes. The comparison with specification25 was recorded before the separate51 rear-view rendering metadata addition; original engineering anchors remain unchanged. Final readable construction/source bindings remain pending."
+    },
+    {
+      "id": "Q02",
+      "stage": "originality",
+      "required_evidence": "Lead-authored design rationale and front/rear/profile/cabin comparison with engineering references; provenance inventory for every external input",
+      "failure_condition": "Unacknowledged borrowed logo/model identity, untracked texture/reference ancestry, or fictional styling represented as a licensed replica; human rights/art gate remains separate",
+      "status": "pending",
+      "evidence": [
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/REVIEW01.md",
+          "bytes": 6697,
+          "sha256": "e63883dfd6f31568111a0d33efcf1ece3f8af99c1ed4fb152c974938ad1beb6a"
+        },
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/readback01.json",
+          "bytes": 25721,
+          "sha256": "4724ae02d98a10b70c6ea014147b6c6e1c11414a0e2503349bc5f94aa050ca82"
+        },
+        {
+          "path": "reports/p1-018/qa/research40-freshness01/retention01.json",
+          "bytes": 13105,
+          "sha256": "332f71193f287559c5705c406aff2766b857a3f185dd2f9bd01173128057070c"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/review.json",
+          "bytes": 127278,
+          "sha256": "3be33d15aefac52f53415a3b88840e22d5abc8df30a1ab6f64efdadf6873b2f8"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "Historical source34 comparison and input ancestry are verified only for those exact artifacts, including the retained Bfont-data chain. Source193 is diagnostic counterevidence to stale six-texture metadata: it adds a Bfont-derived label atlas and deliberately regenerates paint roughness. Final geometry comparison, complete current input inventory and human art/output-rights decisions remain pending."
+    },
+    {
+      "id": "B01",
+      "stage": "blockout geometry",
+      "required_evidence": "Fresh blend and exported blockout; orthographic front/rear/left/right/top/underside with scale rulers, wheel/contact/COM/collision/camera/occupant overlays",
+      "failure_condition": "Scale/axes/origin mismatch, missing fourth door or usable cabin envelope, wrong wheelbase/tracks/radius, mismatch between visible tire and contact markers",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "B02",
+      "stage": "blockout driving",
+      "required_evidence": "Continuous official-engine footage and synchronized telemetry of acceleration, throttle release, braking, reverse, left/right turn and settling after a bump, with rigid body unfrozen",
+      "failure_condition": "Body transform or wheel telemetry posed to satisfy stage; expected motion/sign absent, sustained unintended slip/contact loss, fall-through, unstable settling or contact supported by wrong geometry",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "B03",
+      "stage": "blockout lifecycle",
+      "required_evidence": "Actual collision, recovery/reset, chase/cockpit/rear-view changes, local-origin shift and save/resume; route/system state comparisons",
+      "failure_condition": "Collision misses; reset/resume does not restore bounded supported state; origin shift changes authoritative route or causes visible jump; wrong setup after resume; captured camera clips",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "B04",
+      "stage": "preserved variants",
+      "required_evidence": "Equivalent explicit sedan/Hero GT/graybox shared-adapter checks and existing vehicle dynamics/camera/input/save regressions",
+      "failure_condition": "Hero or graybox cannot load/drive, sedan radius or dimensions leak into another variant, undocumented speed-policy change, missing fallback",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V01",
+      "stage": "proportions",
+      "required_evidence": "Neutral clay orthographic and matched perspective views before microdetail; same views after each proportion correction",
+      "failure_condition": "Sedan silhouette/occupant packaging inconsistent with lock, asymmetry not designed, wheels poorly fitted to arches, hidden bad proportions concealed by extreme lens or darkness",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V02",
+      "stage": "surface quality",
+      "required_evidence": "Full exterior turntable and slow moving grazing reflections; evaluated geometry/normals inspection after modifiers",
+      "failure_condition": "Pinching, faceting, discontinuous curvature, wavy reflections, shading seams, nonmanifold defects or unintended intersections at gameplay and inspection distances",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V03",
+      "stage": "body construction",
+      "required_evidence": "Four distinct doors, hood, trunk, roof/pillars/fenders/bumpers/rockers; measured gaps, thickness, jamb/seal/hinge views with openings closed/partial/full",
+      "failure_condition": "Missing assembly, razor-thin visible edge, inconsistent gap, floating fastener/handle, absent recess, opening reveals void, or unmodeled closure interior",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V04",
+      "stage": "wheels and brakes",
+      "required_evidence": "Each tire/wheel in side, oblique and inner-barrel views; tread/sidewall/rim/hub/fasteners/disc/caliper details; full steering and bump/droop sequence",
+      "failure_condition": "Wrong OD/width/offset/rotor size, tire/body contact, detached tire, rotating caliper, static rotor with rolling wheel, reversed roll sign, implausible brake/barrel fit",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V05",
+      "stage": "glazing and seals",
+      "required_evidence": "Exterior and interior matched views through every window, glass edges and mirror mounts, daylight/overcast/night",
+      "failure_condition": "Opaque or invisible intended glass, inverted/twice-dark glass, incorrect sorting, missing thickness/seal, exterior reflections obscuring all cabin sightlines, holes exposed by reverse viewpoints",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V06",
+      "stage": "lamps/grille/exhaust",
+      "required_evidence": "Close-ups of lens/housing/projector/reflector/light guide, genuine grille/opening depth and exhaust termination; five-lighting comparison",
+      "failure_condition": "Painted-on flat opening, floating lamp component, light leaks through housings, visible backside void, exhaust/grille not connected to plausible depth",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V07",
+      "stage": "black materials",
+      "required_evidence": "Locked neutral studio clay and material views; paint grazing highlight close-ups; adjacent paint/trim/rubber/leather/fabric/metal/glass swatches in scene",
+      "failure_condition": "Black crush hides construction under neutral exposure, pure mirror/chrome response on intended paint, flat plastic response, oversized noise, smeared UVs, inconsistent physical texture scale or wrong color space",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V08",
+      "stage": "front cabin",
+      "required_evidence": "Seated driver eye view, center console, instruments, vents, column/wheel/pedals, door cards/switches, seats/headrests/belts, carpet/headliner and storage",
+      "failure_condition": "Missing required assembly, clipped controls or sightline, unsupported seat/column, floating belt, inaccessible control, text unreadable at intended view; human comprehension remains open",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V09",
+      "stage": "rear cabin",
+      "required_evidence": "Both rear-door entry views and rear-seat eye view, seats/headrests/belts, floor, roof/pillars and parcel shelf",
+      "failure_condition": "Front-only cabin, empty rear shell, insufficient locked occupant envelope, opening exposes missing trim/structure, rear-facing camera or mirror sees cut-away roof",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "V10",
+      "stage": "visible systems",
+      "required_evidence": "Hood/trunk/underside views and inspection motion showing cooling/intake/exhaust, engine/transmission housing, suspension/undertrays, fuel/luggage/endurance equipment packaging",
+      "failure_condition": "Modeled mechanism has nowhere to fit, fuel/equipment intersects occupants or openings, major visible systems absent, implausible disconnected packaging, or modeled engine bay described as simulated mechanics",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F01",
+      "stage": "input and motion",
+      "required_evidence": "Keyboard and controller-contract drive segments; wheel steering/rolling/suspension, chassis response, steering wheel and pedals visible with matching runtime readbacks",
+      "failure_condition": "Input conflict/focus theft, stale/fabricated rig state, wheel rotation inconsistent with signed motion and declared radius, steering/pedal direction wrong, suspension moves past declared stops",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F02",
+      "stage": "lights",
+      "required_evidence": "Night wall/road illumination plus exterior/cockpit footage: head/tail on/off, brake with lamps off/on, reverse stationary/moving, left/right signals, hazards and cancellation",
+      "failure_condition": "Emissive-only headlight proof, brake state confused with tail state, wrong side flashes, missing center brake, reverse disagrees with actual selected reverse state, stuck emission after toggle/camera/LOD/reset",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F03",
+      "stage": "instruments",
+      "required_evidence": "Continuous dashboard close-up during accelerate/shift/brake/reverse, changed saved fuel, low-fuel/damage and implemented warning states; raw state/value/unit overlay in fixture",
+      "failure_condition": "Static labels, speed/gear/RPM/fuel disagree with explicit source/rounding, display obstructed, values jump on camera switch, fabricated temperature/pressure simulation; estimated gear/RPM must be documented",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "F04",
+      "stage": "wipers",
+      "required_evidence": "At least three uninterrupted sweep/park cycles from driver/exterior/oblique camera, slow diagnostic cycle and swept-area/contact overlay",
+      "failure_condition": "Incorrect pivot or handedness, blade passes through glass/trim, lifts off claimed contact span, blades collide, misses declared driver critical region, does not repeat park, freezes/jumps after camera/rebase/LOD",
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "Source34 continuous wiper visibility review and fresh source193 driver/glass results pass in their recorded scopes. Final glass/interface/runtime motion rebind remains required."
+    },
+    {
+      "id": "F05",
+      "stage": "mirrors",
+      "required_evidence": "Each mirror shows the moving numbered off-main-screen target; cabin pan, turn/reverse/rebase, day/night, on/off/update telemetry and cost comparisons",
+      "failure_condition": "Static/frozen view, wrong side/orientation, target absent despite expected visibility, self-recursion, hidden cabin omitted incorrectly, excessive declared latency or resolution that prevents intended review",
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/mirrors51/adoption.json",
+          "bytes": 2767,
+          "sha256": "91ff2ea05d5a39a662601a17265bf525de3fb91f33c9fed549122c25df6056e9"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/gl_compatibility/result.json",
+          "bytes": 431104,
+          "sha256": "428b97ff316807c783f022569537d44453dbfdc099d944bb45e57792353b84f2"
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/mirrors51/regressions/forward_plus/result.json",
+          "bytes": 431080,
+          "sha256": "49f7f219033eeac6b081c65a5aa02eabcac75bca26688bf0cfc07281f2830ccb"
+        },
+        {
+          "path": "reports/p1-018/qa/rear-grounded40-review01/review08.json",
+          "bytes": 15163,
+          "sha256": "8ea1bb9896862a94aaeed8c65fbbb84537d13a52e7b7ec780b1af25ce94bd7f1"
+        },
+        {
+          "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/review09.json",
+          "bytes": 6442,
+          "sha256": "2c6ec623e12ad8486ff355e7e303f54fa056a89b6a0af2f3ef6a957a9052d9d7"
+        },
+        {
+          "path": "reports/p1-018/qa/rear-grounded40-review01/persistent51/retention09.json",
+          "bytes": 217851,
+          "sha256": "3ce7248f4b8a35e597058ffc8e3e2e0f3e053817469b15320dc9cd01ea9a7ee1"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/review.json",
+          "bytes": 127278,
+          "sha256": "3be33d15aefac52f53415a3b88840e22d5abc8df30a1ab6f64efdadf6873b2f8"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "Rear-camera approximation adopted. Source60 grounded production-environment daylight/night visibility and production34 canonical material/lifecycle regressions pass in their explicitly separate scopes. Final-source moving targets, cabin/turn/reverse/rebase, telemetry/cost and human usability remain outstanding."
+    },
+    {
+      "id": "F06",
+      "stage": "openings",
+      "required_evidence": "Separate and simultaneous continuous four-door/hood/trunk open-close cycles, 0/25/50/75/100% stills and hinge/jamb/strut views; repeated close from partial travel",
+      "failure_condition": "Wrong pivot, panel/body/inter-panel collision, interior void, detached glass/trim, wrong travel or stop, closure cannot return to recorded pose, UI inaccessible from keyboard/controller",
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "Source34 continuous all-door framing review and current six-hinge endpoint/lifecycle showroom pass. Final-source changed jamb/trim/interassembly motion remains required."
+    },
+    {
+      "id": "F07",
+      "stage": "state lifecycle",
+      "required_evidence": "Lights, wipers, openings, instruments and mirrors across camera change/reset/rebase/selector/save/resume, with documented persistence policy",
+      "failure_condition": "Presentation stale or leaks between vehicles; existing authoritative save changed unintentionally; fixture changes cannot be distinguished from player operation",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "O01",
+      "stage": "LODs",
+      "required_evidence": "Fixed-camera LOD0/1/2 comparisons at intended sizes and continuous distance crossings in both directions during driving",
+      "failure_condition": "Functional lights/moving wheels disappear, body/color/glass changes materially, silhouette pops beyond review trigger, wrong cockpit/opening override or uncontrolled threshold chatter",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "O02",
+      "stage": "collision and damage",
+      "required_evidence": "Collision proxies overlaid on closed body; real barrier/ground contacts; damage-zone readback and visible mappings on each LOD",
+      "failure_condition": "Detailed visual collision replaces declared proxy, excess collision budget, proxy permits obvious ground/wall penetration, wrong or missing semantic damage zones; opening colliders are only claimed if implemented",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "O03",
+      "stage": "portable artifacts",
+      "required_evidence": "Lead's saved blend reopened, dependencies inventory, evaluated mesh/UV checks, two locked exports and every shipping-byte comparison; fresh official Godot import instantiates final project wrapper",
+      "failure_condition": "Absolute/local-only texture dependency, missing packed assets, stale generated scene, duplicate semantics, material/resource import error, wrapper not exercised, nondeterministic shipping bytes",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "O04",
+      "stage": "cost and performance",
+      "required_evidence": "Active/total content inventory and actual native 1440p Forward+ captures with mirrors/lights/cockpit, standalone timing and 30-minute growth data",
+      "failure_condition": "Provisional content ceiling exceeded without governance resolution; declared reference gate violated; movie-render throughput or headless FPS substituted for actual presentation cost",
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+        }
+      ],
+      "human_approval_reference": null,
+      "verified_scope": "Explicit sedan/mirror reference capture selection exists; final reference performance and30-minute growth evidence remain pending."
+    },
+    {
+      "id": "D01",
+      "stage": "delivery",
+      "required_evidence": "Final source/tooling/runtime/setup/LODs/collision/docs/media/evidence inventory plus exact open/select/inspect/drive instructions replayed by QA",
+      "failure_condition": "Missing file, stale hashes/revision, undocumented limitation/control, failed required platform check, required human gate marked complete by an agent",
+      "status": "pending",
+      "evidence": [],
+      "human_approval_reference": null
+    },
+    {
+      "id": "S01",
+      "stage": "showroom controls and lifecycle",
+      "required_evidence": "Actual keyboard/controller operation of six hinges, eleven views, orbit/zoom/pan/turntable, lights/wipers/hazards; unchanged paused run/body/time, return/reopen/held-input suppression; all declared platforms.",
+      "failure_condition": "Missing control, wrong actual joint pose, inaccessible restoration, mutation of the parked run or required platform evidence absent.",
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v52/review.json",
+          "bytes": 127278,
+          "sha256": "3be33d15aefac52f53415a3b88840e22d5abc8df30a1ab6f64efdadf6873b2f8"
+        }
+      ],
+      "verified_scope": "Full local Compatibility showroom scenario passes with all51 assertion sites and52 action/request/capture sites preserved; conditional paths are not all exercised by one invocation. Hosted complete PlayGodot suites pass on Linux, Windows and macOS at c2336a0. Final-source showroom rebind and human usability remain required.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "S02",
+      "stage": "showroom inspection composition",
+      "required_evidence": "Actual full-UI and UI-free exterior/underbody/cabin/engine/luggage images with intended resolution; readable neutral/day/night materials and camera clearance.",
+      "failure_condition": "Camera clips the vehicle, floor blocks underside, controls conceal promised inspection, black crush or glare hides needed detail.",
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+        }
+      ],
+      "verified_scope": "Twenty-one current showroom outputs plus warmup reviewed at1280x720: eleven useful views, wheel/UI clearance, rear row, underside, engine and luggage coverage. Dark panels, hood stippling and current form remain visible; final-art/Forward+ acceptance is separate.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "S03",
+      "stage": "showroom photos and accessible input",
+      "required_evidence": "Actual native-resolution PNG from existing Photo control; keyboard/controller hide/recover; actual mouse drag/wheel/focus-loss/resize plus human usability.",
+      "failure_condition": "Missing or wrong-size photo, overflow, hidden-UI input trap, unverified required input path or pending human usability.",
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        },
+        {
+          "path": "reports/p1-018/finish-branch40/checkpoint49.json",
+          "bytes": 8343,
+          "sha256": "8be5369d9be8e315532578d1ec7acf51aebdd3cc5f6cd0121bdc0ae9c65af555"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/runtime-completion-v49/review.json",
+          "bytes": 64314,
+          "sha256": "519ae3ccc0971c1e34a9cf06d1be1f461d8f4102dded86414fbfac18bdcda4ba"
+        }
+      ],
+      "verified_scope": "Actual native-resolution UI-free Photo pair, keyboard/controller hide and R3 recovery, controller Photo and returned-driving image pass. Physical-input and accessibility reviews remain open.",
+      "human_approval_reference": null
+    },
+    {
+      "id": "S04",
+      "stage": "showroom cost and delivery",
+      "required_evidence": "Source-bound private viewport timing/memory/draw costs, accepted separate budget, complete required platform front doors, retained inputs/outputs/failures.",
+      "failure_condition": "Diagnostic timing presented as reference-PC/GPU acceptance, unexplained cleanup failures, missing platform evidence or task marked complete with open gates.",
+      "status": "partial",
+      "evidence": [
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/handoff13/readback.json",
+          "sha256": "82982fa8d9372826b43627b7da6696272eef5d6d3ff611642cbf2f87fad1386e",
+          "bytes": 41641
+        },
+        {
+          "path": "reports/p1-018/runtime/showroom29-plan01/lighting17-handoff/readback.json",
+          "sha256": "dc4442f17700c8178422a5c60ff5a9c9e4f7ba125d9496c50820088d9e95322e",
+          "bytes": 19434
+        },
+        {
+          "path": "reports/p1-018/qa/showroom29-review01/REVIEW16.md",
+          "sha256": "42eef5aa1bd33c091d36b20a7f1a594112716d6733882de060948aa90d1155b4",
+          "bytes": 5678
+        },
+        {
+          "path": "reports/p1-018/showroom29-frontdoor02/summary.json",
+          "sha256": "8e9e74504da28f2ca54f42beccb96ef71fd95024eda65f593a05a361c866d941",
+          "bytes": 1482
+        },
+        {
+          "path": "reports/p1-018/showroom29/frontdoor02-bindings.json",
+          "sha256": "081ba23014abe51e4f3bc2e628ac272a902aeef1eae661da344f986881f1e5bd",
+          "bytes": 3928
+        }
+      ],
+      "verified_scope": "Final Windows13-step front door and strict native cleanup pass. Short diagnostic counters are retained; Q-047 budget, remote revision checks and human review remain pending.",
+      "human_approval_reference": null
+    }
+  ],
+  "technical_thresholds_source": "specification.json:tolerances",
+  "performance_authority": "ADR-0023 including2026-08-16 stall20ms addendum",
+  "human_gates": [
+    "original art direction",
+    "source and asset rights",
+    "30-minute driving enjoyment",
+    "physical wheel calibration and feel when supported",
+    "player comprehension and accessibility usability"
+  ],
+  "human_gates_status": "pending",
+  "updated_utc": "2026-09-21T04:42:47.566850+00:00"
+}

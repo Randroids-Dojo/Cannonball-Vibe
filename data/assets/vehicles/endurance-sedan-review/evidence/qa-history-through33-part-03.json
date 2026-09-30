@@ -1,0 +1,2015 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T17:59:33.354933+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/qa-history-through33-parts/part-03.manifest.json",
+    "sha256": "a2041a7ce137154458ca1e6b8122cf02e8ebcaf4859300b6f9e93be112fb1cd1"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/qa/source-controls-10/02-cruise.png",
+      "sha256": "c992f3f5168b5551d3dfca976bb37a21c91cfe54f27dabf00fecf299f525720c",
+      "bytes": 3412708,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/03-reverse-lowfuel-hazards.png",
+      "sha256": "2532fc73976e747e9b43701c8fb086ee5e131b8c7c97399c8b0de0b7245380b6",
+      "bytes": 3402861,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/04-hazards-on.png",
+      "sha256": "c924823fe071d33b6455d914685b8e9cd951a3e26d94628cb7b5874f7e701a0d",
+      "bytes": 3668444,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/05-hazards-off-phase.png",
+      "sha256": "d1e5ff6011798fef865dfbdf2ab0747e1d62bffec8c41a4cc21f4dd8a56f0050",
+      "bytes": 3655393,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/06-wiper-quarter.png",
+      "sha256": "08f613cec58b82e43ca7664ccac48004e5da84f0c6bd6bf3d866bb581b2c2605",
+      "bytes": 3804857,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/07-wiper-apex.png",
+      "sha256": "20ca962a2f6213c4d29daf9a4c9fc6f982096aa698c8b0733b2957296f35b9e5",
+      "bytes": 3798431,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/08-wiper-park.png",
+      "sha256": "963e08e954e45631643747ed1a550f00cadd91b06057ee986281096fa12877fe",
+      "bytes": 3802510,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/manifest.json",
+      "sha256": "8aa4c16e42983562988f7d472de62777105ec75e8526d73c1d948d6746baed4e",
+      "bytes": 40407,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/process.json",
+      "sha256": "a6c026e02f4b69c5f0e83de8b6750e89bf26a717116b3627bd82142910351ae1",
+      "bytes": 3945,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/review.json",
+      "sha256": "3b397bea6c7ee707a8a7cb3a970e19ae221773065533bd897df02be0afe24c0b",
+      "bytes": 60097,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/stderr.log",
+      "sha256": "b415adc54bf131cef1fc3337243b2c2c3565d618f8e2fceb110eda23af2ee52c",
+      "bytes": 47858,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-10/stdout.log",
+      "sha256": "da3db164245c30d30b38e0524e0e0969eed9beb73f22e0bab501dc130390aad2",
+      "bytes": 2497,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/driver-matrix.json",
+      "sha256": "e51587ee10a3cb5a22b868a981263e9dcbb35a07f8d6fe682a78274541b90dec",
+      "bytes": 217630,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/driver-process-02.json",
+      "sha256": "ebeda35ea8ad146ef2f216cd919848473536df7e4b74fc7d2185ae01c97ed932",
+      "bytes": 1988,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/driver-process-02.stdout.log",
+      "sha256": "ec23f28845d1c005758031c0cb7ccc1d77c4007cc46869f1fc8eecd6f69ff115",
+      "bytes": 249,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/driver-process.json",
+      "sha256": "9f58d6cdbc302b6e6d59dfe22adf4f8e9f83928c01aa4903feb0b7efb8bc583e",
+      "bytes": 1756,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/driver-process.stderr.log",
+      "sha256": "97420d91f5fcfc4053d2d15f7cc713d3eb5810199feb5a63bbd35555eb28934e",
+      "bytes": 580,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/driver-process.stdout.log",
+      "sha256": "5355b0fbdb0e111d621d7a5fe7f87fd2eba3b10fe66c1b8d1bebc0fb71d13d96",
+      "bytes": 197,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/probe_source_controls_13.initial.py",
+      "sha256": "cb8c601d5fd0c78aeb5d1bec096656d2bab8714f2ed6225caa70413edd04c99b",
+      "bytes": 5713,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/rendered/cockpit.png",
+      "sha256": "9a165f149c20ef29fa8e766ee3e4317a21e21a9bf25c1e4fcc8d71cd5f07a80f",
+      "bytes": 1159901,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/rendered/manifest.json",
+      "sha256": "f41855e9b7e4649d20fc08579be56b7f799c13ccb163ed35d312f7baf091ffa5",
+      "bytes": 976,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/review.json",
+      "sha256": "ac30bfb66f06e5deac0ed71b37dde60f4329538c07825c1e6f95bd4faf985345",
+      "bytes": 2611,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-13/source.blend",
+      "sha256": "28494f3710bc653835625e8565afe9f2f304ca25b7f308bd75fd03983dec7dcf",
+      "bytes": 4674840,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-21/driver-matrix.json",
+      "sha256": "1234bf9b759d3759277ee4fdf71a44d6123aec83207816296279697e1336fb3b",
+      "bytes": 217630,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-21/driver-process.json",
+      "sha256": "2caf43fc21f587d9905d805974bbdff5147f815bba11cefa28cee4d779fa5381",
+      "bytes": 1982,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-21/driver-process.stdout.log",
+      "sha256": "0f73e050c20e272f62a3ec6e24f161b231db398e1cbddee745291f79d0a65abb",
+      "bytes": 249,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-21/review.json",
+      "sha256": "96d361252fb1f0db7a0e7c8e7a87a3666bb17f58d363071681488ee50d21b071",
+      "bytes": 1503,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-23/driver-matrix.json",
+      "sha256": "569b89bd250e716e153b29853cb736ce580a6242825975d585e64cd7237f4b59",
+      "bytes": 217630,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-23/driver-process.json",
+      "sha256": "c8a6ea401e50f7a359cb93bb6c51bef2914004212d690353e0a9e20f4eb5df41",
+      "bytes": 1981,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-23/driver-process.stdout.log",
+      "sha256": "be018dad1e30bbe382003df48df1b1ddacf00c4d7ea414974da763266e0be779",
+      "bytes": 249,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source-controls-23/review.json",
+      "sha256": "e909a3b10ebcec1ba9e2e0bebeb632f67647405dab7c7aaa2be1e86e90888838",
+      "bytes": 1485,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source30-review-record-process.json",
+      "sha256": "98f5d9d5834ea80abdac5365b2f23d9d9066b777f691d5c2f81c34a50b76e24a",
+      "bytes": 1771,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source30-review-record-process.stdout.log",
+      "sha256": "5dbe6f2953f3a67d05b402ffd67cc13c97d68b8067351d14cc0f1de6c45f6955",
+      "bytes": 382,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source32-reviewed/file-freeze.json",
+      "sha256": "a20639c015b5393578c03fd0083296902fb1b9942f5f4e979d5ec40bd3760783",
+      "bytes": 6276,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source32-reviewed/process.json",
+      "sha256": "c87818a04b804034b9fa8c694c29cd30c35c289e3f4b94f2359fac953d3d095b",
+      "bytes": 1265,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source32-reviewed/review.json",
+      "sha256": "9949ae78b19616b8979ec35ef7e6e1e7d1359dc2a025af275f20cae52c7ad62c",
+      "bytes": 5380,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-cockpit-comparison-process.json",
+      "sha256": "f9087a4038e29d4be8b65d93eaea03a99bd89600e74a08c5417dd82a71f69a38",
+      "bytes": 2793,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-cockpit-comparison-process.stdout.log",
+      "sha256": "decef90c557ea28da2d6ac5e46df7411b19384f01f3d631d28d28737920bd0fd",
+      "bytes": 4202,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-finish-rebind-02/evidence.json",
+      "sha256": "7242e0333e73ee39a286a248a77b8e1b97699eceadb9830fd50001e17f2cff18",
+      "bytes": 51406,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-finish-rebind-process.json",
+      "sha256": "095547e7c8b90b007ea70f472a7016ccb5ada067583b6f0bfe077ed83e1dca00",
+      "bytes": 2166,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-finish-rebind-process.stderr.log",
+      "sha256": "7f62a2087c12e8598e94221f60d6faadcc6e905dbb7e6e8cb55a83c70c2e881b",
+      "bytes": 448,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-finish-rebind-process.stdout.log",
+      "sha256": "cb7179672607469291c744b28c41e8e10eee4ded41fe34cdc8cec87f5eecd52a",
+      "bytes": 194,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-finish-rebind-process02.json",
+      "sha256": "36c2989647c240898111e026a7ecfa805dab71becc69dc8ada7be0d52b807da3",
+      "bytes": 2398,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-finish-rebind-process02.stdout.log",
+      "sha256": "9d6fb413247cc9ea01493c075a45f8009f8b96cabb8a7b4237bb72792fc5f26b",
+      "bytes": 5761,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-finish-reviewed-01/pixel-comparison.json",
+      "sha256": "d911d1d7ea3a200c72c24be349ac958311dd4e197ef90976b3d5cc7f9cefd7e4",
+      "bytes": 10910,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-finish-reviewed-01/review.json",
+      "sha256": "a73e66f8ff098ae4b61ee342a0b326ff86f7bfe1958e9a7777a456cde13f3e62",
+      "bytes": 8518,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-review-record-process.json",
+      "sha256": "bf20c93bdd809e3190aa6b6ad1f29adb2021e43cdff2fa99bd6c73f0bc26446b",
+      "bytes": 2635,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-review-record-process.stdout.log",
+      "sha256": "43534bf805003812726a2edc2d4942dea20ed10fb65db3bed471a0b0b1d41fe3",
+      "bytes": 865,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-reviewed/review.json",
+      "sha256": "fa3a7d2ed512062c5f240d9fea8b4f12853ce1b647a3ef38cf9094a57586fc30",
+      "bytes": 120553,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/source33-viewed-inventory-input.json",
+      "sha256": "677a5da667641ea9c31ccca904f86cb9c8d26c402c5b69cf3d5fb34cb40475fb",
+      "bytes": 3198,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/specification-review/inventory.json",
+      "sha256": "5ac64df7ac886406a8247f2bfd09ee5073a9d17f35fb010ee035afef7b02b61a",
+      "bytes": 4121,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/specification-review/review_specification.initial.py",
+      "sha256": "484c21665464e65a785f0684133fa478f0cb46252998d1db6251bce0da9c3079",
+      "bytes": 12445,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/specification-review/review_specification.py",
+      "sha256": "a00eafc8028eb38c262cddcaf15c86ebd287a10b7805d6fd74dbc820008e8379",
+      "bytes": 12964,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/specification-review/specification-observed.json",
+      "sha256": "d3dedb2c311955eb9a204e05b4018941fceaebad67379185e64f1d1b6a4c8253",
+      "bytes": 29271,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/specification-review/specification-review-corrected.json",
+      "sha256": "b8b8e40c364ded35d59ce1637051923f002ab217547e6dd072be38b9e8a9ff94",
+      "bytes": 30124,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/specification-review/specification-review-initial.json",
+      "sha256": "8fcd48adc7e68aa3cf738fdcb937c6dfeab3b7ea6137dc37159bf03036697ee5",
+      "bytes": 26625,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/split_font_fans_28.py",
+      "sha256": "ffb6ce9d879024a5b514d8409adbb7136a2ba5681eaa8a01bd7333b6c8915d3c",
+      "bytes": 2655,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/splitter-sliver-27/diagnosis.json",
+      "sha256": "e6e448b3e8e993da42c411f1d74be958844e1d14efae099e1c6f721c665d1ad8",
+      "bytes": 2162,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/splitter-sliver-27/process.json",
+      "sha256": "834b6cb5e066f181197ec1c5043f0d459db0d09edc6cc88f6ca74e49f5dd660c",
+      "bytes": 1966,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/splitter-sliver-27/process.stdout.log",
+      "sha256": "9e4e105f40ea55dc1c9dddb96eb2f5491e488c0dc83cdf97fbf4f3df777028d0",
+      "bytes": 1884,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/stills32-ledger-update-process.json",
+      "sha256": "fc772445382c790a0bfcd083db0cd53f863cd7527bf6d2e777b27d3b4dc2f36f",
+      "bytes": 1728,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/stills32-ledger-update-process.stdout.log",
+      "sha256": "d5ce70eb395816c34ee1463efc436152627d2f2dae66eef0ff0fa62dea5ac601",
+      "bytes": 688,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/stills32-ledger-update.json",
+      "sha256": "7ab0d102e97d74c29943689e6c1745d81cd65581993ecee1068ff5a94b2f6575",
+      "bytes": 795,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/README.md",
+      "sha256": "267b71b27e3267c472af8dd6596b97426980e14826f735f5e8df206b2606026c",
+      "bytes": 10061,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/actual_baseline.png",
+      "sha256": "e9afdfd1b5699da742eb165fea1552db3aefdcd4001648363b8ad879240d0d6c",
+      "bytes": 182812,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/actual_clear_normals.png",
+      "sha256": "25a9ce03350b5adc1c3c088d4df0d09cef771f79f66ad6d7bfd03893cab658ed",
+      "bytes": 184871,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/actual_no_bevel.png",
+      "sha256": "7c2ebc52a4c0fdfdbf9bd369edaf236144a20267a5cfe3d429dce2a933a955f8",
+      "bytes": 192907,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/evidence.json",
+      "sha256": "3fb4875be20ed59100a5f832595cac0e74a291673b3cec35754c26b0c3e5cb73",
+      "bytes": 16301,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/reconstruct_original.png",
+      "sha256": "97cb381d7fdeeb834b23fa0a84c6f8e93ebae8bd8a7fb546fc414bc3dbaf2139",
+      "bytes": 182869,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/refine_cross_and_longitudinal.png",
+      "sha256": "c5959ebbbd9339967ecbb279bbd2ef242109a1b9a0757819e2c761eee897d2b5",
+      "bytes": 181683,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/refine_cross_only.png",
+      "sha256": "70c743a2b3384829320396c7e0577dc37e2781cbf16ce31dfed895e1272bca3e",
+      "bytes": 182200,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/refine_longitudinal_only.png",
+      "sha256": "6c22eb713970c6bae72b10a4295ad54fa52df2ba9b0ad138b42c7b5ae2a17fa5",
+      "bytes": 181575,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/review.json",
+      "sha256": "99c6d00831cc993423552edfe1b6f9f82a4793b46a8baec7ac179cb9f1a1afae",
+      "bytes": 5705,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-refinement-18/shoulder-manifest.json",
+      "sha256": "061a458730e5b7397bf68ae0e8942b577df81aae176299650d93eb84e1cce80d",
+      "bytes": 4093,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-shading-15/README.md",
+      "sha256": "aa214ecef2cdc3f39b115d2fa2aa399facc1d8a677fb1aec564604007479f742",
+      "bytes": 8949,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-shading-15/actual-bevel-manifest.json",
+      "sha256": "e60ce249f6fb9e887e3f771609e33888f89e0c6cd075d03822c8491ad8ccc74f",
+      "bytes": 8575,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-shading-15/actual_source15_bevel1rad.png",
+      "sha256": "7b2c9e0ca3ef462db74201fc2ed7e827b3fbffb82a2217b83117cc7566e99631",
+      "bytes": 139834,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-shading-15/baseline.png",
+      "sha256": "66055aae191a6387e1b32279529627e303aca43c54e67dce0be7024a001e3157",
+      "bytes": 141478,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-shading-15/evidence.json",
+      "sha256": "1d80320c8e374715735161fac821a31307707d31bc85e6df6d3577e79679b388",
+      "bytes": 27324,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-shading-15/review.json",
+      "sha256": "abde47f78766597ff48d0be667f8f3a50d4dee8ed00b7b40b291ae9145739ef7",
+      "bytes": 3876,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/surface-shading-15/variants-manifest.json",
+      "sha256": "6ec74678f450239b2f7b7b033018dd50df4532476a1e0e854f942c5cc0678150",
+      "bytes": 109066,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/00-stdout.log",
+      "sha256": "cebf3e93ce0a32e46ff68a5d417599668b7b887940b3e0c01af5c2660b67a302",
+      "bytes": 285,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decode-evidence.json",
+      "sha256": "94b7035c2574b44789f2d6b0c1a12df2af0831fa1e71cf3fcc6a47bf532994b0",
+      "bytes": 17578,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000001.png",
+      "sha256": "2db219b81e59aadf59732391efd5275aff37a8887f6aeced23aad350b17e35a3",
+      "bytes": 1310614,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000002.png",
+      "sha256": "8df8f787e27b9185439b91c0526a256ba11323b39c8f93d1f90815fedf9309aa",
+      "bytes": 1327973,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000003.png",
+      "sha256": "e6ebff44ae5fa0c698d4d58e20f7a0c536f918c25722912e5ecb1db5aa2b02f9",
+      "bytes": 1340506,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000004.png",
+      "sha256": "908621d039ec2a419bee90567b2a421b09fd9d59c3c800bc1a2246ac6ae1d0b3",
+      "bytes": 1353364,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000005.png",
+      "sha256": "f6362f92c0018eba33839f4f54b75f02810b7372900b9c1a7eeba7f065ee6453",
+      "bytes": 1342061,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000006.png",
+      "sha256": "b0677f0b1cd330acf51749515a830fe35626b7949e2076681b1e68611d5de432",
+      "bytes": 1354364,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000007.png",
+      "sha256": "45e90d450e4a9fed1f99a4889f7cab95bee6ed0c5faa6d4483e036ec530c953f",
+      "bytes": 1369998,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000008.png",
+      "sha256": "7a532bb50a8e99fd5c2e02582e788acf3caff0e3e92bfb993ffb3565c12771d9",
+      "bytes": 1357423,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000009.png",
+      "sha256": "33cda0f7c93302eec3b4b89e6c3fafc36fa4222db389ebdb1766c56ce028c931",
+      "bytes": 1383941,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000010.png",
+      "sha256": "ad2a7a90b3f4303f6cc43cb9e8dc1737eee55c2c6161448ca7df95881347dbb6",
+      "bytes": 1387077,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000011.png",
+      "sha256": "309b24ce7a38c57dd9b3b87873d6b25c873802540c36695b1f4c319177485339",
+      "bytes": 1403789,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000012.png",
+      "sha256": "a58fa931d42387f539cdecae3c7c1d25b6b84045411a2dd17cd11e27baa3e1ec",
+      "bytes": 1398265,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000013.png",
+      "sha256": "cd74465295f8e15d90146419fd38809c11a07f224b63f3e4feb397fb82be961c",
+      "bytes": 1364787,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000014.png",
+      "sha256": "1e8d558d962371828d2a50ea574df391ade6725cc22c800d0fdaf8c91b10a19a",
+      "bytes": 1368480,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000015.png",
+      "sha256": "1f2c6c1173d1d09c2c4ee962f516e7014045896b66c43129111c5444c03b0cba",
+      "bytes": 1332542,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000016.png",
+      "sha256": "4a94f472fe7aa962ad8abd0db51af7203536d06cae92b27f21a7f41d77fd8932",
+      "bytes": 1344320,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000017.png",
+      "sha256": "e7d0f1879428ab0ab8835395ff396ee5b357b77f8e6bae197003ca5d8cb46bb2",
+      "bytes": 1365264,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000018.png",
+      "sha256": "42f745b4335a04500d339cf0b3d34d5d15a7d481e23f4cc0305be0e6499e273c",
+      "bytes": 1372449,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000019.png",
+      "sha256": "8702d3048560d406846e636313d3a325aa1db463c983462ba229b9f24f9e7056",
+      "bytes": 1399879,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000020.png",
+      "sha256": "c275676402247eb7f454dced58ba2a055d52e91224e8f36a3cc886cf51b80c2b",
+      "bytes": 1406875,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000021.png",
+      "sha256": "e8f7c234dc9e49bc92ee52605e97951b7e470cb0b8d3386dd7e5c1767489b0d2",
+      "bytes": 1402614,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000022.png",
+      "sha256": "45826e6fe96277e2174b4505845f5ab80f1f361060f6093eebf8d2e7d6d240f4",
+      "bytes": 1405618,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000023.png",
+      "sha256": "913329182c923889b136c178af7d3eef8fd1e5a1255f4a21770f87fd46732334",
+      "bytes": 1404481,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000024.png",
+      "sha256": "eecbf30b24ea595bbb328f0cea0c724bc20823168c09e4c6b8cb293713338dbe",
+      "bytes": 1394150,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000025.png",
+      "sha256": "e0848e6651243fdd0255221776ce7affa5b411ebe8136dee1ae67265b5c02186",
+      "bytes": 1375309,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000026.png",
+      "sha256": "836ab15758e953234de976fad7fac4494fb971eb0ccdf669f624c710152c20c0",
+      "bytes": 1373127,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000027.png",
+      "sha256": "6cabeed5cf5022d8d36c3860d12d6ccafa16dc20e87c7c2db4240a02b61d2b0e",
+      "bytes": 1367816,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000028.png",
+      "sha256": "6033c213a617155f650fe6d90064294c1d19453a3e721f0028ea4d9101977642",
+      "bytes": 1388228,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000029.png",
+      "sha256": "a859003cc59aaea2dd3f7984e8a5c4f53ffdda008999ac9e9500f0fbfb1b4587",
+      "bytes": 1400575,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000030.png",
+      "sha256": "83da4d12f502fa905c9258eb5a765f13a0dc0534195a91d992f6b66f69a8803b",
+      "bytes": 1419783,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000031.png",
+      "sha256": "375f73e111a973456eac7aa6462d98230dab38db45a58fd969da266ec0cb4c81",
+      "bytes": 1416607,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000032.png",
+      "sha256": "57ef1cc3a693f800d5958f83022f16344d95601058afb7d28e91d72108ab464e",
+      "bytes": 1435291,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000033.png",
+      "sha256": "3f85fe0bcdbbe779eceaba5a16fc2a173c58d6a67b81a42f551d459ca6e6b7da",
+      "bytes": 1427891,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000034.png",
+      "sha256": "5b729143ca544074e655ae93182dc82272faa97ecd2eb26fd9d43c40bc100d85",
+      "bytes": 1418621,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000035.png",
+      "sha256": "a868a221a35b110a6cd38645df3244ddd38762c82cd2c9bd0c66aa19526978e9",
+      "bytes": 1400949,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000036.png",
+      "sha256": "da1da76ce348dc24d72e7d9fc3ae3016b583f9cac7c84e28349f5913218cb798",
+      "bytes": 1402641,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000037.png",
+      "sha256": "52f05e7aec54c13f3fbc90a1ee8edcc315d679869ffafdc5ef3959c3072a537d",
+      "bytes": 1399641,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000038.png",
+      "sha256": "68989c3e86fe8266a873cb829aa3bfb9105e9f5413362b4e6ee5935cc39452af",
+      "bytes": 1392359,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000039.png",
+      "sha256": "4c2af8735c8993dfcdfc57b8bfaeb29507b1eac1ed549274280b40dcb676768d",
+      "bytes": 1396922,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000040.png",
+      "sha256": "3f1bc6f2225b998eff8465be124ec20dc234fcffdce8960e5cbe8213f4e9e4aa",
+      "bytes": 1390804,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000041.png",
+      "sha256": "10d3a87a53b53e6fb9f0e812d1d42368b9eb92baefadfbabd3468d2449197d26",
+      "bytes": 1381958,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000042.png",
+      "sha256": "10229c7bfbcdb00d6f451cf6dc558854847bf47b62c8f1886f936312fea944e0",
+      "bytes": 1383417,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000043.png",
+      "sha256": "e70fe2113a0434a2b56376b2dbf0d9eb9bcf92d52c480bd7f721264317794654",
+      "bytes": 1389562,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000044.png",
+      "sha256": "a9be5bb0f8c2ca7d25a4475c99b7d7325c1c2fef895741203dbb759a9df30dda",
+      "bytes": 1400307,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000045.png",
+      "sha256": "5e71d726ad69c13a29b8c80b92988918aae42ff521365d3ef448d552f3d26636",
+      "bytes": 1410030,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000046.png",
+      "sha256": "20ae4e79869a9f0aaa0b797babf793eae2e40947479425dbb39c09b1b7a619c7",
+      "bytes": 1400011,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000047.png",
+      "sha256": "2dceb35b1a89ff143d49b9de16388ac8044c1b11d443c327142e02ea4a2f1e28",
+      "bytes": 1412407,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000048.png",
+      "sha256": "8d50c1fb5c45738577771086248f90f7df19d397829c80a3b6a47e0811f942c1",
+      "bytes": 1401473,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000049.png",
+      "sha256": "b8daf6cc21579f1b25b1d484f6574565c2515422344704072f2a89a6af535bf4",
+      "bytes": 1421064,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000050.png",
+      "sha256": "526183080f52a54d527360104aa4feb789edc50a319602ed4da3b515c64238ca",
+      "bytes": 1422983,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000051.png",
+      "sha256": "75ab0516de2585854e87866f025054cac9bc7eb2ac4a215eabb6e162fdbdc082",
+      "bytes": 1441067,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000052.png",
+      "sha256": "8017840b41f2bed8e51c79372e8faa97a7e40be64946e65a95b80a811bd06329",
+      "bytes": 1430665,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000053.png",
+      "sha256": "ecdc734a71ad92c7378b7ce8f4c448244b206b89e39fdfda8d98b7e69bffc520",
+      "bytes": 1421060,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000054.png",
+      "sha256": "64f71e9ae5293fa0f144f2362ae66940f5cafc439a065828810cb4eebee159a7",
+      "bytes": 1402866,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000055.png",
+      "sha256": "4ca5a09d5bb6e73756127efc47ac3a179ac315f176dc7a96c7ef554ab5d741e8",
+      "bytes": 1372707,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000056.png",
+      "sha256": "27b973e1992b539ecb8d8a46f02c1306feb80b265d57b57a8b75972a258c2b51",
+      "bytes": 1366309,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000057.png",
+      "sha256": "8e191ac843c13be5323fbf7b20d355cab950e39d4befc037f23f96b2759c7e6e",
+      "bytes": 1359076,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000058.png",
+      "sha256": "3fe200a5d6b732b35e0b4165fa1e2ec999b957f32191ce36a3f2934a66f3e5f2",
+      "bytes": 1376344,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000059.png",
+      "sha256": "d448c2bc84611602ab0520b36bb0d8936760533fbf3b04e158c9ae8af248d3a1",
+      "bytes": 1406018,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000060.png",
+      "sha256": "ad0010ae963fc6cb69c43843ef2fc1d562aa8e5bccabab8b5cdc9eba5be35b3e",
+      "bytes": 1415972,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/decoded/000061.png",
+      "sha256": "244513a0d9ecbccc5af77ef6f95c64aa85fc768abac1cbc8ea033a8d9ca84304",
+      "bytes": 1410512,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/review.json",
+      "sha256": "c6b2a2bd887d335bfbf8ce68104eeb6e347c8bd3fa05307ecebde32a8890f3d3",
+      "bytes": 3797,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/sequential-01-16.png",
+      "sha256": "f6db04d26fe42cd8146a41c1a581b826e58d72f8e5952789d2f94c905c196aaf",
+      "bytes": 1580755,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/sequential-17-32.png",
+      "sha256": "ad7a21c0bf9ca9400c1f460338ab2db94fd5c09468ac87faa3437d6d12042d39",
+      "bytes": 1567855,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/sequential-33-48.png",
+      "sha256": "ec09e5b4cb35161b8700a91d23d61d94fd2e1638ec02f420ff362f8068c9b803",
+      "bytes": 1365840,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/sequential-49-61.png",
+      "sha256": "52f65e123609a0ee77c79253715f8c02ee742c639b36579b352735b6f81e3ee5",
+      "bytes": 1324985,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/temporal-pilot-30/swatch_board.png",
+      "sha256": "e6f082f129ed58e8f56b092298faf9f3020b66bc306cb1676cccf95814dad4fd",
+      "bytes": 2577506,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/tooling-controls-01/motion-02.json",
+      "sha256": "a2988b10a8596a154f7839133c1aa86cd6cedd75a6256fd080ee122d0ad01f28",
+      "bytes": 50986,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/tooling-controls-01/motion-drivers-failed-input.py",
+      "sha256": "8a8119e5d2940dcd744becc56b7f1be0daf15a8701eb15b3984b182fc436642b",
+      "bytes": 9881,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/tooling-controls-01/motion-process-02.json",
+      "sha256": "734b1dbd83784cfd75e01dba2425185173d82e83431242fb5b9466d48f0442f5",
+      "bytes": 2149,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/tooling-controls-01/motion-process-02.stdout.log",
+      "sha256": "4e4f2c7399d7a496ff2dd5112855e0b482d08300fe815ecad45c141b2e0f0617",
+      "bytes": 269,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/tooling-controls-01/motion-process.json",
+      "sha256": "ebf5ff50735c822fd7d0cac63798ef90d4aa3d7be45420a1dfdf0559bd577e52",
+      "bytes": 1917,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/tooling-controls-01/motion-process.stderr.log",
+      "sha256": "f0919d1f255439bed296ec712532abc194b7261db1279309198cee9d472b1fd7",
+      "bytes": 520,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/tooling-controls-01/motion-process.stdout.log",
+      "sha256": "a63120a3857ee15e45a8a29add158897d1ab4a7c8b0313d95a9de5feb8d712e2",
+      "bytes": 192,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/tooling-controls-01/old-warning-process.json",
+      "sha256": "a71dd595336db51d48d38e1553c9a2a4a202b6ac4eba0e26932ed154663fa96e",
+      "bytes": 2157,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/tooling-controls-01/old-warning-process.stdout.log",
+      "sha256": "dbc171428b9576b8925a0d54ff70817a00658aae6a752fadf6012a6045dde4c5",
+      "bytes": 508,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/tooling-controls-01/old-warning.json",
+      "sha256": "d025f113f14549d5c09b6f5c64cd6512784ba91ce375c7d7568fdac0462be1a1",
+      "bytes": 4074,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trace_opening_view_10.py",
+      "sha256": "ea491cab71ec6dc81e7937d2e606147f06a4c04ad4e4bb227a966a17fc33ff4a",
+      "bytes": 3380,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trace_opening_view_11.py",
+      "sha256": "081ae30c5f205f0e8ea35f5f2a2c3689bdd0e3dea8a8affe42efadb989d7614b",
+      "bytes": 3485,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/process-02.json",
+      "sha256": "f601a33dde4d8e6bc9f0d783411b6373cd80156b53cf7dbb588ff8391a481661",
+      "bytes": 1962,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/process-02.stdout.log",
+      "sha256": "c1592f82ed6aec58dd60fe7472c0477155fe5b1aea2966ac6658d96c64e93a02",
+      "bytes": 7185,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/process.json",
+      "sha256": "7e6f09e73051b37c7602a2e09545dd312989c796afd464afcc1f292963ca6120",
+      "bytes": 1945,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/process.stdout.log",
+      "sha256": "4ca4cb8b2b4eb005007c8ea2f0e37bb45cbd42b1775eacaae0a635255e662de8",
+      "bytes": 3874,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/review.json",
+      "sha256": "77c7c1b8aa5f2e955a6c27f5715e28202c0a25382ef12cf1679a469fe5d15599",
+      "bytes": 5227,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/seams-02.json",
+      "sha256": "e00d247691c252334ee3b815afb34cd9d6b1792854cdabc5cfd22a18c2c782e1",
+      "bytes": 97677,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/seams.json",
+      "sha256": "2d2a85fbc0224ba92d8e9c929a971af9089c157be820ccd5d26ac35253b3a3d0",
+      "bytes": 48603,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-01/model-input.py",
+      "sha256": "eefef56a0fad9490f8d6c62269d3084b32fe0f1c8fbadb996466c9641212b225",
+      "bytes": 26305,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-01/process.json",
+      "sha256": "4290c3b50e9300427dbe8444c0d2ff85ee2b70e34cac129a0dd49e9bf609c8ef",
+      "bytes": 1969,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-01/process.stderr.log",
+      "sha256": "69c4f2ddd97841da6796d13b742cd8feb4936fb85566a3fc02ce950a17150272",
+      "bytes": 361,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-02/process.json",
+      "sha256": "64ce9103441daffb0e9e93581efeeb7a972958596bd3cbc497dddc00d8fa4fd2",
+      "bytes": 1975,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-02/process.stderr.log",
+      "sha256": "b918ed70a5b2b696901b47f6a53257c1c9c63f43e51b61a9d20790ff55b0842c",
+      "bytes": 343,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-03/process.json",
+      "sha256": "89c6a643ecad340bf098493e469b2dce779cb2222ef87118bef4e2bc1364854f",
+      "bytes": 2225,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-03/process.stderr.log",
+      "sha256": "b87cf3d533dd828ace29fa73d7878b77316212156d04d967debdbb81819c3096",
+      "bytes": 343,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-03/reference-comparison.json",
+      "sha256": "b6827a987e135501b13920fff4308c181d0d1b23596ca11b0c70c21434e5fe1e",
+      "bytes": 10430,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-04/process.json",
+      "sha256": "5e7b3d19be5176b96dc12c4423622f84a8522022b0d77975fca954287a61efbc",
+      "bytes": 2225,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-04/process.stderr.log",
+      "sha256": "ede46dcfc3e31844b03c45d12c0b1f9b8c17f6d6f0c65cac7e71e54986d01b8b",
+      "bytes": 397,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-04/reference-comparison.json",
+      "sha256": "2991592541ae6d50ff58d78b50e26e3a6d38ef8f5215eb06aaf5838dd8a1f761",
+      "bytes": 22433,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-05/candidate-meshes.json.gz",
+      "sha256": "87849756fc521cf32b873adbbb378eaa635ab743ae6b68a07d5a9da7ba88a499",
+      "bytes": 1297963,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-05/construction.json",
+      "sha256": "1803455726e032557a0c027bec8e2b5a6d9a50757a66c7077fa6741df3de1c21",
+      "bytes": 58254,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-05/model-input.py",
+      "sha256": "9356c05dad4335720d65074672a5a09489544e7130481e93cfe7ccdb5ec8d6de",
+      "bytes": 26182,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-05/process.json",
+      "sha256": "48c30155a7d9c9eda6404c4d1251a650d2db8da2399a9bedf61420d939f17eb1",
+      "bytes": 2718,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-05/process.stderr.log",
+      "sha256": "0c3d3331b75c5973bca924c48fe591c014c124bcb4d9bf6afd0e912367abeca8",
+      "bytes": 467,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-05/process.stdout.log",
+      "sha256": "7fa18a74a1ea2a4c8578447785167541e4e2346e00783383d24637ff3c06eff5",
+      "bytes": 3346,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-05/reference-comparison.json",
+      "sha256": "f16a1d1daa6749e099a78d36bfa04f5a89f3ead56a0c9e343054e16cd5b2321b",
+      "bytes": 12358,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-06/process.json",
+      "sha256": "7a7010b6d66b6c34c1fa81b748ca792775e706ccfc68c5df87f5d1016c877967",
+      "bytes": 1977,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-06/process.stderr.log",
+      "sha256": "dfb263dad0c697bcb6204613ce4292aac895344180917a9c58a63b252205fe7c",
+      "bytes": 1142,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-07/candidate-meshes.json.gz",
+      "sha256": "dfc8a7024f832fea91176d8572ef46b52959192f4d7f4633b992e679251166f0",
+      "bytes": 1294786,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-07/construction.json",
+      "sha256": "a0b6ad291092083b964ffd29382994911521df7be3c06391e18a0dca1bc93a32",
+      "bytes": 55958,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-07/continuous-process.json",
+      "sha256": "91a839159d1c484f033985f2818ad2e45b07abd3d178620f231e9bf8d5e4c7a4",
+      "bytes": 2611,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-07/continuous-process.stdout.log",
+      "sha256": "d0c4e89b6b979f61b32cb5931fc5cd2f2df4ba68c1f0f487140ca0cf764fc128",
+      "bytes": 501,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-07/continuous.json",
+      "sha256": "37fd75a8ce9a4cc5c54e8d91d7762b959a12542a4e1f1e804f979f48fb1cb60b",
+      "bytes": 19443,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-07/positive-clearance.json",
+      "sha256": "d8d3e78589b36ff1248634d1c35ce8771ef4165d92416c423d1e047b078c7cf9",
+      "bytes": 2622,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-07/positive-process.json",
+      "sha256": "5ae4e27cc9d1d62e3394d20c96fe40f0f8cc250bb8e7089f27b29efd24623b78",
+      "bytes": 2054,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-07/positive-process.stdout.log",
+      "sha256": "b9806a8855627a029e5743d0ff39a95019cb222155c4e2caa0769397f40c9a1e",
+      "bytes": 719,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-07/process.json",
+      "sha256": "afd39cdc52507c49a0b8d782da1e8f5274645aa19f3dce1a47d73ff38f11b3de",
+      "bytes": 2465,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-07/process.stdout.log",
+      "sha256": "7a80263a5fdfdeba2054fd0531fd15e2a74031801778a6bc29f3615af9737b70",
+      "bytes": 433,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-08/candidate-meshes.json.gz",
+      "sha256": "fa85b5e5e7f52f56d6a0cb20ae3f92f5552de6990817ade59e2b778b0e4209d2",
+      "bytes": 1294872,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-08/construction.json",
+      "sha256": "90f58989f23acee21acd4541e932b9eafc0eb98f0f4d71850b8381d2c061b07f",
+      "bytes": 55496,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-08/continuous-process.json",
+      "sha256": "85a6fa5acfab488c3d764b1a309edec2499dfd92b6261d0d234fe3f5ee898930",
+      "bytes": 2612,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-08/continuous.json",
+      "sha256": "9a8eeb1086fd6f160388c0bb1fbef1d0542426076454385bbf94861ad3671ff9",
+      "bytes": 19444,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-08/positive-clearance.json",
+      "sha256": "f2c44ba61ddd02539d4ffb1c9250d3b131ec1576ee8cc648eb109119b56c0f1f",
+      "bytes": 1785,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-08/positive-process.json",
+      "sha256": "aefc18230786efe451e97e9797a76599c34435d97d4c2f2ed302915d8aeae477",
+      "bytes": 2060,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-08/positive-process.stdout.log",
+      "sha256": "6be681e5f8076ea66cc4f2bab738f580f5ef7dbdecccc5a529b2583eeefae2f2",
+      "bytes": 137,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-08/process.json",
+      "sha256": "60325802bb979c9782ce70b4998e5dd9160080bf89a816aa677e8439a0fe98fc",
+      "bytes": 2465,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/trunk-seams-23/sill-candidate-08/process.stdout.log",
+      "sha256": "0f9a4264cf9153b10e66fd045819ef76776b44bc66801cddbe92b0f3fac4dc03",
+      "bytes": 433,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/update_stills32_ledger.py",
+      "sha256": "7920f0c0608c799cb45943f9ab66be5f1c515f8a2632c38152a9610956c7bfa8",
+      "bytes": 5871,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/open-inspection-21/engine.png",
+      "sha256": "0596ad567be5eede7c72d711532468d26c4969260be9d66f55761d5b2dfe98ce",
+      "bytes": 3591409,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/open-inspection-21/hood_hinge.png",
+      "sha256": "6ae928d67aff5ec3a6907f75de97321ec95d27283cc0115d06cac2b0d5f181a2",
+      "bytes": 3492187,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/open-inspection-21/manifest.json",
+      "sha256": "a78f0264d98c3e6b113aa688f41331631d1b2a4739f6af68b3b893f0de8d362c",
+      "bytes": 5810,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/open-inspection-21/rear_door.png",
+      "sha256": "d3db3d08a93eea06988f2ec11238db9e6a9ebf7e33cd2131f8b3bafffc482964",
+      "bytes": 3689157,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/open-inspection-21/rear_seats.png",
+      "sha256": "81256a574e490ca16ca052bb344fc6f7f534bdea767700fec3c9811cd3fa4b7c",
+      "bytes": 3317189,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/open-inspection-21/trunk.png",
+      "sha256": "42f6bc0c481793cd9b1d309e85f68a0ad4b2d9ac7375da8a4f5c949f36e1af38",
+      "bytes": 3606260,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/open-inspection-21/trunk_hinge.png",
+      "sha256": "901ef8a7efa3ba9d97502974c3f86364b740d53ccfda73adcdb19d861075ee51",
+      "bytes": 3348704,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/open-inspection-21/under.png",
+      "sha256": "a706b5655fd0bfba1d81579303f346c9c664136af22e4d46994a3e5314059cfb",
+      "bytes": 2872585,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/open-inspection-21/wheel.png",
+      "sha256": "724728bd9e55122903dda0bc7c06378758ba55b4c8d187eecb2fafbc6a91ef13",
+      "bytes": 3163586,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/render-pilot-21/cockpit.png",
+      "sha256": "2319289b01860a3693080f5b739da174c17ca9ec8c3cc63715102991efc1adb2",
+      "bytes": 3356614,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/render-pilot-21/front3q.png",
+      "sha256": "53847217c4617184c3f1a4fa7fc4844820c082a6ed5aa23412e374c2eb773e4c",
+      "bytes": 2964118,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/render-pilot-21/manifest.json",
+      "sha256": "70e067fa6e29423f902c26b1f6f9b834dbbb244e8ab35b4cc89106aa81bdacfa",
+      "bytes": 2909,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/render-pilot-21/paint.png",
+      "sha256": "2f029b877ea47403091820bcf7eb898368759590ff485817cd59b2fc76ee7381",
+      "bytes": 3476682,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-21/review.json",
+      "sha256": "f3b2cd51072f2604d31720865f0c9cedad0a49cd5e34323c39c271b33ac743f4",
+      "bytes": 6910,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-23/render-pilot-23/cockpit.png",
+      "sha256": "734871f4ac4c0e83bd759121586881964a10741619b2dd9655cde29cbf6f2c08",
+      "bytes": 3366893,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-23/render-pilot-23/front3q.png",
+      "sha256": "3b37745f2ebc403216e76d1e75a89f7fd5fdca2dbf34b49862a44afbed4851b5",
+      "bytes": 2956537,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-23/render-pilot-23/manifest.json",
+      "sha256": "94c0fe7c8071db83cb52eac264bbafc10f0ee7d1291908e7d58031bc01d960eb",
+      "bytes": 4182,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-23/render-pilot-23/paint.png",
+      "sha256": "96b7ab8cbc243fa112d6cd1d7cff50dea1e308e09b03020d125ddbb924da7448",
+      "bytes": 3478087,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-23/render-pilot-23/roof_front.png",
+      "sha256": "09a66b036edad2235cebeb250328d2ec05699281a5730c6fa22c405b6d886aa5",
+      "bytes": 3090890,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-23/render-pilot-23/roof_rear.png",
+      "sha256": "d500f586220020f760b7785b7b915dc8081bb7aec62b3d75f262466a58e97281",
+      "bytes": 2804209,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-23/review.json",
+      "sha256": "09fcc2fa13f0c7424a721c92e993d84f8b5473f11055f5e0a665bcc283685021",
+      "bytes": 4607,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-23/roof-inspection-23/manifest.json",
+      "sha256": "75319c1a72692678c654466eae1ce1661ace74a0ea56006168a398c493d6a3d8",
+      "bytes": 2502,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-23/roof-inspection-23/roof_front.png",
+      "sha256": "9dc5a53a8bf426e1a4da8a21f10e261be879c22335f366aed287984425626c81",
+      "bytes": 3835126,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-23/roof-inspection-23/roof_rear.png",
+      "sha256": "590f021a67c3f9a9317202ad0e3cba6e08924a558f789eb29d1dd0fef7b09c5a",
+      "bytes": 3956844,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-29/geometry-review-29/front3q.png",
+      "sha256": "4620c2135968d5a8a9d83ba5cca5b1ae729deb6d1cf9f886c4c520d86bf0dbc7",
+      "bytes": 3033507,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-29/geometry-review-29/left.png",
+      "sha256": "7ce8332343334841565249515ea481414747fa18be2cbc61ba18100124939891",
+      "bytes": 2645467,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-29/geometry-review-29/rear.png",
+      "sha256": "93c21017a2bd60c06266a17f88a745381b860a6396669e809b5cdebda31a7ec9",
+      "bytes": 2523453,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-29/geometry-review-29/rear3q.png",
+      "sha256": "f7cdf24471acd6f73b6d2ad4e64d6462db06641240afcad91afa054517632688",
+      "bytes": 3001409,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-29/geometry-review-29/under.png",
+      "sha256": "baa942e98236eec2e8a042c4ffbf70c5e00514304f25b6492b548db68f7975e2",
+      "bytes": 2703109,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/visual-29/review.json",
+      "sha256": "cc149bd24812f060b3a89b8d1a0a12b54effd535ca0c6935d763f4d4f93196f0",
+      "bytes": 3006,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/warning-visibility-23/corrected-top-row/03-instruments-low-fuel.png",
+      "sha256": "aadfc19cfc6abb2b0ce0c01e71570c39e11844544f0e249f9335accbf386d9ee",
+      "bytes": 1731825,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/warning-visibility-23/negative-old-row/03-instruments-low-fuel.png",
+      "sha256": "2746d047547aa900eb4d08ba2dfb1622baa76b28cafe9add94c3b6a545e29517",
+      "bytes": 1730943,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/warning-visibility-23/review.json",
+      "sha256": "3d92a5024ac7ce23809e9c6b5564d50bffa0deb62744d964404897accbb11d9b",
+      "bytes": 1885,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/warning-visibility-23/runtime-evidence.json",
+      "sha256": "00588aab4960850c4b4f26742832de24ec93bc010d9c54eb5b944251781c278d",
+      "bytes": 152406,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/native-rays-03/ray-report.json",
+      "sha256": "db129fae4d26825578e7eab8cece64e5fb4d5b878b4a2047ef74a393468275ea",
+      "bytes": 49470,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-candidate-03/command.json",
+      "sha256": "01353802d9cac151cf4c4aa415a84158e580e9f0716c296421de55decebb569a",
+      "bytes": 896,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-candidate-03/manifest.json",
+      "sha256": "92732ae0cbe245baed7ebe2f705b96756c1f37ce82ab0a046297a37bf52ffefb",
+      "bytes": 34903,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-candidate-03/neutral-flocked_dim01.png",
+      "sha256": "07d011fc1d40714b1c6b7afa4182aae80cb3d24cb3927a8ee3346415bc47f9d2",
+      "bytes": 3339949,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-candidate-03/night-flocked_dim01.png",
+      "sha256": "cd83ed8c1d8d7fe7e416a50339fdf50d86d1d08b90ef78e80b5d89640c0016c9",
+      "bytes": 1637698,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-candidate-03/night-flocked_dim02.png",
+      "sha256": "1e9d35908a10b2aa16f285dc7170a20a1ce0700eb786bcd211f0824f29ef88ce",
+      "bytes": 1643260,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-candidate-03/stderr.log",
+      "sha256": "2c91d1b4e79f110799f2acbd43fafd8f6e449accd148eef3318d7c95104013f6",
+      "bytes": 218,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-candidate-03/stdout.log",
+      "sha256": "698c37e5f6e69223ff43b22d1a62e1d329842feb23e477d53f46f1422abb3fe7",
+      "bytes": 2955,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-isolation-02/command.json",
+      "sha256": "e3ec51cfebbe59bdbacdead3b7850aadc260ef889180671e9e41d049d5b62377",
+      "bytes": 896,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-isolation-02/manifest.json",
+      "sha256": "4067c0193c4fb2be7e25df363df8fa77c7bf1e6a72a996f870910c75e333cefb",
+      "bytes": 90458,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-isolation-02/neutral-baseline.png",
+      "sha256": "651738ff64dfa948ca41350dc4ced8476101b47c71cef661d5fb390cd832b76b",
+      "bytes": 3386330,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-isolation-02/neutral-flocked.png",
+      "sha256": "600ae94fa6cf3d8bf20fcfbec810f8d62e668db072137d6ad4b9da0e01486ebd",
+      "bytes": 3338988,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-isolation-02/neutral-instrument_tag.png",
+      "sha256": "f835bc580c40bebe3e28820a9d6a9e172d5eb3da4c4164843b206f58c65710fe",
+      "bytes": 3510152,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-isolation-02/neutral-rear_hidden.png",
+      "sha256": "99dcee38117095e1ad9fce934f5f26aebb7e61265cd6e1e13d317391502de644",
+      "bytes": 3435536,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-isolation-02/night-baseline.png",
+      "sha256": "8e013681c114c5f6eeb94195be7ea02311517592a7d345fb2147fb09e4868aa9",
+      "bytes": 1687873,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-isolation-02/night-navigation_tag.png",
+      "sha256": "4a1ed98d3349a383144e3481bcf3150294f580f36f31dcad8af3d01a2f716b0a",
+      "bytes": 1682345,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-isolation-02/stderr.log",
+      "sha256": "7083d525e54efb95760315fc9aec4c1dba56f677853836b083273bb2ab4c5eb4",
+      "bytes": 217,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/retained/render-isolation-02/stdout.log",
+      "sha256": "b7711d015cbb61991359513c915beadda2ce02a00594a94138a6a3c20fe3f97a",
+      "bytes": 3823,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/windshield32-reviewed-01/review.json",
+      "sha256": "9ed826ede66ea9b833a12a9d969572e4a507182d0e805c32675aa10ed8c620a7",
+      "bytes": 119586,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/wiper-proof-adaptation.json",
+      "sha256": "89fb7f8ccc62ba18a4b3fd4ea1e5fe3b55e043687889376c5447b23f1400d05b",
+      "bytes": 1632,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/qa/write-preparation-audit.ps1",
+      "sha256": "b151d93364da2a3d3cd5aae857458417631da8f0fb63687744aadf5bec251afd",
+      "bytes": 6238,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/research/production-code-audit-inputs/EnduranceSedanPresentation.cs",
+      "sha256": "f4466a2a17f2e516a3ff5a230776ce7e7de2278379d6ac28d41044af3c861aba",
+      "bytes": 26572,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/research/production-code-audit-inputs/EnduranceSedanPresentationSetup.cs",
+      "sha256": "a0e1659f6f0408bd876260a8d46f94d164a185ca98f8c9042a0a7958254e90f2",
+      "bytes": 1599,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/research/production-code-audit-inputs/VehicleVisualRig.cs",
+      "sha256": "3e5123623c218347f42863742c839c89de810a0ceb2c3e6e438d6cae68048d49",
+      "bytes": 30442,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production18-mirror-native-candidate-02/01-mirrors-configuration.png",
+      "sha256": "f4c26592d7d4f06fe75da2be3243783c68fd7a02da9877b969bbd9e8789f9a1b",
+      "bytes": 1730157,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-presentation-01/08-view-front-three-quarter.png",
+      "sha256": "9261e4b8ca4deefa3cc62c598f63e1a24a59a96feb75c51d437d821a19b8d0fa",
+      "bytes": 745197,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-presentation-01/15-inspection-controller.png",
+      "sha256": "b28755fd42c888242736f054578ccac42d51e81eded1d70475f9bdd21548fc70",
+      "bytes": 795660,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-presentation-01/21-close-Door_RL.png",
+      "sha256": "c606e7003e726ba1f1717bc62941c257db70fa4bc764552f87879fc5886e3f01",
+      "bytes": 1123009,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-presentation-01/23-close-Door_RR.png",
+      "sha256": "44a7f280e9d9a74a7d3f521965bcdf63b2ecef94e8f2781d3c5f04a5446b5f7e",
+      "bytes": 1136603,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-native-presentation-01/47-lod-return.png",
+      "sha256": "bf7e3d54d55fe2a950812e8e8de170d51b81f5e05d42549fdd4dcd00716ce910",
+      "bytes": 680880,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-shadow-contact-04/endurance-sedan/03-day-normal-1.8-depth-0.040-rear-three-quarter.png",
+      "sha256": "387e866bd9b33592c7bb41e304ffc6437800f7d4b7f5d7f844109660eb778873",
+      "bytes": 657467,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-shadow-contact-04/endurance-sedan/11-night-normal-1.8-depth-0.040-front-three-quarter.png",
+      "sha256": "0def3f729c8367b84d421bcb01567ed56e19aacc101d3749b0676932986f4567",
+      "bytes": 867328,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-shadow-contact-04/hero-gt/03-day-normal-1.8-depth-0.040-rear-three-quarter.png",
+      "sha256": "aed11b2b0d90a874c678caec870a797230191c39e2992f6b7f9e6d11a815e415",
+      "bytes": 593951,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production21-shadow-contact-04/hero-gt/11-night-normal-1.8-depth-0.040-front-three-quarter.png",
+      "sha256": "bb595ea1c2cbaccc1fcdbfecc3b893ebba2bb4868b601c734d725d6bdd991a8e",
+      "bytes": 901050,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off.machine-state.json",
+      "sha256": "093a13e8c60141c4056ee7e3161c6ee992e92dd683916e960d6582e57262c695",
+      "bytes": 32015,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on.machine-state.json",
+      "sha256": "f413c893a37141918dbc883ce8e7018c92d6f9e7614105e3b69dc2b130a81223",
+      "bytes": 32039,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/driving.ogv",
+      "sha256": "a4082218c33070018dd643e16d730477fa09347e3b9f4021fd9985ede49bf33e",
+      "bytes": 335928862,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/prepare-evidence.json",
+      "sha256": "3499a65c714f9fd4d97c48db01eae023afd8b218f9a620b647577da1969901f5",
+      "bytes": 276657,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-warning-states-01/corrected-all-warnings-presenter.cs",
+      "sha256": "6d92e263865db333512d29a4048cdf25684384fb76a37de184e4e8fc82e93502",
+      "bytes": 31077,
+      "retention": "payload",
+      "reason": "Frozen QA history, executable snapshot, raw witness or explicitly referenced unarchived artifact."
+    },
+    {
+      "path": "tools/vehicles/endurance_sedan/partition_evidence.py",
+      "bytes": 5693,
+      "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+      "reason": "Exact deterministic partition recipe"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/qa-history-through33-part-03.zip",
+      "sha256": "3bd84695055d33c2bb9d941e7cee9030400ff5a30f6a896290bca8b6af0e15be",
+      "bytes": 573629546,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention/qa-history-through33-part-03-repeat.zip",
+      "sha256": "3bd84695055d33c2bb9d941e7cee9030400ff5a30f6a896290bca8b6af0e15be",
+      "bytes": 573629546,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T18:00:08.900537+00:00"
+}

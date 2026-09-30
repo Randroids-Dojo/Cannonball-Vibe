@@ -1,0 +1,25 @@
+{
+  "task_id": "P1-018",
+  "start_utc": "2026-09-13T08:01:17.269728+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cwd": "C:\\Dev\\Cannonball-Vibe-sedan",
+  "argv": [
+    "python",
+    "-X",
+    "utf8",
+    "reports/p1-018/art-checkpoint32-retention01/frontdoor01.py"
+  ],
+  "git_revision": "b1cf65b64512508931eb3398af435f857926a503",
+  "input_artifacts": [
+    {
+      "path": "reports\\p1-018\\art-checkpoint32-retention01\\frontdoor01.py",
+      "sha256": "4b515c4b83e7bacfb4da9e8904f4c52f97285988f11894a93052abac8b0ab864"
+    }
+  ],
+  "log": "reports\\p1-018\\commands\\20260913T080117.269728Z-art32-full-windows-frontdoor.log",
+  "human_approval_reference": null,
+  "environment": {},
+  "end_utc": "2026-09-13T08:05:17.081223+00:00",
+  "exit_status": 0,
+  "log_sha256": "ce0b6e313e0041b0510e69b989e70b5c2eed7fbfaa189cd394898b4790e673e2"
+}

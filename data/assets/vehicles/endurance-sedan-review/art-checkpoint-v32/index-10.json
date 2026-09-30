@@ -1,0 +1,3360 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-13T07:56:47.623339+00:00",
+  "git_revision": "b1cf65b64512508931eb3398af435f857926a503",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint32-retention01/manifest-10.json",
+    "sha256": "3985aa008cb5598b7227a72477425036de1a4f9690767bcfe9734ef7da1abeba"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/native02.json",
+      "sha256": "203d2c7dfea021b4d76b764a104fbb6317dacd36997c41901c3a8084d6c77721",
+      "bytes": 25998689
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/native02.py",
+      "sha256": "c20da1a1295050f8b45aa8d26512255e10227da3ace87b3d2e04bf5073eabe02",
+      "bytes": 5272
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/native02.stderr.log",
+      "sha256": "9d6a3755b8f05ffcf565cf949d0d1f3413fc71e0142a9236ded1699d82795055",
+      "bytes": 781
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/native02.stdout.log",
+      "sha256": "ecb8cdea07c7ad5ad560bfa74911ffa017aee207844a0915f3f6c2950f181e77",
+      "bytes": 21451
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/affine_field.py",
+      "sha256": "65ccfa7f564a8a1ff008392ba1fc12f96890d98bad08e534c2f805a8d98a8cd2",
+      "bytes": 4167
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/base-profile.json",
+      "sha256": "4035e8d3fb1c05c6ce43366862f58c481cc27c3647a7c94fca7f41fa6259d486",
+      "bytes": 4164
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/cabin_policy.py",
+      "sha256": "8b835adc68f7f904c748d85edf11765615615d1b47abae8e3fa4556e6ddcb345",
+      "bytes": 9957
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/codec.py",
+      "sha256": "7015e709d2cc36b278b310edb78cb70e7256ad0cdcd71c78abc8732196bc041a",
+      "bytes": 5939
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/front_builder.py",
+      "sha256": "f058a842b1b676593abaa2b0cb0714a7ad02e584662186b7d206f67619cf36e0",
+      "bytes": 3375
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/front_builder_mixed.py",
+      "sha256": "619a1436ba6c7d4801fb74f53914c567cc8d3f43a5cb3942cd9eca4ed00f4a59",
+      "bytes": 3234
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/front_feature.py",
+      "sha256": "302b1baf22603a0c7365d56b1fbf21a12fcbe267a8fb547579594fb814b522af",
+      "bytes": 10744
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/front_feature_mixed.py",
+      "sha256": "02a1d4b44852cb60c66a130fc051c13da820ed6ca2de1d25080db21139507ced",
+      "bytes": 10400
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/glass_field.py",
+      "sha256": "226783d91ac4e2b6682803a0036bf9895b016a28fd2b32225a714dbf688e1d72",
+      "bytes": 12797
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/hook.py",
+      "sha256": "40b13df8cc982dfc589016e74eb1378ff5ad7b3abb52ee3968bbb145a8e39086",
+      "bytes": 20032
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/hook_cabin02.py",
+      "sha256": "9159998bbc0099f0c2b20cc2e9b29dbf0865a31f851c2811727871b7de1422ae",
+      "bytes": 21812
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/hook_diagnostic02.py",
+      "sha256": "0c93cc0a19e57d54f6e5cb70172477195a24fa85b8c500fdebba65f180f650ff",
+      "bytes": 20168
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/hook_repaired03.py",
+      "sha256": "844aefe82617141773fcf53a2f79c52d7d0723fcac9a4252775bdabdfc1e37ae",
+      "bytes": 20729
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/lod_paint.py",
+      "sha256": "8b012d0ba3fb6751edb66522b86b0530190d50db3e695bfb8cb3e552b4bb5e86",
+      "bytes": 5367
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/original_feature.py",
+      "sha256": "302b1baf22603a0c7365d56b1fbf21a12fcbe267a8fb547579594fb814b522af",
+      "bytes": 10744
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/profile.json",
+      "sha256": "0d3a38b1127bd4708c158995906520b76fa60df06f307b93cffb228866f23dbb",
+      "bytes": 4841
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/profile_cabin02.json",
+      "sha256": "65b1ad3b33aa241ca7a81edf14d7cb5a4e8da0dbb52f46a3fa1a4459e6ab86cb",
+      "bytes": 7135
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/profile_repaired03.json",
+      "sha256": "ce3a9582b699ae0ffd82e4cc6d0cee45fa879f939ac3cb8dc13c75e2bc2730e5",
+      "bytes": 4966
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/recipe/selective_lod.py",
+      "sha256": "1b29280b3b4a5572e9d3c1bb050e23121132123378b4042013fae3125e4a5750",
+      "bytes": 12650
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/run02.py",
+      "sha256": "a9b4b4142a1f1e20471835fb688f587800f4a112efd8cd1a72cf3c49a99bb823",
+      "bytes": 4906
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/__init__.py",
+      "sha256": "34b2fc7df07083961f7c2b5ab1290424d0bf9eaaa583ce076a89e28c891d6404",
+      "bytes": 70
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/acoustic_finish02.py",
+      "sha256": "de87e9fade6782f5e2440a0cb705ee122fe1f7a27a643a5fd513d5a1c6b72afb",
+      "bytes": 6601
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/arch_finish26.py",
+      "sha256": "ae47e6ba907da54649d8b3ec2c444b2ea0d38f45580379c1f237c7abcf9a9075",
+      "bytes": 3854
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/arch_native26.py",
+      "sha256": "6f5e1d690618ea6a129a6a3d01c5d6adc7cdc2bdb2e8e6b4e893c3cdc29ae7ad",
+      "bytes": 7663
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/assembly_fields.py",
+      "sha256": "42e0aa6a5c60a678cda2c39a01ffcb14b112a1020937b6a01855ad21f6f9ceb9",
+      "bytes": 4270
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/assembly_finish.py",
+      "sha256": "e25acaf4f67ec090fc4c2fbdc11ac16d594157506b6130d68d61107bd46b62e1",
+      "bytes": 2502
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/assembly_sections.py",
+      "sha256": "0593edf470912fe7136e9a9f493a597dc9956b51cbeab08442d19f501f9dd795",
+      "bytes": 2694
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/assembly_structure.py",
+      "sha256": "b2e56d58feab7993305c5a5d3fbcfa34481aebdd3486c5243558ac6f6bdbe35d",
+      "bytes": 19717
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/bevel_reserve26.py",
+      "sha256": "5164f9b1acbec5298f6b2f1d7bcde2e08b0b89f6a1db67ed1cac420ec9474863",
+      "bytes": 8262
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/boolean_surface.py",
+      "sha256": "17b2cf5fd34a91dafaea8b74118d96bec0384d82ccc4437c856303da7b2bd706",
+      "bytes": 10568
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/brake_edge27.py",
+      "sha256": "9fa21c7db4a320e1b9eb7b432e2cbc90c3d7710f57a759b5e913b125c19fd791",
+      "bytes": 14189
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/brake_finish26.py",
+      "sha256": "b4c667a7591ec5b476544c5c68ae422add5573878112183b57599ac5753a00f0",
+      "bytes": 2402
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/cabin.py",
+      "sha256": "8dc36b6dd5f388989c70383f1cf65e183262aff81474c92f55c9a276e68e57c0",
+      "bytes": 15542
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/cabin_floor_panels.py",
+      "sha256": "36f1728a6db5b8faab777aa8b4c55a67b2b55d695c90e53b745ff8f749531768",
+      "bytes": 1850
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/capture_suite.py",
+      "sha256": "e967d03409b017e870dae3a52379da5e8dd4a2f0012bfcb0d747191ed73b23db",
+      "bytes": 10743
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/charge_cooler26.py",
+      "sha256": "5d00a6074e141c5db5fbf4b186ded3f9cb9f9ffce6bd9597ef836add802f7879",
+      "bytes": 9809
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/climate_carrier26.py",
+      "sha256": "d1f76fd6cdfa326794673d25fb03c1514d5e09013de191a99da564be4b1d7f90",
+      "bytes": 3105
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/complete_boundary26.py",
+      "sha256": "3ce6bcc04b19419546c6869c57533a00687e0226bf2f8d31055b1eb5d230b82a",
+      "bytes": 5982
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/component_finish26.py",
+      "sha256": "46a61dc23e0db2211c0c3af70912116c1d37ca0a5ce412e86024b2fb872e91a2",
+      "bytes": 5570
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/construction.py",
+      "sha256": "a3fdd08edaae20fbd770773428510903352dd9c098cd8ba250cf67585bf8ba11",
+      "bytes": 6949
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/construction_finish.py",
+      "sha256": "1a28149147078f15b90810a7cd8f50e132dca4ffce20e580465dc3a772185474",
+      "bytes": 5771
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/cooler_case_finish26.py",
+      "sha256": "edd535d5efad80377862e3de3f81d77d212ae656742cdf02ef7a0c901c097d84",
+      "bytes": 4639
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/cooler_case_reference26.py",
+      "sha256": "bdb4bb448a65805294a6874e8eec541eee96066adc88330afc1d4d84526321c9",
+      "bytes": 12086
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/cooler_economy26.py",
+      "sha256": "37a06e8658f354ac9fed41b2c9805f6a15fc5af904e7e4dc91145d20708340b1",
+      "bytes": 3601
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/cooling_core.py",
+      "sha256": "a7fbd218e1d56a70be83d40eb8395b93d216cc4ab843909007b98bde621ecad2",
+      "bytes": 4060
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/cooling_finish26.py",
+      "sha256": "2864c1f40d23c90949018e217a1e4661873b52ff6132cf892dc613adc15f9b80",
+      "bytes": 2791
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/corner_bake.py",
+      "sha256": "b9cf8d726173b593ed5d87f8cdbebe68e26d3e1ea1aaee044f3bbe8e011d1027",
+      "bytes": 18004
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/corner_bake_controls.py",
+      "sha256": "5adc33ba819092e9eadfbefe27ad809b220e0d171ab1cb231b08931f39327264",
+      "bytes": 14076
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/corner_encoding.py",
+      "sha256": "7015e709d2cc36b278b310edb78cb70e7256ad0cdcd71c78abc8732196bc041a",
+      "bytes": 5939
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/cupholders.py",
+      "sha256": "ff2f97f433e464485940d47058eb9cee45463bd90ce6d52da362c1bf89b3fbb1",
+      "bytes": 6606
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/cylinder_finish26.py",
+      "sha256": "a6e183ce8e32980281bcf30d69dfe9d502270276b38123ca69b18981abed2430",
+      "bytes": 3201
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/detail_six26.py",
+      "sha256": "b9eb8ef1d35c0ed37570dbfd990ffed512116d6f59ed176eb9aa150d4e51a25a",
+      "bytes": 3998
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/detail_thirteen26.py",
+      "sha256": "2ee37fb6d5e934ee8f04161c03af7833af1969705416a4836b1b03b44300c4b7",
+      "bytes": 4811
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/document_storage.py",
+      "sha256": "af68e3e7fc09b8f76bec408952bae91e4988bc4cb416446c0cd9f528414e2b50",
+      "bytes": 7485
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/door_sills.py",
+      "sha256": "cb0b0a13cf30e8bf0cda9cdc0bf0acb76fe4f3cf96f42666048a0b22d20bbcbe",
+      "bytes": 3424
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/duct_vane_support.py",
+      "sha256": "2618b14a29cb838702fff154aaf4e16ab53dc8d26312a2aec3bf52c0d278a76d",
+      "bytes": 9263
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/duct_vanes.py",
+      "sha256": "103ffa6ebfa1c47c41c4bccf64d40422a880895bed972446e422c6ad918a3b25",
+      "bytes": 7059
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/exterior.py",
+      "sha256": "e07a000eaf270c7748f0233a203e635a3f68f7683ecd1c7db71c0974868487f3",
+      "bytes": 18067
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/fascia_side_field.py",
+      "sha256": "76b40fe9089d2367292c5c0f010a223e301eb58ca478dc10b1c431bd56add897",
+      "bytes": 6347
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/fascia_surface.py",
+      "sha256": "b58a13b2f018a6bb4c5820904811a402f8de2f5df97ffec884e05441a509f167",
+      "bytes": 6105
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/fender_field.py",
+      "sha256": "d611a7f218d69ed6d86d1ccb4084528aae03a56cc54f2d985652ec0a62391ad6",
+      "bytes": 10182
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/finish_refinement.py",
+      "sha256": "a7379269716aa7316fa7ffcae27c39b4e0c96f2a61006c60275f3cf2c021a9d8",
+      "bytes": 49580
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/floor_panels.py",
+      "sha256": "632667160844246735f357f91db9c1359dec925f3c96d0de9a1dc52d1d90f3e9",
+      "bytes": 14748
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_bend27.py",
+      "sha256": "9226f2f04e0813a1f5ee4ca3995575d3c7aa8251646808ac9f9fdd80bb27e2a0",
+      "bytes": 5490
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_field_capture27.py",
+      "sha256": "f5179391d0bdc101c360f15562237be52f7c02d1b4af6f3f0b829eebfb2f774d",
+      "bytes": 7081
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_form27.py",
+      "sha256": "647b4a8c3c7aca7f58c06582dda1ea64cb59df36efb044a221bed4a510833124",
+      "bytes": 4178
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_housing26.py",
+      "sha256": "ccca83ef80f6e867ac483096745bdd198bae8aa8bd858f278635ec410f7fcda3",
+      "bytes": 10034
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_inlet27.py",
+      "sha256": "b48923ec22d2999052b4fbe50cf79af3cffb69cb9a7798495e3489dd30790c5c",
+      "bytes": 10673
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_lamp27.py",
+      "sha256": "634ec9ba6a6e585fe037358b6a0bee1a72582988ad2f4797334549a8e59ae743",
+      "bytes": 3304
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_liner26.py",
+      "sha256": "2b7c1ed149d6a2346f38d8ecd02578b6586a76023f16d3f3fb2eb95c8571739f",
+      "bytes": 3872
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_planar27.py",
+      "sha256": "0bc9e71afcdf265f752ba9c0198d3bef2313a43d83a188cb3fc0d9783598d95b",
+      "bytes": 7966
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_postcut28.py",
+      "sha256": "e65b1f99cb567cda51c5524020701a51e830a1f06280eade26fa8d2187f96c37",
+      "bytes": 7951
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_prefix_field29.py",
+      "sha256": "3e3e939e17b0d1d5c45e118bdb8fff27ebf0ff88232dca489860b84c0777e8ca",
+      "bytes": 15326
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_prefix_refine29.py",
+      "sha256": "da8653404707f2f6944b2049cedf8098abee69a2ab1132b653bccabc89aa1cb8",
+      "bytes": 3731
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_prefix_sweep29.py",
+      "sha256": "78aa8b1173eaf291c2814356673524e27108d167862a97e453d76c9238f17a97",
+      "bytes": 5903
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_rear_planar28.py",
+      "sha256": "dd29c44772652b70d1023ca955ec59017026d41b6827d6f7ef3190ecb18b321c",
+      "bytes": 7884
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/front_target_transport28.py",
+      "sha256": "d065e98e4d30c3e1035a84475af6c64ade05eb332344a0e0aff5f795048675b7",
+      "bytes": 10645
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/geometry.py",
+      "sha256": "0b2386b99c18e503fe4562a085996a4e8462f40d38dad53583eeb63bec7cb9ee",
+      "bytes": 12409
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/header_return.py",
+      "sha256": "9eba4cfed250539ef3e6b4c1549bd2dc7d0fd701eeb7e7e7bb8ec01ca51693c2",
+      "bytes": 15986
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/hole_triangulation48.py",
+      "sha256": "05f2bd7a6bfa443efd34d931fe60a56628841fdac47d20cc383c7e8584159c52",
+      "bytes": 3387
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/late_assembly.py",
+      "sha256": "4fee1323671ac0adbf8535a6ced70d1a66f893580cc031d5980ab4f3c76ffcd2",
+      "bytes": 1525
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/late_body_fields.py",
+      "sha256": "591e97927834191ef566e593ea102ffab9ac37d1230624f30d75fabf5992b5c2",
+      "bytes": 5400
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/late_first_fit.py",
+      "sha256": "f516228119f89577f4d10c5ec052db1c73461da9ffe2735fb0c2523f3efc0702",
+      "bytes": 5440
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/late_front_support.py",
+      "sha256": "72122f72ad3dd3230162798bc71575cb1f02d4ee48e7a8364df613901908b2bb",
+      "bytes": 7166
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/late_rear_links.py",
+      "sha256": "2aa9c4eee6ef5d761f24449f63722d62caf2f07220025be50bc1f233cdd6a68c",
+      "bytes": 1590
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/late_rear_mounts.py",
+      "sha256": "f605e51542f9fabf835b9a6bf4c8153d90a236b0b48609eb4424cef56475381b",
+      "bytes": 2145
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/late_rear_support.py",
+      "sha256": "9323ddce17faeb3361b7c38e93dea002f6297bb908f571ca0684ccc9b71e00f2",
+      "bytes": 4534
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/lip_finish26.py",
+      "sha256": "29b8ac6ef3ea74bb0b6fd2745e9641fb1ec6d1675fbc3222c889b94a7f9f1776",
+      "bytes": 9489
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/lod_paint.py",
+      "sha256": "adfbde043c7acb8b31af8bcd6564e2c751b3223b36d1016cab49a1e89a580bdb",
+      "bytes": 5353
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/main_coolant26.py",
+      "sha256": "3a1baeef518ccc721c0a86063a8d8e9531b9a339df0617d962a024a33efbb5d5",
+      "bytes": 7875
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/main_fields_cell26.py",
+      "sha256": "0d04f056cb2e7cd5aac9e0982c89e69d9b4bca87d1933be29a3103d1c00a27e9",
+      "bytes": 3585
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/main_fields_certificate26.py",
+      "sha256": "13cb2198935b3195ecf02a5e4f74cabc5d9a4e70cbc58798f174278737032784",
+      "bytes": 6694
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/main_fields_validate26.py",
+      "sha256": "cdba41396efae855fdda9dbfdcf66e4e40b83a44c57d10b2051e857368e8e846",
+      "bytes": 3136
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/main_sockets26.py",
+      "sha256": "ef79bb5b6a08a822f1bf0fe32d8742ffe9ff44ceea7055f08c92d68c1da7cdb4",
+      "bytes": 2695
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/materials.py",
+      "sha256": "238751b551f42b3b7c8a80475e63b83f167f47987459d0e8a8d11eb524ae6a9d",
+      "bytes": 3562
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/mechanisms.py",
+      "sha256": "fbc92e0c9b6d6efcf19e171af866f0f0d62943f8b71949f0ef3539575efdde88",
+      "bytes": 5975
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/microtextures.py",
+      "sha256": "046cef29dfdace8a7a1e941e72fc19a20aab2b2ac56025143a4c19b4a6d993cc",
+      "bytes": 3357
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/model.py",
+      "sha256": "9aaeb24a25c8926efa7a42cd355620a0c9dd4487a1e67bf63b2f332eaa4967b1",
+      "bytes": 34166
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/optimization.py",
+      "sha256": "d97f270d187cdff013291d9a478c0967d4c049d6ca07280870d854d47b95e9f0",
+      "bytes": 12832
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/paint_finish.py",
+      "sha256": "19f761b1393aaf5ed50e2bf6ba3d55506b668dcae2fcb3da796bc1825ed84d29",
+      "bytes": 1959
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/partition_evidence.py",
+      "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+      "bytes": 5693
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/pillar_joints.py",
+      "sha256": "4eabaf93243aae87a1b82d21e3311998bd4f338dd7564ff928431104ab5932c7",
+      "bytes": 6166
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/pipe_bends26.py",
+      "sha256": "2163e72afecef26b1fc78a55273fe1d76b25db99e7c713237811a0231e33159c",
+      "bytes": 6608
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/planar_transfer28.py",
+      "sha256": "49770926b423dc654fb4dfa9e7426fe81b2c01aa5131bfe5d218e507376b2dad",
+      "bytes": 4627
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/planar_transfer39.py",
+      "sha256": "3377301c7451e970fc5f49807a8c5092db40456392fa12575b76f7179f23993f",
+      "bytes": 8013
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/portable_finish26.py",
+      "sha256": "ce0b77660bc108131f29951479937e64795823be79ba17600ce861d10279f2b8",
+      "bytes": 985
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/powertrain.py",
+      "sha256": "0433e6197eb78b2971f4b2017b48263346fb0186318ea1d877ddae0f6929e58c",
+      "bytes": 17168
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/__init__.py",
+      "sha256": "64e634a0372701a56e43932418fff910132f00bdf6bc794fa0a755b53a952336",
+      "bytes": 72
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/compose_candidate.py",
+      "sha256": "7c72de866db12615bed73b7c84652814be4d5bf95cbc31a4dd759ca3102f71bf",
+      "bytes": 2375
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/contacts.py",
+      "sha256": "0e24a62f67e6faadbd9b865b2e3f026800218939e63f2a6a80c720b3753ea9fc",
+      "bytes": 6666
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/cupholder_interfaces.py",
+      "sha256": "bbbc837a16b348c315661f94f7c4b80af4742a52fcd48bb77d303ae14d65eaf2",
+      "bytes": 34143
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/driver_fixture.py",
+      "sha256": "ac3989356c436cadc54b1e34ba838593cfec1b4a4483e4c03255296e32d62b80",
+      "bytes": 1380
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/exact_triangles.py",
+      "sha256": "deeb297f158a9673e344f062726e687ce86bb294d94d188b2abbdcfe86b1d106",
+      "bytes": 3388
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/extract.py",
+      "sha256": "04f44003f0d8db500f47dfd70f9f9a9e871601cd2b906839b2d9d7a4c5144a68",
+      "bytes": 10723
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/finish_interfaces.py",
+      "sha256": "b31b4f6f6436d5f3b22535335f96a73ec206fd92a6084bc045c9949434c2429e",
+      "bytes": 33714
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/finish_report.py",
+      "sha256": "1129f1cd3d6e5d1682deb0fc1bff9801f39d8894b171afc11db0fac133c49c95",
+      "bytes": 12740
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/fitted_interfaces.py",
+      "sha256": "679eb6ef74604328d0ba5e5c29a328749d58ec54f93f4904e07deb7a86cf79c9",
+      "bytes": 16107
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/gate.py",
+      "sha256": "4198dda0a08271832c95b7c96f11d1c51eeb6d641bee5f23780939d8bdd7b934",
+      "bytes": 25062
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/geometry.py",
+      "sha256": "49ba453c158f7831106ba5cee231105ec8824b3162bd520e16fe5127af2b57e1",
+      "bytes": 6154
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/initial_containment.py",
+      "sha256": "70a7d97cfc11a953dd3cdc1b39e10e68da4725a6853440d969b98d0680282130",
+      "bytes": 6092
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/lod_self_controls.py",
+      "sha256": "5b8cf6458b272f78b4f76a35a9db6d231ad59e85adafa3282bd1bee79e558f33",
+      "bytes": 30407
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/lod_self_intersections.py",
+      "sha256": "7b9630a9709f0fceb9938a628a9a6c485574e34708392c160c0b1d884ec29d6c",
+      "bytes": 7206
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/motion_drivers.py",
+      "sha256": "70e76d1d95c0ada11812fce303ee2b1b629df8109ee67af63876a6e35bfd1083",
+      "bytes": 13250
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/negative_controls.py",
+      "sha256": "7c5eb3f3da75d9b3d342562226e47d7ef3a331abcbef98514d464231a19cc769",
+      "bytes": 9043
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/negative_fixtures.py",
+      "sha256": "15e6e4d5805ecd9e7c60ce9ec91b1459145d5236eaf0881c6015406f271f5ebf",
+      "bytes": 8577
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/opening_drivers.py",
+      "sha256": "5983d073051c57dd89a238c0dad7af50695b3fa6a55784954ae4f5f4ce7bd0e2",
+      "bytes": 4591
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/openings.py",
+      "sha256": "68348725709cb7b32aea1dc79913e70f1186a05237a7c66940461b1cfac4931b",
+      "bytes": 13332
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/optical_seats.py",
+      "sha256": "1b9d57e7049a021610fad0c607b2d16ca305f7f46d9b5d40dd7a7849dd11ca4e",
+      "bytes": 9465
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/precision.py",
+      "sha256": "ecf51ea1f89527a4be23aeff92f1747c667212be110064f0a943c8241693b0c0",
+      "bytes": 2438
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/restraint_interfaces.py",
+      "sha256": "70a6e1a79b279697c50d65f81eb88a6fb4894a316e78bcab83212d4a8d3f3c72",
+      "bytes": 4446
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/ribbon_self.py",
+      "sha256": "fd05d89f976a014adf7fe9a45b937e012fd93faffa979d82258c8ef6a83e282f",
+      "bytes": 4600
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/run.py",
+      "sha256": "5157f62e8d36fee350431ecbea52306cd43ec060b30ad1da0b01fab1f0668aeb",
+      "bytes": 17220
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/seat_finish_interfaces.py",
+      "sha256": "eb818616820d7255d472bba806b91d7cbf983c95e934166469b23e7775969bad",
+      "bytes": 17555
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/seat_finish_report.py",
+      "sha256": "cf05129715fc563694416df3262e168896f01a4308222f016b0954418d3a38e7",
+      "bytes": 20123
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/seat_finite_geometry.py",
+      "sha256": "c3ec561725bdfcb0b2aea378155cbf32ebf2fef134ad50125350c6610be476f7",
+      "bytes": 17057
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/self_controls.py",
+      "sha256": "81db5fb81fa8293cdb56b90692eb457ddea49b371ca16499eac251d3dd494ed6",
+      "bytes": 34897
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/self_geometry.py",
+      "sha256": "280983d38d6c3d88dc45922787f95298139b42edd452b381621fe0ed0ce7c7b2",
+      "bytes": 4665
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/self_intersections.py",
+      "sha256": "5430397a37fb809609bc5ff17d5ed5c57bfe4dfa5964e3a732eb7b679e1a59ca",
+      "bytes": 7248
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/shoulder_check.py",
+      "sha256": "5d3c1259319673108b6bda83dd1227ad49311b4b52a2b1c148bd9739258f1464",
+      "bytes": 6996
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/shoulder_checkpoint.py",
+      "sha256": "ae67889778b6b4106d201d45e0ca7825fa0eec6f2317572874c487dea656c092",
+      "bytes": 6049
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/shoulder_report.py",
+      "sha256": "98e71b802a100d88af8a945e771825d31fde19cc9b1888611a6c86b9a9d045aa",
+      "bytes": 22423
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/solid_interfaces.py",
+      "sha256": "52bc74a5f5ae0c011c6acbde98a261844ac78d76ca2a72400793087fda91cd21",
+      "bytes": 13528
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/source_controls.py",
+      "sha256": "e94d13c3303aeaf081206b669c683261983cb98779865044918b75fac1623ceb",
+      "bytes": 11076
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/source_lights.py",
+      "sha256": "de53b916bf82a3142a3d5ed61097e2cf3335038dfe54acd46a76a769286c1f63",
+      "bytes": 7420
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/static_interfaces.py",
+      "sha256": "6d0af77239e30e6f68d840312fec5ad583e01826408a85db11cdd0c8fad1ffb0",
+      "bytes": 14458
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/surface_minimum.py",
+      "sha256": "636b49100e92c5ad08e55896e92380c9024a6ded6df597424ad0d08ed2418188",
+      "bytes": 3050
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/tires.py",
+      "sha256": "a5bfc2f27e4c913fd4c698b3956a24899616713d9333323ae2e115442713d917",
+      "bytes": 15357
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/wiper_initial.py",
+      "sha256": "6bbdf58006b9f45f9352a28fe4e20b521f379106635e51d214063bb04d92fa15",
+      "bytes": 6259
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/wiper_interassembly.py",
+      "sha256": "478c1fff4dc51543ead18ea3d8e906bbc91c2f765e9fba1d44e2b4a18f0164d1",
+      "bytes": 13432
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/wiper_negative_controls.py",
+      "sha256": "bfe316d1e0a917e10ff329e9390d92a89812edfa18f7a2ac8e8ec814c351dafc",
+      "bytes": 4883
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/qa/wipers.py",
+      "sha256": "c54c206544f18e381782d2dcc05f99503b08eadc289fecc8c9391b848b93918a",
+      "bytes": 12263
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/radiator_fields26.py",
+      "sha256": "51d6ad4612b24fdb5a3ebfbaef7336f829ecdc9bdf9f5d2c99625ca6f2a7f3af",
+      "bytes": 2706
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/rear_cut_skin.py",
+      "sha256": "c11c69bb48ab454426d0b0b3551b205e0a020353036de303386eb2ef70127947",
+      "bytes": 9978
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/rear_optics.py",
+      "sha256": "5cbce1dd66215eb66d97489d50a9ae64fe355f36c8ab17e06ee9001ac51ee861",
+      "bytes": 3734
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/rear_seat_field.py",
+      "sha256": "e5f6e7dc2d94b42d6283029faa33f381b7ab0e5c6f8948733e1f9ffaab3ddffd",
+      "bytes": 9434
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/rear_surface_field.py",
+      "sha256": "1874ab7937dcfeecd64b6785a66c1c5389e20dc52f1a85135a2fd67b0fab738b",
+      "bytes": 14220
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/rear_wheelhouse.py",
+      "sha256": "9a71cffa1e24f79b2ecbb9031c2b22fd5d93a30ba280553746769fbe097085b1",
+      "bytes": 4264
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/render.py",
+      "sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+      "bytes": 17139
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/reserve_correspondence26.py",
+      "sha256": "a9365f8d37bc2efd26e24803698cb94c6980f88391c276fdae87f3bc195251dd",
+      "bytes": 1941
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/reserve_semantic26.py",
+      "sha256": "82f6efe4c59d3ee594d542687fc13bff49f246d6d02705f7ff6dd2766a2dbe26",
+      "bytes": 8831
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/restraints.py",
+      "sha256": "0b502b4d2ed4a45c667bd7b0b4758bae63b644e9502a558dfeb79ba26d745e6f",
+      "bytes": 8956
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/retain_evidence.py",
+      "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+      "bytes": 5910
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/review.py",
+      "sha256": "c42dc8f64e3984bd888d02ed510011561c2449cec1e36d4c1a16f80e8c3c629c",
+      "bytes": 16458
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/review_overlays.py",
+      "sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+      "bytes": 7740
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/ribbon_recipe02.py",
+      "sha256": "c48eadaad2b71f8eea91be5df23793b302f1c3e38f36eb9ec4425baf078d3305",
+      "bytes": 7152
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_centers21.py",
+      "sha256": "bb20b7433a21e5d6f03acb51a8bd16e12071fc664153b68c19bd088be5765b49",
+      "bytes": 5284
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_closure13.py",
+      "sha256": "4d1bba105bc6a93c299b357d5c9447c0585108913f78f0a1201b12cedd5c8fea",
+      "bytes": 5226
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_continuity08.py",
+      "sha256": "94863f1eba24a8b55f6cf7f8e7a8ace6c7420c1b871ea0d6383960ea198c2b34",
+      "bytes": 10360
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_feature26.py",
+      "sha256": "f19643f65300db3d6db374908da29aca38e1dc8bbc82ab0ed0f98da8988a0786",
+      "bytes": 14263
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_finish26.py",
+      "sha256": "f2a92a59884d5064d65f6c6465ee5b8b2c8aaa2be1ccf36459cae1fcb230876d",
+      "bytes": 3947
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_leading.py",
+      "sha256": "7de8a3a5ddb20850905cf445caf6686a8e323d367bc056cd4c9105547da0e1dc",
+      "bytes": 9716
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_long_skin96.py",
+      "sha256": "e9b772893eda18d1795cb2a021b8dacb623865bb19a0623f806b8edd829b8a48",
+      "bytes": 23249
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_outer_section50.py",
+      "sha256": "c4b3aedbf7d861ad5d60a8d1113d272c75487b1702c7f3fb55e6f05e14aa3eb7",
+      "bytes": 21219
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_resection29.py",
+      "sha256": "e26b347063c6572a0ac0102701f14a29f1a890116503f202fecddad79cb2749c",
+      "bytes": 12861
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_transition_field57.py",
+      "sha256": "54077032628cab235fe0eb9d5b08d021b0894f614d0ac07f37bdc8f598a07821",
+      "bytes": 5726
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/roof_trim.py",
+      "sha256": "79eb1fc10ac8a6ff64b892733be23e0671f5648472e7100ee5482fb505387ff4",
+      "bytes": 4863
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/seat_assemblies.py",
+      "sha256": "3aca3a45aa13680545b53ececd5634eb1d716bcdb4c658af2d02b655f3692f58",
+      "bytes": 18947
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/seat_install.py",
+      "sha256": "554d81a8ee986bdb69277909c340c8f400f4062b28d29033253ee948c08981bf",
+      "bytes": 3095
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/seat_ordering.py",
+      "sha256": "ac513a44ab7412f8104ff6be0f2bfeec7fe381b5d1724b5cef73da4a430a4528",
+      "bytes": 4098
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/selective_lod.py",
+      "sha256": "1fce28b1ce6532af31faa45aa9abddbd9c55d7e272ca9f536043a2c6c1b2df6e",
+      "bytes": 12073
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/shoulder_checkpoint.py",
+      "sha256": "ae67889778b6b4106d201d45e0ca7825fa0eec6f2317572874c487dea656c092",
+      "bytes": 6049
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/shoulder_field02.py",
+      "sha256": "05b2054e3e2a06c34c8a6a510774f53d25f7e11bfccca51043051df030dc10c9",
+      "bytes": 19829
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/shoulder_profile.py",
+      "sha256": "4597945ce812d68069b7d09b53826bee3b36b983edc013bb50178f884a6970e6",
+      "bytes": 2048
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/shoulder_roll27.py",
+      "sha256": "bc3a5908fc5c262500ba06a38e16a0a4e1d73414f44c4bdeb75e36f61cd42a00",
+      "bytes": 4296
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/sliver_faces.py",
+      "sha256": "826d61eff9c05ff32878b5ae2c3ee0e045e10e673831c667f602554174a0f7a9",
+      "bytes": 9934
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/sound_grilles.py",
+      "sha256": "2146a021105f8b7140b833a4d6b43a0761aa98f5baac723fea4b00305ce20f0f",
+      "bytes": 8579
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/source_dashboard.py",
+      "sha256": "79723d411879c86904eea57ac3947cd213e4d7e2ee186a691a9f551222f26ec0",
+      "bytes": 8594
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/staged_normals.py",
+      "sha256": "6f5e1d690618ea6a129a6a3d01c5d6adc7cdc2bdb2e8e6b4e893c3cdc29ae7ad",
+      "bytes": 7663
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/static_labels26.py",
+      "sha256": "2f4cd7ef624202db886a4165da3991091a223f4cacb0e3bf3a0c3fb26b0ecced",
+      "bytes": 9113
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/surface_clip.py",
+      "sha256": "4e02c84e1a2a1d1cf989427ecc9a02f41d96f67d813492987f1b245ff813b1ce",
+      "bytes": 2692
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/surface_normals.py",
+      "sha256": "2dd3b738c80c4edd41ba1ee9ece587d9e9bfca245ef18a8e55325166a8a13e7a",
+      "bytes": 4669
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/tank_chamfer26.py",
+      "sha256": "bdb4bb448a65805294a6874e8eec541eee96066adc88330afc1d4d84526321c9",
+      "bytes": 12086
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/tank_repair26.py",
+      "sha256": "fb7b4847aa0c91ac211b351ddf24c846626ccf5d8a563866e5d284320e4dbc12",
+      "bytes": 8246
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/tire_surface.py",
+      "sha256": "b2c6506aa412b0ef97217e7a29069c4fa76eb74162c1386d85dd3c69f2df5cf8",
+      "bytes": 3757
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/triangle_projection.py",
+      "sha256": "f8a311e88c3a4f38016fb4456de3cd1b8eaeee6f5f1d132683a6a864ea3fc68a",
+      "bytes": 1251
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/triangle_projection41.py",
+      "sha256": "1d0dbe322752bb4b6bf43ae393c963790f8f54749dc2d0b82b18de7f0f6b26f1",
+      "bytes": 1358
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/trunk_ribs26.py",
+      "sha256": "06054cbc11539590ff3599f640aa90d06af7ecb5de9fe936c0c7218c6d9c995d",
+      "bytes": 12917
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/upholstery_seams.py",
+      "sha256": "4f25c489069398913116385ef8ea4176484b74b99ae7805a63d652b17229f478",
+      "bytes": 3845
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/uv_bake.py",
+      "sha256": "aaa8ac6be9c46c2395c0abca7dffc4742256f4e7ff148aa4e8714295bd2b43a5",
+      "bytes": 9663
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/uv_bake_controls.py",
+      "sha256": "5e89a9262a956aa9a9c8eebbae3b418070d0d3e0b349fcf19c62c2a129a9d341",
+      "bytes": 6300
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/candidate02/snapshot/tools/vehicles/endurance_sedan/wheels.py",
+      "sha256": "ce07f832774b805599f42aa2ccb11ff3e7fd38245ffa108af1104cf108979e13",
+      "bytes": 7101
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/command01.json",
+      "sha256": "bc6bbf953f218c209628fb7457d3d284170fd5dabc32a92cdb2eb0f63b0f3eb6",
+      "bytes": 923
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/command01.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/command01.stdout.log",
+      "sha256": "ded31bda0f8cdbf646e50f6b633b2b2ddc41165b59cf19ff43e924da4c423fc1",
+      "bytes": 305
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/evidence01.json",
+      "sha256": "f7faca6b86462ba41f4bde88ca7933f6275872f9c5454f6bb081dcfb8a89182c",
+      "bytes": 745
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/evidence05.json",
+      "sha256": "e236c6f83fcd71de8ad94bf2758f73c670303b852dc73659434252cef00fc694",
+      "bytes": 1848
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/implementation02.diff",
+      "sha256": "2407e7d7ecd31c08bc772ab5096995a592977df02e053f92b7a94aa6f5c7ba47",
+      "bytes": 11536
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/inventory01.json",
+      "sha256": "a45c6a6cce350d97695073b82d6c8505bae2ccac2b4f22219ad1f245f9b0ce1e",
+      "bytes": 128056
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/inventory01.py",
+      "sha256": "a47acd676e992a994d33746b1dc98604458c8bbb7768689ee3417f553dbf5aa7",
+      "bytes": 11526
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/manifest01.json",
+      "sha256": "2e3bf03fdb70e591bcfa6223d1b77d858aafe080eb8cc4d206bc55f63cba61e1",
+      "bytes": 1451
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/manifest05.json",
+      "sha256": "cfb7beac18e87a38da918aba2c1e1c548883632164f3ec79a5c45565d3b4bf77",
+      "bytes": 51424
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/preparation02.json",
+      "sha256": "41a630f1216ec688ed25b58beead563f9f91af88613ded87ae01eda505649a09",
+      "bytes": 72633
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/prepare02-command.json",
+      "sha256": "cb1bc6b11e87763ae6ee13ce0e81ed65aea2507212be8dfaa971cb28be361c1f",
+      "bytes": 460
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/prepare02.py",
+      "sha256": "16cc453f0f22b600b80d063cf70d4ffe64937a7fd127e7ab0d1822da3c25ff2d",
+      "bytes": 8335
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/prepare02.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/prepare02.stdout.log",
+      "sha256": "842aa814f39d0e74884fb2123e1f6858598d8d490387d7b1bba58b05b2eaae30",
+      "bytes": 257
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe03/run03.py",
+      "sha256": "fcd8bb691ee8d15c105914a388e1efe61f172b202d1324f7b0656012fb504b6d",
+      "bytes": 2418
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe03/uv03-command.json",
+      "sha256": "75a760a10ead57beab271447d8cbd7684d0119d87d748f4db5a970822579d919",
+      "bytes": 836
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe03/uv03-lock.json",
+      "sha256": "ebc8e310180802d3da7376cd936bcf71fd2e9c2ff7aaa9d85145ce3240445101",
+      "bytes": 75367
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe03/uv03.py",
+      "sha256": "7af1667ee58b44ac7e08eb20f48884ed22f8ec4151cabbd64d3318ab09902e2e",
+      "bytes": 5222
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe03/uv03.stderr.log",
+      "sha256": "6bf6634ef94a3fe1500aa6c9cf47a5317c2066860dc7e9df7d38dc2e32842f79",
+      "bytes": 512
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe03/uv03.stdout.log",
+      "sha256": "0c55983848771de093de6ef1a99601dba7950e69c6240f499f6d74b883384d55",
+      "bytes": 206
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe04-preparation.json",
+      "sha256": "9079c07fbbf584c31864d833a31e38336d8d1088a8318d3815804c20ab35c3cd",
+      "bytes": 563
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe04.diff",
+      "sha256": "fb7443dbf7be629317dcd7374f4af5e3656eac94edd8c3168e43beeacbb8be91",
+      "bytes": 2978
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe04/run04.py",
+      "sha256": "b3d2a8ba4f48e7b037321c10428d7f498628aa1bfa368e5008bec78c87f7b089",
+      "bytes": 2418
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe04/uv04-command.json",
+      "sha256": "b7d6246ad41faa59528a065b5428dad7168b6802c3e05654ae7419b17fbe01fe",
+      "bytes": 836
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe04/uv04-lock.json",
+      "sha256": "3ed4c1fd31751db1169cb5d651bd01d1537e9c62f316aaf7f44810cbfdc84319",
+      "bytes": 75367
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe04/uv04-payload.json.gz",
+      "sha256": "d513700eaef76338d22c3210167a1fdaef5ecf5af2e80d36374001391f746a0b",
+      "bytes": 2337241
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe04/uv04.json",
+      "sha256": "f49395669c76b9a1e00c0d775416958d00e09d8d1720c93961c7212b8caf481e",
+      "bytes": 737
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe04/uv04.py",
+      "sha256": "874c17711d3c18bea471b77ab84c8e143ee6d3f3b419b69f0ba9876c3dafc1c4",
+      "bytes": 5350
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe04/uv04.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/probe04/uv04.stdout.log",
+      "sha256": "d043022c56b5da1f976fef2e670b5202be349e2e34bc2c017edf80e62beb7216",
+      "bytes": 321
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/query-notes01.json",
+      "sha256": "5accd6ccdeae3d77450f8962596f03c32e084409374641d6d42373d6cd70e265",
+      "bytes": 1230
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/render_build02.py",
+      "sha256": "cf738c10a22f1e64c5b0ede4ca91def16fd5dbee9abac3ff98f6b88fbc364e25",
+      "bytes": 3909
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/review02-command.json",
+      "sha256": "e696c8551d39713c8494ecf41b58fff301027b0d80418f9ed5710f1c8fdcf713",
+      "bytes": 372
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/review02.json",
+      "sha256": "ec340dcb4a9434037f8f893cceb5954bd29e24044ec5d27d6d919b4a6cbb2ee1",
+      "bytes": 1825
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/review02.py",
+      "sha256": "02a4f2b364df6ac9610bd4fb2a440f5318d5ff688f0b0e4fcd703640ce5ba893",
+      "bytes": 4328
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/review02.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/review02.stdout.log",
+      "sha256": "e89f95d09df69a5600e03cd4a16eaecb3e6b0dc261ae4fa5a73de7e9be46f580",
+      "bytes": 127
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/summary05.json",
+      "sha256": "ea23fe825dd8e8c4eb8b73e0dbe1bc10869abc874a5ef61bb4e0a3881498e930",
+      "bytes": 15186
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/PROPOSAL03.md",
+      "sha256": "a3322d0270fd2c36ecce21f7959f25f0b98e9d46a5844ba1ce5a1ca60164e105",
+      "bytes": 6681
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/bmesh_bevel-v5.1.2.cc",
+      "sha256": "53a9681621b958b62882e0706cc1f36828e4be6e5e59765270805699ef54d10c",
+      "bytes": 272012
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/deterministic_uv02.py",
+      "sha256": "d64310520726ae0cb5b031af9cf13b8e1f1fb9ec7346f25dea35eafb7af4b358",
+      "bytes": 11250
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/evidence03.json",
+      "sha256": "eeba57f1524103c0a355c1dc645825f77b0cd26cc3326fd79dfc6c7221eb2a1f",
+      "bytes": 3651
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/freeze03.py",
+      "sha256": "92b1512cffb6491e4c81eaf1a539df2a31ad3077cb6df18858c3162c7265db8a",
+      "bytes": 6610
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/lint03-command.json",
+      "sha256": "59552d339adf9d47b0a71d74936c0957fcc09fd0caed32914a11d1bc1c3edf36",
+      "bytes": 505
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/lint03.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/lint03.stdout.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/manifest03.json",
+      "sha256": "32e38ab3621a3cc07e02552f938ab5b3749e03e76875f39cef67bf460cb05fa5",
+      "bytes": 4884
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/official-source01.json",
+      "sha256": "adfabf73ba531f678d49480fc440f340a280079d10a2c0782a2e5769dd71b148",
+      "bytes": 510
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/preparation02-error.json",
+      "sha256": "15b92f80f152bcf8afb63c76c1af1c474bf0f4a2d11612b44d9bb1bf11c7ab37",
+      "bytes": 473
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/preparation02.json",
+      "sha256": "cbbe4e636ad7ebbd692da879b53e4e85bc8b714d38c79efe05329de1c63ee5ce",
+      "bytes": 497
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/prepare02.py",
+      "sha256": "6d4b95ab54d319837b9bbb1ef3ed34ac317637e1225ddceba0ec16dc00ceb78f",
+      "bytes": 1230
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe01-command.json",
+      "sha256": "a943d09ba8dad10d4256435e449c4c952bc81d96982948d2f7946a6e9333e3ab",
+      "bytes": 845
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe01-lock.json",
+      "sha256": "aeccc7a2c912b126fcd995ba11d1378bdf5fd8e8ee305b8c53a1bdb69ab93d63",
+      "bytes": 75694
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe01-payload.json.gz",
+      "sha256": "e0e285b81d2b4130654451b0779f837715a833210665df0f27051d082971bc45",
+      "bytes": 1490668
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe01.json",
+      "sha256": "03306436b5e720878da4e529b731e802a206f5caf7643308e8af5621c8e348e9",
+      "bytes": 1079
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe01.py",
+      "sha256": "908c23d3f75e1064c6046bebf97b5bc0e53a547f3dfd86395f60c62d5948bf07",
+      "bytes": 8993
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe01.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe01.stdout.log",
+      "sha256": "4ce0c09146652f3c5c3a456ddf4ebc514f28ac02c8393a9c419d6043436f47d2",
+      "bytes": 301
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe02-command.json",
+      "sha256": "a5c0430b58be8f68d3fb63aec915e2e70c5babe480a5f632be2eb36122459188",
+      "bytes": 845
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe02-lock.json",
+      "sha256": "f068d2cf421576dccac3d1076a9b35cdc55dc8bb5622a96dd7e6aee68187f983",
+      "bytes": 76164
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe02-payload.json.gz",
+      "sha256": "35d6f83e8577f057308fd043ff6ad666ed8df344878a1e774cc67c12bd9263b4",
+      "bytes": 1097715
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe02.json",
+      "sha256": "0a09a7b5b11c8a82d9be814d42bd7d14eca807f31c4a210a71e549a53efa4570",
+      "bytes": 4534
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe02.py",
+      "sha256": "e80b08537344e4393f0ae6c77834a65fd44760f58b571f0a805554fa3ab59ccc",
+      "bytes": 9625
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe02.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/probe02.stdout.log",
+      "sha256": "1b3e68287bb1991fadb1dcc5222b6e8f0b5adb54acd7ed7f26fc0492cdd1a274",
+      "bytes": 293
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/query-notes01.json",
+      "sha256": "1e236b2a7312693fac48cc81592811e1f48a9d9fa0a7d157c5f0f5d11b908b7a",
+      "bytes": 614
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/run01.py",
+      "sha256": "d6e17973189ed98fba97fc1223e30ab35cae8ed4f0f612a52a7eaa6aea4982d3",
+      "bytes": 2481
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/run02.py",
+      "sha256": "70b724be46fb5010cc9c17e8b3db48fea8806ab456ef2cc09a7de5f31d738229",
+      "bytes": 2570
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/scope01.json",
+      "sha256": "0038eac1a87dd990da834ac359a05058576266e132e0c5cbb7ccbb40cc700956",
+      "bytes": 1571
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-proposal06/summary03.json",
+      "sha256": "27810310aa0d893b3bcb86f5689ca54a595bc96d610d801754af8bb2bb362d78",
+      "bytes": 7327
+    },
+    {
+      "path": "reports/p1-018/runtime/distance-lod29-reserve01/uv-scope03.json",
+      "sha256": "3e5c814023902ab961f41846770d54f717b61dd35ee0883c74570c5b7dedd94d",
+      "bytes": 1061
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/PROPOSAL03.md",
+      "sha256": "ca7f7852463a022c2fdded68903bf68b6059bd33b799cdb6bf0044bc94283b33",
+      "bytes": 10749
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/PROPOSAL06.md",
+      "sha256": "97945fe04fb339d7a21ff0d65a8f6423bf8d03af0301f06822dc158b5fcc198e",
+      "bytes": 12793
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/actual-front-native01.json.gz",
+      "sha256": "2ab8b3ee88f4873030f0535b085a09b5542c64aff1dfc41c04d931904da5881d",
+      "bytes": 1288545
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/affine-field05.json",
+      "sha256": "7b0a3768acbabda02996f1846f78a27e7e8dfe5ae01129b8dcb2e26e401d22c1",
+      "bytes": 685360
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/affine_field05.py",
+      "sha256": "31869f34bc43f8a22e3026c3ba706b8a0aadae369f0fe66d2e0270be5fa5bfdc",
+      "bytes": 9314
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/analysis02.json",
+      "sha256": "5bad3f8febb5b7c40266cb9de38c208823e76c6ae91117974eaa07c77ccead8e",
+      "bytes": 6970
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/analyze02.py",
+      "sha256": "f109bf23e62d0e3bb0a4d43d2e8faea403e3e832bd2bd1015071fdeec40fdf3d",
+      "bytes": 7826
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/evidence04.json",
+      "sha256": "46fed93a31d62e470a134caaffc087e36e7602747e3c00a2842068899aa0e1ff",
+      "bytes": 3483
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/evidence06.json",
+      "sha256": "3a9a85a84d3da7df57ec9281d68c81264187fa3642d4f067c132e89ed303b1cf",
+      "bytes": 951
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/finalize06.py",
+      "sha256": "a195c5fa2b82915c31757add97873ed4405a3e2a6021d428132212ecbe3c6ab3",
+      "bytes": 5620
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/freeze04.py",
+      "sha256": "69d7145cbc6284b75b36f3c423f265acea24a6f57b96444a0f06ca1075c53e00",
+      "bytes": 6112
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/inspect_packets01.py",
+      "sha256": "72a33e685067e1cc317f0f265808d58436c06160d9f76df8d59df74cd158dceb",
+      "bytes": 1845
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/manifest04.json",
+      "sha256": "0c6d749545995d4025455d890d7b67a7ed639b5008e9e2da192696faab73a07f",
+      "bytes": 35867
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/manifest06.json",
+      "sha256": "0c958e0f67f3c12e75021a7db52311beff9e194a7b23ba4f0dfe5e4919d01f63",
+      "bytes": 36891
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/native_read01-command.json",
+      "sha256": "ba451cca525ed38768121ae2b55cebdfd4eab7998134082b04e1980a42696b97",
+      "bytes": 808
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/native_read01-lock.json",
+      "sha256": "d6a3b59d1f1e464e3e69ccfc920f06b55d6b5d26f152296282b6cb931c924cbb",
+      "bytes": 32840
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/native_read01.json",
+      "sha256": "89d233a6f74b06ba5a7a97a2dffa282836bcf46f1babc1adcd51e9d591ab5925",
+      "bytes": 82724
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/native_read01.py",
+      "sha256": "770a7a53bb0821dd77082f419b5ddf0903e30b084a4cb8197f192b8d68c56176",
+      "bytes": 9144
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/native_read01.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/native_read01.stdout.log",
+      "sha256": "f117c91d70bfe7721fbce81c573775931d19d2c0308ce483a174eaf16187b379",
+      "bytes": 392
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/packet-summary01.json",
+      "sha256": "b2b93b665b643c89f2b1f9f5f9e97ed1fb03a0bbb58777033dc631ffd9288f87",
+      "bytes": 2440394
+    },
+    {
+      "path": "reports/p1-018/runtime/front-lod29-contract01/run_read01.py",
+      "sha256": "5957776fdc7ef57a8276909ea0a4e7fcbe40f23c23b17d9f1c7e6ef5cda2ed48",
+      "bytes": 2385
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-source29-plan01/PLAN.md",
+      "sha256": "6b1585bde237b95dee97e3007f94784e569538c7150f875da0824597c6864ef0",
+      "bytes": 10044
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-source29-plan01/analysis.json",
+      "sha256": "53384c6becf117fa5fbd93d60777a6276141eba13dabc949bdc93f8bb6566898",
+      "bytes": 35184
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-source29-plan01/execution.json",
+      "sha256": "7c4566a56e1a77856c47cfaca693e0f5b67a131db3d9d2b87df6d0c6eb8bf5e3",
+      "bytes": 1049
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-source29-plan01/freeze.py",
+      "sha256": "0e22b3bf1e8379b9845dd24a4e40d94615b8ec486aeab87c692fd794601fae7c",
+      "bytes": 2393
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-source29-plan01/manifest.json",
+      "sha256": "c71ed627a2b3f0268b701700e4f48f0773ad0b56cc82116ba002de73d582e507",
+      "bytes": 1967
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-source29-plan01/readback.py",
+      "sha256": "9e3a56cdd3c7dcc8b171675bb5bf6f4867721303616be6babeb7509439a57881",
+      "bytes": 10317
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-source29-plan01/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/lod-source29-plan01/stdout.log",
+      "sha256": "1d2688c9436bea23ede79bcbe13f0b36071dab970f3c508b24031901f4589bb3",
+      "bytes": 520
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/HANDOFF07.md",
+      "sha256": "27372fa7189963f8f98c5eed622246a1a84458136d14debe8e35198e31b3a038",
+      "bytes": 4035
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/audit02.py",
+      "sha256": "a14e5d345a9cfc4ab495c497bc66a7596fde27dd093f07ad93af387b373632fc",
+      "bytes": 10264
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/boundary_field.py",
+      "sha256": "eae5f49af365a70248c0dd23165b3b229331c0deadd870acc4dc3bf994e735c2",
+      "bytes": 8009
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/boundary_subset.py",
+      "sha256": "31ca487009ec36385606b840aef87b13a50d20bd5a7ea8ba5393a51b34263e51",
+      "bytes": 10579
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/callable.py",
+      "sha256": "9f98b3021e1e6dbd6c78714eed7e155ed76537cab142957dcca1d4fd82c72d6d",
+      "bytes": 19042
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/callable_diagnostic02.py",
+      "sha256": "298fd4283a15267c8fc047fa08cacbbd4d1e965d06a5bcd4bfa954fce3445891",
+      "bytes": 19208
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/callable_repaired03.py",
+      "sha256": "aa791e8428247c3ec4f433b767e73ba59ed2410807fac5552a6eb7d3204beab9",
+      "bytes": 19053
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/diagnostic02-preparation.json",
+      "sha256": "3e1111ad78933d48d7b555d8c328d4746beca118c2fe794dbfa54e6276aa38fc",
+      "bytes": 1345
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/diagnostic02.diff",
+      "sha256": "8ce019763e1defd501d38752bf11885fb5fb6dd6fd40eeb75067325eea0a5c32",
+      "bytes": 9696
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/environment.py",
+      "sha256": "6d018cb6bb119ae9a4075c44fe96caf6408d5c75725dc39c04d2fbc1bc316fdb",
+      "bytes": 3247
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/environment03.py",
+      "sha256": "5cfd386dfac75a06b92360bac9e65cb407938bcf1a60312000c4dc047bf2dc63",
+      "bytes": 3258
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/evidence07.json",
+      "sha256": "66b365279435eed8472c7ea223650678c21238100f76b1f281f6548c8f7b03e7",
+      "bytes": 11456
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/finish_wire03.py",
+      "sha256": "1a82a99901741ba31356be8f557db30a21d481cf0ec0259a8ad4b27ff3881712",
+      "bytes": 1613
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/freeze07.py",
+      "sha256": "c9e27448445d2390d17729c34ebcbef1b9e1bd201c27e82bb15a1293e5047c1b",
+      "bytes": 13594
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/front_controls01-command.json",
+      "sha256": "b133768ba8b5bdd163eaa1aa8c0814d626b9cff24ffd430661c3271d63bbfcac",
+      "bytes": 937
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/front_controls01-lock.json",
+      "sha256": "76f38d7006a76b4cf880431aa9dae81237b9657d273cf4ef6f055c388b297054",
+      "bytes": 71791
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/front_controls01-payload.json.gz",
+      "sha256": "a09bd90e9f466ab52ab37e8218f05a01f01c08de3e332d6cbece80d584dc2627",
+      "bytes": 441733
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/front_controls01.json",
+      "sha256": "2789448f81b11cd87eef4a19edb40caa26f648d34612f696a5d7f57fc41c0396",
+      "bytes": 11160990
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/front_controls01.py",
+      "sha256": "7a13da0e66337eca6aa451ed0f38e9a2ba341b36c53eed8c44d76d9fa9203f78",
+      "bytes": 10685
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/front_controls01.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/front_controls01.stdout.log",
+      "sha256": "c044f89bef271eb95794d735163952c729cc6b7f155378b96d805187993cb582",
+      "bytes": 424
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/generic_controls01-command.json",
+      "sha256": "23680e3685f3884f6093d33d7dd7406f93a6eea69a285ebcfd437e1e9ec42365",
+      "bytes": 939
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/generic_controls01-lock.json",
+      "sha256": "76f38d7006a76b4cf880431aa9dae81237b9657d273cf4ef6f055c388b297054",
+      "bytes": 71791
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/generic_controls01.json",
+      "sha256": "c2909c106827f569e3d0321640b96bc92abede0006b22485a6bb66aac6fa902e",
+      "bytes": 6912
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/generic_controls01.py",
+      "sha256": "951feace9a1fff987d70cb9f7d6fe3b9832afabf1f5ba68dd1b5142948fe8d68",
+      "bytes": 10257
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/generic_controls01.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/generic_controls01.stdout.log",
+      "sha256": "5ff87d68fc42ee15199a810859b66a2786194543f4901df2ddad2b3220604c78",
+      "bytes": 122
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/host-wire-failure02.json",
+      "sha256": "343d7ad2cee9986a14857011db05eb8bb6cd5ced440b19432e57748f69bfdf49",
+      "bytes": 368
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/implementation03.diff",
+      "sha256": "4269dcb44b2c06e1052cee3ea0b8c62a36e46387d8b4cb413edb2ba7fd16a2b4",
+      "bytes": 16474
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/manifest07.json",
+      "sha256": "e549cd994ae3a401c05dca05b1e95e4d4ee8ba164248427345ded021aa87f673",
+      "bytes": 52375
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native01-command.json",
+      "sha256": "35e73b776f8c2b4fe361db0d9c9f5caf2c2414032faa5cac97cb2a15375ee088",
+      "bytes": 929
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native01-lock.json",
+      "sha256": "76f38d7006a76b4cf880431aa9dae81237b9657d273cf4ef6f055c388b297054",
+      "bytes": 71791
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native01.json",
+      "sha256": "46b77ee9729b4eb603fbfffab2562a0e9b80ff11977123cc768811d2894ce9e5",
+      "bytes": 120256
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native01.py",
+      "sha256": "bf77d6e1f20aa1ee5dca8111f5adb3bf03f8d797e035724642b3ce35e7a11112",
+      "bytes": 2818
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native01.stderr.log",
+      "sha256": "7f31c949bb45821557f2cffb2bd1e3c9287efcb55c25c851c456e4399bd83b4a",
+      "bytes": 2622
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native01.stdout.log",
+      "sha256": "a1639b5f9b4013e3ecb889a849bc17b07660bb68680f979e0f7ba3eeac38e135",
+      "bytes": 13669
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native02-command.json",
+      "sha256": "4c8cec53c38c53cc1f031c28251e2b8081238d4842f0a8c4df10998b892a152c",
+      "bytes": 929
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native02-lock.json",
+      "sha256": "8f41659d901deda173bf8193c6afd1f6a9ad130bf91a5986cd672be89398829c",
+      "bytes": 72669
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native02.json",
+      "sha256": "178e9c3ffe5808df192e10050892033e97cb78a1081fc5ff9be379112492a7db",
+      "bytes": 119932
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native02.py",
+      "sha256": "2984fe06958eb1b61491b3b07b0e9041a07794d1dfdc643d8beed7db26cfc0f8",
+      "bytes": 3024
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native02.stderr.log",
+      "sha256": "efca058ccce3168d025808e1c3ddb1e8ad6d5e14305774a3dadc9b7ed2c1f80b",
+      "bytes": 2077
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native02.stdout.log",
+      "sha256": "b5e78bd880b5d12043148a7ccb8a40f866e2080ac3121ea619cb122cf6694226",
+      "bytes": 21281
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native03-command.json",
+      "sha256": "ea40c0631ef806622fb1decc0ec5186a86e556dd43e8f25934ffb1d5ff7ca77c",
+      "bytes": 929
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native03-lock.json",
+      "sha256": "95c13c2235f67130417759c3d80c193b499675953dbe16ae79026fdee0132167",
+      "bytes": 74716
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native03-payload.json.gz",
+      "sha256": "5ba1dec0cbe4fc08e85e65f20a26e157985f938d7a903eeb5230502a2f3a10d6",
+      "bytes": 5030270
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native03.json",
+      "sha256": "aad6c85299bc2c3a3fb5f728273cf5a54ab804c7759b85f382ab2194d6aa890e",
+      "bytes": 25168555
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native03.py",
+      "sha256": "8fbd57b662bb840fecc0d4dda62a16bcad0497bf4e4a84f127c2123943c76295",
+      "bytes": 4049
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native03.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/native03.stdout.log",
+      "sha256": "303408b06c96d0a0b3f8703f03d1d495d315359f8d3a4f6db9ddd42aab34902b",
+      "bytes": 20613
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/preparation01.json",
+      "sha256": "ac2b678fea66a6cf7da2e334907f581f65ba87110ddf4b0d3820461d154dae61",
+      "bytes": 57346
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/prepare01.py",
+      "sha256": "b219d7e9fae3d4cba1a06bb341a2b57110591d6c4a3798af3e1ff0f2f935852b",
+      "bytes": 3477
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/prepare_diagnostic02.py",
+      "sha256": "e1fc750b97d640aeb2aa015611176e189139d96d05835626ca4b5c81536601a0",
+      "bytes": 4902
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/prepare_probe04.py",
+      "sha256": "b24e83a81e989d8aa403946db42ebcc106c1dfcc509088e0abc85a18c960d1a6",
+      "bytes": 1700
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/prepare_probe05.py",
+      "sha256": "557bbbbf207bc0365bb925bbb2fe98111bee60c18e2a61b0a044a2f8e3bef917",
+      "bytes": 3266
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/prepare_probe06.py",
+      "sha256": "d4bd3c77a55a44c6e266bdd1096ce0a811e2158c5b03887d44e3d0d9926e1f65",
+      "bytes": 2787
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/prepare_repair03.py",
+      "sha256": "2421daa9b12209776168ea18a60040bc1037663a80dad053cdc53531b71b568a",
+      "bytes": 7932
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/probe04-preparation.json",
+      "sha256": "d1cbdb8a7afe2d7b5af95323ce1d686f6bbc9a3cdbc9567e71c96cc15bad9bde",
+      "bytes": 681
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/probe05-preparation.json",
+      "sha256": "b8bac689e6d2d867a9a66a78a09c9b34631bf572c9e65204f457481f912ec394",
+      "bytes": 781
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/probe06-preparation.json",
+      "sha256": "f1e11d22d5c7d816c55fce81b017471487fe033abe6259d2eb42fe1049e17a12",
+      "bytes": 795
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/affine_field.py",
+      "sha256": "65ccfa7f564a8a1ff008392ba1fc12f96890d98bad08e534c2f805a8d98a8cd2",
+      "bytes": 4167
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/base-profile.json",
+      "sha256": "4035e8d3fb1c05c6ce43366862f58c481cc27c3647a7c94fca7f41fa6259d486",
+      "bytes": 4164
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/codec.py",
+      "sha256": "7015e709d2cc36b278b310edb78cb70e7256ad0cdcd71c78abc8732196bc041a",
+      "bytes": 5939
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/front_builder.py",
+      "sha256": "f058a842b1b676593abaa2b0cb0714a7ad02e584662186b7d206f67619cf36e0",
+      "bytes": 3375
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/front_builder_mixed.py",
+      "sha256": "619a1436ba6c7d4801fb74f53914c567cc8d3f43a5cb3942cd9eca4ed00f4a59",
+      "bytes": 3234
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/front_feature.py",
+      "sha256": "302b1baf22603a0c7365d56b1fbf21a12fcbe267a8fb547579594fb814b522af",
+      "bytes": 10744
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/front_feature_mixed.py",
+      "sha256": "02a1d4b44852cb60c66a130fc051c13da820ed6ca2de1d25080db21139507ced",
+      "bytes": 10400
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/glass_field.py",
+      "sha256": "226783d91ac4e2b6682803a0036bf9895b016a28fd2b32225a714dbf688e1d72",
+      "bytes": 12797
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/hook.py",
+      "sha256": "40b13df8cc982dfc589016e74eb1378ff5ad7b3abb52ee3968bbb145a8e39086",
+      "bytes": 20032
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/hook_diagnostic02.py",
+      "sha256": "0c93cc0a19e57d54f6e5cb70172477195a24fa85b8c500fdebba65f180f650ff",
+      "bytes": 20168
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/hook_repaired03.py",
+      "sha256": "844aefe82617141773fcf53a2f79c52d7d0723fcac9a4252775bdabdfc1e37ae",
+      "bytes": 20729
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/lod_paint.py",
+      "sha256": "8b012d0ba3fb6751edb66522b86b0530190d50db3e695bfb8cb3e552b4bb5e86",
+      "bytes": 5367
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/original_feature.py",
+      "sha256": "302b1baf22603a0c7365d56b1fbf21a12fcbe267a8fb547579594fb814b522af",
+      "bytes": 10744
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/profile.json",
+      "sha256": "0d3a38b1127bd4708c158995906520b76fa60df06f307b93cffb228866f23dbb",
+      "bytes": 4841
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/profile_repaired03.json",
+      "sha256": "ce3a9582b699ae0ffd82e4cc6d0cee45fa879f939ac3cb8dc13c75e2bc2730e5",
+      "bytes": 4966
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/recipe/selective_lod.py",
+      "sha256": "1b29280b3b4a5572e9d3c1bb050e23121132123378b4042013fae3125e4a5750",
+      "bytes": 12650
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair-scope03.json",
+      "sha256": "86513f52a468169620ec6305b4c97b066a5e6ad8198fb7bf9c6020eccc768d8a",
+      "bytes": 2287
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair03-preparation.json",
+      "sha256": "fdf62986d45fb167b6b96a6620c526a8ea6efd75c71a11d88f68c6a2b4533f89",
+      "bytes": 1453
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair03.diff",
+      "sha256": "b333a12c28a129f52e6246770757492ea6e098f857ccb03f621edba1bfb5f155",
+      "bytes": 9723
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe03-command.json",
+      "sha256": "f93b782c5d3cb39042496efdc91e2129a9d724aad80475dfb367afda670cca1b",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe03-lock.json",
+      "sha256": "d7acf42c76aedab95184e0eb2d1ffc3d23f2e4a6377bd63aab8234dd2510d6bd",
+      "bytes": 73848
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe03.json",
+      "sha256": "de3909ecad95eddd855d0d90735635b350f95c756c36860cb0238b0c8889617c",
+      "bytes": 1095
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe03.py",
+      "sha256": "d9e25c4c44253168582f6c9e8b65a0682bda2a4e8d2cf499e373475e2eeb5ff0",
+      "bytes": 9238
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe03.stderr.log",
+      "sha256": "4f3718fd7a23a9e726f8d2d07c100425420ad74524ce0322cacb25e399e81559",
+      "bytes": 445
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe03.stdout.log",
+      "sha256": "698766f20b3eda9a9302337c0682e5096424905b962e4b4015c44cdcfa83edb6",
+      "bytes": 324
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe04-command.json",
+      "sha256": "fbc324cfaaa6a95621432b9bee348882ea1c41a0c0c245342018ac5ec117bc4c",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe04-lock.json",
+      "sha256": "120d5ff89785c9aca1636c3975d4c5907864f786cb1053616c8e5ce9ba9f5817",
+      "bytes": 74282
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe04.json",
+      "sha256": "d1385e61402ce954f41ce5252631d4702460608f816d3b0c356e04e407b8cf55",
+      "bytes": 1099
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe04.py",
+      "sha256": "4d24c355e7f9c5dcb1594271499dca87e9e8383d35eba1657e4755439352b437",
+      "bytes": 9398
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe04.stderr.log",
+      "sha256": "1f753686e43cedea98ebd708153ca3c9a8b81db5e1eab036458b23b55af989c5",
+      "bytes": 449
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe04.stdout.log",
+      "sha256": "fdc1a7dd64f96627a6246e81ef05e834fb7e20f1db4c348d5bb306dfd5e2fb6d",
+      "bytes": 324
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe05-command.json",
+      "sha256": "5b9af607bec1806c1b955e4ceee881fcac9c514bdfa80407f3c6833d61d0ea3c",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe05-lock.json",
+      "sha256": "95c13c2235f67130417759c3d80c193b499675953dbe16ae79026fdee0132167",
+      "bytes": 74716
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe05.json",
+      "sha256": "dc18ee43e2e1a55175e646980d61937b8d029da3914077c14405b2a76c174364",
+      "bytes": 1063
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe05.py",
+      "sha256": "65eaeaebfad2e2228c635e3ee2aa2d5801dad48c2a46ef5c167cf56fe5eb9c5f",
+      "bytes": 10203
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe05.stderr.log",
+      "sha256": "7521e351b28e8271a2df69fbb87a535338a9370d48a3c78e4a244fd0ca385df3",
+      "bytes": 413
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe05.stdout.log",
+      "sha256": "dd45a475c9e73c652dfa5d37c6780708ec8d7473dbc963c27784a0f26af706d0",
+      "bytes": 324
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe06-command.json",
+      "sha256": "e9593fd681f8deba8ea05e05c85bab6387bf5a687b9ba972862813b1af0ae9e0",
+      "bytes": 935
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe06-lock.json",
+      "sha256": "3df880c1e20dc75059245c4ff436ee8f1a664b1122d332b28aa7288f14a3b5bc",
+      "bytes": 75150
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe06-payload.json.gz",
+      "sha256": "b02384f08dd2c699e1f64cee47c33ba583d38a63be0680446cb1b10e7524e188",
+      "bytes": 1883
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe06.json",
+      "sha256": "550e36f2b57c11c3df2fbf04de97bfa1f74f3904a649929c1e3be9c4a08a407b",
+      "bytes": 26161
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe06.py",
+      "sha256": "3e0d31c45a148ba010506917fbac082a075d8ed5070c08d35f63304283867615",
+      "bytes": 10971
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe06.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/repair_probe06.stdout.log",
+      "sha256": "737653996426f846cf2cfc19ddac81b88de9e49b4f3928cb70a39fe7817cb46f",
+      "bytes": 307
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/run_native.py",
+      "sha256": "807ff1b6d6b915a0ea72f61a964beeb6cab98d8abf4c5f4780f3c217976b10a2",
+      "bytes": 3802
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/run_native02.py",
+      "sha256": "f05085b5005228fb8cf9be6e27a3f88c1c705a373b6598af9bf81da0d2575201",
+      "bytes": 3757
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/run_repair03.py",
+      "sha256": "b3008566606dfd3b73c10d69b97ce3b8553828bf778eb53807df5848b8ef5b5b",
+      "bytes": 3816
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/run_repair04.py",
+      "sha256": "69d412a6161037caaf45c70abddf8146a97ce685bf59c62e1f4f067a967d50d8",
+      "bytes": 3816
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/run_repair05.py",
+      "sha256": "71a899dd4de33fa64794e1cc55a31ff0fd4b3fd9a53093dd83fec08c238a2c53",
+      "bytes": 3816
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/run_repair06.py",
+      "sha256": "c5f48e53d9ee67420f414758a3a485537166f1ff131c1812a4e11b1871686594",
+      "bytes": 3816
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/__init__.py",
+      "sha256": "34b2fc7df07083961f7c2b5ab1290424d0bf9eaaa583ce076a89e28c891d6404",
+      "bytes": 70
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/acoustic_finish02.py",
+      "sha256": "de87e9fade6782f5e2440a0cb705ee122fe1f7a27a643a5fd513d5a1c6b72afb",
+      "bytes": 6601
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/arch_finish26.py",
+      "sha256": "ae47e6ba907da54649d8b3ec2c444b2ea0d38f45580379c1f237c7abcf9a9075",
+      "bytes": 3854
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/arch_native26.py",
+      "sha256": "6f5e1d690618ea6a129a6a3d01c5d6adc7cdc2bdb2e8e6b4e893c3cdc29ae7ad",
+      "bytes": 7663
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/assembly_fields.py",
+      "sha256": "42e0aa6a5c60a678cda2c39a01ffcb14b112a1020937b6a01855ad21f6f9ceb9",
+      "bytes": 4270
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/assembly_finish.py",
+      "sha256": "e25acaf4f67ec090fc4c2fbdc11ac16d594157506b6130d68d61107bd46b62e1",
+      "bytes": 2502
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/assembly_sections.py",
+      "sha256": "0593edf470912fe7136e9a9f493a597dc9956b51cbeab08442d19f501f9dd795",
+      "bytes": 2694
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/assembly_structure.py",
+      "sha256": "b2e56d58feab7993305c5a5d3fbcfa34481aebdd3486c5243558ac6f6bdbe35d",
+      "bytes": 19717
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/bevel_reserve26.py",
+      "sha256": "5164f9b1acbec5298f6b2f1d7bcde2e08b0b89f6a1db67ed1cac420ec9474863",
+      "bytes": 8262
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/boolean_surface.py",
+      "sha256": "17b2cf5fd34a91dafaea8b74118d96bec0384d82ccc4437c856303da7b2bd706",
+      "bytes": 10568
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/brake_edge27.py",
+      "sha256": "9fa21c7db4a320e1b9eb7b432e2cbc90c3d7710f57a759b5e913b125c19fd791",
+      "bytes": 14189
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/brake_finish26.py",
+      "sha256": "b4c667a7591ec5b476544c5c68ae422add5573878112183b57599ac5753a00f0",
+      "bytes": 2402
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/cabin.py",
+      "sha256": "8dc36b6dd5f388989c70383f1cf65e183262aff81474c92f55c9a276e68e57c0",
+      "bytes": 15542
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/cabin_floor_panels.py",
+      "sha256": "36f1728a6db5b8faab777aa8b4c55a67b2b55d695c90e53b745ff8f749531768",
+      "bytes": 1850
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/capture_suite.py",
+      "sha256": "e967d03409b017e870dae3a52379da5e8dd4a2f0012bfcb0d747191ed73b23db",
+      "bytes": 10743
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/charge_cooler26.py",
+      "sha256": "5d00a6074e141c5db5fbf4b186ded3f9cb9f9ffce6bd9597ef836add802f7879",
+      "bytes": 9809
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/climate_carrier26.py",
+      "sha256": "d1f76fd6cdfa326794673d25fb03c1514d5e09013de191a99da564be4b1d7f90",
+      "bytes": 3105
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/complete_boundary26.py",
+      "sha256": "3ce6bcc04b19419546c6869c57533a00687e0226bf2f8d31055b1eb5d230b82a",
+      "bytes": 5982
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/component_finish26.py",
+      "sha256": "46a61dc23e0db2211c0c3af70912116c1d37ca0a5ce412e86024b2fb872e91a2",
+      "bytes": 5570
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/construction.py",
+      "sha256": "a3fdd08edaae20fbd770773428510903352dd9c098cd8ba250cf67585bf8ba11",
+      "bytes": 6949
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/construction_finish.py",
+      "sha256": "1a28149147078f15b90810a7cd8f50e132dca4ffce20e580465dc3a772185474",
+      "bytes": 5771
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/cooler_case_finish26.py",
+      "sha256": "edd535d5efad80377862e3de3f81d77d212ae656742cdf02ef7a0c901c097d84",
+      "bytes": 4639
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/cooler_case_reference26.py",
+      "sha256": "bdb4bb448a65805294a6874e8eec541eee96066adc88330afc1d4d84526321c9",
+      "bytes": 12086
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/cooler_economy26.py",
+      "sha256": "37a06e8658f354ac9fed41b2c9805f6a15fc5af904e7e4dc91145d20708340b1",
+      "bytes": 3601
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/cooling_core.py",
+      "sha256": "a7fbd218e1d56a70be83d40eb8395b93d216cc4ab843909007b98bde621ecad2",
+      "bytes": 4060
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/cooling_finish26.py",
+      "sha256": "2864c1f40d23c90949018e217a1e4661873b52ff6132cf892dc613adc15f9b80",
+      "bytes": 2791
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/corner_bake.py",
+      "sha256": "b9cf8d726173b593ed5d87f8cdbebe68e26d3e1ea1aaee044f3bbe8e011d1027",
+      "bytes": 18004
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/corner_bake_controls.py",
+      "sha256": "5adc33ba819092e9eadfbefe27ad809b220e0d171ab1cb231b08931f39327264",
+      "bytes": 14076
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/corner_encoding.py",
+      "sha256": "7015e709d2cc36b278b310edb78cb70e7256ad0cdcd71c78abc8732196bc041a",
+      "bytes": 5939
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/cupholders.py",
+      "sha256": "ff2f97f433e464485940d47058eb9cee45463bd90ce6d52da362c1bf89b3fbb1",
+      "bytes": 6606
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/cylinder_finish26.py",
+      "sha256": "a6e183ce8e32980281bcf30d69dfe9d502270276b38123ca69b18981abed2430",
+      "bytes": 3201
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/detail_six26.py",
+      "sha256": "b9eb8ef1d35c0ed37570dbfd990ffed512116d6f59ed176eb9aa150d4e51a25a",
+      "bytes": 3998
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/detail_thirteen26.py",
+      "sha256": "2ee37fb6d5e934ee8f04161c03af7833af1969705416a4836b1b03b44300c4b7",
+      "bytes": 4811
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/document_storage.py",
+      "sha256": "af68e3e7fc09b8f76bec408952bae91e4988bc4cb416446c0cd9f528414e2b50",
+      "bytes": 7485
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/door_sills.py",
+      "sha256": "cb0b0a13cf30e8bf0cda9cdc0bf0acb76fe4f3cf96f42666048a0b22d20bbcbe",
+      "bytes": 3424
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/duct_vane_support.py",
+      "sha256": "2618b14a29cb838702fff154aaf4e16ab53dc8d26312a2aec3bf52c0d278a76d",
+      "bytes": 9263
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/duct_vanes.py",
+      "sha256": "103ffa6ebfa1c47c41c4bccf64d40422a880895bed972446e422c6ad918a3b25",
+      "bytes": 7059
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/exterior.py",
+      "sha256": "e07a000eaf270c7748f0233a203e635a3f68f7683ecd1c7db71c0974868487f3",
+      "bytes": 18067
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/fascia_side_field.py",
+      "sha256": "76b40fe9089d2367292c5c0f010a223e301eb58ca478dc10b1c431bd56add897",
+      "bytes": 6347
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/fascia_surface.py",
+      "sha256": "b58a13b2f018a6bb4c5820904811a402f8de2f5df97ffec884e05441a509f167",
+      "bytes": 6105
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/fender_field.py",
+      "sha256": "d611a7f218d69ed6d86d1ccb4084528aae03a56cc54f2d985652ec0a62391ad6",
+      "bytes": 10182
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/finish_refinement.py",
+      "sha256": "a7379269716aa7316fa7ffcae27c39b4e0c96f2a61006c60275f3cf2c021a9d8",
+      "bytes": 49580
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/floor_panels.py",
+      "sha256": "632667160844246735f357f91db9c1359dec925f3c96d0de9a1dc52d1d90f3e9",
+      "bytes": 14748
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_bend27.py",
+      "sha256": "9226f2f04e0813a1f5ee4ca3995575d3c7aa8251646808ac9f9fdd80bb27e2a0",
+      "bytes": 5490
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_field_capture27.py",
+      "sha256": "f5179391d0bdc101c360f15562237be52f7c02d1b4af6f3f0b829eebfb2f774d",
+      "bytes": 7081
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_form27.py",
+      "sha256": "647b4a8c3c7aca7f58c06582dda1ea64cb59df36efb044a221bed4a510833124",
+      "bytes": 4178
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_housing26.py",
+      "sha256": "ccca83ef80f6e867ac483096745bdd198bae8aa8bd858f278635ec410f7fcda3",
+      "bytes": 10034
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_inlet27.py",
+      "sha256": "b48923ec22d2999052b4fbe50cf79af3cffb69cb9a7798495e3489dd30790c5c",
+      "bytes": 10673
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_lamp27.py",
+      "sha256": "634ec9ba6a6e585fe037358b6a0bee1a72582988ad2f4797334549a8e59ae743",
+      "bytes": 3304
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_liner26.py",
+      "sha256": "2b7c1ed149d6a2346f38d8ecd02578b6586a76023f16d3f3fb2eb95c8571739f",
+      "bytes": 3872
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_planar27.py",
+      "sha256": "0bc9e71afcdf265f752ba9c0198d3bef2313a43d83a188cb3fc0d9783598d95b",
+      "bytes": 7966
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_postcut28.py",
+      "sha256": "e65b1f99cb567cda51c5524020701a51e830a1f06280eade26fa8d2187f96c37",
+      "bytes": 7951
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_prefix_field29.py",
+      "sha256": "3e3e939e17b0d1d5c45e118bdb8fff27ebf0ff88232dca489860b84c0777e8ca",
+      "bytes": 15326
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_prefix_refine29.py",
+      "sha256": "da8653404707f2f6944b2049cedf8098abee69a2ab1132b653bccabc89aa1cb8",
+      "bytes": 3731
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_prefix_sweep29.py",
+      "sha256": "78aa8b1173eaf291c2814356673524e27108d167862a97e453d76c9238f17a97",
+      "bytes": 5903
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_rear_planar28.py",
+      "sha256": "dd29c44772652b70d1023ca955ec59017026d41b6827d6f7ef3190ecb18b321c",
+      "bytes": 7884
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/front_target_transport28.py",
+      "sha256": "d065e98e4d30c3e1035a84475af6c64ade05eb332344a0e0aff5f795048675b7",
+      "bytes": 10645
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/geometry.py",
+      "sha256": "0b2386b99c18e503fe4562a085996a4e8462f40d38dad53583eeb63bec7cb9ee",
+      "bytes": 12409
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/header_return.py",
+      "sha256": "9eba4cfed250539ef3e6b4c1549bd2dc7d0fd701eeb7e7e7bb8ec01ca51693c2",
+      "bytes": 15986
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/hole_triangulation48.py",
+      "sha256": "05f2bd7a6bfa443efd34d931fe60a56628841fdac47d20cc383c7e8584159c52",
+      "bytes": 3387
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/late_assembly.py",
+      "sha256": "4fee1323671ac0adbf8535a6ced70d1a66f893580cc031d5980ab4f3c76ffcd2",
+      "bytes": 1525
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/late_body_fields.py",
+      "sha256": "591e97927834191ef566e593ea102ffab9ac37d1230624f30d75fabf5992b5c2",
+      "bytes": 5400
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/late_first_fit.py",
+      "sha256": "f516228119f89577f4d10c5ec052db1c73461da9ffe2735fb0c2523f3efc0702",
+      "bytes": 5440
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/late_front_support.py",
+      "sha256": "72122f72ad3dd3230162798bc71575cb1f02d4ee48e7a8364df613901908b2bb",
+      "bytes": 7166
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/late_rear_links.py",
+      "sha256": "2aa9c4eee6ef5d761f24449f63722d62caf2f07220025be50bc1f233cdd6a68c",
+      "bytes": 1590
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/late_rear_mounts.py",
+      "sha256": "f605e51542f9fabf835b9a6bf4c8153d90a236b0b48609eb4424cef56475381b",
+      "bytes": 2145
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/late_rear_support.py",
+      "sha256": "9323ddce17faeb3361b7c38e93dea002f6297bb908f571ca0684ccc9b71e00f2",
+      "bytes": 4534
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/lip_finish26.py",
+      "sha256": "29b8ac6ef3ea74bb0b6fd2745e9641fb1ec6d1675fbc3222c889b94a7f9f1776",
+      "bytes": 9489
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/lod_paint.py",
+      "sha256": "adfbde043c7acb8b31af8bcd6564e2c751b3223b36d1016cab49a1e89a580bdb",
+      "bytes": 5353
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/main_coolant26.py",
+      "sha256": "3a1baeef518ccc721c0a86063a8d8e9531b9a339df0617d962a024a33efbb5d5",
+      "bytes": 7875
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/main_fields_cell26.py",
+      "sha256": "0d04f056cb2e7cd5aac9e0982c89e69d9b4bca87d1933be29a3103d1c00a27e9",
+      "bytes": 3585
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/main_fields_certificate26.py",
+      "sha256": "13cb2198935b3195ecf02a5e4f74cabc5d9a4e70cbc58798f174278737032784",
+      "bytes": 6694
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/main_fields_validate26.py",
+      "sha256": "cdba41396efae855fdda9dbfdcf66e4e40b83a44c57d10b2051e857368e8e846",
+      "bytes": 3136
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/main_sockets26.py",
+      "sha256": "ef79bb5b6a08a822f1bf0fe32d8742ffe9ff44ceea7055f08c92d68c1da7cdb4",
+      "bytes": 2695
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/materials.py",
+      "sha256": "238751b551f42b3b7c8a80475e63b83f167f47987459d0e8a8d11eb524ae6a9d",
+      "bytes": 3562
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/mechanisms.py",
+      "sha256": "fbc92e0c9b6d6efcf19e171af866f0f0d62943f8b71949f0ef3539575efdde88",
+      "bytes": 5975
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/microtextures.py",
+      "sha256": "046cef29dfdace8a7a1e941e72fc19a20aab2b2ac56025143a4c19b4a6d993cc",
+      "bytes": 3357
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/model.py",
+      "sha256": "9aaeb24a25c8926efa7a42cd355620a0c9dd4487a1e67bf63b2f332eaa4967b1",
+      "bytes": 34166
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/optimization.py",
+      "sha256": "d97f270d187cdff013291d9a478c0967d4c049d6ca07280870d854d47b95e9f0",
+      "bytes": 12832
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/paint_finish.py",
+      "sha256": "19f761b1393aaf5ed50e2bf6ba3d55506b668dcae2fcb3da796bc1825ed84d29",
+      "bytes": 1959
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/partition_evidence.py",
+      "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+      "bytes": 5693
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/pillar_joints.py",
+      "sha256": "4eabaf93243aae87a1b82d21e3311998bd4f338dd7564ff928431104ab5932c7",
+      "bytes": 6166
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/pipe_bends26.py",
+      "sha256": "2163e72afecef26b1fc78a55273fe1d76b25db99e7c713237811a0231e33159c",
+      "bytes": 6608
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/planar_transfer28.py",
+      "sha256": "49770926b423dc654fb4dfa9e7426fe81b2c01aa5131bfe5d218e507376b2dad",
+      "bytes": 4627
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/planar_transfer39.py",
+      "sha256": "3377301c7451e970fc5f49807a8c5092db40456392fa12575b76f7179f23993f",
+      "bytes": 8013
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/portable_finish26.py",
+      "sha256": "ce0b77660bc108131f29951479937e64795823be79ba17600ce861d10279f2b8",
+      "bytes": 985
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/powertrain.py",
+      "sha256": "0433e6197eb78b2971f4b2017b48263346fb0186318ea1d877ddae0f6929e58c",
+      "bytes": 17168
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/__init__.py",
+      "sha256": "64e634a0372701a56e43932418fff910132f00bdf6bc794fa0a755b53a952336",
+      "bytes": 72
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/compose_candidate.py",
+      "sha256": "7c72de866db12615bed73b7c84652814be4d5bf95cbc31a4dd759ca3102f71bf",
+      "bytes": 2375
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/contacts.py",
+      "sha256": "0e24a62f67e6faadbd9b865b2e3f026800218939e63f2a6a80c720b3753ea9fc",
+      "bytes": 6666
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/cupholder_interfaces.py",
+      "sha256": "bbbc837a16b348c315661f94f7c4b80af4742a52fcd48bb77d303ae14d65eaf2",
+      "bytes": 34143
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/driver_fixture.py",
+      "sha256": "ac3989356c436cadc54b1e34ba838593cfec1b4a4483e4c03255296e32d62b80",
+      "bytes": 1380
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/exact_triangles.py",
+      "sha256": "deeb297f158a9673e344f062726e687ce86bb294d94d188b2abbdcfe86b1d106",
+      "bytes": 3388
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/extract.py",
+      "sha256": "04f44003f0d8db500f47dfd70f9f9a9e871601cd2b906839b2d9d7a4c5144a68",
+      "bytes": 10723
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/finish_interfaces.py",
+      "sha256": "b31b4f6f6436d5f3b22535335f96a73ec206fd92a6084bc045c9949434c2429e",
+      "bytes": 33714
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/finish_report.py",
+      "sha256": "1129f1cd3d6e5d1682deb0fc1bff9801f39d8894b171afc11db0fac133c49c95",
+      "bytes": 12740
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/fitted_interfaces.py",
+      "sha256": "679eb6ef74604328d0ba5e5c29a328749d58ec54f93f4904e07deb7a86cf79c9",
+      "bytes": 16107
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/gate.py",
+      "sha256": "4198dda0a08271832c95b7c96f11d1c51eeb6d641bee5f23780939d8bdd7b934",
+      "bytes": 25062
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/geometry.py",
+      "sha256": "49ba453c158f7831106ba5cee231105ec8824b3162bd520e16fe5127af2b57e1",
+      "bytes": 6154
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/initial_containment.py",
+      "sha256": "70a7d97cfc11a953dd3cdc1b39e10e68da4725a6853440d969b98d0680282130",
+      "bytes": 6092
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/lod_self_controls.py",
+      "sha256": "5b8cf6458b272f78b4f76a35a9db6d231ad59e85adafa3282bd1bee79e558f33",
+      "bytes": 30407
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/lod_self_intersections.py",
+      "sha256": "7b9630a9709f0fceb9938a628a9a6c485574e34708392c160c0b1d884ec29d6c",
+      "bytes": 7206
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/motion_drivers.py",
+      "sha256": "70e76d1d95c0ada11812fce303ee2b1b629df8109ee67af63876a6e35bfd1083",
+      "bytes": 13250
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/negative_controls.py",
+      "sha256": "7c5eb3f3da75d9b3d342562226e47d7ef3a331abcbef98514d464231a19cc769",
+      "bytes": 9043
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/negative_fixtures.py",
+      "sha256": "15e6e4d5805ecd9e7c60ce9ec91b1459145d5236eaf0881c6015406f271f5ebf",
+      "bytes": 8577
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/opening_drivers.py",
+      "sha256": "5983d073051c57dd89a238c0dad7af50695b3fa6a55784954ae4f5f4ce7bd0e2",
+      "bytes": 4591
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/openings.py",
+      "sha256": "68348725709cb7b32aea1dc79913e70f1186a05237a7c66940461b1cfac4931b",
+      "bytes": 13332
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/optical_seats.py",
+      "sha256": "1b9d57e7049a021610fad0c607b2d16ca305f7f46d9b5d40dd7a7849dd11ca4e",
+      "bytes": 9465
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/precision.py",
+      "sha256": "ecf51ea1f89527a4be23aeff92f1747c667212be110064f0a943c8241693b0c0",
+      "bytes": 2438
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/restraint_interfaces.py",
+      "sha256": "70a6e1a79b279697c50d65f81eb88a6fb4894a316e78bcab83212d4a8d3f3c72",
+      "bytes": 4446
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/ribbon_self.py",
+      "sha256": "fd05d89f976a014adf7fe9a45b937e012fd93faffa979d82258c8ef6a83e282f",
+      "bytes": 4600
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/run.py",
+      "sha256": "5157f62e8d36fee350431ecbea52306cd43ec060b30ad1da0b01fab1f0668aeb",
+      "bytes": 17220
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/seat_finish_interfaces.py",
+      "sha256": "eb818616820d7255d472bba806b91d7cbf983c95e934166469b23e7775969bad",
+      "bytes": 17555
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/seat_finish_report.py",
+      "sha256": "cf05129715fc563694416df3262e168896f01a4308222f016b0954418d3a38e7",
+      "bytes": 20123
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/seat_finite_geometry.py",
+      "sha256": "c3ec561725bdfcb0b2aea378155cbf32ebf2fef134ad50125350c6610be476f7",
+      "bytes": 17057
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/self_controls.py",
+      "sha256": "81db5fb81fa8293cdb56b90692eb457ddea49b371ca16499eac251d3dd494ed6",
+      "bytes": 34897
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/self_geometry.py",
+      "sha256": "280983d38d6c3d88dc45922787f95298139b42edd452b381621fe0ed0ce7c7b2",
+      "bytes": 4665
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/self_intersections.py",
+      "sha256": "5430397a37fb809609bc5ff17d5ed5c57bfe4dfa5964e3a732eb7b679e1a59ca",
+      "bytes": 7248
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/shoulder_check.py",
+      "sha256": "5d3c1259319673108b6bda83dd1227ad49311b4b52a2b1c148bd9739258f1464",
+      "bytes": 6996
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/shoulder_checkpoint.py",
+      "sha256": "ae67889778b6b4106d201d45e0ca7825fa0eec6f2317572874c487dea656c092",
+      "bytes": 6049
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/shoulder_report.py",
+      "sha256": "98e71b802a100d88af8a945e771825d31fde19cc9b1888611a6c86b9a9d045aa",
+      "bytes": 22423
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/solid_interfaces.py",
+      "sha256": "52bc74a5f5ae0c011c6acbde98a261844ac78d76ca2a72400793087fda91cd21",
+      "bytes": 13528
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/source_controls.py",
+      "sha256": "e94d13c3303aeaf081206b669c683261983cb98779865044918b75fac1623ceb",
+      "bytes": 11076
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/source_lights.py",
+      "sha256": "de53b916bf82a3142a3d5ed61097e2cf3335038dfe54acd46a76a769286c1f63",
+      "bytes": 7420
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/static_interfaces.py",
+      "sha256": "6d0af77239e30e6f68d840312fec5ad583e01826408a85db11cdd0c8fad1ffb0",
+      "bytes": 14458
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/surface_minimum.py",
+      "sha256": "636b49100e92c5ad08e55896e92380c9024a6ded6df597424ad0d08ed2418188",
+      "bytes": 3050
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/tires.py",
+      "sha256": "a5bfc2f27e4c913fd4c698b3956a24899616713d9333323ae2e115442713d917",
+      "bytes": 15357
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/wiper_initial.py",
+      "sha256": "6bbdf58006b9f45f9352a28fe4e20b521f379106635e51d214063bb04d92fa15",
+      "bytes": 6259
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/wiper_interassembly.py",
+      "sha256": "478c1fff4dc51543ead18ea3d8e906bbc91c2f765e9fba1d44e2b4a18f0164d1",
+      "bytes": 13432
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/wiper_negative_controls.py",
+      "sha256": "bfe316d1e0a917e10ff329e9390d92a89812edfa18f7a2ac8e8ec814c351dafc",
+      "bytes": 4883
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/qa/wipers.py",
+      "sha256": "c54c206544f18e381782d2dcc05f99503b08eadc289fecc8c9391b848b93918a",
+      "bytes": 12263
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/radiator_fields26.py",
+      "sha256": "51d6ad4612b24fdb5a3ebfbaef7336f829ecdc9bdf9f5d2c99625ca6f2a7f3af",
+      "bytes": 2706
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/rear_cut_skin.py",
+      "sha256": "c11c69bb48ab454426d0b0b3551b205e0a020353036de303386eb2ef70127947",
+      "bytes": 9978
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/rear_optics.py",
+      "sha256": "5cbce1dd66215eb66d97489d50a9ae64fe355f36c8ab17e06ee9001ac51ee861",
+      "bytes": 3734
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/rear_seat_field.py",
+      "sha256": "e5f6e7dc2d94b42d6283029faa33f381b7ab0e5c6f8948733e1f9ffaab3ddffd",
+      "bytes": 9434
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/rear_surface_field.py",
+      "sha256": "1874ab7937dcfeecd64b6785a66c1c5389e20dc52f1a85135a2fd67b0fab738b",
+      "bytes": 14220
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/rear_wheelhouse.py",
+      "sha256": "9a71cffa1e24f79b2ecbb9031c2b22fd5d93a30ba280553746769fbe097085b1",
+      "bytes": 4264
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/render.py",
+      "sha256": "62a91929e55512a48483a5dd79faca86e5e5db183ab018bb453b5cd17cdc4f2d",
+      "bytes": 17139
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/reserve_correspondence26.py",
+      "sha256": "a9365f8d37bc2efd26e24803698cb94c6980f88391c276fdae87f3bc195251dd",
+      "bytes": 1941
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/reserve_semantic26.py",
+      "sha256": "82f6efe4c59d3ee594d542687fc13bff49f246d6d02705f7ff6dd2766a2dbe26",
+      "bytes": 8831
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/restraints.py",
+      "sha256": "0b502b4d2ed4a45c667bd7b0b4758bae63b644e9502a558dfeb79ba26d745e6f",
+      "bytes": 8956
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/retain_evidence.py",
+      "sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+      "bytes": 5910
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/review.py",
+      "sha256": "c42dc8f64e3984bd888d02ed510011561c2449cec1e36d4c1a16f80e8c3c629c",
+      "bytes": 16458
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/review_overlays.py",
+      "sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+      "bytes": 7740
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/ribbon_recipe02.py",
+      "sha256": "c48eadaad2b71f8eea91be5df23793b302f1c3e38f36eb9ec4425baf078d3305",
+      "bytes": 7152
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_centers21.py",
+      "sha256": "bb20b7433a21e5d6f03acb51a8bd16e12071fc664153b68c19bd088be5765b49",
+      "bytes": 5284
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_closure13.py",
+      "sha256": "4d1bba105bc6a93c299b357d5c9447c0585108913f78f0a1201b12cedd5c8fea",
+      "bytes": 5226
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_continuity08.py",
+      "sha256": "94863f1eba24a8b55f6cf7f8e7a8ace6c7420c1b871ea0d6383960ea198c2b34",
+      "bytes": 10360
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_feature26.py",
+      "sha256": "f19643f65300db3d6db374908da29aca38e1dc8bbc82ab0ed0f98da8988a0786",
+      "bytes": 14263
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_finish26.py",
+      "sha256": "f2a92a59884d5064d65f6c6465ee5b8b2c8aaa2be1ccf36459cae1fcb230876d",
+      "bytes": 3947
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_leading.py",
+      "sha256": "7de8a3a5ddb20850905cf445caf6686a8e323d367bc056cd4c9105547da0e1dc",
+      "bytes": 9716
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_long_skin96.py",
+      "sha256": "e9b772893eda18d1795cb2a021b8dacb623865bb19a0623f806b8edd829b8a48",
+      "bytes": 23249
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_outer_section50.py",
+      "sha256": "c4b3aedbf7d861ad5d60a8d1113d272c75487b1702c7f3fb55e6f05e14aa3eb7",
+      "bytes": 21219
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_resection29.py",
+      "sha256": "e26b347063c6572a0ac0102701f14a29f1a890116503f202fecddad79cb2749c",
+      "bytes": 12861
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_transition_field57.py",
+      "sha256": "54077032628cab235fe0eb9d5b08d021b0894f614d0ac07f37bdc8f598a07821",
+      "bytes": 5726
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/roof_trim.py",
+      "sha256": "79eb1fc10ac8a6ff64b892733be23e0671f5648472e7100ee5482fb505387ff4",
+      "bytes": 4863
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/seat_assemblies.py",
+      "sha256": "3aca3a45aa13680545b53ececd5634eb1d716bcdb4c658af2d02b655f3692f58",
+      "bytes": 18947
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/seat_install.py",
+      "sha256": "554d81a8ee986bdb69277909c340c8f400f4062b28d29033253ee948c08981bf",
+      "bytes": 3095
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/seat_ordering.py",
+      "sha256": "ac513a44ab7412f8104ff6be0f2bfeec7fe381b5d1724b5cef73da4a430a4528",
+      "bytes": 4098
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/selective_lod.py",
+      "sha256": "1fce28b1ce6532af31faa45aa9abddbd9c55d7e272ca9f536043a2c6c1b2df6e",
+      "bytes": 12073
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/shoulder_checkpoint.py",
+      "sha256": "ae67889778b6b4106d201d45e0ca7825fa0eec6f2317572874c487dea656c092",
+      "bytes": 6049
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/shoulder_field02.py",
+      "sha256": "05b2054e3e2a06c34c8a6a510774f53d25f7e11bfccca51043051df030dc10c9",
+      "bytes": 19829
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/shoulder_profile.py",
+      "sha256": "4597945ce812d68069b7d09b53826bee3b36b983edc013bb50178f884a6970e6",
+      "bytes": 2048
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/shoulder_roll27.py",
+      "sha256": "bc3a5908fc5c262500ba06a38e16a0a4e1d73414f44c4bdeb75e36f61cd42a00",
+      "bytes": 4296
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/sliver_faces.py",
+      "sha256": "826d61eff9c05ff32878b5ae2c3ee0e045e10e673831c667f602554174a0f7a9",
+      "bytes": 9934
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/sound_grilles.py",
+      "sha256": "2146a021105f8b7140b833a4d6b43a0761aa98f5baac723fea4b00305ce20f0f",
+      "bytes": 8579
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/source_dashboard.py",
+      "sha256": "79723d411879c86904eea57ac3947cd213e4d7e2ee186a691a9f551222f26ec0",
+      "bytes": 8594
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/staged_normals.py",
+      "sha256": "6f5e1d690618ea6a129a6a3d01c5d6adc7cdc2bdb2e8e6b4e893c3cdc29ae7ad",
+      "bytes": 7663
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/static_labels26.py",
+      "sha256": "2f4cd7ef624202db886a4165da3991091a223f4cacb0e3bf3a0c3fb26b0ecced",
+      "bytes": 9113
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/surface_clip.py",
+      "sha256": "4e02c84e1a2a1d1cf989427ecc9a02f41d96f67d813492987f1b245ff813b1ce",
+      "bytes": 2692
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/surface_normals.py",
+      "sha256": "2dd3b738c80c4edd41ba1ee9ece587d9e9bfca245ef18a8e55325166a8a13e7a",
+      "bytes": 4669
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/tank_chamfer26.py",
+      "sha256": "bdb4bb448a65805294a6874e8eec541eee96066adc88330afc1d4d84526321c9",
+      "bytes": 12086
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/tank_repair26.py",
+      "sha256": "fb7b4847aa0c91ac211b351ddf24c846626ccf5d8a563866e5d284320e4dbc12",
+      "bytes": 8246
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/tire_surface.py",
+      "sha256": "b2c6506aa412b0ef97217e7a29069c4fa76eb74162c1386d85dd3c69f2df5cf8",
+      "bytes": 3757
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/triangle_projection.py",
+      "sha256": "f8a311e88c3a4f38016fb4456de3cd1b8eaeee6f5f1d132683a6a864ea3fc68a",
+      "bytes": 1251
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/triangle_projection41.py",
+      "sha256": "1d0dbe322752bb4b6bf43ae393c963790f8f54749dc2d0b82b18de7f0f6b26f1",
+      "bytes": 1358
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/trunk_ribs26.py",
+      "sha256": "06054cbc11539590ff3599f640aa90d06af7ecb5de9fe936c0c7218c6d9c995d",
+      "bytes": 12917
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/upholstery_seams.py",
+      "sha256": "4f25c489069398913116385ef8ea4176484b74b99ae7805a63d652b17229f478",
+      "bytes": 3845
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/uv_bake.py",
+      "sha256": "aaa8ac6be9c46c2395c0abca7dffc4742256f4e7ff148aa4e8714295bd2b43a5",
+      "bytes": 9663
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/uv_bake_controls.py",
+      "sha256": "5e89a9262a956aa9a9c8eebbae3b418070d0d3e0b349fcf19c62c2a129a9d341",
+      "bytes": 6300
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/snapshot/tools/vehicles/endurance_sedan/wheels.py",
+      "sha256": "ce07f832774b805599f42aa2ccb11ff3e7fd38245ffa108af1104cf108979e13",
+      "bytes": 7101
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/summary07.json",
+      "sha256": "0349bf77a38e4e1681095886d12d7689de4c2c365931e252d74ddf824382174f",
+      "bytes": 2594
+    },
+    {
+      "path": "reports/p1-018/runtime/mixed-front-lod29-proposal01/wire02.py",
+      "sha256": "ade3a99184e23e5bdf6a347c9dbbf5be55e2d5f1698f87f71e88abc1db040355",
+      "bytes": 8664
+    },
+    {
+      "path": "reports/p1-018/source-economy28-pilot01/inventory01.json",
+      "sha256": "359bc02883636a9a86decf5b8dfe71531f2f7cfe8c758d298c02af8066931d3e",
+      "bytes": 10138
+    },
+    {
+      "path": "reports/p1-018/source-economy28-pilot01/inventory01.py",
+      "sha256": "d65dccb114cf08a79f7f35b1caad6e286b26cb807e4dae4d799cecab26ffb21e",
+      "bytes": 4572
+    },
+    {
+      "path": "reports/p1-018/source-economy28-pilot01/inventory02-native-crash.txt",
+      "sha256": "b50fdb023a4ea0b2d48c9775a3dbd87b3b02f8a167fab342f6a6245a0af544a6",
+      "bytes": 33919
+    },
+    {
+      "path": "reports/p1-018/source-economy28-pilot01/inventory02.py",
+      "sha256": "191dbe1926dd2774961fd3d06f3ff9f62c1fb7e83e2081c15ee70c1daf599a47",
+      "bytes": 5107
+    },
+    {
+      "path": "reports/p1-018/source-economy28-pilot01/inventory03.json",
+      "sha256": "b0a9ede9a28868d7ab00e25619bc95ce4c6f179c7e3a767dacdd93fd1daedd69",
+      "bytes": 188673
+    },
+    {
+      "path": "reports/p1-018/source-economy28-pilot01/inventory03.py",
+      "sha256": "74885810c7ebf7a02c066bbf8ba79f0b6a90c95b97fec875664a3becc76b7865",
+      "bytes": 5172
+    },
+    {
+      "path": "reports/p1-018/source-economy28-pilot01/prepare02.py",
+      "sha256": "ece6cf09c86b5d4888450e0e0953fb4d5a918f96981deb2458b2941d0fa94823",
+      "bytes": 1646
+    },
+    {
+      "path": "reports/p1-018/source-economy28-pilot01/prepare03.py",
+      "sha256": "84702ad7a5af03964f10057145cd66070b325c137749425b083c03899b0725a6",
+      "bytes": 1503
+    },
+    {
+      "path": "reports/p1-018/source-economy28-pilot01/recovery03.json",
+      "sha256": "91335fec6158a80be0b30de23175c74a4218a5d569f37a22e904025ba0f746c2",
+      "bytes": 522
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/__init__.py",
+      "sha256": "34b2fc7df07083961f7c2b5ab1290424d0bf9eaaa583ce076a89e28c891d6404",
+      "bytes": 70
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/cabin.py",
+      "sha256": "38a42f27228bf9d3e03f83e18f03a7d5d8a33941dfb96446af6a957d56ab197e",
+      "bytes": 16019
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/construction.py",
+      "sha256": "84c05fe0c314f03e6001bb21e016c3b59c381d565ddeecbf75ab64a003c6c2b3",
+      "bytes": 5929
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/create_endurance_sedan.py",
+      "sha256": "1ef3d2e30ef59df81fe1ff678573129c1850762274a24e6412c68dc15e586de7",
+      "bytes": 9496
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/exterior.py",
+      "sha256": "cc4dd152240096868363de0405920a31f049f0f90105ff5bc97f7a9ae64bb168",
+      "bytes": 18838
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/floor_panels.py",
+      "sha256": "e17a7c2461bf87837e755eab19845f219f91938d13065e0432672f1c29e234ab",
+      "bytes": 12525
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/geometry.py",
+      "sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+      "bytes": 11807
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/materials.py",
+      "sha256": "802d0e636284ba5a999b922b0c68db8169a72dee333331be595b498701596edc",
+      "bytes": 3349
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/mechanisms.py",
+      "sha256": "fbc92e0c9b6d6efcf19e171af866f0f0d62943f8b71949f0ef3539575efdde88",
+      "bytes": 5975
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/microtextures.py",
+      "sha256": "046cef29dfdace8a7a1e941e72fc19a20aab2b2ac56025143a4c19b4a6d993cc",
+      "bytes": 3357
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/model.py",
+      "sha256": "1614716be266612e8bb1bc595c635f9b4b0a73765086a289595482d4f6f9b838",
+      "bytes": 26617
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/optimization.py",
+      "sha256": "b23c129aaf7bda19242f2d945f596bf96a95a4c56ce990480ecbeaab95a64b51",
+      "bytes": 9585
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/pillar_joints.py",
+      "sha256": "4eabaf93243aae87a1b82d21e3311998bd4f338dd7564ff928431104ab5932c7",
+      "bytes": 6166
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/powertrain.py",
+      "sha256": "4bd358f2486848178a89bb93aaaf0f756ba57821ee57d9dcfa1963c39437d1f7",
+      "bytes": 15705
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/render.py",
+      "sha256": "a0fd3dbb72177e2ee32aeb06f2cf1a2e27a889458dea9d7d3c410dabbed34709",
+      "bytes": 14912
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/review.py",
+      "sha256": "028853101e14d11e5714534a2aacb70014853cd9b399c85b8fb2f10addb0b491",
+      "bytes": 13917
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/review_overlays.py",
+      "sha256": "2fffc70ea46f3278fa346648a9ddabe215ce3f8296992ff30793419a8d7ab653",
+      "bytes": 7125
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/roof_trim.py",
+      "sha256": "468bf1f954b98c8bfeace471f014110ffd29aebb3de4f1ba0b5da538557048c1",
+      "bytes": 5674
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/source_dashboard.py",
+      "sha256": "4312d40fa250ebac5f7d5b7cc93cf97f71932af6a5ade992af90ea0c07b28344",
+      "bytes": 5168
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/specification.json",
+      "sha256": "744f9a4695b5e1acab06e3cb5c0384ec31d8bd2ddecad36568540fbc6132f06e",
+      "bytes": 36822
+    },
+    {
+      "path": "reports/p1-018/source28-inputs/wheels.py",
+      "sha256": "4e7fffd068a8988265cfc9db686f5a8f70c28e39ab7d65aaf2444c99dab0df1d",
+      "bytes": 5871
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render.py",
+      "sha256": "e01b307e08bb7be9838bfe31b07dff071ec47d7a484d54c43e36bcbd9f8cd56c",
+      "bytes": 4922
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render52/construction.json",
+      "sha256": "23c0719a340e6b4dddb3c21929dd80b0ff1243189292a89a8a8a6e7f0321da5b",
+      "bytes": 109406
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render52/front3q.png",
+      "sha256": "2f3971bde28430c3ea1341efd2c7acafd0b9653ef635b29216125928ed217fc1",
+      "bytes": 3032446
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render52/generated-tires.json.gz",
+      "sha256": "a6fafe20c13e87b611de5ef99e9cc6d78261e090a023fa516b4abc13c3942520",
+      "bytes": 1193571
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render52/manifest.json",
+      "sha256": "a856f9a945802ce319642658d956df8eba710af8bac518f5e189f6225d9226b9",
+      "bytes": 3469
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render52/wheel.png",
+      "sha256": "58598d4db3b12f71dc5df7baf9e845ac5e5690a8ca2bde7e0af27e335d8e70a8",
+      "bytes": 3221239
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render60/construction.json",
+      "sha256": "f81a70f0b0aef7a5ac5fe83d6ec96aa9a006cdf596f0ef9e936e28ddf498ad14",
+      "bytes": 109406
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render60/front3q.png",
+      "sha256": "916f3ef1a1fac82738f26d9da6a8308657527dae266c1d76e52980bf15361837",
+      "bytes": 3031797
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render60/generated-tires.json.gz",
+      "sha256": "e26f61e7d573b582d22c43b5f0bb560e7f7039cdc3bef9b67ef5a72c1cb37ca1",
+      "bytes": 2330751
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render60/manifest.json",
+      "sha256": "b01f85f960afe06d3db30ecf28cf68f21a6f9a8eae43a90bf6961e51e08dae72",
+      "bytes": 3468
+    },
+    {
+      "path": "reports/p1-018/tire29-view-pilot01/render60/wheel.png",
+      "sha256": "419a2c631262d078bc08f274741f36c0e049686b33ffe020e504b4008be385c7",
+      "bytes": 3222306
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/native01.py",
+      "sha256": "72faa273c7608fac73dd93bfb1a7142c67a743fe46e57dad460fc622ce7b49e3",
+      "bytes": 4791
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/native01/actual-reference.json.gz",
+      "sha256": "ec760f2a220868f5e8908aa1030ad22a4a7471e5494d105a7c81c9e9d2406f6f",
+      "bytes": 3714
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/native01/record.json",
+      "sha256": "dcd5297a3dc15876bd98e7767bb06fcb4686573ac43f42478e84ab0b194a485b",
+      "bytes": 2262
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/native02.py",
+      "sha256": "08f5dab004ce51a9567711eaa06d7a6beff165327b89ee2f31bc6c3690b7bb56",
+      "bytes": 4833
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/native02/actual-reference.json.gz",
+      "sha256": "ec760f2a220868f5e8908aa1030ad22a4a7471e5494d105a7c81c9e9d2406f6f",
+      "bytes": 3714
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/native02/complete-fields.json.gz",
+      "sha256": "b641a9b786ccc090199879f4ac1ec83c64946ba0a31e36a04daa8f645fb31f7f",
+      "bytes": 3146
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/native02/native-fields.json.gz",
+      "sha256": "77047957af8abb74e2c14c8fa08b4739bf3eac80357ab5ceb08159625eae2127",
+      "bytes": 39988
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/native02/record.json",
+      "sha256": "cff4f3181493f545a06a2ca3bd991cb70c1777b717faefb92532cd1812d14b1a",
+      "bytes": 3746
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/native02/targets.json.gz",
+      "sha256": "05f6d523156ad2fd7c3bc5b1cbc4e67d70140b5a6ec43ef4b11383b3f7b107d0",
+      "bytes": 21849
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/preparation02.json",
+      "sha256": "9753ef2f7fa9d07a95667fa85cd416e96831e8fd54a446219dfe525652861746",
+      "bytes": 1082
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/prepare02.py",
+      "sha256": "707235eaa95117c260c50247e5f881591ad1f778cfa2f58500c878fa70645f91",
+      "bytes": 4843
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03.py",
+      "sha256": "527a88a537016c4ded6a433aceb69fa4958eb52e4261fa2041ccae493ea9f1ba",
+      "bytes": 1516
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/actual-reference.json.gz",
+      "sha256": "ec760f2a220868f5e8908aa1030ad22a4a7471e5494d105a7c81c9e9d2406f6f",
+      "bytes": 3714
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/complete-fields.json.gz",
+      "sha256": "b641a9b786ccc090199879f4ac1ec83c64946ba0a31e36a04daa8f645fb31f7f",
+      "bytes": 3146
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/manifest.json",
+      "sha256": "950cb61f296244d4b22b8e219f891d35abecda1cd207decc2fd8c837849b0105",
+      "bytes": 5477
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/native-fields.json.gz",
+      "sha256": "77047957af8abb74e2c14c8fa08b4739bf3eac80357ab5ceb08159625eae2127",
+      "bytes": 39988
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/rear.png",
+      "sha256": "5121cf93e18a6b7e1ad69b53cc338244062a3f7f6a7421d16f6b16c2a6606a1b",
+      "bytes": 2593662
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/rear3q.png",
+      "sha256": "fdbe38cb38777b9cecb5e63ab467df1858e0103f69ccf8c473d3c16f11e0edce",
+      "bytes": 2998683
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/rear_corner_L.png",
+      "sha256": "c797148c7db6efdf15cea27e8234e8bd24c2f058025c0a98f4da7f866bc4ceac",
+      "bytes": 3068635
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/rear_corner_R.png",
+      "sha256": "3c1704f732403c5d106ea8784a7ff72a01512807c80ddcc1419856c8be7d6b37",
+      "bytes": 3099085
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/record.json",
+      "sha256": "f0787b9d69bffbac1b6cb84328a9a37006cdf0bfe54f84e5aa077a248c63a95b",
+      "bytes": 3748
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/targets.json.gz",
+      "sha256": "05f6d523156ad2fd7c3bc5b1cbc4e67d70140b5a6ec43ef4b11383b3f7b107d0",
+      "bytes": 21849
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/render03/under.png",
+      "sha256": "1961f4c2a9ac9be54763ebb14e786cb740871a0d599154c39b74898e045ba70e",
+      "bytes": 2765199
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/valance_fields01.py",
+      "sha256": "5a28546e345d96197963f0649127e110a283615e81c24ff75621a1be89a69acb",
+      "bytes": 7328
+    },
+    {
+      "path": "reports/p1-018/valance-field29-proposal01/valance_fields02.py",
+      "sha256": "9096905c67eec1861e0213ac8078539a4411c7961b38682ece082ebafc7f9a32",
+      "bytes": 8232
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v32/art-checkpoint-v32-10.zip",
+      "sha256": "95e467f04fae131fee14da3635739fb6a5608a9e34355dde466a14476dc14ea2",
+      "bytes": 50645562,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint32-retention01/art-checkpoint-v32-10-repeat.zip",
+      "sha256": "95e467f04fae131fee14da3635739fb6a5608a9e34355dde466a14476dc14ea2",
+      "bytes": 50645562,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-13T07:56:52.402627+00:00"
+}

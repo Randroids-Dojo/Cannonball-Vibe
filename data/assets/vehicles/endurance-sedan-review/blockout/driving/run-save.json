@@ -1,0 +1,145 @@
+{
+  "schemaVersion": 3,
+  "contentVersion": "route-v5-80d451c210880277",
+  "contentChecksum": "8f1ebcd2eaddb97e8d77f8fd41331c6aad6e2809f374b89e1c7bbef178530991",
+  "savedAtUtc": "2026-09-11T14:35:50.9947786+00:00",
+  "run": {
+    "seed": 20260714,
+    "position": {
+      "edgeId": "edge-d6d836af575d6df884ec",
+      "distanceMeters": 101.36921587426377,
+      "laneIndex": 0,
+      "lateralOffsetMeters": -1.800012352280131,
+      "headingOffsetRadians": 0,
+      "stableLaneId": "lane-a90d8693a0e0355d78ef"
+    },
+    "routePlan": [
+      "edge-3ca7f656b08e6f8c31fb",
+      "edge-36d4ea751d4c2a49ae38",
+      "edge-37dc9f22583336630ac3",
+      "edge-dc935a7999b95c82b494",
+      "edge-56959ae61164db7bf6b4",
+      "edge-d6d836af575d6df884ec",
+      "edge-1317493220f63cb50421",
+      "edge-3155b4a926fa92026dfc",
+      "edge-f7ed686cfe7aec901d03",
+      "edge-5be63a1249560b359ef7",
+      "edge-3a11c16ebb9b3a945413",
+      "edge-eab20c4324a93dcc0686",
+      "edge-fb09f70baf2e1e015730",
+      "edge-1aea5ce7f2b3cbde5ef6",
+      "edge-d8f66c3d6587e4189b0a",
+      "edge-77009234c6fd465f761c",
+      "edge-d7fbd94673ee77e0e880",
+      "edge-e27af24175a124c8b80d",
+      "edge-8a46d3ad75bb009dd7a4",
+      "edge-0e832d7704858be5df36",
+      "edge-6e9cc8341dfa158b9f47",
+      "edge-f3ba5a1ce6e97be8a648",
+      "edge-2d75b929e7a30f720243",
+      "edge-51f0361c0a79aa9c2ddc",
+      "edge-30825305dfe6c6635386",
+      "edge-72832fc82fb7fd3d9c27",
+      "edge-85073f0136ee5a0572ac",
+      "edge-4099ff50f79d8623e843",
+      "edge-29bfca15796b57c1c4ee",
+      "edge-ebc3bdc9dd2dcbc7611a",
+      "edge-ef560f06e7000f0ade9f",
+      "edge-36ee2d38afbe3eec3589",
+      "edge-caf05153b4274229f1fe",
+      "edge-f957cfec242df93b22b2",
+      "edge-cd4b812c456abd3e2354",
+      "edge-e28e0007c79a42775684",
+      "edge-5f42faa47a61d06be2a3",
+      "edge-5e4c3ba15568961a3342",
+      "edge-30d1b0afa7af72a4e998",
+      "edge-3c0df519ceb26944548d",
+      "edge-82d6f5a0de67921949a4",
+      "edge-62b919f5938a9706e458",
+      "edge-9c16ae741e5fac305420",
+      "edge-a2bc339842c1b68527f5",
+      "edge-d4ef42f4c6a3fd574abd"
+    ],
+    "elapsedSeconds": 172.703,
+    "cash": 25000,
+    "vehicle": {
+      "fuelLiters": 82,
+      "tireCondition": 1,
+      "brakeCondition": 1,
+      "coolingCondition": 1,
+      "damage": 0
+    },
+    "enforcement": {
+      "visibility": 0,
+      "awareness": 0,
+      "pursuitState": "clear",
+      "cooldownSeconds": 0
+    },
+    "assistProfile": "balanced",
+    "navigation": {
+      "selectedPlanId": "",
+      "activeConnectorId": "",
+      "branchStream": {
+        "decisionEdgeId": "",
+        "prewarmedChunkIds": [],
+        "selectedChunkIds": []
+      }
+    },
+    "worldStream": {
+      "originWorldX": -52.67594349384308,
+      "originWorldY": 0,
+      "originWorldZ": -2797.5460815429688,
+      "localOriginRouteMeters": 2800.3979047239513,
+      "rebaseCount": 2,
+      "loadedChunkIds": [
+        "edge-1317493220f63cb50421-c0000",
+        "edge-3155b4a926fa92026dfc-c0000",
+        "edge-36d4ea751d4c2a49ae38-c0000",
+        "edge-37dc9f22583336630ac3-c0000",
+        "edge-3a11c16ebb9b3a945413-c0000",
+        "edge-56959ae61164db7bf6b4-c0000",
+        "edge-5be63a1249560b359ef7-c0000",
+        "edge-d6d836af575d6df884ec-c0000",
+        "edge-dc935a7999b95c82b494-c0000",
+        "edge-f7ed686cfe7aec901d03-c0000"
+      ],
+      "collisionChunkIds": [
+        "edge-1317493220f63cb50421-c0000",
+        "edge-3155b4a926fa92026dfc-c0000",
+        "edge-3a11c16ebb9b3a945413-c0000",
+        "edge-5be63a1249560b359ef7-c0000",
+        "edge-d6d836af575d6df884ec-c0000",
+        "edge-f7ed686cfe7aec901d03-c0000"
+      ]
+    }
+  },
+  "localVehicle": {
+    "positionX": -250.02488708496094,
+    "positionY": 0.6467807292938232,
+    "positionZ": 395.27069091796875,
+    "velocityX": -0.28707435727119446,
+    "velocityY": -0.05258110165596008,
+    "velocityZ": -55.80147933959961,
+    "angularVelocityX": -0.0049808151088654995,
+    "angularVelocityY": 0.0033717979677021503,
+    "angularVelocityZ": -0.007100279442965984,
+    "rotationX": -0.000163134973263368,
+    "rotationY": 0.0027274140156805515,
+    "rotationZ": 0.0005585995968431234,
+    "rotationW": 0.9999961256980896
+  },
+  "replayMarkers": [
+    {
+      "elapsedSeconds": 172.703,
+      "position": {
+        "edgeId": "edge-d6d836af575d6df884ec",
+        "distanceMeters": 101.36921587426377,
+        "laneIndex": 0,
+        "lateralOffsetMeters": -1.800012352280131,
+        "headingOffsetRadians": 0,
+        "stableLaneId": "lane-a90d8693a0e0355d78ef"
+      },
+      "kind": "suspend"
+    }
+  ]
+}

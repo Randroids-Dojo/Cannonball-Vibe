@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "git_revision": "96b9bc6ca21a7726270712227d1351a113d92bd7",
+  "utc": "2026-09-13T10:50:58.749404+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "status": "local_application_owned_quit_verified_remote_recovery_pending",
+  "archive": {
+    "path": "data/assets/vehicles/endurance-sedan-review/ci-owner-v34/evidence.zip",
+    "sha256": "6f8b6a0a1fb21878f356d3fb0f1a08c041fd65c86108f742f1c5a6e02e1bc72e",
+    "bytes": 17965353
+  },
+  "inventory": {
+    "path": "reports/p1-018/ci-owner34-retention01/inputs01.json",
+    "sha256": "b01825ed5a4b054693dd666d6397ae179393b5aee7f89c367756031d6388b4cb",
+    "bytes": 134780
+  },
+  "file_count": 578,
+  "builds": 2,
+  "every_archive_byte_identical": true,
+  "every_member_reread_verified": true,
+  "all_locked_inputs_unchanged": true,
+  "agent_summary": {
+    "path": "reports/p1-018/runtime/linux-shutdown34-diagnosis01/summary17.json",
+    "sha256": "2d14cbc28da24b428f4a4c92bd873c9f30b98dd52ac82b1cdc91b64dc665460e",
+    "bytes": 11083
+  },
+  "agent_handoff": {
+    "path": "reports/p1-018/runtime/linux-shutdown34-diagnosis01/HANDOFF17.md",
+    "sha256": "57f33129d7a393fe29f96aa80f91b319637df8aa35f01a6a9505af0a956127c5",
+    "bytes": 6779
+  },
+  "root_review": {
+    "path": "reports/p1-018/ci-owner34-retention01/review01.json",
+    "sha256": "8f7c82e4a9b721f8d6d99f571642c780395b34305988f5b9a32968b1c7e7866f",
+    "bytes": 3048
+  },
+  "full_frontdoor": {
+    "path": "reports/p1-018/ci-owner34-frontdoor01/summary.json",
+    "sha256": "030e636a050f028f677598980fbb4a9da9df6bab8957de957be16b35f37c2b8e",
+    "bytes": 1482
+  },
+  "original_linux_artifact": {
+    "path": "reports/p1-018/ci-head34-01/playgodot-Linux-1-original.zip",
+    "sha256": "e7bd5b6aa58bdc128b0d7c7c2a5bc1d3743d810cfcaf7aaf26aad0c8a0178252",
+    "bytes": 16805431
+  },
+  "human_approval_reference": null
+}

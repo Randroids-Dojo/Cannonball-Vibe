@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="VehicleRigSetup" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://game/Vehicle/VehicleRigSetup.cs" id="1_setup"]
+
+[resource]
+script = ExtResource("1_setup")
+ContactShadingEnabled = true
+AssetId = "endurance-sedan"
+WrapperPath = "res://game/Vehicle/Visuals/EnduranceSedan.tscn"
+TextureBindingsPath = "res://assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json"
+CockpitExcludedMeshes = PackedStringArray()
+MassKilograms = 2400.0
+WheelbaseMeters = 2.92
+FrontTrackMeters = 1.62
+RearTrackMeters = 1.61
+TireRadiusMeters = 0.3433
+ChassisOriginHeightMeters = 0.65
+SpawnHeightMeters = 0.70
+CenterOfMassOffset = Vector3(0, -0.10, -0.1168)
+SpringFreeLengthMeters = 0.16
+StaticCompressionMeters = 0.075
+FrontSpringRate = 84729.3696
+RearSpringRate = 72177.0304
+FrontSpringDamping = 10373.901
+RearSpringDamping = 8837.027
+SuspensionBottomOutThresholdMeters = 0.155
+MaximumSteerRadians = 0.55850536
+MaximumVisualCompressionMeters = 0.16
+AuthoredAtStaticRide = true
+SteerSuspensionParent = true
+DistributedLodGeometry = true
+WheelRollingSign = -1.0
+CollisionBoxSize = Vector3(1.82, 0.62, 4.72)
+CollisionBoxCenter = Vector3(0, -0.18, 0.07)
+CabinCollisionBoxSize = Vector3(1.42, 0.60, 1.50)
+CabinCollisionBoxCenter = Vector3(0, 0.385, 0.57)
+GroundedDownforceCoefficient = 1.0
+MaximumGroundedDownforceG = 1.0

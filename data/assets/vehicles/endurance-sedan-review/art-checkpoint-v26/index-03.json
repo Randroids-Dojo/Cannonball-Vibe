@@ -1,0 +1,455 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-12T18:42:02.112920+00:00",
+  "git_revision": "568252ce674997d9d20a6959a557c7922e2fbe91",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint26-retention01/manifest-03.json",
+    "sha256": "3bcc891169fd14deed2168d60c67b37c4bca55f23a76f913ff329889bc9a1f36"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/assembly26-pilot02/seat-candidate01/rear_seats.png",
+      "sha256": "22df2cf44bb54db0d7d4f90fb2f1b387b2ca079150adee77e9833d58d7fc13c9",
+      "bytes": 3650075
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot02/seat-candidate01/upholstery.png",
+      "sha256": "5e9547e97ced82b5420f0f376750672d370aa70f05143e74cc1917c05f1cdc2e",
+      "bytes": 3637234
+    },
+    {
+      "path": "reports/p1-018/assembly26-pilot02/source.blend",
+      "sha256": "5732ad4f5e5bc38dd42927c580f5beb57c18643b7203fe3ebf462c24083996a7",
+      "bytes": 6440214
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/baseline01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/baseline01/joint_front.png",
+      "sha256": "bf3dd3138f968341438a459213a9b4574756528ea362975cc4154c40c3b96b58",
+      "bytes": 3690950
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/baseline01/joint_rear.png",
+      "sha256": "e0eaa7417ae0971fc09403c3043b634720ed8bcfedecb973f6213e76f09be3e1",
+      "bytes": 2891225
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/baseline01/manifest.json",
+      "sha256": "79cb2db8477cddfa4f4950ff3d3c1ebd38fd3e2b94454b00a396eee1a61dd0f4",
+      "bytes": 3914
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/baseline01/rear3q.png",
+      "sha256": "df90c64522bfcb44cb7fab84444ac6c28e047e52ffe5711bcc35ad0f5ff7cf35",
+      "bytes": 3024565
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/candidate01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/candidate01/joint_front.png",
+      "sha256": "72b15855b287dc43a44856ce1b69e5768bd1147b0e9045c653c4da93475a5828",
+      "bytes": 3690573
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/candidate01/joint_rear.png",
+      "sha256": "2702a58cb7a3b69d91a2a0947d34d088a65dfc9bd86cd2a7652020a095e8372d",
+      "bytes": 2895548
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/candidate01/manifest.json",
+      "sha256": "70eafad9bb3b457b7a6b4a112011295749199664414fedad45f314d8efa58efd",
+      "bytes": 3912
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/candidate01/rear3q.png",
+      "sha256": "5faabfb6d534da4dd8c348c9c75fed47dde02ba3b50e5759d59be111e5c2c740",
+      "bytes": 3026268
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/construction-details.json.gz",
+      "sha256": "29c338180fce84123346fc4186e43f8d91fd24099668c74dadb7eec6193d94a5",
+      "bytes": 129241
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/construction.json",
+      "sha256": "c9bc7f5ab09f44b997b0ee888f9f5e73a0bbc6947f72e8d52ed9e69a03742e02",
+      "bytes": 11766
+    },
+    {
+      "path": "reports/p1-018/assembly26-roof01/source.blend",
+      "sha256": "f5289ece3a5bd07ef28a7bef2d42929ac2696edd88736b8e0fc9578fdcae9b1d",
+      "bytes": 6447435
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/DESIGN.md",
+      "sha256": "99ad95b8331c09312f9918664956e2b5ed06a43a4e134ec447e868c139e36db1",
+      "bytes": 818
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/DESIGN02.md",
+      "sha256": "cb0efa16e652bf970b1cf8ab890c43145872349591505b69b1fcae663aaee5a3",
+      "bytes": 378
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/build.py",
+      "sha256": "f9f215c952540df281e4a2ece6f64a3dfa088599e5b511955802d90b3b049b5b",
+      "bytes": 3323
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/build02.py",
+      "sha256": "d0bf8d3411d3dcdde4bcd696c82057a660f5a2d3d00b38e3646ffc78ed890907",
+      "bytes": 3337
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/field.py",
+      "sha256": "5b583c9464fb00d52f5764654a1ca331a3d20802b89f924ae6551b510e7f2341",
+      "bytes": 2347
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/field02.py",
+      "sha256": "b4c667a7591ec5b476544c5c68ae422add5573878112183b57599ac5753a00f0",
+      "bytes": 2402
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/prepare.py",
+      "sha256": "6ecd4983a52c82c3b7afa588ec3b70316fa0e82c342aee921a1d18cb90c5cc89",
+      "bytes": 3055
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/render01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/render01/manifest.json",
+      "sha256": "cc3868bb5c66dafeaaa3d3f6cc0801cb915e0e712cee507737faf9a109a8fe17",
+      "bytes": 2601
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/render01/wheel.png",
+      "sha256": "7627a4b3fcfe11896b9a98ba50150c5972b05364d6796790e829b70f7b3e7068",
+      "bytes": 3506619
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/render02/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/render02/manifest.json",
+      "sha256": "bba6dca0303537831d6e8fea3750c1cd272726486b9ab937ee0fdbc56b87ce0e",
+      "bytes": 2601
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/render02/wheel.png",
+      "sha256": "307be6f52b4e2c33f1bcf080e9801115172daf32a02c706d3fc0763b4a98df41",
+      "bytes": 3499728
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/saved01/construction.json",
+      "sha256": "d77ae44d24e396870bd36f9d311dbd65645400cf59c859a6307204f06ab5fe96",
+      "bytes": 34688
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/saved01/geometry.json.gz",
+      "sha256": "787c060fbf3859176f838586e889578e41203a5104ea867a663654aa0c2a8bc3",
+      "bytes": 8950918
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/saved01/source.blend",
+      "sha256": "eabcc923512702bd77932bbdbd2a84ff3507c3cb29196afad3a0ba6693a73e58",
+      "bytes": 4973760
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/saved02/construction.json",
+      "sha256": "6d4cabbbe143c377f1767c2b17a6ef250c4435fb46d1ed3f37ab2344bbc7ffe7",
+      "bytes": 51236
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/saved02/geometry.json.gz",
+      "sha256": "0e7af48c712803007b3cfc98df3dd039687c37aae86973cacd87c4b02da4b706",
+      "bytes": 8951439
+    },
+    {
+      "path": "reports/p1-018/brake-field26-pilot01/saved02/source.blend",
+      "sha256": "48601b309bc17f5e715184e4abeea512cdfacc34e3edce4fe462bd7d3bbb81ab",
+      "bytes": 4972457
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/DESIGN.md",
+      "sha256": "bdf03d47a61f1dc3b3d781ed9a6bd0e7e5bea11110d816a8d1bff8b9fd898c88",
+      "bytes": 1212
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/DESIGN04.md",
+      "sha256": "79acc23170915c6ab27fb9afdb2ff6ac8d2af7676d599c76efc600b9207513da",
+      "bytes": 874
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/DESIGN06.md",
+      "sha256": "e727caa0a229ef86756c9d332045d1dd2f0cb84bf6e9c5d0aff89537a70a07a0",
+      "bytes": 809
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/build.py",
+      "sha256": "e0e3a6585fccda8ef33215cfbe995e5b108a88f1b0a021c5a8ded337b7c53c9a",
+      "bytes": 3552
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/build04.py",
+      "sha256": "c0eca9994c3a9ad1a52dd62679785c8aea67854175b191576dfc736d566e2696",
+      "bytes": 3565
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/build06.py",
+      "sha256": "06a80e0e42a19ca685776f08782332b96cc70e16cb9d6683377bd750e32da1c0",
+      "bytes": 4679
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/inspect02.py",
+      "sha256": "7a903ed0a346ed0543c431377132bf2e018eb2ed1497914a4ef78274ffffcff4",
+      "bytes": 6869
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/inspect03.py",
+      "sha256": "4df663358595c0da63ed4b3854d855ff7a8ebea0e3b4e1c3e0d9d63040cde7f3",
+      "bytes": 7331
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/inspect05.py",
+      "sha256": "4590b030426b12d3f2337b1997dec40fd06004e2474b87907c744f0240a5cbcf",
+      "bytes": 7337
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/inspect07.py",
+      "sha256": "c5b2acd42624b9591535e4c17ee0d03b3ea2fc177549b3e9b4ff25d5f0c3dec2",
+      "bytes": 11120
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/motion-drivers03.json",
+      "sha256": "e28aef31d0d8b4ad90f10a8cdc720d81f91f58bf5a25778168cce3581039c746",
+      "bytes": 60308
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/motion-drivers05.json",
+      "sha256": "2909559fe87a1a0e996cd45e087feb0ae6bd830364a1d744b7cbaded3af58775",
+      "bytes": 60308
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/motion-drivers07.json",
+      "sha256": "5969cf725957333f14fa6f1e53f4dc66a47ba2f87f9edb980c40825d3cb2a2ac",
+      "bytes": 60308
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/ports-scope06.json",
+      "sha256": "a9cf2aec700ca0043adb9e03411b2e203feb593cf90548616b3360050eeb52e4",
+      "bytes": 248
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/ports06.py",
+      "sha256": "51fcbd50b11a24c0f4d80b6b6e759a4d4e829f900ca6bc4f03254b4004c29cd8",
+      "bytes": 1978
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/prepare.py",
+      "sha256": "2a5905ed27daefa9ab77f4cf02587622ac3bf95b82a40bc65f342a937f6289d3",
+      "bytes": 1270
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/prepare04.py",
+      "sha256": "ec0263a2c8b72f608c9492cca484b82db12a2d6f47fcb483c21dbfe1383a1953",
+      "bytes": 2900
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/prepare_ports06.py",
+      "sha256": "0d8fdef99800ce02ed5f070db0b42e5e99ff7a5b154145d4cf958e85cc115bfe",
+      "bytes": 4010
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/prepare_review02.py",
+      "sha256": "c1844d0f0b6a4d20ccc41b821110bbea641ece2ef9cc621327ba0ea3bc766f85",
+      "bytes": 5141
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/prepare_review03.py",
+      "sha256": "8745ad291a42c17c1c96d8ec9b7ce3021240b81789804525d73e98056307f609",
+      "bytes": 1963
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/prepare_review05.py",
+      "sha256": "472bfae949ae3986e947804f21063bcf2ac563838aaa553b11b4da1a207fcad1",
+      "bytes": 1163
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/prepare_review07.py",
+      "sha256": "80ac9fc1662eca43fda32e20a271aa04cd923a465f852ad27d9c85695b7e157a",
+      "bytes": 5478
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/proposal.py",
+      "sha256": "ae2121304de3f0acebbde809be3977c8f735eddac22fec9c281f4c634508bb5f",
+      "bytes": 3009
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/proposal04.py",
+      "sha256": "2826c99ed7330974f85e9adc53ae72708a9f0b444bd256f0eb1f17e619a8a17a",
+      "bytes": 2612
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/retry04.json",
+      "sha256": "b0959cf1c8a9c39c3dd79c294819686511cd28f16c18cc7a0bd24674d9ef75d3",
+      "bytes": 381
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/review-binding02.json",
+      "sha256": "8df29cf146000b225bde72f8fc2354598f57579d4c21b46a51ec8aa70ebdb00c",
+      "bytes": 490
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/review-binding05.json",
+      "sha256": "752560c0f86471e503d9955d4d97aed2e5b4b514ff9dcf068c128c27d17b4b50",
+      "bytes": 304
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/review-binding07.json",
+      "sha256": "cc198e9e33d6c2b6a36b0fd91f392bb83dc110a8fbc2966cb3a43437aecacd4b",
+      "bytes": 265
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/review-retry03.json",
+      "sha256": "8fedc3e3bfdf8be6bfe5f0c63312e8c3c6cc756b79b9c43416cc2801bf8bbc24",
+      "bytes": 557
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/review03.json",
+      "sha256": "4757427985f3fa79b0580999fae3f1abd494ddcae239a2c10e1b3359b7133fae",
+      "bytes": 888721
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/review05.json",
+      "sha256": "1f07f5d8e12f27b9e66924686e9c82f3a606c74191e700ee6b4a22fdba52fd31",
+      "bytes": 852091
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/review07.json",
+      "sha256": "5a397d122129efea0e61da0b2c03c773e2a714a03fe83f94884c24e743bd4f26",
+      "bytes": 1119799
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/saved01/construction.json",
+      "sha256": "d235544762c52d94175a25141814560b618c0c490bdb1458e123291e1e60a259",
+      "bytes": 5327
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/saved01/geometry.json.gz",
+      "sha256": "a35945929fb2d64e8e312c04962f06cc93cc9081276dae4e2227bfee335bac2a",
+      "bytes": 9025477
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/saved01/source.blend",
+      "sha256": "665bea07b95e7211c565be101480a1721a96237adcece18bdaecca069fa6fb0e",
+      "bytes": 4938999
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/saved04/construction.json",
+      "sha256": "d9008681094f415bc4857a05bff2b9d9dc9c9a6391fff8d98e40214d59f14f90",
+      "bytes": 5439
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/saved04/geometry.json.gz",
+      "sha256": "956ed02ef07bd1e63e184ab242ff30c29de62b4db59e9f8e6d481238f9ca65c4",
+      "bytes": 9025284
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/saved04/source.blend",
+      "sha256": "83c31b2acc873cb80bb621ee3fcdc2f0d07745bfe1763b7723d877ccbee9f9b9",
+      "bytes": 4939006
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/saved06/construction.json",
+      "sha256": "9fa731dd4bf25ccfdd9559b38d40776ab5cbfbe8fd39733c673b193241d6b930",
+      "bytes": 149722
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/saved06/geometry.json.gz",
+      "sha256": "6b70ee98906bf34e8f5f6c0b4a378bbe72548b77e3548e69402c8b0050812f89",
+      "bytes": 9034794
+    },
+    {
+      "path": "reports/p1-018/charge-route26-pilot01/saved06/source.blend",
+      "sha256": "846b2a613ffe609116f610f41d6e268f111c059cc66b7f1b5ce393d8862d8132",
+      "bytes": 4949648
+    },
+    {
+      "path": "reports/p1-018/climate-mount26-pilot01/DESIGN.md",
+      "sha256": "04d38c14cc916cf0166df5b7e7e461117d8905ed1975925ce4a8c7a119435870",
+      "bytes": 1125
+    },
+    {
+      "path": "reports/p1-018/climate-mount26-pilot01/build.py",
+      "sha256": "022edb221c049ab1bd4e9bf99425fae1a2c39d4cbd649efd16141566a13179db",
+      "bytes": 3107
+    },
+    {
+      "path": "reports/p1-018/climate-mount26-pilot01/proposal.py",
+      "sha256": "d1f76fd6cdfa326794673d25fb03c1514d5e09013de191a99da564be4b1d7f90",
+      "bytes": 3105
+    },
+    {
+      "path": "reports/p1-018/climate-mount26-pilot01/render01/camera-override.json",
+      "sha256": "66c587f3d2aba2fa9bddd1bcaeaa54768b43510f7f315c0c713c14a4f9c251fb",
+      "bytes": 374
+    },
+    {
+      "path": "reports/p1-018/climate-mount26-pilot01/render01/cockpit.png",
+      "sha256": "f0b8fa26c1012a25bcd96167ed04d6652dc97baf516dc1197e9fd41cf7c9de7d",
+      "bytes": 3483130
+    },
+    {
+      "path": "reports/p1-018/climate-mount26-pilot01/render01/manifest.json",
+      "sha256": "ff6d2032e158a6e51100a356ce3688c771625969ba132529309fc91b464b925c",
+      "bytes": 2614
+    },
+    {
+      "path": "reports/p1-018/climate-mount26-pilot01/saved01/construction.json",
+      "sha256": "c1facace7cf815f73b89a113c10f4c6be61f127b9aa2d60e901b1ef5a063ef38",
+      "bytes": 5325
+    },
+    {
+      "path": "reports/p1-018/climate-mount26-pilot01/saved01/geometry.json.gz",
+      "sha256": "216e8a3134bb6d331c7e793420daf83a6ad5d7984f61af98a19f745069b393bb",
+      "bytes": 8952101
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v26/art-checkpoint-v26-03.zip",
+      "sha256": "fff443e75c0fccd1a95f46563123feb40ab2859911d47308fd088e035d611a6c",
+      "bytes": 126859264,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint26-retention01/art-checkpoint-v26-03-repeat.zip",
+      "sha256": "fff443e75c0fccd1a95f46563123feb40ab2859911d47308fd088e035d611a6c",
+      "bytes": 126859264,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-12T18:42:10.224139+00:00"
+}

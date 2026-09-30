@@ -1,0 +1,122 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "utc": "2026-09-11T17:05:18.695857+00:00",
+  "scope": "Historical evidence retention only; no final asset, functional, platform, performance or human acceptance inferred",
+  "archives": [
+    {
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/root-history-through31.zip",
+        "sha256": "c1d2436014f8eb948758d182f23d082290a268c0561946988dc23bd3d5d98da4",
+        "bytes": 396615257,
+        "crc_and_member_sha256_verified": true
+      },
+      "retention_index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/root-history-through31.json",
+        "sha256": "04e606e0391e712eb99fc2df37b7379f94d28323348ef050448abba441f33e78"
+      },
+      "entries": 602,
+      "repeated_bytes_identical": true
+    },
+    {
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/research-history-v3.zip",
+        "sha256": "0a128b6d7668c658fea1244e99f6966ff2214fc7d2e7a292950be186a808fc6f",
+        "bytes": 41658838,
+        "crc_and_member_sha256_verified": true
+      },
+      "retention_index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/research-history-v3.json",
+        "sha256": "086f7cb1775692d2e196260d4c1dd7c0e0331359469507b90ec5b390b2049ff2"
+      },
+      "entries": 1306,
+      "repeated_bytes_identical": true
+    },
+    {
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-01.zip",
+        "sha256": "3cf96f662391d097abfe9488ef381b0465f2553ed648dfd43f0dd45d0bad3449",
+        "bytes": 560033061,
+        "crc_and_member_sha256_verified": true
+      },
+      "retention_index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-01.json",
+        "sha256": "ae3686e3a11044af37e5b4842cf1e1425dddb4624541225aa3cff70775b7660f"
+      },
+      "entries": 471,
+      "repeated_bytes_identical": true
+    },
+    {
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-02.zip",
+        "sha256": "bf6c21bfa73aab203d071ce089fe53d2d3ffa6eb0e9c844927b51d878a6e164f",
+        "bytes": 695264479,
+        "crc_and_member_sha256_verified": true
+      },
+      "retention_index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-02.json",
+        "sha256": "c1f5dc644e28a92ae042aa234a3c2e3fa8a5722faff1bdc383309df85a7e2491"
+      },
+      "entries": 101,
+      "repeated_bytes_identical": true
+    },
+    {
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-03.zip",
+        "sha256": "c1f1f7aa4eddcfe6c443a2ada9b29c7fb8ea8a53915ed5df78a4c68362bc59ba",
+        "bytes": 429327404,
+        "crc_and_member_sha256_verified": true
+      },
+      "retention_index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-03.json",
+        "sha256": "d8f57cc958c24ff32a6c4f1175bbdea1bba622e0b452ce291c18640156db325a"
+      },
+      "entries": 135,
+      "repeated_bytes_identical": true
+    },
+    {
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-04.zip",
+        "sha256": "0f62e864f71fad7ec9892988869256fc977aee7e990e153a5850ba145c9607b5",
+        "bytes": 605337082,
+        "crc_and_member_sha256_verified": true
+      },
+      "retention_index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-04.json",
+        "sha256": "f3898b2930d353aced23623445d3b0a3c49a7ab1258948412f62b75ec066e3ff"
+      },
+      "entries": 434,
+      "repeated_bytes_identical": true
+    },
+    {
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-05.zip",
+        "sha256": "c7c3ca9b1d2306faf3a4933948ce82cce0a5d692dbdc0db92e948948e5488168",
+        "bytes": 488776272,
+        "crc_and_member_sha256_verified": true
+      },
+      "retention_index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-05.json",
+        "sha256": "18075fcd7c94fa19f17dede94270eae99c357a4c94d156061720640a66bc8f98"
+      },
+      "entries": 425,
+      "repeated_bytes_identical": true
+    },
+    {
+      "archive": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-06.zip",
+        "sha256": "f774e01dfa099ebd7c250b647dae9bbf8f6ba0544081d335072340be06205ea3",
+        "bytes": 486624,
+        "crc_and_member_sha256_verified": true
+      },
+      "retention_index": {
+        "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-06.json",
+        "sha256": "4690726b72ad1b82a65cd8bd130afe3d70cc6940454e9d1cb53b61160b13856c"
+      },
+      "entries": 21,
+      "repeated_bytes_identical": true
+    }
+  ],
+  "total_archive_bytes": 3217499017,
+  "human_approval_reference": null
+}

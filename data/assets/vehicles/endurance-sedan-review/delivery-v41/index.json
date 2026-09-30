@@ -1,0 +1,1720 @@
+{
+  "task_id": "P1-018",
+  "archive": {
+    "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/evidence.zip",
+    "sha256": "9dd549fce7ef6d39f42856637d6ce9084c465171b1c764b19b0e27dd1e50d843",
+    "bytes": 42176020
+  },
+  "members": [
+    {
+      "member": "build/default02-build-result.json",
+      "source": "C:\\Dev\\sedan-builds\\default02\\build-result.json",
+      "sha256": "dc06af86afbd908f7eeb4ee687c9f3d6f533ac8259267d0fd73322396a4d87c8",
+      "bytes": 206801
+    },
+    {
+      "member": "build/default03-build-result.json",
+      "source": "C:\\Dev\\sedan-builds\\default03\\build-result.json",
+      "sha256": "c0475ff32c9b438d18a3de8a2179e418fbdf807baadfb2dabb25f9a143d99da7",
+      "bytes": 206803
+    },
+    {
+      "member": "captures/menu-showroom-live02/menu-showroom-godot.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\menu-showroom\\live02\\menu-showroom-godot.log",
+      "sha256": "b7d85877f9e3496af35e7932b36978c2e4554b1c4df46107d75f5d470d817842",
+      "bytes": 1503
+    },
+    {
+      "member": "captures/menu-showroom-live02/menu-showroom-godot.shutdown.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\menu-showroom\\live02\\menu-showroom-godot.shutdown.json",
+      "sha256": "ca7e217dbdbcacbb1b0ea26c151af27a2ed56175e5b1b7c2a82123ef30cc39bc",
+      "bytes": 1060
+    },
+    {
+      "member": "captures/menu-showroom-live02/menu-showroom-open-all.png",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\menu-showroom\\live02\\menu-showroom-open-all.png",
+      "sha256": "3a19caab1873b29874f3ed9cb72953e1017de642801963b7675c7819ba87a5e7",
+      "bytes": 300042
+    },
+    {
+      "member": "captures/menu-showroom-live02/menu-showroom-open-all.png.import",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\menu-showroom\\live02\\menu-showroom-open-all.png.import",
+      "sha256": "046ef2c44b4efae412b8480d39e174b4541cc35527d6c311303c48ce4ce2db72",
+      "bytes": 1053
+    },
+    {
+      "member": "captures/menu-showroom-live02/menu-showroom.jsonl",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\menu-showroom\\live02\\menu-showroom.jsonl",
+      "sha256": "d864414b3fd5238055f7812b44a3de560f99954fd00846d30bbfb05983388ff1",
+      "bytes": 5112
+    },
+    {
+      "member": "captures/roof-rail-default02/rail-rear-left-close.png",
+      "source": "C:\\Dev\\scratch\\roof-rail-default02\\rail-rear-left-close.png",
+      "sha256": "fe88483be6bb141afb6a765f2c17f6aa916360610ef4af14d74ac576122e14b2",
+      "bytes": 1469622
+    },
+    {
+      "member": "captures/roof-rail-default02/rail-rear-left.png",
+      "source": "C:\\Dev\\scratch\\roof-rail-default02\\rail-rear-left.png",
+      "sha256": "d00a6d259d3a40b493ed0fc8544b57514047068a63722ac30ff953e3c629d41c",
+      "bytes": 1529721
+    },
+    {
+      "member": "captures/roof-rail-default02/rail-top-left.png",
+      "source": "C:\\Dev\\scratch\\roof-rail-default02\\rail-top-left.png",
+      "sha256": "0e06dbb1141d812f4eb72159ab751e5dde503953c704562d423bf3f96231b9e1",
+      "bytes": 1512103
+    },
+    {
+      "member": "captures/roof-rail-default02/side-left.png",
+      "source": "C:\\Dev\\scratch\\roof-rail-default02\\side-left.png",
+      "sha256": "1be2d9e1107850dddb64635e8b753188c8c483036e2f033cabeb2497b27ae12a",
+      "bytes": 1471533
+    },
+    {
+      "member": "captures/showroom-default03/captures.json",
+      "source": "C:\\Dev\\scratch\\views-default03\\captures.json",
+      "sha256": "b174918faa26037eac476a66e9a378d05547fea2d602a597e16916c2c333ad16",
+      "bytes": 4917
+    },
+    {
+      "member": "captures/showroom-default03/closed-cockpit.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-cockpit.png",
+      "sha256": "75f5ab3a4e50623d0d541472365aa9586e23cde2c264017be58246945709b79d",
+      "bytes": 689544
+    },
+    {
+      "member": "captures/showroom-default03/closed-engine.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-engine.png",
+      "sha256": "2d5c4b942abd4731f571f22fe418dbf650f68718ba427c76e32e39cced8695c5",
+      "bytes": 483406
+    },
+    {
+      "member": "captures/showroom-default03/closed-front.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-front.png",
+      "sha256": "456f0f61a66a3774f37ed9fc322d981e58c935d9369eb76faa2549f80f246c81",
+      "bytes": 276506
+    },
+    {
+      "member": "captures/showroom-default03/closed-left.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-left.png",
+      "sha256": "06eaaab4d64f5a82356adfa9019b18c67bdc1c1eb081515b889fea094804acf1",
+      "bytes": 209579
+    },
+    {
+      "member": "captures/showroom-default03/closed-luggage.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-luggage.png",
+      "sha256": "0d24c0f68feb560f345d5664c589025979fd597dc2a54ac6942cd5414046bc77",
+      "bytes": 355977
+    },
+    {
+      "member": "captures/showroom-default03/closed-overview.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-overview.png",
+      "sha256": "4483a875d7afe47731dc42a6c66d1648945eb8d9ca64f517927b3b42907975f8",
+      "bytes": 241169
+    },
+    {
+      "member": "captures/showroom-default03/closed-rear-cabin.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-rear-cabin.png",
+      "sha256": "4b2225e9d9017d44e0f7939c584ae65e55a4246661303d4bf45d812e9a936081",
+      "bytes": 1029671
+    },
+    {
+      "member": "captures/showroom-default03/closed-rear.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-rear.png",
+      "sha256": "5a6be6e6ffd6b4366f5fc6cf19b06707faf2aec70c19159ba40f8d90d3579f2c",
+      "bytes": 211303
+    },
+    {
+      "member": "captures/showroom-default03/closed-right.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-right.png",
+      "sha256": "ee7a401019f26c6ba05ac05b347e724b7ff9fbd89f7a8e4662301a7f619c8338",
+      "bytes": 189332
+    },
+    {
+      "member": "captures/showroom-default03/closed-top.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-top.png",
+      "sha256": "bbeb97603c162adaef7778fa8a31a9bb36344a1aa837c069e0c61c420287f4fb",
+      "bytes": 214545
+    },
+    {
+      "member": "captures/showroom-default03/closed-underside.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\closed-underside.png",
+      "sha256": "59654abd2c10f087bff6d8c38327b0341b9281115b2a6515cea6d8aeff6236a5",
+      "bytes": 121676
+    },
+    {
+      "member": "captures/showroom-default03/godot.log",
+      "source": "C:\\Dev\\scratch\\views-default03\\godot.log",
+      "sha256": "86044fef37454c7d82803c2f0c67aba1aca94b81185e8d906c7c5211801c2aea",
+      "bytes": 1390
+    },
+    {
+      "member": "captures/showroom-default03/godot.shutdown.json",
+      "source": "C:\\Dev\\scratch\\views-default03\\godot.shutdown.json",
+      "sha256": "7cade674bca7e15fb07cf8fda278c67cb9189cce219a1600978f7e1dd5d13f76",
+      "bytes": 1017
+    },
+    {
+      "member": "captures/showroom-default03/open-cockpit.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-cockpit.png",
+      "sha256": "0effebca0bda400ed2c3e942d6e80d4de1159f4bc44ab2de6bc756c8df918721",
+      "bytes": 775124
+    },
+    {
+      "member": "captures/showroom-default03/open-engine.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-engine.png",
+      "sha256": "711efe07e5d9f89c00fe58b01878552423cc631b2ac2fa409c5ff4274f51665d",
+      "bytes": 613714
+    },
+    {
+      "member": "captures/showroom-default03/open-front.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-front.png",
+      "sha256": "a3d759f2c63f7e1f1a24118a3d8fc1d836e4ab736a76292f04da57cff6d35030",
+      "bytes": 341460
+    },
+    {
+      "member": "captures/showroom-default03/open-left.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-left.png",
+      "sha256": "923100b5d794e5eb4233aac595cd48ab41ecd686b6c1a5ad37fe209c329e29d8",
+      "bytes": 255705
+    },
+    {
+      "member": "captures/showroom-default03/open-luggage.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-luggage.png",
+      "sha256": "4d3a7c0fda264f0e8fba4a50b9a27be140c46458b85aa5d554e67fd67ec95113",
+      "bytes": 481751
+    },
+    {
+      "member": "captures/showroom-default03/open-overview.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-overview.png",
+      "sha256": "9db796552849b08da9d74adf46a6696067ad427016f1177f57f10dcd0bdae969",
+      "bytes": 262296
+    },
+    {
+      "member": "captures/showroom-default03/open-rear-cabin.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-rear-cabin.png",
+      "sha256": "efa9619b23d7a130d314c39ff77316f740733eaab574784e5a9046a12a751452",
+      "bytes": 1041102
+    },
+    {
+      "member": "captures/showroom-default03/open-rear.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-rear.png",
+      "sha256": "26e5bbede091fb4b3a400f4ac30724fc3d87a22db998ddba7f74fb40a1bfe071",
+      "bytes": 261731
+    },
+    {
+      "member": "captures/showroom-default03/open-right.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-right.png",
+      "sha256": "b8f0ef809915b1df6e45a5ef63b62a77acaa486cdcf1c003aa1387a0c06b2bc4",
+      "bytes": 235528
+    },
+    {
+      "member": "captures/showroom-default03/open-top.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-top.png",
+      "sha256": "be9815785336cacea0b48ad171a1c4c774a027bb40983f6de95291c5558823d3",
+      "bytes": 304879
+    },
+    {
+      "member": "captures/showroom-default03/open-underside.png",
+      "source": "C:\\Dev\\scratch\\views-default03\\open-underside.png",
+      "sha256": "487f232563326c1d2f0d4129e36d0e3b09ad5b886326d637a3638c00f881c69d",
+      "bytes": 152055
+    },
+    {
+      "member": "captures/showroom-default03/session.jsonl",
+      "source": "C:\\Dev\\scratch\\views-default03\\session.jsonl",
+      "sha256": "3c6087639d75d01ef6a2c65b9bd06e0c83f389f1e0478701ee8d1d43fddc5503",
+      "bytes": 14730
+    },
+    {
+      "member": "captures/showroom-production34-baseline/captures.json",
+      "source": "C:\\Dev\\scratch\\views-production34\\captures.json",
+      "sha256": "bbff9bebbfa3433942b2e12dfb85fc3cef0591bbfdacd6c83ef6e089ade8b20e",
+      "bytes": 4940
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-cockpit.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-cockpit.png",
+      "sha256": "8f302852d43f3c05bc03f739c4cf439b9f6dbaeb80aed154dfe8e9ec5b214162",
+      "bytes": 986237
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-engine.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-engine.png",
+      "sha256": "5d08b1b356ea96f78e8570084d5d51b8acdc1b9c90348c35eafe5ea4aff0b177",
+      "bytes": 662501
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-front.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-front.png",
+      "sha256": "3118dd9871e801ec2273fd3ad4f7a9df58acbb7b8310545d96ce1c74e4fbebb8",
+      "bytes": 357811
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-left.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-left.png",
+      "sha256": "8de2b4f6ab123d4d64ce0ba46103746a1b3fd021d1d4d39c920e571829ad1cda",
+      "bytes": 281948
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-luggage.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-luggage.png",
+      "sha256": "ad0513422bff6d97da43babf0fb6767ab914ae14c7062e64ad4e9dccbcb1e31a",
+      "bytes": 531904
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-overview.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-overview.png",
+      "sha256": "973516c7f3c8d044d6ee6ad1737f091341dbfee69af902df4507bc93e2be45f5",
+      "bytes": 323963
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-rear-cabin.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-rear-cabin.png",
+      "sha256": "66d8767c8a491cc59fa19a64db643c90764418151633381ce35621521fef050c",
+      "bytes": 1329258
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-rear.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-rear.png",
+      "sha256": "61b2bd78ffb0970b160899be939b0ef57d13dc8f1b338b2375f54bbe0178d9d3",
+      "bytes": 281231
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-right.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-right.png",
+      "sha256": "e2c9ed600100ac8f66a40e15f9e4688bef9cc7c2b9424b551a4ecaba756360b0",
+      "bytes": 251086
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-top.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-top.png",
+      "sha256": "1239f249e885882896222148b9f60b0617fdb50876919eb5941da10319fce600",
+      "bytes": 304276
+    },
+    {
+      "member": "captures/showroom-production34-baseline/closed-underside.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\closed-underside.png",
+      "sha256": "a55a8aa61aaccb0cdc1b0ef82d8cf57891d9d3bfb9aed01b17adb024a59bbf5c",
+      "bytes": 133878
+    },
+    {
+      "member": "captures/showroom-production34-baseline/godot.log",
+      "source": "C:\\Dev\\scratch\\views-production34\\godot.log",
+      "sha256": "4e9ed691fb30707e7b18533f2d05952fc530665fe588ab8f8dff8981f255d174",
+      "bytes": 1390
+    },
+    {
+      "member": "captures/showroom-production34-baseline/godot.shutdown.json",
+      "source": "C:\\Dev\\scratch\\views-production34\\godot.shutdown.json",
+      "sha256": "79dd9f4e5f3cca3b6e1c0818b3873b9cd53e63d60b1699d0acf209eae091a4c6",
+      "bytes": 1017
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-cockpit.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-cockpit.png",
+      "sha256": "b0f66f5ebb2e17fdef515f8e07693af5c50e5995857aef72d90e02c2a3570e83",
+      "bytes": 1093413
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-engine.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-engine.png",
+      "sha256": "b871fe9b9532616295baac7ecf27192463722f050125256ec1d724be22bc1b28",
+      "bytes": 845505
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-front.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-front.png",
+      "sha256": "feb8647267b267cde1da0930583edd719026bb123c0974ca48a062469b88e596",
+      "bytes": 438308
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-left.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-left.png",
+      "sha256": "9f7bab9c5826d65f0658163f06b8715e5a5f4f84a98dd5be7305ed6a05bf8663",
+      "bytes": 337074
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-luggage.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-luggage.png",
+      "sha256": "d0f053985d7768b79b7fdf06951ec6abbba661753488d43728d78188f4a249a7",
+      "bytes": 688895
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-overview.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-overview.png",
+      "sha256": "c8f5ff7bd7043b57c8a7115b9f9fcae6cae5235edaa12f4bd5cd1492c80abadb",
+      "bytes": 349011
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-rear-cabin.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-rear-cabin.png",
+      "sha256": "b61a6d5643317064a063798a27b695b9ea550d68d54144b240cf356c049f5f51",
+      "bytes": 1350208
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-rear.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-rear.png",
+      "sha256": "7d63283bcba1b168e1437b0eac2126fcef3251766c9d42ff610bf2c751bb57d4",
+      "bytes": 353069
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-right.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-right.png",
+      "sha256": "212a15e6435f881808cae964a7ff052a74e5b691dba1ce5ff7f82854325d0b62",
+      "bytes": 310448
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-top.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-top.png",
+      "sha256": "d08f52fbdbf720664223e1bd457e7e6772958489064ef1d59407b5bf744ab538",
+      "bytes": 422428
+    },
+    {
+      "member": "captures/showroom-production34-baseline/open-underside.png",
+      "source": "C:\\Dev\\scratch\\views-production34\\open-underside.png",
+      "sha256": "92c93cdc7dc22fbf974b50c4c4c24c23385a7a2f5f42e6513a384b2fd899e268",
+      "bytes": 175882
+    },
+    {
+      "member": "captures/showroom-production34-baseline/session.jsonl",
+      "source": "C:\\Dev\\scratch\\views-production34\\session.jsonl",
+      "sha256": "53885797360d3ba071de772a0f773d0a4587027e64ee861e3ac570ea9030900b",
+      "bytes": 14744
+    },
+    {
+      "member": "commands/default02.log",
+      "source": "C:\\Dev\\sedan-builds\\default02.log",
+      "sha256": "057386e38d679facdf6940d3ff0689f027620737a9b6510bf2c98cfe8d1d8d4a",
+      "bytes": 455
+    },
+    {
+      "member": "commands/default03.log",
+      "source": "C:\\Dev\\sedan-builds\\default03.log",
+      "sha256": "1506e7c3252aaeab758af720b0a6ccbd2c67ecda189023aa69f67d01f527d541",
+      "bytes": 457
+    },
+    {
+      "member": "commands/run-build.sh",
+      "source": "C:\\Dev\\sedan-builds\\run-build.sh",
+      "sha256": "47b332d476df5c73d8ccc9362e5a6e9a99386a1461fab9fa6666a6121f993a9c",
+      "bytes": 328
+    },
+    {
+      "member": "commands/run-gate.sh",
+      "source": "C:\\Dev\\sedan-builds\\run-gate.sh",
+      "sha256": "dbfc5accd422f3f9ff41dd387361b9c9d285125ea3b5a04ac13717753b6fb916",
+      "bytes": 222
+    },
+    {
+      "member": "commands/run-playgodot.sh",
+      "source": "C:\\Dev\\sedan-builds\\run-playgodot.sh",
+      "sha256": "ad8f669a800ccce34f871233537748114767e5a7018875aab275d50576364d86",
+      "bytes": 501
+    },
+    {
+      "member": "commands/run-qa-export.sh",
+      "source": "C:\\Dev\\sedan-builds\\run-qa-export.sh",
+      "sha256": "f49f443d6873071dcdc0f6f0b9a39f1bbabac41621f68a8503a74ce775979ef6",
+      "bytes": 1162
+    },
+    {
+      "member": "default02/candidate-gate01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\candidate-gate01.log",
+      "sha256": "1bb5fffd134f98efed7ac19c1200ed78c8cd2d6dcc4954840a4488f2c160e540",
+      "bytes": 603
+    },
+    {
+      "member": "default02/candidate-gate01/evidence.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\candidate-gate01\\evidence.json",
+      "sha256": "8d044ee04f4db1a1f327de0bb3e99f1445c426fbc11389a04f7040bbd9adda04",
+      "bytes": 307260
+    },
+    {
+      "member": "default02/candidate-gate02.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\candidate-gate02.log",
+      "sha256": "98802901e244fcba192f1a1f5b3559419a3527ce9554003e2332306422ce5430",
+      "bytes": 622
+    },
+    {
+      "member": "default02/candidate-gate02/evidence.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\candidate-gate02\\evidence.json",
+      "sha256": "fc3737fd3a6f1125840e8446d53e7c88aa1b5c36f7f9926ed3a710360ff14e02",
+      "bytes": 406650
+    },
+    {
+      "member": "default02/export01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\export01.log",
+      "sha256": "db26eaf273a0e47d09c2a9d8449a4f2b80607d755ee901115511c0aa47725ba2",
+      "bytes": 42414
+    },
+    {
+      "member": "default02/qa-tail-diag01/summary.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\qa-tail-diag01\\summary.log",
+      "sha256": "3fd455c4d0cf7f9ed23084cf8e374302278e64bf8ee0398cae01757a7c8c2a6c",
+      "bytes": 199
+    },
+    {
+      "member": "default02/source-qa01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01.log",
+      "sha256": "014027febeb5bfbb79382ef112fea526a5733c450d414a576c83ea79881ad84d",
+      "bytes": 627
+    },
+    {
+      "member": "default02/source-qa01/commands/01-extraction.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\01-extraction.json",
+      "sha256": "36820acbe48de19076167b8685512b17185bca1baed905833b2a652149449ff4",
+      "bytes": 120566
+    },
+    {
+      "member": "default02/source-qa01/commands/01-extraction.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\01-extraction.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default02/source-qa01/commands/01-extraction.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\01-extraction.stdout.log",
+      "sha256": "9d57f265276ddb8c2ea94c72ab6c3289a1a6a3170dd727c6c0d89d159b202e46",
+      "bytes": 375
+    },
+    {
+      "member": "default02/source-qa01/commands/02-historical-extraction.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\02-historical-extraction.json",
+      "sha256": "ae3169fd033816b5d0557e11dc27d0808f01dbe9431c3c3a0189523ba29f3a43",
+      "bytes": 121322
+    },
+    {
+      "member": "default02/source-qa01/commands/02-historical-extraction.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\02-historical-extraction.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default02/source-qa01/commands/02-historical-extraction.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\02-historical-extraction.stdout.log",
+      "sha256": "f50eeee20312ef40d42189b7f56580cd2574329f513d508aceeb09f58cb9a93f",
+      "bytes": 410
+    },
+    {
+      "member": "default02/source-qa01/commands/03-historical-shoulder-field.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\03-historical-shoulder-field.json",
+      "sha256": "04102af13931e1d655387fa7a32e6be8f403dcc57e1d2124ea59153076c43246",
+      "bytes": 122962
+    },
+    {
+      "member": "default02/source-qa01/commands/03-historical-shoulder-field.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\03-historical-shoulder-field.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default02/source-qa01/commands/03-historical-shoulder-field.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\03-historical-shoulder-field.stdout.log",
+      "sha256": "bc956faf3a8d681ddbb0bffac29a66b9d3f76bfe40bc433abf4b3d5ac8d0e3f2",
+      "bytes": 843
+    },
+    {
+      "member": "default02/source-qa01/commands/04-current-front-field.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\04-current-front-field.json",
+      "sha256": "66903743c03bb65669f81576602498d73f7d4cc1f04dd585e3f8847c9a8006f8",
+      "bytes": 122302
+    },
+    {
+      "member": "default02/source-qa01/commands/04-current-front-field.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\04-current-front-field.stderr.log",
+      "sha256": "1c55d3dcb2f4a364a0c6ac92fb36562c1088242f709930c2145896a68a0277ce",
+      "bytes": 1657
+    },
+    {
+      "member": "default02/source-qa01/commands/04-current-front-field.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\commands\\04-current-front-field.stdout.log",
+      "sha256": "372b3046c0a54588a0f74d3c0250e13d1952a8a8a3253a97a0c0dcf77cf9d304",
+      "bytes": 74
+    },
+    {
+      "member": "default02/source-qa01/evidence.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa01\\evidence.json",
+      "sha256": "615c8072766f54867a9b58bd141b54642ad44893b460d65f6dd1d8ab5e3854f1",
+      "bytes": 491592
+    },
+    {
+      "member": "default02/source-qa02.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa02.log",
+      "sha256": "9bae159ce5b442123bf53949097ca91172a1c2af102cc5a99093b79ba6740bc0",
+      "bytes": 2358
+    },
+    {
+      "member": "default02/source-qa02/evidence.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default02\\source-qa02\\evidence.json",
+      "sha256": "77fb34b34b6ff1f16755bd8dea40ab3df9e574d804f88679223287eb99571290",
+      "bytes": 588624
+    },
+    {
+      "member": "default03/candidate-gate01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\candidate-gate01.log",
+      "sha256": "dcf23dc29e0145571048096556f2b5b9407f2a8fef7382a94853e9c31e4d139a",
+      "bytes": 150
+    },
+    {
+      "member": "default03/candidate-gate01/evidence.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\candidate-gate01\\evidence.json",
+      "sha256": "844e787d02100cdbbf16befdaf0297e65de479999c253a9ef40cca3ab3f1d9f6",
+      "bytes": 2528108
+    },
+    {
+      "member": "default03/check01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\check01.log",
+      "sha256": "cffdd3a8026f186bcb7f57518e4e03502e06ca858023d244482eda66ad15a86e",
+      "bytes": 123828
+    },
+    {
+      "member": "default03/delivered-hero01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\delivered-hero01.log",
+      "sha256": "2fa26930ca6780b2e9949f0efa1ba0c18e6370741c04748c35c3469b006c9737",
+      "bytes": 81
+    },
+    {
+      "member": "default03/delivered-hero02.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\delivered-hero02.log",
+      "sha256": "6f616735fce01bf74a1091f5c3c3eefda5228f603165c5fed2a3c810cea4d8a5",
+      "bytes": 125487
+    },
+    {
+      "member": "default03/delivered-hero03.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\delivered-hero03.log",
+      "sha256": "951c42fcc8ac6364c804d9bb867bdf2d4ed336889ed331ce96ec4bfee2bfd220",
+      "bytes": 132667
+    },
+    {
+      "member": "default03/delivered-sedan01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\delivered-sedan01.log",
+      "sha256": "5aef6d6c1331fd14457a143cdccd74635a99c14996d46305cc9a275b5286e439",
+      "bytes": 587
+    },
+    {
+      "member": "default03/delivered-sedan01/evidence.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\delivered-sedan01\\evidence.json",
+      "sha256": "e587e71de59026f0dc5a071b48988c39a7739b1cf2647756ffd3225db8365834",
+      "bytes": 333360
+    },
+    {
+      "member": "default03/delivered-sedan02.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\delivered-sedan02.log",
+      "sha256": "c79a5b28fb8cefde6aec920de77f0fce2c6fd5c155322024bd241dd7e70052c7",
+      "bytes": 139
+    },
+    {
+      "member": "default03/delivered-sedan02/evidence.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\delivered-sedan02\\evidence.json",
+      "sha256": "57ccb19abd87c32ad0423eb89b9d83bb4b7b5f55819621be896de179353eeb30",
+      "bytes": 2535416
+    },
+    {
+      "member": "default03/export01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\export01.log",
+      "sha256": "63fe0f7619491fb563207a662adecc6a86f10dce643db9939292d8c707b4047d",
+      "bytes": 42414
+    },
+    {
+      "member": "default03/export01/blender.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\export01\\blender.json",
+      "sha256": "1bc2d2c8e00f6c8185e733cbbae6ce7f5bdb934207a410d83904f2cf248dd9e7",
+      "bytes": 1790633
+    },
+    {
+      "member": "default03/install01.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\install01.json",
+      "sha256": "a358893a9e5129d914d67662f07ba0882bec98e60e01f1034bfa1786e8b541d3",
+      "bytes": 11150
+    },
+    {
+      "member": "default03/playgodot01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\playgodot01.log",
+      "sha256": "94a1f4a47e51a1d477b03fab640e0ef4a09a8fca16f949b3fe5b3f8a26bd3d3e",
+      "bytes": 5995
+    },
+    {
+      "member": "default03/playgodot01/junit.xml",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\playgodot01\\junit.xml",
+      "sha256": "c84aae4b06172f3faaa1feb54dd890e9badf06ab12c94f5ffefa88200ddfdd81",
+      "bytes": 54396
+    },
+    {
+      "member": "default03/playgodot02.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\playgodot02.log",
+      "sha256": "6babcfe26adb4d19097369df54a8a3f642ef57c6423a5c954f9857e0ca99a449",
+      "bytes": 861
+    },
+    {
+      "member": "default03/playgodot02/junit.xml",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\playgodot02\\junit.xml",
+      "sha256": "93db08ee2e41dc3632c4c53a280c2078d99ab593a5af89e0144d1887beb671fd",
+      "bytes": 49251
+    },
+    {
+      "member": "default03/promotion01/promotion.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\promotion01\\promotion.json",
+      "sha256": "ae8706c00a74f40696ba83e339df4af351c963e8680ee26d985a4288c476fa5b",
+      "bytes": 13793
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative-controls.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative-controls.json",
+      "sha256": "18ff4b38173c04193f9084554147d3a6e4bb253a8312c75adaecef104417dcb3",
+      "bytes": 25782
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative-controls.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative-controls.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative-controls.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative-controls.stdout.log",
+      "sha256": "f8430f94b5cdbc7ae51e6e42937b01a49955efb790ca5450e08a3a155f6df7f8",
+      "bytes": 753
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/01-native-fixtures.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\01-native-fixtures.json",
+      "sha256": "e2ea15352206506e0b2e68e12aaee852129cdb3a4331c486b5b7dfec64b6282a",
+      "bytes": 19619
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/01-native-fixtures.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\01-native-fixtures.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/01-native-fixtures.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\01-native-fixtures.stdout.log",
+      "sha256": "e52ee68c7dc13b8ac906e6f8ca0d6a346aca25757b2237db409da37e1cddf789",
+      "bytes": 270
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/02-middle-collision.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\02-middle-collision.json",
+      "sha256": "5a0466973f60059ab75ed41f1ca13ab61f93cf0fd6329fd9b92bc8df0b2fd941",
+      "bytes": 19360
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/02-middle-collision.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\02-middle-collision.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/02-middle-collision.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\02-middle-collision.stdout.log",
+      "sha256": "5bdaef50aed88bedb588b51ddb598fbb4d51e4b8da4575a5bf59803afa4340c4",
+      "bytes": 805
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/03-corrected.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\03-corrected.json",
+      "sha256": "425425541e43b7b991c152ae90f24ce554827bef66d57c52a79b867b2f3921c6",
+      "bytes": 19551
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/03-corrected.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\03-corrected.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/03-corrected.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\03-corrected.stdout.log",
+      "sha256": "1fe1d150ebad6bfddd5a4173b5954ee7a656801ad1f05418fb41e04f6f15ab14",
+      "bytes": 149
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/04-driver-invalid.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\04-driver-invalid.json",
+      "sha256": "019409273d542faccc7c07cced6fcf511ad0e6cd12c0ace630eeecfbcd628fc8",
+      "bytes": 19471
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/04-driver-invalid.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\04-driver-invalid.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/04-driver-invalid.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\04-driver-invalid.stdout.log",
+      "sha256": "fc3b9e675c40227aacf6e0f2c9570e706f282399682accfc3db32b57c2240564",
+      "bytes": 202
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/05-driver-corrected.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\05-driver-corrected.json",
+      "sha256": "eaec577a9bab5b7eaef75e6b73b2a946acf2f948b87cb69bb0f4668b0ffad40b",
+      "bytes": 19703
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/05-driver-corrected.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\05-driver-corrected.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/05-driver-corrected.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\05-driver-corrected.stdout.log",
+      "sha256": "cc20c055ae480612efb0c6e4943ae9c47a7b070dcfc0fe9773e8e7ecb61eb127",
+      "bytes": 134
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/06-wiper-controls.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\06-wiper-controls.json",
+      "sha256": "7e1e9dbceaccd5665a0b096536dbe23844204a7eef8bb533d94999f9601acaa5",
+      "bytes": 20682
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/06-wiper-controls.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\06-wiper-controls.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/commands/06-wiper-controls.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\commands\\06-wiper-controls.stdout.log",
+      "sha256": "b6edd9db5ed167168b0f831a38c7a120d9a407b2848fc52ca6584a478d78a42d",
+      "bytes": 175
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/corrected-certificate.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\corrected-certificate.json",
+      "sha256": "c94b3b3dae3a6fc848bdae7d716e2ba2d3e2bc0536f7d7761e2dbebce531aeb3",
+      "bytes": 20430
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/driver-corrected.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\driver-corrected.json",
+      "sha256": "26a381003a4202c9add9e5e8071b64c4d4147ebde42c895adc9917cad3c93bdb",
+      "bytes": 243
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/driver-invalid.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\driver-invalid.json",
+      "sha256": "de4e3deb3ca8526f099c570cc243d49b7b11ca1ce0b690ca4a84ccd275926984",
+      "bytes": 228
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/fixtures/corrected.json.gz",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\fixtures\\corrected.json.gz",
+      "sha256": "67d1806d1c53923a9405740da76da758a0a21ffc5521e6b30f2a2606ba7347e9",
+      "bytes": 1679140
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/fixtures/fixtures.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\fixtures\\fixtures.json",
+      "sha256": "1b9238daad27e19eb802278a4915a5ce851351b30b1483bb1c62a7ed87e15385",
+      "bytes": 13862
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/fixtures/middle-collision.json.gz",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\fixtures\\middle-collision.json.gz",
+      "sha256": "917909a8771e126ac8d251917d69296f258889ee092e48fd7cd34e6657a24c73",
+      "bytes": 1679132
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/fixtures/opening-contract.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\fixtures\\opening-contract.json",
+      "sha256": "68086ae9ad35ef3826496b011e24103b0730508d46fb21113d3b860ac4ceaf91",
+      "bytes": 36738
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/middle-collision-certificate.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\middle-collision-certificate.json",
+      "sha256": "a4ef7e7c2023251be5e871f8603803eaeaf289625c0f42a72269efbc722cae0f",
+      "bytes": 21248
+    },
+    {
+      "member": "default03/qa-tail-diag01/negative/wiper-controls.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\negative\\wiper-controls.json",
+      "sha256": "133d81b28c37d08dc3e87de47c138f727cb5f39b0115debe9bda89918dff3517",
+      "bytes": 4084
+    },
+    {
+      "member": "default03/qa-tail-diag01/opening-containment.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\opening-containment.json",
+      "sha256": "9b3ddcffa0ec48c9b98736e6c0da9ee470c69dfeb99617114f45fc93d3cf2adf",
+      "bytes": 822485
+    },
+    {
+      "member": "default03/qa-tail-diag01/opening-containment.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\opening-containment.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/opening-containment.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\opening-containment.stdout.log",
+      "sha256": "b8007602b48de0033684e124d75bebc0063c5083a5a8ee8c0a60e50b33b15cab",
+      "bytes": 189
+    },
+    {
+      "member": "default03/qa-tail-diag01/openings.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\openings.json",
+      "sha256": "6fcc5ace2c2b380eb984c9effea89269d180a65b372896cfa256e73c39dfa972",
+      "bytes": 16103480
+    },
+    {
+      "member": "default03/qa-tail-diag01/openings.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\openings.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/openings.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\openings.stdout.log",
+      "sha256": "be96845ff2074292d94e88806fb449f61c6f1c66d0ac14e84e601ad74a0a47e3",
+      "bytes": 238353
+    },
+    {
+      "member": "default03/qa-tail-diag01/summary.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\summary.log",
+      "sha256": "3fd455c4d0cf7f9ed23084cf8e374302278e64bf8ee0398cae01757a7c8c2a6c",
+      "bytes": 199
+    },
+    {
+      "member": "default03/qa-tail-diag01/tires.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\tires.json",
+      "sha256": "0237cb7dd1669c85f2eb7746f50342c7443d639258878dde0f97efcfa3bf66dd",
+      "bytes": 786516
+    },
+    {
+      "member": "default03/qa-tail-diag01/tires.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\tires.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/tires.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\tires.stdout.log",
+      "sha256": "cc302b43b80f6dab10680260d93e70a9e3437d4867a978b193e3f19257ea3eba",
+      "bytes": 229579
+    },
+    {
+      "member": "default03/qa-tail-diag01/wiper-containment.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\wiper-containment.json",
+      "sha256": "b6222ef8735b3606dae2306ec2172bd99fa8f393b2aa9f84c41c6454105aae84",
+      "bytes": 50955
+    },
+    {
+      "member": "default03/qa-tail-diag01/wiper-containment.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\wiper-containment.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/wiper-containment.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\wiper-containment.stdout.log",
+      "sha256": "fb7880c5dcc701f3f88d85c84a1a69a5e5ba418cc333fcd786fe740f6aae6ac1",
+      "bytes": 188
+    },
+    {
+      "member": "default03/qa-tail-diag01/wiper-glass.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\wiper-glass.json",
+      "sha256": "cc63d73a286af9f1d33970fdebd512bc7972ae38b34aa5aaa49a2cfd128428b8",
+      "bytes": 13914
+    },
+    {
+      "member": "default03/qa-tail-diag01/wiper-glass.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\wiper-glass.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/wiper-glass.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\wiper-glass.stdout.log",
+      "sha256": "14cc1aebd94e198fc5f1b55744f7b152e9d39687cece82fc882834c6d861e52b",
+      "bytes": 686
+    },
+    {
+      "member": "default03/qa-tail-diag01/wiper-interassembly.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\wiper-interassembly.json",
+      "sha256": "f1e536e21e5972c664627dfd87769cace23761f0397432df174efa1af08f3d6f",
+      "bytes": 22311522
+    },
+    {
+      "member": "default03/qa-tail-diag01/wiper-interassembly.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\wiper-interassembly.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/qa-tail-diag01/wiper-interassembly.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\qa-tail-diag01\\wiper-interassembly.stdout.log",
+      "sha256": "1759727b70baca7380ba089480448d1c5963f584fa401d90037b7968dc789a44",
+      "bytes": 10290
+    },
+    {
+      "member": "default03/runtime01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime01.log",
+      "sha256": "ff954bf4d795edef3eb9f37a7420efef978cc3269898a2ab6812f08b79c6b736",
+      "bytes": 941
+    },
+    {
+      "member": "default03/runtime02.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02.log",
+      "sha256": "9f74cc550b623054adcc52e38142213e984199d8865f49e74f184f2bea8818db",
+      "bytes": 301
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/engine.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\engine.log",
+      "sha256": "02cecbc4b033c489191347bb7d3907d48f62714ebb4c360c514ca54c00f4bb48",
+      "bytes": 3279
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/frames.jsonl",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\frames.jsonl",
+      "sha256": "fc8fe1417b0019b804f0ab967ba79ab3df051b4b808fa492ce45b2dd3a6eb0c7",
+      "bytes": 23273679
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/gate.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\gate.json",
+      "sha256": "5f16b930405a9b5da65ee8aaacebde31c49d0f0dc42813bf98f7e24bd680e15e",
+      "bytes": 1277
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/presentation/engine.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\presentation\\engine.log",
+      "sha256": "7144cc7d6c170d3a6c0b5c95622c898bc456cc0d84ed0f46a3da463edc66b088",
+      "bytes": 4713
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/presentation/gate.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\presentation\\gate.json",
+      "sha256": "68e508b91251475b413e11eca57143275b6030204de88ccf8be7b793b30e2cda",
+      "bytes": 2134
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/presentation/mirror-samples.jsonl",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\presentation\\mirror-samples.jsonl",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/presentation/presentation-frames.jsonl",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\presentation\\presentation-frames.jsonl",
+      "sha256": "9745dfa1b2b1d62140e7002c321742e02d4cf5a2be36f39f6103dfa4f26a336b",
+      "bytes": 66696898
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/presentation/presentation-summary.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\presentation\\presentation-summary.json",
+      "sha256": "db510812702f4ffd23dcd7f541706cd26ce2ec39d8c9dda98c08bb6060cfe352",
+      "bytes": 1008339
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/presentation/process.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\presentation\\process.json",
+      "sha256": "8be7a3cc5148ca2cd38ea9cb60eaa53abc8804861beac81e520d69232744d8b6",
+      "bytes": 198
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/presentation/run-save.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\presentation\\run-save.json",
+      "sha256": "3b99700af4f69924bbf8f5e0b50c337c89fe884c301347737e83a1dc88700d0d",
+      "bytes": 3775
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/presentation/transcript.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\presentation\\transcript.log",
+      "sha256": "5c6996b892196113abc0b106ec50de7228f8dcc14f00810e478ff61869aa32f7",
+      "bytes": 5396
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/process.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\process.json",
+      "sha256": "8be7a3cc5148ca2cd38ea9cb60eaa53abc8804861beac81e520d69232744d8b6",
+      "bytes": 198
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/run-save.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\run-save.json",
+      "sha256": "b8d3fd86ad035a58dee01f3cb0873c2d8f51879ab656ed631db0940731e02b9b",
+      "bytes": 4726
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/run-save.json.bak",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\run-save.json.bak",
+      "sha256": "deadcf8b8cc77212fe131d0bd4bff3c786c4109d50905633769d2ae22427d268",
+      "bytes": 4765
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/summary.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\summary.json",
+      "sha256": "a524ba840d8883df9665b6a08046969d1d9778433c9cd6ae71cf657b6e4ec463",
+      "bytes": 49496
+    },
+    {
+      "member": "default03/runtime02/endurance-sedan/transcript.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\endurance-sedan\\transcript.log",
+      "sha256": "75336ecfd9799e99c98f42acae39b621e941401cedac93b3dd642a4d4f9d5549",
+      "bytes": 3932
+    },
+    {
+      "member": "default03/runtime02/graybox/engine.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\graybox\\engine.log",
+      "sha256": "8f68f4b37ee68332b8bff505740904db6a5b1bf27523fc3c5aa378d8bebd1b3f",
+      "bytes": 3021
+    },
+    {
+      "member": "default03/runtime02/graybox/frames.jsonl",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\graybox\\frames.jsonl",
+      "sha256": "3c1f8baeae71016c72e4df3c71863d0655ae567fa6c4add622d410a106189642",
+      "bytes": 18309967
+    },
+    {
+      "member": "default03/runtime02/graybox/gate.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\graybox\\gate.json",
+      "sha256": "e0171a6d60b50e072208d45c0dae4fafef2a6ab10f9421c65f6d1e354c23876c",
+      "bytes": 1253
+    },
+    {
+      "member": "default03/runtime02/graybox/process.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\graybox\\process.json",
+      "sha256": "8be7a3cc5148ca2cd38ea9cb60eaa53abc8804861beac81e520d69232744d8b6",
+      "bytes": 198
+    },
+    {
+      "member": "default03/runtime02/graybox/run-save.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\graybox\\run-save.json",
+      "sha256": "1319837e3099410d6c605b1079f6af99d37ab5544e03c45f264e3f948c734540",
+      "bytes": 4747
+    },
+    {
+      "member": "default03/runtime02/graybox/run-save.json.bak",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\graybox\\run-save.json.bak",
+      "sha256": "13b17fe59158fdf125b64ef41c1dd4403d5724189f3cf93ae9bbb54883ef30b2",
+      "bytes": 4762
+    },
+    {
+      "member": "default03/runtime02/graybox/summary.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\graybox\\summary.json",
+      "sha256": "06a4de8773801ba6ec8c6226d595e02148bce509400ab809fe9ca6955e4f1f00",
+      "bytes": 20554
+    },
+    {
+      "member": "default03/runtime02/graybox/transcript.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\graybox\\transcript.log",
+      "sha256": "8930750b88f62ab0e0aa161f008820d52e09a22c38dffbe87cdb163d88586a1a",
+      "bytes": 3673
+    },
+    {
+      "member": "default03/runtime02/hero-gt/engine.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\hero-gt\\engine.log",
+      "sha256": "1641f7ac33e2b2538336d726344a013be646b9b79759546371517a8ad7447c37",
+      "bytes": 3021
+    },
+    {
+      "member": "default03/runtime02/hero-gt/frames.jsonl",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\hero-gt\\frames.jsonl",
+      "sha256": "050d431e60654a3f17c6579444814f65f0a0ab8e3a733225d451e95c12136102",
+      "bytes": 18332044
+    },
+    {
+      "member": "default03/runtime02/hero-gt/gate.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\hero-gt\\gate.json",
+      "sha256": "aafdb79fecb22a625c00a9e26cc40db37c6717caa068e29bff11f96fabf56ca2",
+      "bytes": 1253
+    },
+    {
+      "member": "default03/runtime02/hero-gt/process.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\hero-gt\\process.json",
+      "sha256": "8be7a3cc5148ca2cd38ea9cb60eaa53abc8804861beac81e520d69232744d8b6",
+      "bytes": 198
+    },
+    {
+      "member": "default03/runtime02/hero-gt/run-save.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\hero-gt\\run-save.json",
+      "sha256": "61be62e584d3bebf390897cae240358de4ddb39973f63cf45eda38cdcd02c819",
+      "bytes": 4723
+    },
+    {
+      "member": "default03/runtime02/hero-gt/run-save.json.bak",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\hero-gt\\run-save.json.bak",
+      "sha256": "9204a59c9858e4fc7bb9b9883c079191a596af7570fb34dafb8a3592b0a3d824",
+      "bytes": 4762
+    },
+    {
+      "member": "default03/runtime02/hero-gt/summary.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\hero-gt\\summary.json",
+      "sha256": "3f2411dd2fffa8faca733006a917d32386a07649c008784c2b6096a2838892b4",
+      "bytes": 43050
+    },
+    {
+      "member": "default03/runtime02/hero-gt/transcript.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\hero-gt\\transcript.log",
+      "sha256": "5fa3b656663dfc869bf3f5ead538e66d1504225cd5d185da0155a4c8919c96af",
+      "bytes": 3673
+    },
+    {
+      "member": "default03/runtime02/import-all/before.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\import-all\\before.json",
+      "sha256": "3de61e9ac6ebd9c4cef6044bde790fa15d94f8d759acbda1cd32950365ca42d0",
+      "bytes": 30607
+    },
+    {
+      "member": "default03/runtime02/import-all/build.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\import-all\\build.log",
+      "sha256": "470474ee626544eeb0a4bd71afa70e780d9d4b5f88ef04ec3fbe2dc57aa93384",
+      "bytes": 470
+    },
+    {
+      "member": "default03/runtime02/import-all/engine.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\import-all\\engine.log",
+      "sha256": "47a4c5347631679327a493e1d135270069f23e265e1ab8e878262c6ddd8428da",
+      "bytes": 746
+    },
+    {
+      "member": "default03/runtime02/import-all/gate.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\import-all\\gate.json",
+      "sha256": "f690c0db857c823c9f119959346c737025a67131771ef76495a45307d92c1760",
+      "bytes": 65385
+    },
+    {
+      "member": "default03/runtime02/import-all/transcript.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\runtime02\\import-all\\transcript.log",
+      "sha256": "16d15b5a73d4997c8466f00f149a826cbe3ea9c8065b8a8523b0a1db7dc895d2",
+      "bytes": 1038
+    },
+    {
+      "member": "default03/source-qa01.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01.log",
+      "sha256": "6dbadeebc917f51cc76425f0aa4036f3aa3e9532d2876cb9783436e88a82992b",
+      "bytes": 2359
+    },
+    {
+      "member": "default03/source-qa01/commands/01-extraction.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\01-extraction.json",
+      "sha256": "59183a8716d7575bba4b60d328a49a9f483662a544d3ac85a65a5b74ac0cc24f",
+      "bytes": 120968
+    },
+    {
+      "member": "default03/source-qa01/commands/01-extraction.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\01-extraction.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/01-extraction.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\01-extraction.stdout.log",
+      "sha256": "311ed7374c368188468348ee25c2d2cffa0191444a95b57859266aeb8cdbee7c",
+      "bytes": 375
+    },
+    {
+      "member": "default03/source-qa01/commands/02-historical-extraction.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\02-historical-extraction.json",
+      "sha256": "b0d3f268b81c68f693b93693d1194bdcf6bd81ee47995ccf8834a29dfea91d06",
+      "bytes": 121723
+    },
+    {
+      "member": "default03/source-qa01/commands/02-historical-extraction.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\02-historical-extraction.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/02-historical-extraction.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\02-historical-extraction.stdout.log",
+      "sha256": "55e976680bf56ad068233a46aa3d0b3095ef400772f46199e0550052292fc455",
+      "bytes": 410
+    },
+    {
+      "member": "default03/source-qa01/commands/03-historical-shoulder-field.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\03-historical-shoulder-field.json",
+      "sha256": "cff01f6824a5702a54ca7f9ee82c5e79953d66e9f0c0c848506cbb7faef63ede",
+      "bytes": 123364
+    },
+    {
+      "member": "default03/source-qa01/commands/03-historical-shoulder-field.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\03-historical-shoulder-field.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/03-historical-shoulder-field.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\03-historical-shoulder-field.stdout.log",
+      "sha256": "2c41bb4695474f90322fccc696eaebf65e46fbd1e0b8e1b7b010f1c628fb9f57",
+      "bytes": 843
+    },
+    {
+      "member": "default03/source-qa01/commands/04-current-front-field.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\04-current-front-field.json",
+      "sha256": "08f24fbc62f5b93d03b446e11d10c0c59349eba5e06b3be98023a01c93daed18",
+      "bytes": 123139
+    },
+    {
+      "member": "default03/source-qa01/commands/04-current-front-field.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\04-current-front-field.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/04-current-front-field.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\04-current-front-field.stdout.log",
+      "sha256": "0247da9ba7f24bb39755c3aac8af6bff2044919cf5ae66e76be1f23454e974d5",
+      "bytes": 607
+    },
+    {
+      "member": "default03/source-qa01/commands/05-distance-fields.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\05-distance-fields.json",
+      "sha256": "ef38f297268017d1774961d5dc1a38b93a195f4b24ba9735cb39811e1fe1c7d0",
+      "bytes": 123551
+    },
+    {
+      "member": "default03/source-qa01/commands/05-distance-fields.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\05-distance-fields.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/05-distance-fields.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\05-distance-fields.stdout.log",
+      "sha256": "cee6a0cec29300beb461330ba08e361ed782a4ff435553003733e819186c47fe",
+      "bytes": 438
+    },
+    {
+      "member": "default03/source-qa01/commands/06-self-intersections.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\06-self-intersections.json",
+      "sha256": "de6a3391a58ed467e3b209f60d1d2dfe98a70bc6c06110d055861aca7d5653ee",
+      "bytes": 123531
+    },
+    {
+      "member": "default03/source-qa01/commands/06-self-intersections.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\06-self-intersections.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/06-self-intersections.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\06-self-intersections.stdout.log",
+      "sha256": "404c5c8cb0cd987ec3d7ebab4c1a5bc13dbf6c87a2d9bc54fd6aec7b84e78cdf",
+      "bytes": 1129
+    },
+    {
+      "member": "default03/source-qa01/commands/07-self-controls.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\07-self-controls.json",
+      "sha256": "8af7caccb16f57fe65c730f44de68d74247d793f1b74f826a7d5c41061559c8e",
+      "bytes": 123795
+    },
+    {
+      "member": "default03/source-qa01/commands/07-self-controls.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\07-self-controls.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/07-self-controls.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\07-self-controls.stdout.log",
+      "sha256": "8f7529e4728e14393bb23828cfed29bdfeec28d5703106f773cdbde35c24faff",
+      "bytes": 2660
+    },
+    {
+      "member": "default03/source-qa01/commands/08-lod-self-intersections.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\08-lod-self-intersections.json",
+      "sha256": "ba69eaddd720d5336043722ea4635c8e60e1f6fb3b8049b3fd580e199490a840",
+      "bytes": 123850
+    },
+    {
+      "member": "default03/source-qa01/commands/08-lod-self-intersections.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\08-lod-self-intersections.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/08-lod-self-intersections.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\08-lod-self-intersections.stdout.log",
+      "sha256": "516c9e3ac315530c7930a731d1147745c29cd8b0c243c2f389a6567c824ca636",
+      "bytes": 17973
+    },
+    {
+      "member": "default03/source-qa01/commands/09-lod-self-controls.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\09-lod-self-controls.json",
+      "sha256": "3c43065485be1bd90e9a8ee10170cb78c6092092811960a29d36c6ee3399491a",
+      "bytes": 124119
+    },
+    {
+      "member": "default03/source-qa01/commands/09-lod-self-controls.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\09-lod-self-controls.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/09-lod-self-controls.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\09-lod-self-controls.stdout.log",
+      "sha256": "6001b3fedf3233c36f894597e1de65654974fae7936d4e62ef5aade3a43f040f",
+      "bytes": 914
+    },
+    {
+      "member": "default03/source-qa01/commands/10-source-controls.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\10-source-controls.json",
+      "sha256": "c3ceef8ff2fc02f67750ddccf77f0f127f195cc49895289b9cfb57086db0f502",
+      "bytes": 124229
+    },
+    {
+      "member": "default03/source-qa01/commands/10-source-controls.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\10-source-controls.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/10-source-controls.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\10-source-controls.stdout.log",
+      "sha256": "80bd52976494ee6bb8681b8f5c5a90d97b97c533afedd0e07db139d95be7da79",
+      "bytes": 270
+    },
+    {
+      "member": "default03/source-qa01/commands/11-source-lights.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\11-source-lights.json",
+      "sha256": "3bfb875c6e462dc140c26b644b1a1b7ec90133c59b3f3ef46c257950958e8fbb",
+      "bytes": 124425
+    },
+    {
+      "member": "default03/source-qa01/commands/11-source-lights.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\11-source-lights.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/11-source-lights.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\11-source-lights.stdout.log",
+      "sha256": "be0af1f1ddecad4b498a2ffb597d03e292ce4770182f61aea8a2c95ed1e1f7fb",
+      "bytes": 290
+    },
+    {
+      "member": "default03/source-qa01/commands/12-opening-drivers.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\12-opening-drivers.json",
+      "sha256": "d88176237db3cb2d1e6e194ef2f4c11fb54477655b9018e68f4b4c3bd80d6183",
+      "bytes": 124643
+    },
+    {
+      "member": "default03/source-qa01/commands/12-opening-drivers.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\12-opening-drivers.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/12-opening-drivers.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\12-opening-drivers.stdout.log",
+      "sha256": "5f400902a937740ca5c7f2142ccbb53bb135a1d7312e51a35b0107f17f17ef82",
+      "bytes": 296
+    },
+    {
+      "member": "default03/source-qa01/commands/13-motion-drivers.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\13-motion-drivers.json",
+      "sha256": "9ed8192dbcc732aceaee6f313d57edbfd688cf24b41998cf8f0434f4acaf4679",
+      "bytes": 124844
+    },
+    {
+      "member": "default03/source-qa01/commands/13-motion-drivers.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\13-motion-drivers.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/13-motion-drivers.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\13-motion-drivers.stdout.log",
+      "sha256": "722876c1d16515c5288d896bf8c774bea2d49edfa8f68ec833fdb0e573b9aa08",
+      "bytes": 283
+    },
+    {
+      "member": "default03/source-qa01/commands/14-repeated-detail.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\14-repeated-detail.json",
+      "sha256": "d50de3f32d0e72f46d404c6e90becbb5a4c1e36b8caf41fb110876b87f11acba",
+      "bytes": 126714
+    },
+    {
+      "member": "default03/source-qa01/commands/14-repeated-detail.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\14-repeated-detail.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/14-repeated-detail.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\14-repeated-detail.stdout.log",
+      "sha256": "422a8e78cbe2376da6e3f574d67fd210754833421e84be2da002c265cbfa4e38",
+      "bytes": 610
+    },
+    {
+      "member": "default03/source-qa01/commands/15-optical-seats.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\15-optical-seats.json",
+      "sha256": "a312647db7ff3c9c6fd71d7cf4f772b18ee99c5a2c24aaab3d447a714dc0c19d",
+      "bytes": 125691
+    },
+    {
+      "member": "default03/source-qa01/commands/15-optical-seats.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\15-optical-seats.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/15-optical-seats.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\15-optical-seats.stdout.log",
+      "sha256": "b9f537dffebded26cce35f40db2c8ff86827815b2fdc65374ffe44530c4960f3",
+      "bytes": 150
+    },
+    {
+      "member": "default03/source-qa01/commands/16-finish-interfaces.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\16-finish-interfaces.json",
+      "sha256": "368a1ae6e62f55247a02cb8792a7d49547f68d8c800dc6ac0774a77c2c4fd6f7",
+      "bytes": 125930
+    },
+    {
+      "member": "default03/source-qa01/commands/16-finish-interfaces.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\16-finish-interfaces.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/16-finish-interfaces.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\16-finish-interfaces.stdout.log",
+      "sha256": "03a558bb2f20a6673d5d90bdc31b3c6b253f63294c64ad87c6eb0a1e06c5e36e",
+      "bytes": 7750
+    },
+    {
+      "member": "default03/source-qa01/commands/17-cupholder-interfaces.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\17-cupholder-interfaces.json",
+      "sha256": "20db774c33d548db8302675d5f9e9440654ec0937846cdc65a30a0bebf5587ae",
+      "bytes": 126148
+    },
+    {
+      "member": "default03/source-qa01/commands/17-cupholder-interfaces.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\17-cupholder-interfaces.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/17-cupholder-interfaces.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\17-cupholder-interfaces.stdout.log",
+      "sha256": "af8b53bbac7b82b48fcf40c686ae3d89d9357e0dde385d4410bd7fa8ee2c2a88",
+      "bytes": 344
+    },
+    {
+      "member": "default03/source-qa01/commands/18-valance-cover.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\18-valance-cover.json",
+      "sha256": "677a987373833d4c9483432abe1411cee8b82fcca0cb675676c3196951f4a4d6",
+      "bytes": 127455
+    },
+    {
+      "member": "default03/source-qa01/commands/18-valance-cover.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\18-valance-cover.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/18-valance-cover.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\18-valance-cover.stdout.log",
+      "sha256": "cbce39441b761ac0cb75a3603bac87696bb6e27b16aaa5e54a83cf2442585201",
+      "bytes": 1525
+    },
+    {
+      "member": "default03/source-qa01/commands/19-static-interfaces.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\19-static-interfaces.json",
+      "sha256": "b1ecaa421517f09c9f41b77c16d09454f01f41f16ff4430d0b2295e69f7bf3bb",
+      "bytes": 127839
+    },
+    {
+      "member": "default03/source-qa01/commands/19-static-interfaces.stderr.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\19-static-interfaces.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "member": "default03/source-qa01/commands/19-static-interfaces.stdout.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\commands\\19-static-interfaces.stdout.log",
+      "sha256": "8fac2787a1e0e35a5e54d7f3c4f8cdc7165f648c5dcf1a64c51881cb53e96db8",
+      "bytes": 19735
+    },
+    {
+      "member": "default03/source-qa01/evidence.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\source-qa01\\evidence.json",
+      "sha256": "3ae0b1563146f7c0c951a987b61749f9d6e231887cd0013e0c5c731c55dc6e77",
+      "bytes": 588624
+    },
+    {
+      "member": "environment/install_source_package.py",
+      "source": "C:\\Dev\\scratch\\install_source_package.py",
+      "sha256": "9430bfaae2bb820949e06285485c0a6adb26d1dac55c486a90f107c4bbe39d15",
+      "bytes": 3916
+    },
+    {
+      "member": "environment/uv-shim",
+      "source": "C:\\Dev\\scratch\\uvshim\\uv",
+      "sha256": "e47d0ea50d315c6d883ac05c07d5cfbbad59f24793122fc7f7b1783c8f9f22a6",
+      "bytes": 1039
+    },
+    {
+      "member": "m0/doctor.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545
+    },
+    {
+      "member": "m0/dotnet/core-tests.trx",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\dotnet\\core-tests.trx",
+      "sha256": "7b8cd2d01c96710ff6c08a26620fe4bd2447100be51cc54b36ead9a6ee5ab03c",
+      "bytes": 235382
+    },
+    {
+      "member": "m0/godot/godot.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\godot\\godot.log",
+      "sha256": "759b3d1d104ea3159fb22248d3eccecc67bc5c6745b2691f50459e1c2affe249",
+      "bytes": 691
+    },
+    {
+      "member": "m0/godot/managed-shutdown/runtime.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\godot\\managed-shutdown\\runtime.log",
+      "sha256": "e1dca54bc04503c99597e1c5ee9b221b52e5997efca033228237c67f3622c14e",
+      "bytes": 1503
+    },
+    {
+      "member": "m0/godot/managed-shutdown/summary.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\godot\\managed-shutdown\\summary.json",
+      "sha256": "5199d371e30ce169a97cdbbf85ad20d303b28e73c842e328ba155a4bc381430c",
+      "bytes": 351
+    },
+    {
+      "member": "m0/godot/scenario.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\godot\\scenario.json",
+      "sha256": "86937fdd43e64f22acd081f4aed63e11cb7647936f54f9ea4e31a1831dc808c0",
+      "bytes": 189
+    },
+    {
+      "member": "m0/godot/starter-speed.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\godot\\starter-speed.json",
+      "sha256": "dc4d32b852092b69a3044fa6101a8ec9197e18d75d548fef62c5253a52aa2ae0",
+      "bytes": 6057
+    },
+    {
+      "member": "m0/logs/camera-interpolation.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\camera-interpolation.log",
+      "sha256": "412aedfb7cb14257d14f1517bb64d016ca6bb134d8f092d05fde73d0e7889291",
+      "bytes": 233
+    },
+    {
+      "member": "m0/logs/continental-route.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\continental-route.log",
+      "sha256": "b6d849612dc6360b7410bda3ba3ceac7646512c09d2fdbb875b38b2eaf709c70",
+      "bytes": 2213
+    },
+    {
+      "member": "m0/logs/doctor.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\doctor.log",
+      "sha256": "9626f88c89c79830467fe0ae9645cabad24b8b2f64aeb62425522d0a5890cd2d",
+      "bytes": 379
+    },
+    {
+      "member": "m0/logs/dotnet-build.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\dotnet-build.log",
+      "sha256": "c59d82d906597e0f3267bc670254417bfe3f1d27ae1212c91a329b02b60a001e",
+      "bytes": 470
+    },
+    {
+      "member": "m0/logs/dotnet-test.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\dotnet-test.log",
+      "sha256": "ddb1061bcffcd3f1f94edaa01d533e66dcd8fb3ff20561c039deb3ad1196b025",
+      "bytes": 387
+    },
+    {
+      "member": "m0/logs/frame-allocations.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\frame-allocations.log",
+      "sha256": "1fb668e8dfc00678638d88cf9241472749abefb243ea12151ce5669b6f8fa859",
+      "bytes": 56
+    },
+    {
+      "member": "m0/logs/godot-smoke.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\godot-smoke.log",
+      "sha256": "050cb0dbf8b6201ecbf9666bf5b6500f6ae3ad26d540e5dcb7b9a8e583e76c11",
+      "bytes": 1313
+    },
+    {
+      "member": "m0/logs/managed-shutdown.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\managed-shutdown.log",
+      "sha256": "80225d5ccf63c28c581624e3a1d1af8cf8e94b83f8d1b840764024b66f3aadb6",
+      "bytes": 1824
+    },
+    {
+      "member": "m0/logs/pytest-map-pipeline.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\pytest-map-pipeline.log",
+      "sha256": "2ced95075d75d31cf35ada5dc3b84379aea81519a796817f3cb16aa85f590330",
+      "bytes": 111403
+    },
+    {
+      "member": "m0/logs/pytest-playgodot-unit.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\pytest-playgodot-unit.log",
+      "sha256": "e470d424adfb0d38b4a781274896540996b9c2f2b3fbce86d71a8a9be885a9a0",
+      "bytes": 681
+    },
+    {
+      "member": "m0/logs/release-smoke-unit.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\release-smoke-unit.log",
+      "sha256": "f9e775bea0dc170450a38a460459d721ab225c65e4747f1c44b197e35fbb130f",
+      "bytes": 436
+    },
+    {
+      "member": "m0/logs/ruff.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "member": "m0/logs/starter-speed.log",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\logs\\starter-speed.log",
+      "sha256": "773ca070c9cbb6a8b2b96c34bd33017f13c037cd53dc1ca14f1aaad6b1937761",
+      "bytes": 4050
+    },
+    {
+      "member": "m0/python/junit.xml",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\python\\junit.xml",
+      "sha256": "006c6f5bb6511d1662b86f754a396f5efb43614265cd78f0d2190f409b7ee938",
+      "bytes": 160401
+    },
+    {
+      "member": "m0/python/playgodot-unit.xml",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\python\\playgodot-unit.xml",
+      "sha256": "af6e8bfeb557997e5d42d00e0273acdb4ad0a03e5b4a10e4190d7519f5b4910a",
+      "bytes": 34328
+    },
+    {
+      "member": "m0/summary.json",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\m0\\summary.json",
+      "sha256": "5d432f64b31c6de703b2168b9c9140e176713147e8eea500833bf767d57485bf",
+      "bytes": 1482
+    },
+    {
+      "member": "mirror/default03-fixed-01",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\mirrorfix01\\mirror-material\\native.json",
+      "sha256": "ecc8fc39b8d1a745ce22f7dd953013343713b4cd532e33f19ced1ee0610296c9",
+      "bytes": 100780
+    },
+    {
+      "member": "mirror/default03-racy-02",
+      "source": "C:\\Dev\\cv-sedan-finish\\reports\\p1-018\\claude-default03\\mirror02\\mirror-material\\native.json",
+      "sha256": "8ec989062017bf355676a38a9835f1132794f853424f4d57a41f4018e72ffaab",
+      "bytes": 100855
+    },
+    {
+      "member": "mirror/production34-fixed-01",
+      "source": "C:\\Dev\\cv-sedan-build\\reports\\mirrorfix-p34-01\\mirror-material\\native.json",
+      "sha256": "b6a6c8e212b6c744e784ec6fed2d44ba71c2ae2c35b4232ffadae541f41efa74",
+      "bytes": 100780
+    },
+    {
+      "member": "mirror/production34-racy-01",
+      "source": "C:\\Dev\\cv-sedan-build\\reports\\mirror-p34-01\\mirror-material\\native.json",
+      "sha256": "641a80c6a94df873b12062aa7cee84e89f773100a79ad295a373d4fd47f700a2",
+      "bytes": 100879
+    }
+  ]
+}

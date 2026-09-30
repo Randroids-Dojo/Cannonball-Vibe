@@ -1,0 +1,201 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T17:02:58.573418+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/runtime-history01-parts/part-06.manifest.json",
+    "sha256": "3e92652e61fef70d0c629a300faa1a2dff4c7f64c4c03ca378cc7029a2fd94bc"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/runtime/synthetic-presenter-06/presentation/presentation-frames.jsonl",
+      "sha256": "45a6f4b068a921c3f88fffbf5654aea8dc2d3ca94404a5f7285149c6228d77ad",
+      "bytes": 42007041,
+      "reason": "raw per-frame telemetry or event trace; synthetic presenter contract diagnostic; no production-geometry acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/synthetic-presenter-06/presentation/presentation-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/synthetic-presenter-06/presentation/presentation-summary.json",
+      "sha256": "be8b11993817d759b09e8bbd2976755d6ff34263670c102c29616e9bf42af094",
+      "bytes": 723817,
+      "reason": "structured command, input, metric, failure or comparison record; synthetic presenter contract diagnostic; no production-geometry acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/synthetic-presenter-06/presentation/presentation-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/synthetic-presenter-06/runner-input.py",
+      "sha256": "7e79829df18ac999585c444714886e4c802433f5829665ae498628266ad84b84",
+      "bytes": 10583,
+      "reason": "reproducible Python recipe; synthetic presenter contract diagnostic; no production-geometry acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/synthetic-presenter-06/runner-input.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/synthetic-presenter-06/synthetic-fixture.patch",
+      "sha256": "0648e6480b87ded0584b8e565a45c9c33063893c3a1b503fd188c1100a2a8715",
+      "bytes": 1486,
+      "reason": "exact isolated mutation patch; synthetic presenter contract diagnostic; no production-geometry acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/synthetic-presenter-06/synthetic-fixture.patch"
+    },
+    {
+      "path": "reports/p1-018/runtime/synthetic-presenter-06/telemetry.jsonl",
+      "sha256": "dff60a5e85cbd04a5b19a91803cf5ae7e3988220c4bed4dd7752b161d349ea12",
+      "bytes": 6190,
+      "reason": "raw per-frame telemetry or event trace; synthetic presenter contract diagnostic; no production-geometry acceptance",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/synthetic-presenter-06/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/toolchain-research/blender-5.1.2.sha256",
+      "sha256": "c6b5f44c26582e8881da482a3e796a738ea2ddb6cc767d4f07433eb758745a9c",
+      "bytes": 777,
+      "reason": "retained diagnostic input or recipe; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/toolchain-research/blender-5.1.2.sha256"
+    },
+    {
+      "path": "reports/p1-018/runtime/toolchain-research/validate-workflow.py",
+      "sha256": "738fb4d0ec482bd92802c0289240730603ef7725bc807f7121905de4f2ffda42",
+      "bytes": 1483,
+      "reason": "reproducible Python recipe; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/toolchain-research/validate-workflow.py"
+    },
+    {
+      "path": "reports/p1-018/runtime/toolchain-research/workflow-parse.json",
+      "sha256": "fa6827647b544b23c879fe4c3b768bf29e3273c0faff479aad0f9a3c38f283d4",
+      "bytes": 648,
+      "reason": "structured command, input, metric, failure or comparison record; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/toolchain-research/workflow-parse.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T045831.676380Z-ruff.json",
+      "sha256": "3278809116cdb15c39f56673aa786b488bc5e053fb43556783d3ae3474f2279a",
+      "bytes": 1307,
+      "reason": "structured command, input, metric, failure or comparison record; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T045831.676380Z-ruff.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T045831.676380Z-ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "reason": "exact retained command or engine log; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T045831.676380Z-ruff.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T050328.736353Z-launcher-unit.json",
+      "sha256": "4921f0b1d9b4478d21afd82b2b2c69029e8f0664e04f4c3bb0be9d2cc21704f8",
+      "bytes": 1049,
+      "reason": "structured command, input, metric, failure or comparison record; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T050328.736353Z-launcher-unit.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T050328.736353Z-launcher-unit.log",
+      "sha256": "45bfa02eb2bcc205181c91eac5bc5d585a911d72bcfda4459f29db25af6b48c9",
+      "bytes": 81,
+      "reason": "exact retained command or engine log; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T050328.736353Z-launcher-unit.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T050328.736375Z-build.json",
+      "sha256": "02808b9eb3b2b5937dd3e6cf4577657d1d1027f6bda8bc8f151dfcde343026ee",
+      "bytes": 1116,
+      "reason": "structured command, input, metric, failure or comparison record; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T050328.736375Z-build.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T050328.736375Z-build.log",
+      "sha256": "432b4bb1665b0c49ab5af56b74d4488dcb9044e363897809266f3a20ec7d8984",
+      "bytes": 360,
+      "reason": "exact retained command or engine log; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T050328.736375Z-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T050414.943551Z-ruff-final.json",
+      "sha256": "0bf46684e38d03cf3fc7fab9816a8f475a900b15ea646dd31b663dd9eb8f7e0e",
+      "bytes": 1313,
+      "reason": "structured command, input, metric, failure or comparison record; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T050414.943551Z-ruff-final.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T051122.932849Z-ruff-after-native.json",
+      "sha256": "d436e923613c23b266aae0072b50b62015807d50f4cc120317f0463087f159b9",
+      "bytes": 1139,
+      "reason": "structured command, input, metric, failure or comparison record; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T051122.932849Z-ruff-after-native.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T051122.932849Z-ruff-after-native.log",
+      "sha256": "ce0faed588c6f890915e11dcefa1f1a77ab269fb7ceeab65cd59d685a1561e73",
+      "bytes": 1368,
+      "reason": "exact retained command or engine log; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T051122.932849Z-ruff-after-native.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T051140.045857Z-ruff-after-native-corrected.json",
+      "sha256": "60672d288faa0c100314d0aa6ff8c85c48d330909c3349f344cc99dd7da3b0f8",
+      "bytes": 1149,
+      "reason": "structured command, input, metric, failure or comparison record; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T051140.045857Z-ruff-after-native-corrected.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T051140.045857Z-ruff-after-native-corrected.log",
+      "sha256": "2498c7b0a79f5dcec15fae31141df8605d0345bb7ac2a574ac1749a20a3da4eb",
+      "bytes": 514,
+      "reason": "exact retained command or engine log; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T051140.045857Z-ruff-after-native-corrected.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/ui-source-checks/20260911T051152.313322Z-ruff-after-native-03.json",
+      "sha256": "cdcb02cafda0c746fdf94878021b377aa013d23307a96a10051b0108c6ff3cfb",
+      "bytes": 1142,
+      "reason": "structured command, input, metric, failure or comparison record; historical runtime diagnostic",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/ui-source-checks/20260911T051152.313322Z-ruff-after-native-03.json"
+    },
+    {
+      "path": "tools/vehicles/endurance_sedan/partition_evidence.py",
+      "bytes": 5693,
+      "sha256": "e7b0aa7b71231eb02c034e930ecb3cf3a4ed0c97a2bb586793cab55de97ee1fe",
+      "reason": "Exact deterministic partition recipe"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history01-part-06.zip",
+      "sha256": "f774e01dfa099ebd7c250b647dae9bbf8f6ba0544081d335072340be06205ea3",
+      "bytes": 486624,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention/runtime-history01-part-06-repeat.zip",
+      "sha256": "f774e01dfa099ebd7c250b647dae9bbf8f6ba0544081d335072340be06205ea3",
+      "bytes": 486624,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T17:02:59.145348+00:00"
+}

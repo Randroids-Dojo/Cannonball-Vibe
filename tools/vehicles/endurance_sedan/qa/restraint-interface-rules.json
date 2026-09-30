@@ -1,0 +1,884 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "specification_revision": 17,
+  "numerical_guard_m": 1e-06,
+  "nonmating_gap_m": 0.001,
+  "selected_components": [
+    "LOD0_FrontBeltGuide_-1",
+    "LOD0_FrontBeltGuide_1",
+    "LOD0_FrontBeltLowerGuide_-1",
+    "LOD0_FrontBeltLowerGuide_1",
+    "LOD0_FrontBeltTongue_-1",
+    "LOD0_FrontBeltTongue_1",
+    "LOD0_FrontBeltWeb_-1",
+    "LOD0_FrontBeltWeb_1",
+    "LOD0_RearBeltGuide_-1",
+    "LOD0_RearBeltGuide_1",
+    "LOD0_RearBeltLowerClamp_-1",
+    "LOD0_RearBeltLowerClamp_1",
+    "LOD0_RearBeltLowerPlate_-1",
+    "LOD0_RearBeltLowerPlate_1",
+    "LOD0_RearBeltTongue_-1",
+    "LOD0_RearBeltTongue_1",
+    "LOD0_RearBeltWeb_-1",
+    "LOD0_RearBeltWeb_1",
+    "LOD0_RearCenterBelt",
+    "LOD0_RearCenterBeltBuckle",
+    "LOD0_RearCenterBeltGuide",
+    "LOD0_RearCenterBeltLowerClamp",
+    "LOD0_RearCenterBeltLowerPlate",
+    "LOD0_RearCenterBeltRelease",
+    "LOD0_RearCenterBeltTongue",
+    "LOD0_RearCenterBuckleLowerClamp",
+    "LOD0_RearCenterBuckleLowerPlate",
+    "LOD0_RearCenterBuckleWeb"
+  ],
+  "rules": [
+    {
+      "pair": [
+        "LOD0_PillarC_L",
+        "LOD0_RearBeltGuide_-1"
+      ],
+      "purpose": "Small upper guide mounted inside the existing C-pillar, bounded by its own molded cover.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7304999828338623,
+          -1.5045000314712524,
+          1.188999891281128
+        ],
+        "high_m": [
+          -0.6775000095367432,
+          -1.4854999780654907,
+          1.2269999980926514
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltGuide_-1",
+        "LOD0_RearBeltWeb_-1"
+      ],
+      "purpose": "Stowed upper cloth end gripped within the guide cover.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7304999828338623,
+          -1.5045000314712524,
+          1.188999891281128
+        ],
+        "high_m": [
+          -0.6775000095367432,
+          -1.4854999780654907,
+          1.2269999980926514
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_PillarC_L",
+        "LOD0_RearBeltWeb_-1"
+      ],
+      "purpose": "Cloth endpoint can enter the pillar only within the declared upper guide housing.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7304999828338623,
+          -1.5045000314712524,
+          1.188999891281128
+        ],
+        "high_m": [
+          -0.6775000095367432,
+          -1.4854999780654907,
+          1.2269999980926514
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltTongue_-1",
+        "LOD0_RearBeltWeb_-1"
+      ],
+      "purpose": "Tongue back face lies on the web front surface; no solid intrusion.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7224999666213989,
+          -1.127959966659546,
+          0.6346399784088135
+        ],
+        "high_m": [
+          -0.6855000257492065,
+          -1.0990400314331055,
+          0.6713600158691406
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltLowerPlate_-1",
+        "LOD0_RearLRailBase"
+      ],
+      "purpose": "Short lower steel tab welded into the existing metal rail, finite tab/rail overlap.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.6175,
+          -0.8975,
+          0.317
+        ],
+        "high_m": [
+          -0.585,
+          -0.865,
+          0.325
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltLowerPlate_-1",
+        "LOD0_RearBeltWeb_-1"
+      ],
+      "purpose": "Cloth bottom cap seated at the metal tab top plane Z .325.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7264999747276306,
+          -1.5007400512695312,
+          0.32499998807907104
+        ],
+        "high_m": [
+          -0.6815000176429749,
+          -0.878000020980835,
+          1.2109860181808472
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltLowerClamp_-1",
+        "LOD0_RearBeltWeb_-1"
+      ],
+      "purpose": "Four web sides seat in the actual rectangular throat; no cloth-metal solid intrusion.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7264999747276306,
+          -1.5007400512695312,
+          0.32499998807907104
+        ],
+        "high_m": [
+          -0.6815000176429749,
+          -0.878000020980835,
+          1.2109860181808472
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltLowerClamp_-1",
+        "LOD0_RearBeltLowerPlate_-1"
+      ],
+      "purpose": "Clamp lower rim seats on tab top plane Z .325.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7304999828338623,
+          -0.8859999775886536,
+          0.32499998807907104
+        ],
+        "high_m": [
+          -0.6775000095367432,
+          -0.8740000128746033,
+          0.3529999852180481
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_FrontBeltGuide_-1",
+        "LOD0_PillarB_L"
+      ],
+      "purpose": "Finite upper cover attachment to original B-pillar.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7224999666213989,
+          -0.6235000491142273,
+          1.1359999179840088
+        ],
+        "high_m": [
+          -0.6694999933242798,
+          -0.6044999957084656,
+          1.1740000247955322
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_FrontBeltLowerGuide_-1",
+        "LOD0_PillarB_L"
+      ],
+      "purpose": "Finite lower anchor cover attachment to original B-pillar.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7634999752044678,
+          -0.6235000491142273,
+          0.42100000381469727
+        ],
+        "high_m": [
+          -0.7105000019073486,
+          -0.6044999957084656,
+          0.45899999141693115
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_FrontBeltGuide_-1",
+        "LOD0_FrontBeltWeb_-1"
+      ],
+      "purpose": "Upper stowed cloth endpoint held within guide cover.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7224999666213989,
+          -0.6235000491142273,
+          1.1359999179840088
+        ],
+        "high_m": [
+          -0.6694999933242798,
+          -0.6044999957084656,
+          1.1740000247955322
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_FrontBeltLowerGuide_-1",
+        "LOD0_FrontBeltWeb_-1"
+      ],
+      "purpose": "Lower stowed cloth endpoint held within anchor cover.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7634999752044678,
+          -0.6235000491142273,
+          0.42100000381469727
+        ],
+        "high_m": [
+          -0.7105000019073486,
+          -0.6044999957084656,
+          0.45899999141693115
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_FrontBeltTongue_-1",
+        "LOD0_FrontBeltWeb_-1"
+      ],
+      "purpose": "Tongue +Y face seats on web -Y face; no solid intrusion.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.7459546327590942,
+          -0.6299999952316284,
+          0.6026151776313782
+        ],
+        "high_m": [
+          -0.7067139148712158,
+          -0.6239999532699585,
+          0.6493847966194153
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_PillarC_R",
+        "LOD0_RearBeltGuide_1"
+      ],
+      "purpose": "Small upper guide mounted inside the existing C-pillar, bounded by its own molded cover.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.6775000095367432,
+          -1.5045000314712524,
+          1.188999891281128
+        ],
+        "high_m": [
+          0.7304999828338623,
+          -1.4854999780654907,
+          1.2269999980926514
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltGuide_1",
+        "LOD0_RearBeltWeb_1"
+      ],
+      "purpose": "Stowed upper cloth end gripped within the guide cover.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.6775000095367432,
+          -1.5045000314712524,
+          1.188999891281128
+        ],
+        "high_m": [
+          0.7304999828338623,
+          -1.4854999780654907,
+          1.2269999980926514
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_PillarC_R",
+        "LOD0_RearBeltWeb_1"
+      ],
+      "purpose": "Cloth endpoint can enter the pillar only within the declared upper guide housing.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.6775000095367432,
+          -1.5045000314712524,
+          1.188999891281128
+        ],
+        "high_m": [
+          0.7304999828338623,
+          -1.4854999780654907,
+          1.2269999980926514
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltTongue_1",
+        "LOD0_RearBeltWeb_1"
+      ],
+      "purpose": "Tongue back face lies on the web front surface; no solid intrusion.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.6855000257492065,
+          -1.127959966659546,
+          0.6346399784088135
+        ],
+        "high_m": [
+          0.7224999666213989,
+          -1.0990400314331055,
+          0.6713600158691406
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltLowerPlate_1",
+        "LOD0_RearRRailBase"
+      ],
+      "purpose": "Short lower steel tab welded into the existing metal rail, finite tab/rail overlap.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.585,
+          -0.8975,
+          0.317
+        ],
+        "high_m": [
+          0.6175,
+          -0.865,
+          0.325
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltLowerPlate_1",
+        "LOD0_RearBeltWeb_1"
+      ],
+      "purpose": "Cloth bottom cap seated at the metal tab top plane Z .325.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.6815000176429749,
+          -1.5007400512695312,
+          0.32499998807907104
+        ],
+        "high_m": [
+          0.7264999747276306,
+          -0.878000020980835,
+          1.2109860181808472
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltLowerClamp_1",
+        "LOD0_RearBeltWeb_1"
+      ],
+      "purpose": "Four web sides seat in the actual rectangular throat; no cloth-metal solid intrusion.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.6815000176429749,
+          -1.5007400512695312,
+          0.32499998807907104
+        ],
+        "high_m": [
+          0.7264999747276306,
+          -0.878000020980835,
+          1.2109860181808472
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearBeltLowerClamp_1",
+        "LOD0_RearBeltLowerPlate_1"
+      ],
+      "purpose": "Clamp lower rim seats on tab top plane Z .325.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.6775000095367432,
+          -0.8859999775886536,
+          0.32499998807907104
+        ],
+        "high_m": [
+          0.7304999828338623,
+          -0.8740000128746033,
+          0.3529999852180481
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_FrontBeltGuide_1",
+        "LOD0_PillarB_R"
+      ],
+      "purpose": "Finite upper cover attachment to original B-pillar.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.6694999933242798,
+          -0.6235000491142273,
+          1.1359999179840088
+        ],
+        "high_m": [
+          0.7224999666213989,
+          -0.6044999957084656,
+          1.1740000247955322
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_FrontBeltLowerGuide_1",
+        "LOD0_PillarB_R"
+      ],
+      "purpose": "Finite lower anchor cover attachment to original B-pillar.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.7105000019073486,
+          -0.6235000491142273,
+          0.42100000381469727
+        ],
+        "high_m": [
+          0.7634999752044678,
+          -0.6044999957084656,
+          0.45899999141693115
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_FrontBeltGuide_1",
+        "LOD0_FrontBeltWeb_1"
+      ],
+      "purpose": "Upper stowed cloth endpoint held within guide cover.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.6694999933242798,
+          -0.6235000491142273,
+          1.1359999179840088
+        ],
+        "high_m": [
+          0.7224999666213989,
+          -0.6044999957084656,
+          1.1740000247955322
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_FrontBeltLowerGuide_1",
+        "LOD0_FrontBeltWeb_1"
+      ],
+      "purpose": "Lower stowed cloth endpoint held within anchor cover.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.7105000019073486,
+          -0.6235000491142273,
+          0.42100000381469727
+        ],
+        "high_m": [
+          0.7634999752044678,
+          -0.6044999957084656,
+          0.45899999141693115
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_FrontBeltTongue_1",
+        "LOD0_FrontBeltWeb_1"
+      ],
+      "purpose": "Tongue +Y face seats on web -Y face; no solid intrusion.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.7067139148712158,
+          -0.6299999952316284,
+          0.6026151776313782
+        ],
+        "high_m": [
+          0.7459546327590942,
+          -0.6239999532699585,
+          0.6493847966194153
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBack",
+        "LOD0_RearCenterBeltGuide"
+      ],
+      "purpose": "Center guide rear face seats on actual flat back face Y -1.238.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.07349999994039536,
+          -1.2380000352859497,
+          1.0059999227523804
+        ],
+        "high_m": [
+          0.1264999955892563,
+          -1.218999981880188,
+          1.0440000295639038
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBelt",
+        "LOD0_RearCenterBeltGuide"
+      ],
+      "purpose": "Center upper cloth end held inside its guide cover.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.07349999994039536,
+          -1.2380000352859497,
+          1.0059999227523804
+        ],
+        "high_m": [
+          0.1264999955892563,
+          -1.218999981880188,
+          1.0440000295639038
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBelt",
+        "LOD0_RearCenterBeltTongue"
+      ],
+      "purpose": "Center tongue rear plane seats on the actual web front plane.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.08150000125169754,
+          -1.2289173603057861,
+          0.6973860263824463
+        ],
+        "high_m": [
+          0.1185000017285347,
+          -1.2220635414123535,
+          0.7424013614654541
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBuckleWeb",
+        "LOD0_RearCenterCushion"
+      ],
+      "purpose": "Stowed buckle branch rests on cushion top Z .509 without penetration.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.18800000846385956,
+          -1.0875000953674316,
+          0.34299999475479126
+        ],
+        "high_m": [
+          -0.08749999850988388,
+          -0.9434999823570251,
+          0.5179999470710754
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBeltBuckle",
+        "LOD0_RearCenterBuckleWeb"
+      ],
+      "purpose": "Buckle bottom seats on web top Z .513.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.1185000017285347,
+          -1.0164999961853027,
+          0.512999951839447
+        ],
+        "high_m": [
+          -0.08150000125169754,
+          -0.9435000419616699,
+          0.5600000023841858
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBeltBuckle",
+        "LOD0_RearCenterBeltRelease"
+      ],
+      "purpose": "Release seats on buckle front face Y -.9435.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.11300000548362732,
+          -0.9434999823570251,
+          0.5199999809265137
+        ],
+        "high_m": [
+          -0.08699999749660492,
+          -0.9404999613761902,
+          0.5529999732971191
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBeltLowerPlate",
+        "LOD0_RearRRailBase"
+      ],
+      "purpose": "Center restraint tab welded to existing metal rail beneath the cushion gap.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.2425,
+          -1.1075,
+          0.331
+        ],
+        "high_m": [
+          0.267,
+          -1.0425,
+          0.343
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBelt",
+        "LOD0_RearCenterBeltLowerPlate"
+      ],
+      "purpose": "Web bottom cap seats on tab top Z .343.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.07750000059604645,
+          -1.2360121011734009,
+          0.34299999475479126
+        ],
+        "high_m": [
+          0.18800000846385956,
+          -1.0525000095367432,
+          1.0250425338745117
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBelt",
+        "LOD0_RearCenterBeltLowerClamp"
+      ],
+      "purpose": "Web sides seat within actual 4 mm narrow partition throat; no solid intrusion.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.07750000059604645,
+          -1.2360121011734009,
+          0.34299999475479126
+        ],
+        "high_m": [
+          0.18800000846385956,
+          -1.0525000095367432,
+          1.0250425338745117
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBeltLowerClamp",
+        "LOD0_RearCenterBeltLowerPlate"
+      ],
+      "purpose": "Clamp lower rim seats on tab top Z .343.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          0.18299999833106995,
+          -1.1015000343322754,
+          0.34299999475479126
+        ],
+        "high_m": [
+          0.1889999955892563,
+          -1.0484999418258667,
+          0.3709999918937683
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBuckleLowerPlate",
+        "LOD0_RearLRailBase"
+      ],
+      "purpose": "Center restraint tab welded to existing metal rail beneath the cushion gap.",
+      "solid_policy": "finite_modeled_attachment",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.267,
+          -1.1075,
+          0.331
+        ],
+        "high_m": [
+          -0.2425,
+          -1.0425,
+          0.343
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBuckleLowerPlate",
+        "LOD0_RearCenterBuckleWeb"
+      ],
+      "purpose": "Web bottom cap seats on tab top Z .343.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.18800000846385956,
+          -1.0875000953674316,
+          0.34299999475479126
+        ],
+        "high_m": [
+          -0.08749999850988388,
+          -0.9434999823570251,
+          0.5179999470710754
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBuckleLowerClamp",
+        "LOD0_RearCenterBuckleWeb"
+      ],
+      "purpose": "Web sides seat within actual 4 mm narrow partition throat; no solid intrusion.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.18800000846385956,
+          -1.0875000953674316,
+          0.34299999475479126
+        ],
+        "high_m": [
+          -0.08749999850988388,
+          -0.9434999823570251,
+          0.5179999470710754
+        ]
+      }
+    },
+    {
+      "pair": [
+        "LOD0_RearCenterBuckleLowerClamp",
+        "LOD0_RearCenterBuckleLowerPlate"
+      ],
+      "purpose": "Clamp lower rim seats on tab top Z .343.",
+      "solid_policy": "zero_solid_intrusion",
+      "allowed_contact_region": {
+        "kind": "box",
+        "low_m": [
+          -0.1889999955892563,
+          -1.0915000438690186,
+          0.34299999475479126
+        ],
+        "high_m": [
+          -0.18299999833106995,
+          -1.058500051498413,
+          0.3709999918937683
+        ]
+      }
+    }
+  ],
+  "provenance": {
+    "candidate_rules_sha256": "e5ba33e1df42fa511c59b8da84f846292458a45b76b818bc65643b309519073a",
+    "candidate_geometry_sha256": "cc7e6f4d33e09165aee0da0517cab167dac53e51554e1ca9420ccf067775f408",
+    "scope": "Finite guide/cloth/clamp/rail seats for the stowed visible restraints. Values lock the declared design; results must be recomputed from the supplied source."
+  }
+}

@@ -35,13 +35,16 @@ const forbidden = paths.filter((value) => value.endsWith(".blend") || value.incl
 if (forbidden.length) throw new Error(`Release pack contains build-only asset inputs: ${forbidden.join(", ")}`);
 const wrapperPresent = paths.some((value) => value.endsWith(`/${assetId}.tscn`) ||
   value.endsWith(`/${assetId}.tscn.remap`) ||
-  (assetId === "hero-gt" && (value.endsWith("/HeroGt.tscn") || value.endsWith("/HeroGt.tscn.remap"))));
+  (assetId === "hero-gt" && (value.endsWith("/HeroGt.tscn") || value.endsWith("/HeroGt.tscn.remap"))) ||
+  (assetId === "endurance-sedan" && (value.endsWith("/EnduranceSedan.tscn") || value.endsWith("/EnduranceSedan.tscn.remap"))));
 const escapedAssetId = assetId.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const importedPattern = new RegExp(`(^|/)\\.godot/imported/${escapedAssetId}\\.glb-[0-9a-f]+\\.scn$`, "i");
-const visualAssetPresent = assetId === "hero-gt"
-  ? paths.some((value) => value.endsWith("/hero-gt.generated.tscn") ||
-      value.endsWith("/hero-gt.generated.tscn.remap") ||
-      /(^|\/)\.godot\/exported\/[0-9]+\/export-[0-9a-f]+-hero-gt\.generated\.scn$/i.test(value))
+const generatedPattern = new RegExp(`(^|/)\\.godot/exported/[0-9]+/export-[0-9a-f]+-${escapedAssetId}\\.generated\\.scn$`, "i");
+const visualAssetPresent = ["hero-gt", "endurance-sedan"].includes(assetId)
+  ? paths.some((value) => value.endsWith(`/${assetId}.generated.tscn`) ||
+      value.endsWith(`/${assetId}.generated.tscn.remap`) || generatedPattern.test(value))
   : paths.some((value) => importedPattern.test(value));
 if (!wrapperPresent || !visualAssetPresent) throw new Error("Release pack is missing the wrapper or generated visual asset");
+if (assetId === "endurance-sedan" && paths.some(value => importedPattern.test(value) || /\/endurance-sedan\.glb(?:\.remap|\.import)?$/.test(value)))
+  throw new Error("Release pack contains the redundant temporary sedan GLB/imported scene instead of only its normalized runtime asset");
 console.log(`CANNONBALL_ASSET_RELEASE_OK asset=${assetId} files=${paths.length} wrapper=1 visual_asset=1 build_dependencies=0`);

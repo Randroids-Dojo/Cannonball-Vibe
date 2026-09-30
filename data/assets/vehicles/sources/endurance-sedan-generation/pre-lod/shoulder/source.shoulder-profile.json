@@ -1,0 +1,30 @@
+{
+  "schema": "original-bumper-shoulder-field.v1",
+  "semantic": "LOD0_FrontBumper",
+  "source_local_bounds_m": {
+    "y": [
+      1.87,
+      2.31
+    ],
+    "absolute_x_min": 0.6,
+    "z_min": 0.78
+  },
+  "minimum_face_normal_z": 0.1,
+  "retained_face_tag": 0,
+  "retained_face_strength": 16384,
+  "generated_side_strengths": [
+    -16384,
+    0
+  ],
+  "whole_face_projection_guard_m": 1e-06,
+  "corner_lookup_guard_m": 2e-06,
+  "original_face_alignment_dot_min": 0.99985,
+  "normal_angle_guard_degrees": 0.025,
+  "raw_normal_unit_error_max": 1e-06,
+  "lookup_tie_distance_m": 1e-09,
+  "lookup_tie_alignment": 1e-09,
+  "boundary_fan_dihedral_degrees_max": 35,
+  "recess_axis_alignment_exclusion": 0.999,
+  "minimum_whole_owned_faces": 100,
+  "minimum_original_corners": 300
+}

@@ -1,0 +1,4307 @@
+{
+  "source": "C:\\Dev\\Cannonball-Vibe-sedan\\data\\assets\\vehicles\\sources\\endurance-sedan.blend",
+  "configuration": {
+    "source_sha256": "8ddb88bfcf82b68ef7cccfa86dbfedf502a4de1fa4e9f0924cffe6609f8d7a50",
+    "renderer_sha256": "c75246f8c72139d78fc8da0760a3488d87c214fed4b56da49d6d1861686b39d1",
+    "blender": "5.1.2",
+    "build_hash": "ec6e62d40fa9",
+    "engine": "CYCLES",
+    "device": "GPU",
+    "devices": [
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "CUDA",
+        "enabled": false
+      },
+      {
+        "name": "AMD Ryzen 9 5900X 12-Core Processor",
+        "type": "CPU",
+        "enabled": false
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3080 Ti",
+        "type": "OPTIX",
+        "enabled": true
+      }
+    ],
+    "size": [
+      2560,
+      1440
+    ],
+    "samples": 24,
+    "denoising": true,
+    "view_transform": "AgX",
+    "look": "AgX - Medium High Contrast",
+    "exposure": 0.0,
+    "clay": false,
+    "source_controls": {
+      "wipers_running": 1.0
+    },
+    "lighting": "neutral",
+    "sequence": "hold",
+    "frame_count": 163,
+    "fps": 30,
+    "views": "wiper_oblique",
+    "ray_bounces": 10,
+    "source_timeline_fps": 60,
+    "inspection_fill_watts": 0,
+    "inspection_fill_disk_diameter_m": {
+      "default": 0.35,
+      "pedals": 0.14
+    },
+    "inspection_fill_camera_local_m": [
+      0,
+      0,
+      0.025
+    ],
+    "denoiser": "OPENIMAGEDENOISE",
+    "denoising_use_gpu": true,
+    "denoising_prefilter": "ACCURATE",
+    "technical_overlay": null,
+    "review_overlay_tool_sha256": "230827eb0257dd454e9429ddd3dd68e51107b540d58f6e18e893542196805fb7",
+    "review_geometry_tool_sha256": "0e9fad40b0d14ba1265958bd6836d133fde89474efd6f988860f46fc2cde2b90",
+    "material_swatches": {}
+  },
+  "configuration_sha256": "0945d1559417b6cde22631679bf1723c7be145bf3f1ab6d077354c78c55b7bb3",
+  "status": "completed",
+  "frames": [
+    {
+      "view": "000001",
+      "capture_view": "wiper_oblique",
+      "path": "000001.png",
+      "sha256": "7e8ef1c15aa2e0f841bfcbc667867b8527e7f21edf42b4645c823d24282c0c0e",
+      "seconds": 3.9370014000014635,
+      "cold": true,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 1.0,
+      "time_seconds": 0.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000002",
+      "capture_view": "wiper_oblique",
+      "path": "000002.png",
+      "sha256": "b7d7c7756c55870ee7225739dff71459cfb3ee9cd97fc76dd9e0340938b5dd8a",
+      "seconds": 3.332986200002779,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 3.0,
+      "time_seconds": 0.03333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000003",
+      "capture_view": "wiper_oblique",
+      "path": "000003.png",
+      "sha256": "df5de5f27ef3ad92a009a3529511b79235cf411c617a8b468d26bcbb11f8edb9",
+      "seconds": 3.2850555000040913,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 5.0,
+      "time_seconds": 0.06666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000004",
+      "capture_view": "wiper_oblique",
+      "path": "000004.png",
+      "sha256": "c6ae062d145c74b417d82ca2d8d44a524223234133e29632f2958632f6db1408",
+      "seconds": 3.2915626999965752,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 7.0,
+      "time_seconds": 0.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000005",
+      "capture_view": "wiper_oblique",
+      "path": "000005.png",
+      "sha256": "f13b2e824f53617afd4f378800bb7eabb3012d575da7861562c47b0e0b5940cd",
+      "seconds": 3.3335960999975214,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 9.0,
+      "time_seconds": 0.13333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000006",
+      "capture_view": "wiper_oblique",
+      "path": "000006.png",
+      "sha256": "5d6ef22181c2b526ffd0a3a4a8b9840717b183ca9d18b3936788ac66e71a8b8d",
+      "seconds": 3.300056499996572,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 11.0,
+      "time_seconds": 0.16666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000007",
+      "capture_view": "wiper_oblique",
+      "path": "000007.png",
+      "sha256": "65e481dbb9209455ff4a93f21ca3fb268ca6d607e697791c287d04b45aa4b1de",
+      "seconds": 3.2922371000022395,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 13.0,
+      "time_seconds": 0.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000008",
+      "capture_view": "wiper_oblique",
+      "path": "000008.png",
+      "sha256": "6618bb4dc0ab9f648c5cdeed3a8ef03db42ff3441ed4fe715b8d9119b34d3a2a",
+      "seconds": 3.3159949999972014,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 15.0,
+      "time_seconds": 0.23333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000009",
+      "capture_view": "wiper_oblique",
+      "path": "000009.png",
+      "sha256": "9d4e4093f9bffd567d21ba4892e3e22e3c0865e7247d21d51fa56671e6e5d0ac",
+      "seconds": 3.293952799998806,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 17.0,
+      "time_seconds": 0.26666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000010",
+      "capture_view": "wiper_oblique",
+      "path": "000010.png",
+      "sha256": "6cc4126180e6eaf72b96cfa3b6d8c73fbe0b9ccfcb23a63e692b0a27ab0db464",
+      "seconds": 3.301426199999696,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 19.0,
+      "time_seconds": 0.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000011",
+      "capture_view": "wiper_oblique",
+      "path": "000011.png",
+      "sha256": "3b065772d7c7ea5002c331be2aaef9ec7f215b6ac547595f692c36a2631ffdbb",
+      "seconds": 3.3061707000015303,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 21.0,
+      "time_seconds": 0.3333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000012",
+      "capture_view": "wiper_oblique",
+      "path": "000012.png",
+      "sha256": "7ee710855b1b7075811292ae600680320843584f065ffa7b615bfb540a5bceba",
+      "seconds": 3.3186421999998856,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 23.0,
+      "time_seconds": 0.36666666666666664,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000013",
+      "capture_view": "wiper_oblique",
+      "path": "000013.png",
+      "sha256": "9ce175e36825dea969897701e47d8ad972316ddae1007c39c7e26653e6704199",
+      "seconds": 3.301062799997453,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 25.0,
+      "time_seconds": 0.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000014",
+      "capture_view": "wiper_oblique",
+      "path": "000014.png",
+      "sha256": "35abf35341fff9de708228b16e2c2a89463de9e97d3df973b42b90f451ab3d77",
+      "seconds": 3.358404899998277,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 27.0,
+      "time_seconds": 0.43333333333333335,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000015",
+      "capture_view": "wiper_oblique",
+      "path": "000015.png",
+      "sha256": "fc14260c519b582d895e29fced0a03bc9ea3f189213ce1ef48b62e6b7c4e6d11",
+      "seconds": 3.326199099996302,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 29.0,
+      "time_seconds": 0.4666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000016",
+      "capture_view": "wiper_oblique",
+      "path": "000016.png",
+      "sha256": "3b705d4c488a9bfe245ad1ca1b4b7e3660109e0a3455f8b847b3f9df28cade23",
+      "seconds": 3.3026609999942593,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 31.0,
+      "time_seconds": 0.5,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000017",
+      "capture_view": "wiper_oblique",
+      "path": "000017.png",
+      "sha256": "ea369491ae0e2be48c66e7867d4b5f01180eb925c00506bec5d23a4d823d2fd2",
+      "seconds": 3.611186499998439,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 33.0,
+      "time_seconds": 0.5333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000018",
+      "capture_view": "wiper_oblique",
+      "path": "000018.png",
+      "sha256": "3932c0bee0f15bbefc5460e1e6ff2d0ad83795395051f78473f7d3421865303e",
+      "seconds": 3.2894069999965723,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 35.0,
+      "time_seconds": 0.5666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000019",
+      "capture_view": "wiper_oblique",
+      "path": "000019.png",
+      "sha256": "25707d8d990131d468a11d912b9d686b57d06d72c8c9a2656efa2d19c55a10af",
+      "seconds": 3.3056412000005366,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 37.0,
+      "time_seconds": 0.6,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000020",
+      "capture_view": "wiper_oblique",
+      "path": "000020.png",
+      "sha256": "1b349cb513f3ee323c147ed54d8418ec976af48923b9db1d66a6ab80675b57e4",
+      "seconds": 3.319903900002828,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 39.0,
+      "time_seconds": 0.6333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000021",
+      "capture_view": "wiper_oblique",
+      "path": "000021.png",
+      "sha256": "43e07395a96bf7057d78c7dc1b1afb67b9c636fd26bb2f222a31496b807bf55c",
+      "seconds": 3.330444399995031,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 41.0,
+      "time_seconds": 0.6666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000022",
+      "capture_view": "wiper_oblique",
+      "path": "000022.png",
+      "sha256": "686d81c79b220b076023f4bc66e0e55f86baade959e36ba82da881171a145ca6",
+      "seconds": 3.299578300000576,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 43.0,
+      "time_seconds": 0.7,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000023",
+      "capture_view": "wiper_oblique",
+      "path": "000023.png",
+      "sha256": "d23e278af28e886eb74e0078e82d6cf65b4a34d5c8af041336e6f94c66243462",
+      "seconds": 3.319532599998638,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 45.0,
+      "time_seconds": 0.7333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000024",
+      "capture_view": "wiper_oblique",
+      "path": "000024.png",
+      "sha256": "e47d2b5c48c9a615013f93ae3dc92e39a2ef8be8d565f1120b5341228f2a47de",
+      "seconds": 3.304033899999922,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 47.0,
+      "time_seconds": 0.7666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000025",
+      "capture_view": "wiper_oblique",
+      "path": "000025.png",
+      "sha256": "c9d97820a345367ddd9a31cf8fee0664e59b4dfcc14b6b5237747279ac289bdc",
+      "seconds": 3.3018739000035566,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 49.0,
+      "time_seconds": 0.8,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000026",
+      "capture_view": "wiper_oblique",
+      "path": "000026.png",
+      "sha256": "c11bf949841169538b8a3555d1826ef0b553071222c19bb496ebd6a92afc1ea3",
+      "seconds": 3.319707599999674,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 51.0,
+      "time_seconds": 0.8333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000027",
+      "capture_view": "wiper_oblique",
+      "path": "000027.png",
+      "sha256": "c596150787e81f65dac34d7a13bb59aad69a0afa310810eb3b1422ab49cb676f",
+      "seconds": 3.3225889000023017,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 53.0,
+      "time_seconds": 0.8666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000028",
+      "capture_view": "wiper_oblique",
+      "path": "000028.png",
+      "sha256": "a2ff3fedadbf40088768da55999ee607e6a07b1ae26594c149266a26f793ead1",
+      "seconds": 3.3531090999968,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 55.0,
+      "time_seconds": 0.9,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000029",
+      "capture_view": "wiper_oblique",
+      "path": "000029.png",
+      "sha256": "c1c4e9891d16f0347cd0a27c035ae874eb09060820184653fd5f11e14630bb16",
+      "seconds": 3.35140980000142,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 57.0,
+      "time_seconds": 0.9333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000030",
+      "capture_view": "wiper_oblique",
+      "path": "000030.png",
+      "sha256": "b99d3c8fd6aa79d3d4f9808f55323489cb77987d8c1358e09fb8e1228daf4ec2",
+      "seconds": 3.3430464999983087,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 59.0,
+      "time_seconds": 0.9666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000031",
+      "capture_view": "wiper_oblique",
+      "path": "000031.png",
+      "sha256": "dba4839689a5c99b33bb3a941ce00f4ab995698782c1813c1ff8a96f6549272e",
+      "seconds": 3.360055099998135,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 61.0,
+      "time_seconds": 1.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000032",
+      "capture_view": "wiper_oblique",
+      "path": "000032.png",
+      "sha256": "5be2b566835c8654d173bcac4bd7375c634737f43f00d11037ca69332ef7637b",
+      "seconds": 3.3015142000003834,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 63.0,
+      "time_seconds": 1.0333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000033",
+      "capture_view": "wiper_oblique",
+      "path": "000033.png",
+      "sha256": "56701acd4dfb8314dc8a1ece4b7b8bd9a47487414a289e37573aa003ed464268",
+      "seconds": 3.302020100003574,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 65.0,
+      "time_seconds": 1.0666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000034",
+      "capture_view": "wiper_oblique",
+      "path": "000034.png",
+      "sha256": "94a69f0a84a72b3a83c1e6ea882d9ea69e12aeba67ec0ff1601e0990925fede5",
+      "seconds": 3.3296648999967147,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 67.0,
+      "time_seconds": 1.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000035",
+      "capture_view": "wiper_oblique",
+      "path": "000035.png",
+      "sha256": "0fe769dfc166e3fdf8373323bc51ecc5ea2bc711d5bef020922a318caf9b6f44",
+      "seconds": 3.303141399999731,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 69.0,
+      "time_seconds": 1.1333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000036",
+      "capture_view": "wiper_oblique",
+      "path": "000036.png",
+      "sha256": "58fb1e6cd0d97acd151c83fddf41889d6d020c85b0fea844745f2b255cbfa448",
+      "seconds": 3.3197973999995156,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 71.0,
+      "time_seconds": 1.1666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000037",
+      "capture_view": "wiper_oblique",
+      "path": "000037.png",
+      "sha256": "3e342fd3827ea6d058b773c2872f461286f106eb15eb4574d5ae61b7fee48087",
+      "seconds": 3.307207899997593,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 73.0,
+      "time_seconds": 1.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000038",
+      "capture_view": "wiper_oblique",
+      "path": "000038.png",
+      "sha256": "8fa8043e29684e2bf33fc2b8f76502ce2b204eb2383f8b039dc990d2947a55b2",
+      "seconds": 3.3242615000053775,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 75.0,
+      "time_seconds": 1.2333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000039",
+      "capture_view": "wiper_oblique",
+      "path": "000039.png",
+      "sha256": "c6cff58d01de7c4254b4f1cf5b6c29d331191d036c6f150fa635c604bb45e99d",
+      "seconds": 3.3025973999974667,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 77.0,
+      "time_seconds": 1.2666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000040",
+      "capture_view": "wiper_oblique",
+      "path": "000040.png",
+      "sha256": "d1e72128133eabd3d81e1cd7c72471f536a0653e6e239350fd9d355e7eecaa22",
+      "seconds": 3.3000641999969957,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 79.0,
+      "time_seconds": 1.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000041",
+      "capture_view": "wiper_oblique",
+      "path": "000041.png",
+      "sha256": "9dbdf9766b2724e488ec7c1e89abef97cba60e42b95794f386317398b299e0b8",
+      "seconds": 3.278988999998546,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 81.0,
+      "time_seconds": 1.3333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000042",
+      "capture_view": "wiper_oblique",
+      "path": "000042.png",
+      "sha256": "ae8afb8937aeb91bcc36db3e54cb37cc1568857191979214f093e68ba9c5a622",
+      "seconds": 3.296962699998403,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 83.0,
+      "time_seconds": 1.3666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000043",
+      "capture_view": "wiper_oblique",
+      "path": "000043.png",
+      "sha256": "2e600400eb0e6750a2726a41af944e1a7cef5fc2ed7bd224e044ec7e359995d2",
+      "seconds": 3.3195006999958423,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 85.0,
+      "time_seconds": 1.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000044",
+      "capture_view": "wiper_oblique",
+      "path": "000044.png",
+      "sha256": "916d8dcc02314c353769c808e22f3bf3a50ff21848ddaa613ef462f9dbed90d8",
+      "seconds": 3.307349799993972,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 87.0,
+      "time_seconds": 1.4333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000045",
+      "capture_view": "wiper_oblique",
+      "path": "000045.png",
+      "sha256": "7eb5cf2baa84f7c106eda78d22f058e85845f71cfc1d13593b33b36deae4dcff",
+      "seconds": 3.2903812999938964,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 89.0,
+      "time_seconds": 1.4666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000046",
+      "capture_view": "wiper_oblique",
+      "path": "000046.png",
+      "sha256": "72bfb485038c722a77505104b68ede27fb2bd7a5d449f1f2c6876756fef27a87",
+      "seconds": 3.301305900000443,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 91.0,
+      "time_seconds": 1.5,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000047",
+      "capture_view": "wiper_oblique",
+      "path": "000047.png",
+      "sha256": "56f25f66288c3dc848fa8868147b98a0e6537ecaa1ce666455087877b8d17333",
+      "seconds": 3.289562300000398,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 93.0,
+      "time_seconds": 1.5333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000048",
+      "capture_view": "wiper_oblique",
+      "path": "000048.png",
+      "sha256": "0dd308eb26ebef9631e6e2ea4ab338635ca7c3136a804f16951b52d2db20ed41",
+      "seconds": 3.312201799999457,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 95.0,
+      "time_seconds": 1.5666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000049",
+      "capture_view": "wiper_oblique",
+      "path": "000049.png",
+      "sha256": "44c0fc9d7c56fdeb0d58e44b2b14244cd7d047b2035ae5d95418be611abaf3a0",
+      "seconds": 3.326561400004721,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 97.0,
+      "time_seconds": 1.6,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000050",
+      "capture_view": "wiper_oblique",
+      "path": "000050.png",
+      "sha256": "1f6b16a10e561e48d9da404ec8b1a948fa2b1fe4eb2e1685b256365ba6f173a0",
+      "seconds": 3.346569499997713,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 99.0,
+      "time_seconds": 1.6333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000051",
+      "capture_view": "wiper_oblique",
+      "path": "000051.png",
+      "sha256": "9f2394faacae6cef56b1ad6aa7e111424238d22f94f6b0032557a9e6e06c2558",
+      "seconds": 3.325497300000279,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 101.0,
+      "time_seconds": 1.6666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000052",
+      "capture_view": "wiper_oblique",
+      "path": "000052.png",
+      "sha256": "5ee4f0e1d38b97441a4476d63d8867bba6e78c2e779b21d99762d277725c0673",
+      "seconds": 3.3321101999972598,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 103.0,
+      "time_seconds": 1.7,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000053",
+      "capture_view": "wiper_oblique",
+      "path": "000053.png",
+      "sha256": "55bbb5d12f69902ffad663cffecdec67ba9e724ed0d30948a63cd8147f1f60e4",
+      "seconds": 3.3455531999934465,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 105.0,
+      "time_seconds": 1.7333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000054",
+      "capture_view": "wiper_oblique",
+      "path": "000054.png",
+      "sha256": "7031b806b4597c43ec118fa3faf0b1e30f8310678ea5ffa42d1bed1920247726",
+      "seconds": 3.309985699997924,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 107.0,
+      "time_seconds": 1.7666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000055",
+      "capture_view": "wiper_oblique",
+      "path": "000055.png",
+      "sha256": "54b01ff2701bfa97ea047443bc2d1a0ee5e96587b43a8d116fa74961d9d6f65d",
+      "seconds": 3.314070800006448,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 109.0,
+      "time_seconds": 1.8,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000056",
+      "capture_view": "wiper_oblique",
+      "path": "000056.png",
+      "sha256": "cfc383fc0d600fa3bb215457001566793a8e953f89962d4d576b280c620d1d78",
+      "seconds": 3.342504400003236,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 111.0,
+      "time_seconds": 1.8333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000057",
+      "capture_view": "wiper_oblique",
+      "path": "000057.png",
+      "sha256": "7925327c797a4f034a68037b77d38054645e83497c09b419dbe7e25639d9fe9a",
+      "seconds": 3.320116800001415,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 113.0,
+      "time_seconds": 1.8666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000058",
+      "capture_view": "wiper_oblique",
+      "path": "000058.png",
+      "sha256": "caca148c865ed9fdd7f02687658b51e8a692202271025cd2184a8b18995c0351",
+      "seconds": 3.3235119999953895,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 115.0,
+      "time_seconds": 1.9,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000059",
+      "capture_view": "wiper_oblique",
+      "path": "000059.png",
+      "sha256": "584b23df7e93611ea806469193b1eb2a7b51d7fceae28a3d5434dd2a85b1a3c4",
+      "seconds": 3.3106236000021454,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 117.0,
+      "time_seconds": 1.9333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000060",
+      "capture_view": "wiper_oblique",
+      "path": "000060.png",
+      "sha256": "aad963e50b84a9ecdcc97b7b25417882d87293af86d27977b7bb403bb23ca0b9",
+      "seconds": 3.312276299999212,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 119.0,
+      "time_seconds": 1.9666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000061",
+      "capture_view": "wiper_oblique",
+      "path": "000061.png",
+      "sha256": "71f2ece0d242539b553c935717a57e5fdba13fa1aacc1e5d9ea043ce7eef4acf",
+      "seconds": 3.3208924999999,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 121.0,
+      "time_seconds": 2.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000062",
+      "capture_view": "wiper_oblique",
+      "path": "000062.png",
+      "sha256": "aec6c2d739089c2368db24415435d07882212617379b327c7bad607e2a58ce5d",
+      "seconds": 3.461702900000091,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 123.0,
+      "time_seconds": 2.033333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000063",
+      "capture_view": "wiper_oblique",
+      "path": "000063.png",
+      "sha256": "d0713ca5c4b580312db3a61a7af5cc9b679abf6f41cf2b54fa1569893330b025",
+      "seconds": 3.473133899999084,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 125.0,
+      "time_seconds": 2.066666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000064",
+      "capture_view": "wiper_oblique",
+      "path": "000064.png",
+      "sha256": "0663501ea20de0c550e0da4d2bf8b3cee3bfe877cf90b0f201f054b28ac9922a",
+      "seconds": 3.379334800003562,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 127.0,
+      "time_seconds": 2.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000065",
+      "capture_view": "wiper_oblique",
+      "path": "000065.png",
+      "sha256": "507735bbae99140b941c94422dc3518b349e129df1b63f5a5c870d5ddea20fe1",
+      "seconds": 3.3558133999977144,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 129.0,
+      "time_seconds": 2.1333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000066",
+      "capture_view": "wiper_oblique",
+      "path": "000066.png",
+      "sha256": "61f8bc840c8b5e1c124b0476676cfd5ba235af0b5f01438503db11b2d2e3c551",
+      "seconds": 3.3517601000057766,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 131.0,
+      "time_seconds": 2.1666666666666665,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000067",
+      "capture_view": "wiper_oblique",
+      "path": "000067.png",
+      "sha256": "f06a5e227b75b5ab50b65fd7ebc65b269ca06d80225cc7e7341d1f5717b7e398",
+      "seconds": 3.3641181999992114,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 133.0,
+      "time_seconds": 2.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000068",
+      "capture_view": "wiper_oblique",
+      "path": "000068.png",
+      "sha256": "1e98dc35c25da222ee1ea5815f2eddeff6755077442514ed556a98ff73b54ef9",
+      "seconds": 3.3283249999949476,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 135.0,
+      "time_seconds": 2.2333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000069",
+      "capture_view": "wiper_oblique",
+      "path": "000069.png",
+      "sha256": "209119eb36ca92e1f105e11f1138f27116e9bec7fca08567ec3906efe4c45a11",
+      "seconds": 3.3193331000002217,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 137.0,
+      "time_seconds": 2.2666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000070",
+      "capture_view": "wiper_oblique",
+      "path": "000070.png",
+      "sha256": "59daed2b8b5ccf044b0eb2885d134fc40d8f84586457c74fa2f215fddbf70d8e",
+      "seconds": 3.3377695999952266,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 139.0,
+      "time_seconds": 2.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000071",
+      "capture_view": "wiper_oblique",
+      "path": "000071.png",
+      "sha256": "22b3c8d49e975c1e033e1443a68d7601f3db8729cb5e12d191d87abcd01a009e",
+      "seconds": 3.319846600003075,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 141.0,
+      "time_seconds": 2.3333333333333335,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000072",
+      "capture_view": "wiper_oblique",
+      "path": "000072.png",
+      "sha256": "ca739b20ab2e4826577295e4875451ac0a785a19957ff1879630da3b39500665",
+      "seconds": 3.329767499999434,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 143.0,
+      "time_seconds": 2.3666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000073",
+      "capture_view": "wiper_oblique",
+      "path": "000073.png",
+      "sha256": "8008aec1630e916fe205956ca7f8f3161b128ccd0e4018342190a4658732b574",
+      "seconds": 3.3152499999996508,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 145.0,
+      "time_seconds": 2.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000074",
+      "capture_view": "wiper_oblique",
+      "path": "000074.png",
+      "sha256": "b46661ba76f01a7a1a148f4d8baa367a9055e4a862ca664d5756d612586035e5",
+      "seconds": 3.305135300004622,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 147.0,
+      "time_seconds": 2.433333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000075",
+      "capture_view": "wiper_oblique",
+      "path": "000075.png",
+      "sha256": "71a4c865000878ce4c707b1c83c85c831ba25ac5201c7aac8b3f02404a2a9467",
+      "seconds": 3.319212800000969,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 149.0,
+      "time_seconds": 2.466666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000076",
+      "capture_view": "wiper_oblique",
+      "path": "000076.png",
+      "sha256": "f0d0931db89ebed6efe7562e1077a1b1f5b97136f3d0852ddb4a92e69a7c8be4",
+      "seconds": 3.299379999996745,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 151.0,
+      "time_seconds": 2.5,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000077",
+      "capture_view": "wiper_oblique",
+      "path": "000077.png",
+      "sha256": "99a647a9e71e22e6a0f1e480962858795effe61afda821d663b5b171c1d7b6e7",
+      "seconds": 3.3030457999993814,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 153.0,
+      "time_seconds": 2.533333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000078",
+      "capture_view": "wiper_oblique",
+      "path": "000078.png",
+      "sha256": "7dd327f674b40278950e6ba6bdd43d666e61c83d46ea4a7ea7212b904af00c74",
+      "seconds": 3.30815199999779,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 155.0,
+      "time_seconds": 2.566666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000079",
+      "capture_view": "wiper_oblique",
+      "path": "000079.png",
+      "sha256": "5a0e4f8cb6aff042e0b64c38ee75c18fc63a1083e7f1041ee192c9f741cae798",
+      "seconds": 3.2988756999984616,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 157.0,
+      "time_seconds": 2.6,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000080",
+      "capture_view": "wiper_oblique",
+      "path": "000080.png",
+      "sha256": "e6003d54c939d7c4739c84645b1254999acc3b693ba541059ad66c72aa95029f",
+      "seconds": 3.301077500000247,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 159.0,
+      "time_seconds": 2.6333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000081",
+      "capture_view": "wiper_oblique",
+      "path": "000081.png",
+      "sha256": "aeb056f6ae0ee2f6dc3116edd7e4e65c9c49e1d1c8f48e3a43ff848ace9fd9f0",
+      "seconds": 3.307449200001429,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 161.0,
+      "time_seconds": 2.6666666666666665,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000082",
+      "capture_view": "wiper_oblique",
+      "path": "000082.png",
+      "sha256": "664eb5608f617e8a271b08b7d47e142dc0fc61ea2616285bf5f4a5ac6c10ab6a",
+      "seconds": 3.3604448000041884,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 163.0,
+      "time_seconds": 2.7,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000083",
+      "capture_view": "wiper_oblique",
+      "path": "000083.png",
+      "sha256": "1a73c77d60be77354dcce3c0835902f60c64ead902a614c5312124b1b2419b19",
+      "seconds": 3.296141400001943,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 165.0,
+      "time_seconds": 2.7333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000084",
+      "capture_view": "wiper_oblique",
+      "path": "000084.png",
+      "sha256": "bf66a8b8f78aee8961524bbff35c5792ed33a43afa6dd4e21f18e73333656a8e",
+      "seconds": 3.2953782999975374,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 167.0,
+      "time_seconds": 2.7666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000085",
+      "capture_view": "wiper_oblique",
+      "path": "000085.png",
+      "sha256": "35aa66d32bbfe5f86876be04c7ef87f4cef1b9511ea21617ba2079dc0dfef9ef",
+      "seconds": 3.3513126999969245,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 169.0,
+      "time_seconds": 2.8,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000086",
+      "capture_view": "wiper_oblique",
+      "path": "000086.png",
+      "sha256": "88407c7b4a578f5d4451f62da8e9285407aa10cc201a30ea43b3d9b900bb82d8",
+      "seconds": 3.317373799996858,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 171.0,
+      "time_seconds": 2.8333333333333335,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000087",
+      "capture_view": "wiper_oblique",
+      "path": "000087.png",
+      "sha256": "34466e1f800e2dd01647ee24d89c709de102e659000d262b1dc8b22fdf98a09b",
+      "seconds": 3.2957352999947034,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 173.0,
+      "time_seconds": 2.8666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000088",
+      "capture_view": "wiper_oblique",
+      "path": "000088.png",
+      "sha256": "2a23568aed6bfe67035dedbd51d06f78641ab17685780d2925b2ddb5b91969b4",
+      "seconds": 3.298717300000135,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 175.0,
+      "time_seconds": 2.9,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000089",
+      "capture_view": "wiper_oblique",
+      "path": "000089.png",
+      "sha256": "26fc34256a61c11439fdf23b996cd24c7ea86b76b570233cd475e761a4afbb31",
+      "seconds": 3.3295092999978806,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 177.0,
+      "time_seconds": 2.933333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000090",
+      "capture_view": "wiper_oblique",
+      "path": "000090.png",
+      "sha256": "e18adb60b6df6a7516e7606ce8c2a7303c01bf9a48b4ae5b4f22690b3de05151",
+      "seconds": 3.2983135000031325,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 179.0,
+      "time_seconds": 2.966666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000091",
+      "capture_view": "wiper_oblique",
+      "path": "000091.png",
+      "sha256": "f8d155fd4865f9d4ada3ef5c21e9651fb5fef349d9526e0a81068e1e006fa869",
+      "seconds": 3.3128499999947962,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 181.0,
+      "time_seconds": 3.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000092",
+      "capture_view": "wiper_oblique",
+      "path": "000092.png",
+      "sha256": "905d72da809d4b32538dd958eaedc3ba82cdced106c7ba20387609bad2976343",
+      "seconds": 3.3229922999962582,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 183.0,
+      "time_seconds": 3.033333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000093",
+      "capture_view": "wiper_oblique",
+      "path": "000093.png",
+      "sha256": "e89d85ab995b33315277e05e196a688e128c6a6c6012bd38d16f942bae0a493b",
+      "seconds": 3.3232559000025503,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 185.0,
+      "time_seconds": 3.066666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000094",
+      "capture_view": "wiper_oblique",
+      "path": "000094.png",
+      "sha256": "e392bba6fe595fab9b50c0c6d02e3a05824ced253f6d913bb8b2fca8b409dcaf",
+      "seconds": 3.3317434999989928,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 187.0,
+      "time_seconds": 3.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000095",
+      "capture_view": "wiper_oblique",
+      "path": "000095.png",
+      "sha256": "cff111f193bab4c4d7b0109a33f015c0d76b935165187c31161a7a87f38b4978",
+      "seconds": 3.308745900001668,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 189.0,
+      "time_seconds": 3.1333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000096",
+      "capture_view": "wiper_oblique",
+      "path": "000096.png",
+      "sha256": "285bc6dd18406dbecb48453f7980deb1b8f8a326f20873026fd31fef70be57be",
+      "seconds": 3.3143542999969213,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 191.0,
+      "time_seconds": 3.1666666666666665,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000097",
+      "capture_view": "wiper_oblique",
+      "path": "000097.png",
+      "sha256": "9d38a7078e22f3ea5e81b63b014857ad27da2d545048fd18f6d6e6661a9d3dab",
+      "seconds": 3.3162550999986706,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 193.0,
+      "time_seconds": 3.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000098",
+      "capture_view": "wiper_oblique",
+      "path": "000098.png",
+      "sha256": "ddadfb372ed2b29337267519c7f3b1088ddba7068ea03b7026a7a0c70679b92c",
+      "seconds": 3.3085938000003807,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 195.0,
+      "time_seconds": 3.2333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000099",
+      "capture_view": "wiper_oblique",
+      "path": "000099.png",
+      "sha256": "33d23a536e433fc662a0c8e25cc4cf9ab32ffccfe1ec979585dec5b76a56aacc",
+      "seconds": 3.3084926000010455,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 197.0,
+      "time_seconds": 3.2666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000100",
+      "capture_view": "wiper_oblique",
+      "path": "000100.png",
+      "sha256": "e3c8e2983d96ca1b144898df372c59a32aaa98ef17537560d55da5c6a63f57e0",
+      "seconds": 3.308893099994748,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 199.0,
+      "time_seconds": 3.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000101",
+      "capture_view": "wiper_oblique",
+      "path": "000101.png",
+      "sha256": "d548c4a833a8792bf82453b718a5e4a72016a965c9d7da5669eed6a792fb0efc",
+      "seconds": 3.304491799994139,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 201.0,
+      "time_seconds": 3.3333333333333335,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000102",
+      "capture_view": "wiper_oblique",
+      "path": "000102.png",
+      "sha256": "fdc9d27809765aa8af50a782382a635bb11e9589e14ec7e47ac276a70daf7aa2",
+      "seconds": 3.3185442999965744,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 203.0,
+      "time_seconds": 3.3666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000103",
+      "capture_view": "wiper_oblique",
+      "path": "000103.png",
+      "sha256": "56f2e472c4f94e7221804af11be5503b189c453ed28842c76bdeace790876a3e",
+      "seconds": 3.30620849999832,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 205.0,
+      "time_seconds": 3.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000104",
+      "capture_view": "wiper_oblique",
+      "path": "000104.png",
+      "sha256": "27c2d5ed623fb7d7e7ba419050ddc5936d309e43d669d8cfc85c6514b481fe18",
+      "seconds": 3.3107952999998815,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 207.0,
+      "time_seconds": 3.433333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000105",
+      "capture_view": "wiper_oblique",
+      "path": "000105.png",
+      "sha256": "f29830ec222b82da6bf5800f20cc2570a8da56aa53a0878cea50cf84eb789ed5",
+      "seconds": 3.303100999997696,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 209.0,
+      "time_seconds": 3.466666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000106",
+      "capture_view": "wiper_oblique",
+      "path": "000106.png",
+      "sha256": "be54e4657faefe5d2d85b09a9a78c1cc6215ae0637a4a9c19beee1e540a2ffd7",
+      "seconds": 3.311000400004559,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 211.0,
+      "time_seconds": 3.5,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000107",
+      "capture_view": "wiper_oblique",
+      "path": "000107.png",
+      "sha256": "1b06c67414360322af6ee7cb7dbac5a671ff2d06d6b5a0b4090362bf99910f0c",
+      "seconds": 3.3195904000021983,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 213.0,
+      "time_seconds": 3.533333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000108",
+      "capture_view": "wiper_oblique",
+      "path": "000108.png",
+      "sha256": "3b18645d43a08fbbae948251c9fee2a23b8013cb609049a26b4b349cb1bd0e1b",
+      "seconds": 3.3376940000016475,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 215.0,
+      "time_seconds": 3.566666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000109",
+      "capture_view": "wiper_oblique",
+      "path": "000109.png",
+      "sha256": "08eb309151d7689446e7fee1b3052cbbcebdbfd37bbddb10a81c243819dcb28f",
+      "seconds": 3.328130100002454,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 217.0,
+      "time_seconds": 3.6,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000110",
+      "capture_view": "wiper_oblique",
+      "path": "000110.png",
+      "sha256": "fd24122b83db5d8f7e098eb78c56b2accc75a682e6f953bce251dd7787454d76",
+      "seconds": 3.3172567000001436,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 219.0,
+      "time_seconds": 3.6333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000111",
+      "capture_view": "wiper_oblique",
+      "path": "000111.png",
+      "sha256": "0f8078b1ae95b11577cdf31152e7d65992df61f8531143d67e7ab7b29e16f782",
+      "seconds": 3.309355299999879,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 221.0,
+      "time_seconds": 3.6666666666666665,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000112",
+      "capture_view": "wiper_oblique",
+      "path": "000112.png",
+      "sha256": "d1de868ed841434577026a86dc048e0ac35d6928decb3151c7c0e70f8a090546",
+      "seconds": 3.319315100001404,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 223.0,
+      "time_seconds": 3.7,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000113",
+      "capture_view": "wiper_oblique",
+      "path": "000113.png",
+      "sha256": "cada27fdc677a9571474c23b98ccb42aa152aef2d226d7be4d719d8c5daa8014",
+      "seconds": 3.3108296999998856,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 225.0,
+      "time_seconds": 3.7333333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000114",
+      "capture_view": "wiper_oblique",
+      "path": "000114.png",
+      "sha256": "ecd175f8e45b95988ed1c119c31a5f34e054f44981c3c45fcee5eb52faf9865e",
+      "seconds": 3.315917600004468,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 227.0,
+      "time_seconds": 3.7666666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000115",
+      "capture_view": "wiper_oblique",
+      "path": "000115.png",
+      "sha256": "d22b9d31941e51a623259f375404ec21d0a30fa3a975b36fd651b0338bd389ed",
+      "seconds": 3.306613799999468,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 229.0,
+      "time_seconds": 3.8,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000116",
+      "capture_view": "wiper_oblique",
+      "path": "000116.png",
+      "sha256": "a8c77ba7e5f7707c82319d14f58a18dc5f504c4675b5131a65b6394fb6eb51e1",
+      "seconds": 3.323452800002997,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 231.0,
+      "time_seconds": 3.8333333333333335,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000117",
+      "capture_view": "wiper_oblique",
+      "path": "000117.png",
+      "sha256": "3d0f2d4b502b1d3788b8c333bab0ad6f2375db6f683287c12a5789e24ef810fe",
+      "seconds": 3.3165843000024324,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 233.0,
+      "time_seconds": 3.8666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000118",
+      "capture_view": "wiper_oblique",
+      "path": "000118.png",
+      "sha256": "32051ea68596d3a03d7e6289d0d9484c42374b0c1f4d237be052b029e115b2f7",
+      "seconds": 3.29818510000041,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 235.0,
+      "time_seconds": 3.9,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000119",
+      "capture_view": "wiper_oblique",
+      "path": "000119.png",
+      "sha256": "e7b606f93502e46d47d40d05415c6dd965df72456331f9aadcae678c5c1c3b9a",
+      "seconds": 3.32332630000019,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 237.0,
+      "time_seconds": 3.933333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000120",
+      "capture_view": "wiper_oblique",
+      "path": "000120.png",
+      "sha256": "c29a7ecd4cbe9f19e4ea813502fe430aa744975a949587e3ab33cd187785bf7a",
+      "seconds": 3.385362199995143,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 239.0,
+      "time_seconds": 3.966666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000121",
+      "capture_view": "wiper_oblique",
+      "path": "000121.png",
+      "sha256": "277491448a4ced888099e679bee7eec85c6e19f94f3f930bbef22f53c4359aeb",
+      "seconds": 3.3949887999988277,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 241.0,
+      "time_seconds": 4.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000122",
+      "capture_view": "wiper_oblique",
+      "path": "000122.png",
+      "sha256": "db2324dd3047919ce7f0118d4c3e0fd517fd18cad865d11496acc5e9dd743054",
+      "seconds": 3.638527499999327,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 243.0,
+      "time_seconds": 4.033333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000123",
+      "capture_view": "wiper_oblique",
+      "path": "000123.png",
+      "sha256": "cce1f4f124ca1c4f62c0c3f0697768c4c96b760de31e7452c88ba27a5d62f06e",
+      "seconds": 3.3431149999960326,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 245.0,
+      "time_seconds": 4.066666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000124",
+      "capture_view": "wiper_oblique",
+      "path": "000124.png",
+      "sha256": "b8560c15c1a26a1bc6098abf5b34148d039a1de2147a61e7099d0a973ad8f502",
+      "seconds": 3.3512958999999682,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 247.0,
+      "time_seconds": 4.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000125",
+      "capture_view": "wiper_oblique",
+      "path": "000125.png",
+      "sha256": "b0fb159d2686a0cef17b55c786ddb9e52de7f33160e71a416ad0844aa6a45d5f",
+      "seconds": 3.369400700001279,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 249.0,
+      "time_seconds": 4.133333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000126",
+      "capture_view": "wiper_oblique",
+      "path": "000126.png",
+      "sha256": "c16ca035c17e02adbbb95dd81c6fd81c1c0b49f7385e1813c8ca9b33b91cad98",
+      "seconds": 3.3843791999970563,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 251.0,
+      "time_seconds": 4.166666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000127",
+      "capture_view": "wiper_oblique",
+      "path": "000127.png",
+      "sha256": "a1324d3c19acff073e527bb80b4f664131a4c9e109a09bff5f25e6bb38e92573",
+      "seconds": 3.3918768000003183,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 253.0,
+      "time_seconds": 4.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000128",
+      "capture_view": "wiper_oblique",
+      "path": "000128.png",
+      "sha256": "95f568a21df22ded074c66b9f727ff2e67ee261e311bd42af3519bec8a7a1ca6",
+      "seconds": 3.3490361999938614,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 255.0,
+      "time_seconds": 4.233333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000129",
+      "capture_view": "wiper_oblique",
+      "path": "000129.png",
+      "sha256": "ef6fcae656030e82608a4d9bd7dfa58c11f0c14986104cc2385a59ff59d72f7b",
+      "seconds": 3.327153400001407,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 257.0,
+      "time_seconds": 4.266666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000130",
+      "capture_view": "wiper_oblique",
+      "path": "000130.png",
+      "sha256": "257cd96dffe880830b8e07c31304fb3e4bcaea0d10160e0b904255bcb01553f7",
+      "seconds": 3.3060038999974495,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 259.0,
+      "time_seconds": 4.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000131",
+      "capture_view": "wiper_oblique",
+      "path": "000131.png",
+      "sha256": "30ee9310726b236a3cb23bded936c5f6dc4a0cb7ff52c309c7561d7ba3540e2d",
+      "seconds": 3.3199964000014006,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 261.0,
+      "time_seconds": 4.333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000132",
+      "capture_view": "wiper_oblique",
+      "path": "000132.png",
+      "sha256": "4d618311f455eca2e477b2b7549454bb986e4dcb72675eae2fc1051884291351",
+      "seconds": 3.339182700001402,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 263.0,
+      "time_seconds": 4.366666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000133",
+      "capture_view": "wiper_oblique",
+      "path": "000133.png",
+      "sha256": "ae8c98eaabbd391c76e71f134b277ffaa1d14783419f4c6aad90a6e77c130e6b",
+      "seconds": 3.3360393999973894,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 265.0,
+      "time_seconds": 4.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000134",
+      "capture_view": "wiper_oblique",
+      "path": "000134.png",
+      "sha256": "a38aa5dd0d8083ed3c65470511563cd70d527eb3e3acab9c08f71e684189376e",
+      "seconds": 3.3376774999996996,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 267.0,
+      "time_seconds": 4.433333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000135",
+      "capture_view": "wiper_oblique",
+      "path": "000135.png",
+      "sha256": "d9ce87b68eea92c1caa30cfd548d979a0537d2d83281519f123dbcfe692fa598",
+      "seconds": 3.327867200001492,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 269.0,
+      "time_seconds": 4.466666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000136",
+      "capture_view": "wiper_oblique",
+      "path": "000136.png",
+      "sha256": "4ab7586a4184a3791a34217485004759137a7775a4543ce54908e31c1c29b2f3",
+      "seconds": 3.3332194999966305,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 271.0,
+      "time_seconds": 4.5,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000137",
+      "capture_view": "wiper_oblique",
+      "path": "000137.png",
+      "sha256": "02e4814f0a0d89dc8c36aaf27452bdf668d27c8a11108d918fd394f12dd8d5b6",
+      "seconds": 3.345537699999113,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 273.0,
+      "time_seconds": 4.533333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000138",
+      "capture_view": "wiper_oblique",
+      "path": "000138.png",
+      "sha256": "cdc4cd1a814dadc4b966182e0bcbc06aa48371702a2916f270a29e5f8c2b7416",
+      "seconds": 3.39326930000243,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 275.0,
+      "time_seconds": 4.566666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000139",
+      "capture_view": "wiper_oblique",
+      "path": "000139.png",
+      "sha256": "5e0c9b4676173e130edacc850d2777b8f22d73642455056491140dd647bc4c9e",
+      "seconds": 3.3251534000009997,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 277.0,
+      "time_seconds": 4.6,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000140",
+      "capture_view": "wiper_oblique",
+      "path": "000140.png",
+      "sha256": "06f0494b892723c88f0fef13c7335f20c8e330fe61322253efe36062bfad1739",
+      "seconds": 3.306874899994,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 279.0,
+      "time_seconds": 4.633333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000141",
+      "capture_view": "wiper_oblique",
+      "path": "000141.png",
+      "sha256": "86307d3d522b8901fc1285cdb49f095c1d0c43cd6043135c1d8c5848133c2861",
+      "seconds": 3.323816900003294,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 281.0,
+      "time_seconds": 4.666666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000142",
+      "capture_view": "wiper_oblique",
+      "path": "000142.png",
+      "sha256": "f077244248bba7810aac82356fadd62cb747052b3f24e12e6ac0057a25fc2e7a",
+      "seconds": 3.30969709999772,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 283.0,
+      "time_seconds": 4.7,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000143",
+      "capture_view": "wiper_oblique",
+      "path": "000143.png",
+      "sha256": "988929f646f89b5411d3bf060903e77b0b661fad6d9d9c64fb2cb8fe7872768f",
+      "seconds": 3.3334611000027508,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 285.0,
+      "time_seconds": 4.733333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000144",
+      "capture_view": "wiper_oblique",
+      "path": "000144.png",
+      "sha256": "1b58535716f2dc5f75434e8e3dd78cd7bf984411930567ed38d915adcc05dba5",
+      "seconds": 3.346272200004023,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 287.0,
+      "time_seconds": 4.766666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000145",
+      "capture_view": "wiper_oblique",
+      "path": "000145.png",
+      "sha256": "e889adbee601876e0ca329c4bf7fcbeec4ae51ce70e0c4455f2e0d1dca394c72",
+      "seconds": 3.316436799999792,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 289.0,
+      "time_seconds": 4.8,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000146",
+      "capture_view": "wiper_oblique",
+      "path": "000146.png",
+      "sha256": "75c06d1392173d40fc9f655ad5d0fedff672c1c3ba93f5d6b14abf437f181927",
+      "seconds": 3.3268308999977307,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 291.0,
+      "time_seconds": 4.833333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000147",
+      "capture_view": "wiper_oblique",
+      "path": "000147.png",
+      "sha256": "ae6abb59c9d37ef2a21abbe8bc6a6984da294d5cf7d76d35ed76826cf7db5c4a",
+      "seconds": 3.347993299998052,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 293.0,
+      "time_seconds": 4.866666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000148",
+      "capture_view": "wiper_oblique",
+      "path": "000148.png",
+      "sha256": "77960d61e04e1652d14c265c6e3eb39274a70bfb32eb22c947ff9c5a4f361ef5",
+      "seconds": 3.3783018000031007,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 295.0,
+      "time_seconds": 4.9,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000149",
+      "capture_view": "wiper_oblique",
+      "path": "000149.png",
+      "sha256": "bad95f48e5620f12ae7a048d0464544255de22227d5819816d561742e52581ba",
+      "seconds": 3.3056777999954647,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 297.0,
+      "time_seconds": 4.933333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000150",
+      "capture_view": "wiper_oblique",
+      "path": "000150.png",
+      "sha256": "3beb3a6fa597b520bacb202cd54b990f008f642313a4ea45ff8e150054ac4304",
+      "seconds": 3.331809399998747,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 299.0,
+      "time_seconds": 4.966666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000151",
+      "capture_view": "wiper_oblique",
+      "path": "000151.png",
+      "sha256": "9f7778fa3c787dfef902e975f1e1dd3803480a751ea8d8b66f931b5232a1c5b0",
+      "seconds": 3.3357684000002337,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 301.0,
+      "time_seconds": 5.0,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000152",
+      "capture_view": "wiper_oblique",
+      "path": "000152.png",
+      "sha256": "155b79b3ea997cf584a1540e6f197991e1de96ec0868beb7ef41e71ec79cfc22",
+      "seconds": 3.3220682999963174,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 303.0,
+      "time_seconds": 5.033333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000153",
+      "capture_view": "wiper_oblique",
+      "path": "000153.png",
+      "sha256": "92a555f9b3e3ddc62bfdf6ad12de14f614ad253d9e235b5efc877fbe91c797bc",
+      "seconds": 3.3332004000039888,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 305.0,
+      "time_seconds": 5.066666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000154",
+      "capture_view": "wiper_oblique",
+      "path": "000154.png",
+      "sha256": "df701ea3c940b8046f99bf3f9d9ca627ad37dde989813f44da0a6551570b621b",
+      "seconds": 3.330514099994616,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 307.0,
+      "time_seconds": 5.1,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000155",
+      "capture_view": "wiper_oblique",
+      "path": "000155.png",
+      "sha256": "80fcdf5f69e3fce61ff8291769b4dcef453408fede4908edd5197970c9193347",
+      "seconds": 3.29288689999521,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 309.0,
+      "time_seconds": 5.133333333333334,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000156",
+      "capture_view": "wiper_oblique",
+      "path": "000156.png",
+      "sha256": "d9e4784770d749ab374a0f273c94e3e994bec56c8fe8ef952ce5c21a399666b6",
+      "seconds": 3.3224465000021155,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 311.0,
+      "time_seconds": 5.166666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000157",
+      "capture_view": "wiper_oblique",
+      "path": "000157.png",
+      "sha256": "897c8efb0b56b2bf752525986b5111de29cf4816b77f49a2f78eaea045fa8554",
+      "seconds": 3.3107343000010587,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 313.0,
+      "time_seconds": 5.2,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000158",
+      "capture_view": "wiper_oblique",
+      "path": "000158.png",
+      "sha256": "2df7f3d9573a0565b94295aa8e642f934e94b3b4bc72b051a200b1134e126dcf",
+      "seconds": 3.312001999998756,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 315.0,
+      "time_seconds": 5.233333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000159",
+      "capture_view": "wiper_oblique",
+      "path": "000159.png",
+      "sha256": "edbb6e9fd4039014c8b38a51abd252749efc08c06b53b45438d14a781818d725",
+      "seconds": 3.304443300003186,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 317.0,
+      "time_seconds": 5.266666666666667,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000160",
+      "capture_view": "wiper_oblique",
+      "path": "000160.png",
+      "sha256": "9b49506dfa523d5437831b2d74782687877813348205b7d002a3b0825808a9c4",
+      "seconds": 3.2960204999981215,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 319.0,
+      "time_seconds": 5.3,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000161",
+      "capture_view": "wiper_oblique",
+      "path": "000161.png",
+      "sha256": "6e08d4bd6dfa7cf9d47705dd53c041607b9b67a3cafc22b770377b98cc316392",
+      "seconds": 3.2947237999978825,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 321.0,
+      "time_seconds": 5.333333333333333,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000162",
+      "capture_view": "wiper_oblique",
+      "path": "000162.png",
+      "sha256": "8c7d2ab420398128547ec640e7881f4a496819b163b55525edc15fcd38b23491",
+      "seconds": 3.294624099995417,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 323.0,
+      "time_seconds": 5.366666666666666,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    },
+    {
+      "view": "000163",
+      "capture_view": "wiper_oblique",
+      "path": "000163.png",
+      "sha256": "ffbfad1faa8cd6a449cad8096c2de9d39a4532351263f94ac80b1677f2259d9f",
+      "seconds": 3.3069639000023017,
+      "cold": false,
+      "camera_location": [
+        1.1,
+        1.5,
+        1.95
+      ],
+      "camera_target": [
+        0,
+        0.47,
+        1.16
+      ],
+      "orthographic": false,
+      "lens_mm": 55.0,
+      "ortho_scale_m": 6.599999904632568,
+      "source_frame": 325.0,
+      "time_seconds": 5.4,
+      "animated_controls": {},
+      "inspection_fill_watts": 0,
+      "inspection_fill_disk_diameter_m": null
+    }
+  ]
+}

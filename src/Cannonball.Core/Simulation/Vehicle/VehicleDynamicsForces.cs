@@ -124,6 +124,51 @@ public static class VehicleDynamicsForces
         return Math.Clamp(requested, -maximum, maximum);
     }
 
+    /// <summary>
+    /// Bounds a tire's opposing impulse for one explicit physics step. The count
+    /// is the persistent tire count, including currently unsupported tires.
+    /// effectiveInverseMass is 1/m + (r x tangent) dot I^-1(r x tangent), about
+    /// the true center of mass with world inverse inertia. The returned scalar
+    /// is float32 because it is submitted to the native force API.
+    /// </summary>
+    public static float StepLimitedLateralTireForceNewtons(
+        double requestedForceNewtons,
+        double lateralSpeedMetersPerSecond,
+        double effectiveInverseMass,
+        double deltaSeconds,
+        int wheelCount)
+    {
+        RequireFinite(requestedForceNewtons, nameof(requestedForceNewtons));
+        RequireFinite(lateralSpeedMetersPerSecond, nameof(lateralSpeedMetersPerSecond));
+        RequireFinitePositive(effectiveInverseMass, nameof(effectiveInverseMass));
+        RequireFinitePositive(deltaSeconds, nameof(deltaSeconds));
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(wheelCount);
+        if (Math.Abs(requestedForceNewtons) > float.MaxValue)
+        {
+            throw new ArgumentOutOfRangeException(nameof(requestedForceNewtons));
+        }
+        if (lateralSpeedMetersPerSecond == 0 || requestedForceNewtons == 0)
+        {
+            return 0;
+        }
+        if (Math.Sign(requestedForceNewtons) == Math.Sign(lateralSpeedMetersPerSecond))
+        {
+            throw new ArgumentException("Tire force must oppose its lateral point velocity.",
+                nameof(requestedForceNewtons));
+        }
+
+        var maximum = Math.Abs(lateralSpeedMetersPerSecond) /
+            effectiveInverseMass / deltaSeconds / wheelCount;
+        var magnitude = (float)Math.Min(Math.Abs(requestedForceNewtons), maximum);
+        // Preserve the original native cast whenever it is under the cap. If
+        // nearest float32 rounds upward across the cap, choose its predecessor.
+        if ((double)magnitude > maximum)
+        {
+            magnitude = float.BitDecrement(magnitude);
+        }
+        return MathF.CopySign(magnitude, (float)requestedForceNewtons);
+    }
+
     public static double CoastResistanceForceNewtons(
         double speedMetersPerSecond,
         double vehicleMassKilograms,

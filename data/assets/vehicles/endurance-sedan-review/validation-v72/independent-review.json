@@ -1,0 +1,1202 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "utc": "2026-09-21T07:47:43.051505+00:00",
+  "git_revision": "93aaf6bc1de143c7642bbdd24cdcff2ed0a3bad6",
+  "status": "RELEASE58 hosted recovery independently verified within export-staging scope",
+  "verdict": "P1-018-RELEASE58-REVIEW-LFS can be closed by the owner using this actual hosted recovery, while final asset/source/performance/human gates remain open.",
+  "scope": "Read downloaded hosted receipt, complete ZIP members/CRC/SHA and actual native Linux/Windows summaries. No native rerun, download, source edit or archive creation.",
+  "run": {
+    "conclusion": "success",
+    "createdAt": "2026-09-21T07:11:10Z",
+    "databaseId": 35571757518,
+    "headSha": "93aaf6bc1de143c7642bbdd24cdcff2ed0a3bad6",
+    "name": "Reproducible unsigned fixture exports",
+    "status": "completed",
+    "updatedAt": "2026-09-21T07:21:54Z",
+    "url": "https://github.com/Randroids-Dojo/Cannonball-Vibe/actions/runs/35571757518"
+  },
+  "jobs": [
+    {
+      "name": "Build reproducible fixture exports",
+      "databaseId": 106244670645,
+      "conclusion": "success",
+      "startedAt": "2026-09-21T07:11:13Z",
+      "completedAt": "2026-09-21T07:17:32Z"
+    },
+    {
+      "name": "Clean-machine smoke (windows)",
+      "databaseId": 106246221964,
+      "conclusion": "success",
+      "startedAt": "2026-09-21T07:17:34Z",
+      "completedAt": "2026-09-21T07:21:53Z"
+    },
+    {
+      "name": "Clean-machine smoke (linux)",
+      "databaseId": 106246221973,
+      "conclusion": "success",
+      "startedAt": "2026-09-21T07:17:34Z",
+      "completedAt": "2026-09-21T07:19:14Z"
+    }
+  ],
+  "pr_head_revision": "93aaf6bc1de143c7642bbdd24cdcff2ed0a3bad6",
+  "actual_package_source_revision": "ca5a5c94cd3d7fb4fcd63c76aa5bd5ae25edcf24",
+  "four_hosted_export_success_lines": [
+    "Build reproducible fixture exports\tBuild each export twice\t2026-09-21T07:16:00.0627039Z CANNONBALL_PACKAGE_OK root=/home/runner/work/_temp/unsigned-exports/work/linux-1/package smoke=false",
+    "Build reproducible fixture exports\tBuild each export twice\t2026-09-21T07:16:23.6102195Z CANNONBALL_PACKAGE_OK root=/home/runner/work/_temp/unsigned-exports/work/linux-2/package smoke=false",
+    "Build reproducible fixture exports\tBuild each export twice\t2026-09-21T07:16:50.2644518Z CANNONBALL_PACKAGE_OK root=/home/runner/work/_temp/unsigned-exports/work/windows-1/package smoke=false",
+    "Build reproducible fixture exports\tBuild each export twice\t2026-09-21T07:17:15.4815273Z CANNONBALL_PACKAGE_OK root=/home/runner/work/_temp/unsigned-exports/work/windows-2/package smoke=false"
+  ],
+  "two_hosted_byte_comparison_success_lines": [
+    "Build reproducible fixture exports\tBuild each export twice\t2026-09-21T07:16:24.1093575Z CANNONBALL_REPRODUCIBLE_EXPORT_OK platform=linux sha256=30010a0d93eb60139475d46175b1bbbefec48a1f0db649bc374f2b608347bc8b archive=/home/runner/work/_temp/unsigned-exports/linux/Cannonball-linux-x86_64-30010a0d93eb60139475d46175b1bbbefec48a1f0db649bc374f2b608347bc8b.zip",
+    "Build reproducible fixture exports\tBuild each export twice\t2026-09-21T07:17:16.0719656Z CANNONBALL_REPRODUCIBLE_EXPORT_OK platform=windows sha256=cc61bf145b316cdb6f14b58554908c04f189bb02bf25362b7a221b3fedc7a664 archive=/home/runner/work/_temp/unsigned-exports/windows/Cannonball-windows-x86_64-cc61bf145b316cdb6f14b58554908c04f189bb02bf25362b7a221b3fedc7a664.zip"
+  ],
+  "smokes": [
+    {
+      "platform": "linux",
+      "archive": {
+        "path": "reports/p1-018/finish-branch40/hosted67/package-smoke-linux.zip",
+        "bytes": 3106713,
+        "sha256": "15ca6a7547240b6883355b4f3998c70bd0a67b1981ae77f60bc4fb260409100b"
+      },
+      "hosted_artifact_id": 10626945148,
+      "all_member_sha_size_crc_exact": true,
+      "members": 47,
+      "generic_package_smoke": {
+        "required": 10,
+        "completed": 10,
+        "status": "passed"
+      },
+      "sedan": {
+        "driving": {
+          "member": "package-sedan/driving/summary.json",
+          "sha256": "67f8a808ec878cb9696b63188343781ac934628fdad6a6a33c8aeaeb680ad81e",
+          "status": "passed",
+          "vehicle": "endurance-sedan",
+          "loaded_asset": "endurance-sedan",
+          "stages": 17,
+          "stage_names": [
+            "static-ride",
+            "keyboard-acceleration",
+            "keyboard-braking",
+            "controller-acceleration",
+            "controller-braking",
+            "reverse",
+            "steer-left",
+            "steer-right",
+            "suspension",
+            "collision",
+            "reset",
+            "cameras",
+            "natural-rebase",
+            "forced-rebase",
+            "save-resume",
+            "starter-policy",
+            "lod-driving"
+          ],
+          "frames": 8918,
+          "engine": "4.7.1-stable (official)",
+          "runtime_is_debug_build": false,
+          "input_hash_scope": "physically available repository files; packaged PCK/assembly hashes are bound by the external package verifier",
+          "unavailable_repository_input_count": 18
+        },
+        "presentation": {
+          "member": "package-sedan/presentation/presentation-summary.json",
+          "sha256": "3bc115c75ef6ba21979e0351f047d9bf119954244a4934b740299f2236dbdb2c",
+          "status": "passed",
+          "vehicle": "endurance-sedan",
+          "loaded_asset": "endurance-sedan",
+          "stages": 52,
+          "stage_names": [
+            "contract",
+            "view-front",
+            "view-rear",
+            "view-left",
+            "view-right",
+            "view-top",
+            "view-underside",
+            "view-front-three-quarter",
+            "view-rear-three-quarter",
+            "turntable",
+            "cockpit",
+            "view-footwell",
+            "view-rear-cabin",
+            "inspection-keyboard",
+            "inspection-controller",
+            "open-Door_FL",
+            "close-Door_FL",
+            "open-Door_FR",
+            "close-Door_FR",
+            "open-Door_RL",
+            "close-Door_RL",
+            "open-Door_RR",
+            "close-Door_RR",
+            "open-Hood_Hinge",
+            "close-Hood_Hinge",
+            "open-Trunk_Hinge",
+            "close-Trunk_Hinge",
+            "lights-off",
+            "headlights",
+            "brake-lights",
+            "reverse-lights",
+            "left-indicator",
+            "right-indicator",
+            "hazards",
+            "wipers-sweep",
+            "wipers-park",
+            "steering-small-right",
+            "controls-left",
+            "controls-right",
+            "instruments-forward",
+            "instruments-reverse",
+            "instruments-low-fuel",
+            "instruments-damage",
+            "instruments-cooling",
+            "instruments-tires",
+            "instruments-panel-open",
+            "instruments-park-brake",
+            "mirrors-configuration",
+            "lod-near",
+            "lod-middle",
+            "lod-far",
+            "lod-return"
+          ],
+          "frames": 8331,
+          "engine": "4.7.1-stable (official)",
+          "runtime_is_debug_build": false,
+          "input_hash_scope": "physically available repository files; packaged PCK/assembly hashes are bound by the external package verifier",
+          "unavailable_repository_input_count": 14
+        }
+      },
+      "package_before_after_exact_files": 262,
+      "declared_shipping_runtime_hashes": 174,
+      "output_hashes_checked_from_zip": 15,
+      "verifier_recovered_exact_at": "reports/p1-018/qa/hosted67-review01/verifier-input.py",
+      "unretained_observed_output": {
+        "path": "driving/run-save.json.bak",
+        "sha256": "40e624fd275c5b28198925bfe5c917e82fae71ac73af54ebf53fdea484544a1d"
+      },
+      "normal_exit": [
+        0,
+        0
+      ],
+      "disposable_user_data_removed": true,
+      "stderr_empty": true,
+      "scope": "selected sedan packaged headless functional execution",
+      "limitations": [
+        "Headless state checks do not prove native visuals, mirror pixels, frame performance or physical device usability.",
+        "Human visual, handling, accessibility and source/output rights reviews remain open."
+      ],
+      "fixture": {
+        "fixture": "representative-corridor",
+        "purpose": "endurance-sedan-functional-verification",
+        "default_launcher": false,
+        "continental_coverage_claim": false,
+        "content_version": "route-v5-34a5d54f2bfdd0d0",
+        "pointer": "verification/fixtures/representative-corridor/current-package.json",
+        "pointer_sha256": "1d15bdf7819cbc00c15c293176aa7589da3eb7e7ddac67f7279457031337dd67",
+        "route_root": "verification/fixtures/representative-corridor/route_graph-67bc1f12a3e1083d78b1f1d284cf57a54f7650a5e66a5c2fdac76c5173e701d5.cbrg",
+        "route_root_sha256": "b44ab506d6dc2dbdaa0aa19598511fa766e9054838aa1f7fe3b4153356bc3295",
+        "metadata": "verification/fixtures/representative-corridor/route_graph-67bc1f12a3e1083d78b1f1d284cf57a54f7650a5e66a5c2fdac76c5173e701d5.json",
+        "metadata_sha256": "f06a79daea1421501cf28b4120ff6905794d98fb0f16602b65ed2eb67c847a64",
+        "provenance": "verification/fixtures/representative-corridor/provenance.json",
+        "provenance_sha256": "b2d3499c5b1ee7ead8624e4ec62885a050af34714961b0b0b1010a1eff906eff",
+        "unique_route_miles": 15.326093926569435,
+        "chunks": [
+          {
+            "id": "edge-0e832d7704858be5df36-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/084ca1e7ce312b1d67b3719465687bbbd8765066af52f50ca56ac060e5276e5e.cbck",
+            "sha256": "9586bb59dec4c1e5dc3bfb1a07a168dda36a9aa5da5272c3dec67265a5143801",
+            "bytes": 1072
+          },
+          {
+            "id": "edge-1317493220f63cb50421-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/796ddac138da8c56609ee6e87458014206a4faaa972fdd8a2e4a53335ce02977.cbck",
+            "sha256": "7544af72fa3798cec3d955a5e8368e0fdfbe80dcb225e5be346cbdf669b6cff5",
+            "bytes": 1240
+          },
+          {
+            "id": "edge-1aea5ce7f2b3cbde5ef6-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/9791b78ee558a0831b874c64b2f4f76d8bdc516500bfcaf2b8f21535ab7f75d0.cbck",
+            "sha256": "e1afe26a3e9e9a8760c3634b5c2ccba7cc74e9fe478def2ed66713ad8d085aa9",
+            "bytes": 3032
+          },
+          {
+            "id": "edge-29bfca15796b57c1c4ee-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/b004ebb36948b74d0b8b103ac670c540f0efcbbcde2ed4962e3ea17ef0a82de9.cbck",
+            "sha256": "21d777437bfb25b3b1568167f643c52f6cfb53198a0df6062139618712e2d488",
+            "bytes": 400
+          },
+          {
+            "id": "edge-2d75b929e7a30f720243-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/90f0f4e60fe2f4cf4352be11e478861c7cb0a911da0f6a9dc56fed0471fa4631.cbck",
+            "sha256": "732c67dd8beb8e2644030981ba1cfc557e89449bb266dd77fa61202160f227f3",
+            "bytes": 4712
+          },
+          {
+            "id": "edge-2d75b929e7a30f720243-c0001",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/4ba5341fb808fdd9001a0334cb2c23b46e6aaa59b768244b4a126c25f75550af.cbck",
+            "sha256": "7df62ac5ffa21513f58035d0002c50135e6eb28bc3958d808d050074af64a08d",
+            "bytes": 1080
+          },
+          {
+            "id": "edge-30825305dfe6c6635386-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/e4c0c5aab1374d0e640664feaf525f28b98520e850cb62aece6d5fa405457659.cbck",
+            "sha256": "f10968354ed530222019824d54efcec7524db6f3103a256652abfea75dced8dd",
+            "bytes": 456
+          },
+          {
+            "id": "edge-30d1b0afa7af72a4e998-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/7519b59a2f242a23009d19a960b5d14c8c9afe48143548d6d64c3ca1d4488845.cbck",
+            "sha256": "7a1f6f368eaddbb84afbfa2ca83ba71e454e31878a9f1dfc228e5d353b103dff",
+            "bytes": 2024
+          },
+          {
+            "id": "edge-3155b4a926fa92026dfc-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/98df57c8eb42590dc3aa291cb45267036e683f276e30911dddbb6e120ae8a69e.cbck",
+            "sha256": "64cf089c6c2b02ba4ead2b133b33f4c8f67bf5d73ce984cf81ffb7607ccafe55",
+            "bytes": 400
+          },
+          {
+            "id": "edge-36d4ea751d4c2a49ae38-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/b2769eb4a97b4d2b1906456e03080409ee788bb7beac5f3755448db44374d71a.cbck",
+            "sha256": "2b150e341da21660503dc87423976fc26d116cb0ac2289e0ff7e91e1cb11f558",
+            "bytes": 4656
+          },
+          {
+            "id": "edge-36ee2d38afbe3eec3589-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/5173701bf122861d298815838d4740efdfb2948baf7fcc4810bd7ad495e1ce65.cbck",
+            "sha256": "a063f2e6e4e6b55763521864d8a02d26df534e05c22f51f305e97e150d74bb36",
+            "bytes": 2416
+          },
+          {
+            "id": "edge-37dc9f22583336630ac3-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/3d9af86e6a4ca0180e11b8dafff674ae889a6eb2a6ab73f4ee281d4816161ca4.cbck",
+            "sha256": "1887bee95321f3f4f471313db05eb60d86b470231fc135892ddfe691c4351632",
+            "bytes": 512
+          },
+          {
+            "id": "edge-3a11c16ebb9b3a945413-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/3f1483cdbc5286ccdb399532b938dbe52b77b54bb8d6e90829a4d75e78c41020.cbck",
+            "sha256": "822a2cbd0a70c50b6f22083c5b6a64397d3a06536709a9dd016ca7ec23f0786e",
+            "bytes": 4712
+          },
+          {
+            "id": "edge-3a11c16ebb9b3a945413-c0001",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/cb3c93b5ab61d4efe51d6101ba9169a996d8007daf27235f7617de7ec908865e.cbck",
+            "sha256": "8c4c2a432be54816e469718776d6523d85fe168993d2320a90a2204d2c77fb31",
+            "bytes": 1920
+          },
+          {
+            "id": "edge-3c0df519ceb26944548d-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/16676e1aa2b69f966d8307af446eb90dd3bcd7d19151dbc4bed1b49c5a9d28a5.cbck",
+            "sha256": "8ce711c01c43ad261e9d01193d047ed88f1ab345da28425ae8dd7fd83bdc0ac2",
+            "bytes": 792
+          },
+          {
+            "id": "edge-3ca7f656b08e6f8c31fb-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/ee4444f80059e8aeca9df165e26d2ff3350e890f43133c1e600c3eb38c0d353e.cbck",
+            "sha256": "2ecf35fa7c3647a50129417384b9504a4914c4486c281a8d24ab7fe3b878599e",
+            "bytes": 1072
+          },
+          {
+            "id": "edge-4099ff50f79d8623e843-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/1fe06724998846701d94a10b8c2e52ddcd045f36888e7eeb09f1fd351c4d0de4.cbck",
+            "sha256": "c742f5c086ed8639eab16ed362d283f6d79e01eed018b4509f1e37c00c20461e",
+            "bytes": 736
+          },
+          {
+            "id": "edge-51f0361c0a79aa9c2ddc-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/2e00fd9d486281a29fdc977ed737f4541cbc2e961fbac21fe05056f4adba552b.cbck",
+            "sha256": "a89f0c55e762ce31304f2e4a2ab33730c9d6aacf76fd1f1182fc3b3bac36137c",
+            "bytes": 1072
+          },
+          {
+            "id": "edge-56959ae61164db7bf6b4-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/dd745c762b063bb2a8d7867362e22cdeb114d2d12354972345f9dac20cb4873a.cbck",
+            "sha256": "22e75a36efca1968422e8cf038cd78fefe70bb774e6b384c284810551138ded2",
+            "bytes": 568
+          },
+          {
+            "id": "edge-5be63a1249560b359ef7-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/adef617b35414a9012b10dc10e31eeaa2d4e8a47c54f4b605e330103ee43257e.cbck",
+            "sha256": "cc197e8cdf710707a734940b368e48c1954e07193fbb9c39b253d2bd98ff5cf8",
+            "bytes": 2304
+          },
+          {
+            "id": "edge-5e4c3ba15568961a3342-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/c636057bb878c2d4da2b583e8250f2216a39b3b1ee6ba27bc29dd8aed8c0be88.cbck",
+            "sha256": "1717a2981bcadc81b47ede8d71f3a88a2521e3e736b94abd9d9c1dd2031148ba",
+            "bytes": 3256
+          },
+          {
+            "id": "edge-5f42faa47a61d06be2a3-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/b644fe0add421ace24154ce78a40f4fc54a23b6b500fc1f852d85118d556880e.cbck",
+            "sha256": "e4ddbd0febef0862d6d1ae2f765b4bc5d857acbb6d2585889e1fab5200ca8920",
+            "bytes": 512
+          },
+          {
+            "id": "edge-62b919f5938a9706e458-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/c04e40077289d2de402699355d015b54c4ae3454d41b44ce442a6a5e3a32b594.cbck",
+            "sha256": "dbb52d3fc82b0e06c612bd15a513343723a98663e911b1894e48ebc5836765e3",
+            "bytes": 1184
+          },
+          {
+            "id": "edge-6e9cc8341dfa158b9f47-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/de2f8eb6d614bd3897fc1dfd1c0177fcab791c2a814395419b447ace54c9cfe8.cbck",
+            "sha256": "115c7709c46ba5f6fa994b302b271d80c2f703eb42c53c1e9271a68a44c38b73",
+            "bytes": 344
+          },
+          {
+            "id": "edge-72832fc82fb7fd3d9c27-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/3c35f6460b482367399e1b360cb9fd7aa8381633b138a2748e4ef8116cf74ad3.cbck",
+            "sha256": "2d933011a7c8ee278fc8af4d0e58f7e23111351611e592586e48f7c86689907c",
+            "bytes": 624
+          },
+          {
+            "id": "edge-77009234c6fd465f761c-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/b3b69af33ca4b7b380c527a7c84463f4044cd476ae21e502ab087a4bd13d7d20.cbck",
+            "sha256": "68da00363b7e62e275595a189be93b67655ad00b38d30abd9564ddb249aa25b2",
+            "bytes": 4712
+          },
+          {
+            "id": "edge-77009234c6fd465f761c-c0001",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/8c54b57eb8827765ac2b7b4a6f6ace4ec69ddc9de44d2b49d230e40a67b627b2.cbck",
+            "sha256": "e1fa052a32995a653aa40432bf65dd2a431f19677a1f120562a0bdb2f6ce53e8",
+            "bytes": 464
+          },
+          {
+            "id": "edge-82d6f5a0de67921949a4-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/621b1af749ea6e40b27d0909cf363b1bda236b10225d707cf9c938c56baaf4b7.cbck",
+            "sha256": "2cad4b4153ace877f1f39630a9f565704897e58e3c595a70e5cc56a6a64fd547",
+            "bytes": 680
+          },
+          {
+            "id": "edge-85073f0136ee5a0572ac-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/5d7d2a713fb7c27a289a3de076906ab1bb001fc06c8bc101870414ed6182a762.cbck",
+            "sha256": "b712c230d08e674b1fe3ea6e2b825d1df929d7bfa9421d3e4d2ec3aef62454b1",
+            "bytes": 400
+          },
+          {
+            "id": "edge-8a46d3ad75bb009dd7a4-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/9a796b4f576f243c29ff025dda892c5efff0504060d568819507033f38cea5c4.cbck",
+            "sha256": "c095f6749c13bbc0247a2a58e618d3458c71effdc5bb5a39a4a5947fa94841fc",
+            "bytes": 344
+          },
+          {
+            "id": "edge-9c16ae741e5fac305420-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/37f87175cb0fb8f774ec30662850c92551da595bc6ba81f56470c45305360614.cbck",
+            "sha256": "a8bc9b077b93b409eb65ebbfd5d422ebbbb8c6ea8b8be2470bfbb130dc0b6861",
+            "bytes": 1016
+          },
+          {
+            "id": "edge-a2bc339842c1b68527f5-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/84e2056454214881c75f6967549da0bc9b1aebdd9a4b5dbe557b4c9f57a97936.cbck",
+            "sha256": "e7b231cd065d1f827aeddf99a29d6d338fd642fca474b0529e715da0e0b35850",
+            "bytes": 512
+          },
+          {
+            "id": "edge-caf05153b4274229f1fe-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/a60250fd4e27f3fee0fd521b4160558c5f55f279315632bb4cc2821ef42343d4.cbck",
+            "sha256": "83cbd0d3461baf2847845ab542b5392bddecb621533c6c6a1be2a1f08da25f1e",
+            "bytes": 400
+          },
+          {
+            "id": "edge-cd4b812c456abd3e2354-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/30364aa20d226a2b541f5532cbfdbc3883fab75bae26290d6c89009be39792aa.cbck",
+            "sha256": "7704b878adb7f00f4d1a8f390b65543db168cffc1f0edf518b2658a351d88100",
+            "bytes": 512
+          },
+          {
+            "id": "edge-d4ef42f4c6a3fd574abd-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/333d685760d997e43229267e63a64f558a1f0416ff847933833a372e4e3745b1.cbck",
+            "sha256": "9cfb1beb112ec71b134470679502abf6ce3a1dda3f2c6748d4fd5cb01c933032",
+            "bytes": 568
+          },
+          {
+            "id": "edge-d6d836af575d6df884ec-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/4a8ed0b4e6afda4bce779732ce7df9c57ff98a87bb24d312f471cd2df4f4f5d9.cbck",
+            "sha256": "2af5535b924e77c14e76edd4822f36fb230f04f9c4579cfca33c1621e4d9a50c",
+            "bytes": 512
+          },
+          {
+            "id": "edge-d7fbd94673ee77e0e880-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/86d87864bb09230e15bde7d4d49c78847d41d27ff03247c14594a8d04e02b597.cbck",
+            "sha256": "040e6220064c70d0c7c9844ce4aa20df39ab56db81727fe22b0a06526fe51206",
+            "bytes": 2976
+          },
+          {
+            "id": "edge-d8f66c3d6587e4189b0a-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/fa7765df004303dd7f52aa6de2248760f7886153c10013c6448c3e1cc2ac91b8.cbck",
+            "sha256": "3288750db872a5d60a81c4a117ec9a0f58a4e4202e81134c026115f6aa087eca",
+            "bytes": 512
+          },
+          {
+            "id": "edge-dc935a7999b95c82b494-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/979fa91b249842cfce5aa51cfd63c7e69c4d692f6ed700d11f481d48633a8101.cbck",
+            "sha256": "65858becea633a01e2ab99c81d4841b409301a925bb384feab9a74b495ed9223",
+            "bytes": 512
+          },
+          {
+            "id": "edge-e27af24175a124c8b80d-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/ed097a0a3af4e2a4b3cdce2a17051efa45ad5c5456eaf72ee36c569b3b8beeac.cbck",
+            "sha256": "be73af1f3bc1f9cb0e258199a6aea20af608b8227294b1c6f0c967a14b2b75d8",
+            "bytes": 1240
+          },
+          {
+            "id": "edge-e28e0007c79a42775684-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/1eb1ef06160dc4064b24d5f00db4e1b259d7ab135a6377ede11fa34c3a746486.cbck",
+            "sha256": "187793b50405a840d0190348c99d269cd9c0dcc89d774f44c53b987694a3ef4c",
+            "bytes": 680
+          },
+          {
+            "id": "edge-eab20c4324a93dcc0686-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/d8a268ef6a35574db167e95ba36a3cdd05eb3a415eac2613ae08c5c8b1e9e9ff.cbck",
+            "sha256": "2fc576963083d7d90505d63608e1195731fc6b4e3cf602019829c84bcc5b40ed",
+            "bytes": 624
+          },
+          {
+            "id": "edge-ebc3bdc9dd2dcbc7611a-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/ce581e634c7102315dae2fa5dbbb0f81d3064744999a1f520d6ba0d89bdc6bcd.cbck",
+            "sha256": "c1d24df7bde6c5d3b0300716f3a9cfb38bcf5bd09891294811deb43773a08318",
+            "bytes": 344
+          },
+          {
+            "id": "edge-ef560f06e7000f0ade9f-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/55af1e0108491dcd62da09ba75cd6fc49d9ee51d90286a4a42e0c27c5dc54daa.cbck",
+            "sha256": "e62835f0241afd8024e088747665136d875386344fc8ec239f9c8fd7b7669be4",
+            "bytes": 4712
+          },
+          {
+            "id": "edge-ef560f06e7000f0ade9f-c0001",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/7ea8282ea06ac54e71b4f80d91f1ce15576a10e9201bfb854799337ca778a495.cbck",
+            "sha256": "501c75ae7482ac4d2d1b116046c25998dcccdaa3c853270801a1ba94a9362610",
+            "bytes": 352
+          },
+          {
+            "id": "edge-f3ba5a1ce6e97be8a648-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/973d0e8c7f68beb0e67a6d3dae94254d55988c6dc46c010d9af44502c65f80f7.cbck",
+            "sha256": "3e08eb613558af561670e0564438963344fb6a02f78adda2bc863bf84be7d34c",
+            "bytes": 1464
+          },
+          {
+            "id": "edge-f7ed686cfe7aec901d03-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/16332823f846073cea28cddd0f45b39dcc46e814b6fda722409997a36a735a20.cbck",
+            "sha256": "195abe19e9b1c23b8487aa6bdad8ffb189c08b25360f8d4de22ab3ec7e027504",
+            "bytes": 1352
+          },
+          {
+            "id": "edge-f957cfec242df93b22b2-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/8743c503faa1a08e423bfddb0411d9d2242d6dd521c954db166e8a329b6468c0.cbck",
+            "sha256": "45dae5be7436dafd087415834441673badc1ed114c63c6957c0a95ac0673465f",
+            "bytes": 1072
+          },
+          {
+            "id": "edge-fb09f70baf2e1e015730-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/d8085ab7158e73959ff66c3aced5881d2549d85521a44ca54a95533d4768730a.cbck",
+            "sha256": "c8735eb109d5812ea0fdc2a0a5d819c9129a8f1fb336b9fd5b38f628dc02f194",
+            "bytes": 904
+          }
+        ]
+      },
+      "declared_build": {
+        "preset": "Linux x86_64",
+        "preset_sha256": "aa145597353db7da7b0df884a610102806abde9442da178423a77dea03840f71",
+        "godot_version": "4.7.1.stable.mono.official.a13da4feb",
+        "dotnet_version": "10.0.102",
+        "uv_version": "0.9.24",
+        "export_template_archive_sha256": "ef9a708be51ecd974cd7dccdcafd7a1870da3d3e1c24c072bdbb9818c7a7db63",
+        "export_template_version": "4.7.1.stable.mono",
+        "runtime_framework_version": "8.0.29",
+        "node_version": "22.22.1",
+        "python_version": "3.13.11",
+        "restore_locked_mode": true,
+        "content_set_sha256": "c3c8ea8bae67ab0f98fea5e5efacc9555fcbf141e8db39d2aefad970088f7819",
+        "lockfiles": [
+          {
+            "path": "packages.linux-x64.lock.json",
+            "sha256": "da3f53604646ecc0676145bc546457452f4996d9f0863a5ba3ed6848ee1795a8"
+          },
+          {
+            "path": "src/Cannonball.Core/packages.linux-x64.lock.json",
+            "sha256": "d7762ad5cf553808f68e3ee06f182fbc3eea97b7ed4cbe2b447dbd059a52cbe3"
+          }
+        ],
+        "inputs": [
+          {
+            "path": "project.godot",
+            "sha256": "40196e5f18be822adde0ae30ca07a456cb15391ceeb52fb81356985455c2dc71"
+          },
+          {
+            "path": "Cannonball.csproj",
+            "sha256": "b3ffbb34389046cb20c7179293c3a298f53d97040c70eb60b121a9d708dbdf04"
+          },
+          {
+            "path": "src/Cannonball.Core/Cannonball.Core.csproj",
+            "sha256": "c2b47090349478ba37dedf7c4af312c7d63d5741ddfd6307f69d6d559fa25aef"
+          },
+          {
+            "path": "data/sources/catalog.json",
+            "sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f"
+          },
+          {
+            "path": "data/sources/representative-corridor-lock.json",
+            "sha256": "80a80b4a22e0f2c0af71bd084b7ee8862a55c973031c0aa78c1309fd16ee061b"
+          },
+          {
+            "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+            "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6"
+          },
+          {
+            "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+            "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575"
+          },
+          {
+            "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+            "sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539"
+          },
+          {
+            "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json",
+            "sha256": "0ec7798324b918a55ea9e842ae1ee23370beb25c080b78ca17c0de14b07fda7f"
+          }
+        ]
+      }
+    },
+    {
+      "platform": "windows",
+      "archive": {
+        "path": "reports/p1-018/finish-branch40/hosted67/package-smoke-windows.zip",
+        "bytes": 3158668,
+        "sha256": "14cb2e632aa1538663adf339b5bd9f2f2080c835d58e070cc8f304c20052858c"
+      },
+      "hosted_artifact_id": 10626426948,
+      "all_member_sha_size_crc_exact": true,
+      "members": 47,
+      "generic_package_smoke": {
+        "required": 10,
+        "completed": 10,
+        "status": "passed"
+      },
+      "sedan": {
+        "driving": {
+          "member": "package-sedan/driving/summary.json",
+          "sha256": "78bd9f65cfefd08703d9356c1c10d1883631091014d9497b1ba13763c4f06ab2",
+          "status": "passed",
+          "vehicle": "endurance-sedan",
+          "loaded_asset": "endurance-sedan",
+          "stages": 17,
+          "stage_names": [
+            "static-ride",
+            "keyboard-acceleration",
+            "keyboard-braking",
+            "controller-acceleration",
+            "controller-braking",
+            "reverse",
+            "steer-left",
+            "steer-right",
+            "suspension",
+            "collision",
+            "reset",
+            "cameras",
+            "natural-rebase",
+            "forced-rebase",
+            "save-resume",
+            "starter-policy",
+            "lod-driving"
+          ],
+          "frames": 8918,
+          "engine": "4.7.1-stable (official)",
+          "runtime_is_debug_build": false,
+          "input_hash_scope": "physically available repository files; packaged PCK/assembly hashes are bound by the external package verifier",
+          "unavailable_repository_input_count": 18
+        },
+        "presentation": {
+          "member": "package-sedan/presentation/presentation-summary.json",
+          "sha256": "819fba5acb1c7d4eedc2ed6ae601bda6f233a8197921577f3c34ee394fcad545",
+          "status": "passed",
+          "vehicle": "endurance-sedan",
+          "loaded_asset": "endurance-sedan",
+          "stages": 52,
+          "stage_names": [
+            "contract",
+            "view-front",
+            "view-rear",
+            "view-left",
+            "view-right",
+            "view-top",
+            "view-underside",
+            "view-front-three-quarter",
+            "view-rear-three-quarter",
+            "turntable",
+            "cockpit",
+            "view-footwell",
+            "view-rear-cabin",
+            "inspection-keyboard",
+            "inspection-controller",
+            "open-Door_FL",
+            "close-Door_FL",
+            "open-Door_FR",
+            "close-Door_FR",
+            "open-Door_RL",
+            "close-Door_RL",
+            "open-Door_RR",
+            "close-Door_RR",
+            "open-Hood_Hinge",
+            "close-Hood_Hinge",
+            "open-Trunk_Hinge",
+            "close-Trunk_Hinge",
+            "lights-off",
+            "headlights",
+            "brake-lights",
+            "reverse-lights",
+            "left-indicator",
+            "right-indicator",
+            "hazards",
+            "wipers-sweep",
+            "wipers-park",
+            "steering-small-right",
+            "controls-left",
+            "controls-right",
+            "instruments-forward",
+            "instruments-reverse",
+            "instruments-low-fuel",
+            "instruments-damage",
+            "instruments-cooling",
+            "instruments-tires",
+            "instruments-panel-open",
+            "instruments-park-brake",
+            "mirrors-configuration",
+            "lod-near",
+            "lod-middle",
+            "lod-far",
+            "lod-return"
+          ],
+          "frames": 8331,
+          "engine": "4.7.1-stable (official)",
+          "runtime_is_debug_build": false,
+          "input_hash_scope": "physically available repository files; packaged PCK/assembly hashes are bound by the external package verifier",
+          "unavailable_repository_input_count": 14
+        }
+      },
+      "package_before_after_exact_files": 263,
+      "declared_shipping_runtime_hashes": 189,
+      "output_hashes_checked_from_zip": 15,
+      "verifier_recovered_exact_at": "reports/p1-018/qa/hosted67-review01/verifier-input.py",
+      "unretained_observed_output": {
+        "path": "driving/run-save.json.bak",
+        "sha256": "f57a66cd739a059cfea6757c8ea43b62486cdf6265b61604723f90854cc09e95"
+      },
+      "normal_exit": [
+        0,
+        0
+      ],
+      "disposable_user_data_removed": true,
+      "stderr_empty": true,
+      "scope": "selected sedan packaged headless functional execution",
+      "limitations": [
+        "Headless state checks do not prove native visuals, mirror pixels, frame performance or physical device usability.",
+        "Human visual, handling, accessibility and source/output rights reviews remain open."
+      ],
+      "fixture": {
+        "fixture": "representative-corridor",
+        "purpose": "endurance-sedan-functional-verification",
+        "default_launcher": false,
+        "continental_coverage_claim": false,
+        "content_version": "route-v5-34a5d54f2bfdd0d0",
+        "pointer": "verification/fixtures/representative-corridor/current-package.json",
+        "pointer_sha256": "1d15bdf7819cbc00c15c293176aa7589da3eb7e7ddac67f7279457031337dd67",
+        "route_root": "verification/fixtures/representative-corridor/route_graph-67bc1f12a3e1083d78b1f1d284cf57a54f7650a5e66a5c2fdac76c5173e701d5.cbrg",
+        "route_root_sha256": "b44ab506d6dc2dbdaa0aa19598511fa766e9054838aa1f7fe3b4153356bc3295",
+        "metadata": "verification/fixtures/representative-corridor/route_graph-67bc1f12a3e1083d78b1f1d284cf57a54f7650a5e66a5c2fdac76c5173e701d5.json",
+        "metadata_sha256": "f06a79daea1421501cf28b4120ff6905794d98fb0f16602b65ed2eb67c847a64",
+        "provenance": "verification/fixtures/representative-corridor/provenance.json",
+        "provenance_sha256": "b2d3499c5b1ee7ead8624e4ec62885a050af34714961b0b0b1010a1eff906eff",
+        "unique_route_miles": 15.326093926569435,
+        "chunks": [
+          {
+            "id": "edge-0e832d7704858be5df36-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/084ca1e7ce312b1d67b3719465687bbbd8765066af52f50ca56ac060e5276e5e.cbck",
+            "sha256": "9586bb59dec4c1e5dc3bfb1a07a168dda36a9aa5da5272c3dec67265a5143801",
+            "bytes": 1072
+          },
+          {
+            "id": "edge-1317493220f63cb50421-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/796ddac138da8c56609ee6e87458014206a4faaa972fdd8a2e4a53335ce02977.cbck",
+            "sha256": "7544af72fa3798cec3d955a5e8368e0fdfbe80dcb225e5be346cbdf669b6cff5",
+            "bytes": 1240
+          },
+          {
+            "id": "edge-1aea5ce7f2b3cbde5ef6-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/9791b78ee558a0831b874c64b2f4f76d8bdc516500bfcaf2b8f21535ab7f75d0.cbck",
+            "sha256": "e1afe26a3e9e9a8760c3634b5c2ccba7cc74e9fe478def2ed66713ad8d085aa9",
+            "bytes": 3032
+          },
+          {
+            "id": "edge-29bfca15796b57c1c4ee-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/b004ebb36948b74d0b8b103ac670c540f0efcbbcde2ed4962e3ea17ef0a82de9.cbck",
+            "sha256": "21d777437bfb25b3b1568167f643c52f6cfb53198a0df6062139618712e2d488",
+            "bytes": 400
+          },
+          {
+            "id": "edge-2d75b929e7a30f720243-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/90f0f4e60fe2f4cf4352be11e478861c7cb0a911da0f6a9dc56fed0471fa4631.cbck",
+            "sha256": "732c67dd8beb8e2644030981ba1cfc557e89449bb266dd77fa61202160f227f3",
+            "bytes": 4712
+          },
+          {
+            "id": "edge-2d75b929e7a30f720243-c0001",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/4ba5341fb808fdd9001a0334cb2c23b46e6aaa59b768244b4a126c25f75550af.cbck",
+            "sha256": "7df62ac5ffa21513f58035d0002c50135e6eb28bc3958d808d050074af64a08d",
+            "bytes": 1080
+          },
+          {
+            "id": "edge-30825305dfe6c6635386-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/e4c0c5aab1374d0e640664feaf525f28b98520e850cb62aece6d5fa405457659.cbck",
+            "sha256": "f10968354ed530222019824d54efcec7524db6f3103a256652abfea75dced8dd",
+            "bytes": 456
+          },
+          {
+            "id": "edge-30d1b0afa7af72a4e998-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/7519b59a2f242a23009d19a960b5d14c8c9afe48143548d6d64c3ca1d4488845.cbck",
+            "sha256": "7a1f6f368eaddbb84afbfa2ca83ba71e454e31878a9f1dfc228e5d353b103dff",
+            "bytes": 2024
+          },
+          {
+            "id": "edge-3155b4a926fa92026dfc-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/98df57c8eb42590dc3aa291cb45267036e683f276e30911dddbb6e120ae8a69e.cbck",
+            "sha256": "64cf089c6c2b02ba4ead2b133b33f4c8f67bf5d73ce984cf81ffb7607ccafe55",
+            "bytes": 400
+          },
+          {
+            "id": "edge-36d4ea751d4c2a49ae38-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/b2769eb4a97b4d2b1906456e03080409ee788bb7beac5f3755448db44374d71a.cbck",
+            "sha256": "2b150e341da21660503dc87423976fc26d116cb0ac2289e0ff7e91e1cb11f558",
+            "bytes": 4656
+          },
+          {
+            "id": "edge-36ee2d38afbe3eec3589-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/5173701bf122861d298815838d4740efdfb2948baf7fcc4810bd7ad495e1ce65.cbck",
+            "sha256": "a063f2e6e4e6b55763521864d8a02d26df534e05c22f51f305e97e150d74bb36",
+            "bytes": 2416
+          },
+          {
+            "id": "edge-37dc9f22583336630ac3-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/3d9af86e6a4ca0180e11b8dafff674ae889a6eb2a6ab73f4ee281d4816161ca4.cbck",
+            "sha256": "1887bee95321f3f4f471313db05eb60d86b470231fc135892ddfe691c4351632",
+            "bytes": 512
+          },
+          {
+            "id": "edge-3a11c16ebb9b3a945413-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/3f1483cdbc5286ccdb399532b938dbe52b77b54bb8d6e90829a4d75e78c41020.cbck",
+            "sha256": "822a2cbd0a70c50b6f22083c5b6a64397d3a06536709a9dd016ca7ec23f0786e",
+            "bytes": 4712
+          },
+          {
+            "id": "edge-3a11c16ebb9b3a945413-c0001",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/cb3c93b5ab61d4efe51d6101ba9169a996d8007daf27235f7617de7ec908865e.cbck",
+            "sha256": "8c4c2a432be54816e469718776d6523d85fe168993d2320a90a2204d2c77fb31",
+            "bytes": 1920
+          },
+          {
+            "id": "edge-3c0df519ceb26944548d-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/16676e1aa2b69f966d8307af446eb90dd3bcd7d19151dbc4bed1b49c5a9d28a5.cbck",
+            "sha256": "8ce711c01c43ad261e9d01193d047ed88f1ab345da28425ae8dd7fd83bdc0ac2",
+            "bytes": 792
+          },
+          {
+            "id": "edge-3ca7f656b08e6f8c31fb-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/ee4444f80059e8aeca9df165e26d2ff3350e890f43133c1e600c3eb38c0d353e.cbck",
+            "sha256": "2ecf35fa7c3647a50129417384b9504a4914c4486c281a8d24ab7fe3b878599e",
+            "bytes": 1072
+          },
+          {
+            "id": "edge-4099ff50f79d8623e843-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/1fe06724998846701d94a10b8c2e52ddcd045f36888e7eeb09f1fd351c4d0de4.cbck",
+            "sha256": "c742f5c086ed8639eab16ed362d283f6d79e01eed018b4509f1e37c00c20461e",
+            "bytes": 736
+          },
+          {
+            "id": "edge-51f0361c0a79aa9c2ddc-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/2e00fd9d486281a29fdc977ed737f4541cbc2e961fbac21fe05056f4adba552b.cbck",
+            "sha256": "a89f0c55e762ce31304f2e4a2ab33730c9d6aacf76fd1f1182fc3b3bac36137c",
+            "bytes": 1072
+          },
+          {
+            "id": "edge-56959ae61164db7bf6b4-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/dd745c762b063bb2a8d7867362e22cdeb114d2d12354972345f9dac20cb4873a.cbck",
+            "sha256": "22e75a36efca1968422e8cf038cd78fefe70bb774e6b384c284810551138ded2",
+            "bytes": 568
+          },
+          {
+            "id": "edge-5be63a1249560b359ef7-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/adef617b35414a9012b10dc10e31eeaa2d4e8a47c54f4b605e330103ee43257e.cbck",
+            "sha256": "cc197e8cdf710707a734940b368e48c1954e07193fbb9c39b253d2bd98ff5cf8",
+            "bytes": 2304
+          },
+          {
+            "id": "edge-5e4c3ba15568961a3342-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/c636057bb878c2d4da2b583e8250f2216a39b3b1ee6ba27bc29dd8aed8c0be88.cbck",
+            "sha256": "1717a2981bcadc81b47ede8d71f3a88a2521e3e736b94abd9d9c1dd2031148ba",
+            "bytes": 3256
+          },
+          {
+            "id": "edge-5f42faa47a61d06be2a3-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/b644fe0add421ace24154ce78a40f4fc54a23b6b500fc1f852d85118d556880e.cbck",
+            "sha256": "e4ddbd0febef0862d6d1ae2f765b4bc5d857acbb6d2585889e1fab5200ca8920",
+            "bytes": 512
+          },
+          {
+            "id": "edge-62b919f5938a9706e458-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/c04e40077289d2de402699355d015b54c4ae3454d41b44ce442a6a5e3a32b594.cbck",
+            "sha256": "dbb52d3fc82b0e06c612bd15a513343723a98663e911b1894e48ebc5836765e3",
+            "bytes": 1184
+          },
+          {
+            "id": "edge-6e9cc8341dfa158b9f47-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/de2f8eb6d614bd3897fc1dfd1c0177fcab791c2a814395419b447ace54c9cfe8.cbck",
+            "sha256": "115c7709c46ba5f6fa994b302b271d80c2f703eb42c53c1e9271a68a44c38b73",
+            "bytes": 344
+          },
+          {
+            "id": "edge-72832fc82fb7fd3d9c27-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/3c35f6460b482367399e1b360cb9fd7aa8381633b138a2748e4ef8116cf74ad3.cbck",
+            "sha256": "2d933011a7c8ee278fc8af4d0e58f7e23111351611e592586e48f7c86689907c",
+            "bytes": 624
+          },
+          {
+            "id": "edge-77009234c6fd465f761c-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/b3b69af33ca4b7b380c527a7c84463f4044cd476ae21e502ab087a4bd13d7d20.cbck",
+            "sha256": "68da00363b7e62e275595a189be93b67655ad00b38d30abd9564ddb249aa25b2",
+            "bytes": 4712
+          },
+          {
+            "id": "edge-77009234c6fd465f761c-c0001",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/8c54b57eb8827765ac2b7b4a6f6ace4ec69ddc9de44d2b49d230e40a67b627b2.cbck",
+            "sha256": "e1fa052a32995a653aa40432bf65dd2a431f19677a1f120562a0bdb2f6ce53e8",
+            "bytes": 464
+          },
+          {
+            "id": "edge-82d6f5a0de67921949a4-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/621b1af749ea6e40b27d0909cf363b1bda236b10225d707cf9c938c56baaf4b7.cbck",
+            "sha256": "2cad4b4153ace877f1f39630a9f565704897e58e3c595a70e5cc56a6a64fd547",
+            "bytes": 680
+          },
+          {
+            "id": "edge-85073f0136ee5a0572ac-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/5d7d2a713fb7c27a289a3de076906ab1bb001fc06c8bc101870414ed6182a762.cbck",
+            "sha256": "b712c230d08e674b1fe3ea6e2b825d1df929d7bfa9421d3e4d2ec3aef62454b1",
+            "bytes": 400
+          },
+          {
+            "id": "edge-8a46d3ad75bb009dd7a4-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/9a796b4f576f243c29ff025dda892c5efff0504060d568819507033f38cea5c4.cbck",
+            "sha256": "c095f6749c13bbc0247a2a58e618d3458c71effdc5bb5a39a4a5947fa94841fc",
+            "bytes": 344
+          },
+          {
+            "id": "edge-9c16ae741e5fac305420-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/37f87175cb0fb8f774ec30662850c92551da595bc6ba81f56470c45305360614.cbck",
+            "sha256": "a8bc9b077b93b409eb65ebbfd5d422ebbbb8c6ea8b8be2470bfbb130dc0b6861",
+            "bytes": 1016
+          },
+          {
+            "id": "edge-a2bc339842c1b68527f5-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/84e2056454214881c75f6967549da0bc9b1aebdd9a4b5dbe557b4c9f57a97936.cbck",
+            "sha256": "e7b231cd065d1f827aeddf99a29d6d338fd642fca474b0529e715da0e0b35850",
+            "bytes": 512
+          },
+          {
+            "id": "edge-caf05153b4274229f1fe-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/a60250fd4e27f3fee0fd521b4160558c5f55f279315632bb4cc2821ef42343d4.cbck",
+            "sha256": "83cbd0d3461baf2847845ab542b5392bddecb621533c6c6a1be2a1f08da25f1e",
+            "bytes": 400
+          },
+          {
+            "id": "edge-cd4b812c456abd3e2354-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/30364aa20d226a2b541f5532cbfdbc3883fab75bae26290d6c89009be39792aa.cbck",
+            "sha256": "7704b878adb7f00f4d1a8f390b65543db168cffc1f0edf518b2658a351d88100",
+            "bytes": 512
+          },
+          {
+            "id": "edge-d4ef42f4c6a3fd574abd-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/333d685760d997e43229267e63a64f558a1f0416ff847933833a372e4e3745b1.cbck",
+            "sha256": "9cfb1beb112ec71b134470679502abf6ce3a1dda3f2c6748d4fd5cb01c933032",
+            "bytes": 568
+          },
+          {
+            "id": "edge-d6d836af575d6df884ec-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/4a8ed0b4e6afda4bce779732ce7df9c57ff98a87bb24d312f471cd2df4f4f5d9.cbck",
+            "sha256": "2af5535b924e77c14e76edd4822f36fb230f04f9c4579cfca33c1621e4d9a50c",
+            "bytes": 512
+          },
+          {
+            "id": "edge-d7fbd94673ee77e0e880-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/86d87864bb09230e15bde7d4d49c78847d41d27ff03247c14594a8d04e02b597.cbck",
+            "sha256": "040e6220064c70d0c7c9844ce4aa20df39ab56db81727fe22b0a06526fe51206",
+            "bytes": 2976
+          },
+          {
+            "id": "edge-d8f66c3d6587e4189b0a-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/fa7765df004303dd7f52aa6de2248760f7886153c10013c6448c3e1cc2ac91b8.cbck",
+            "sha256": "3288750db872a5d60a81c4a117ec9a0f58a4e4202e81134c026115f6aa087eca",
+            "bytes": 512
+          },
+          {
+            "id": "edge-dc935a7999b95c82b494-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/979fa91b249842cfce5aa51cfd63c7e69c4d692f6ed700d11f481d48633a8101.cbck",
+            "sha256": "65858becea633a01e2ab99c81d4841b409301a925bb384feab9a74b495ed9223",
+            "bytes": 512
+          },
+          {
+            "id": "edge-e27af24175a124c8b80d-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/ed097a0a3af4e2a4b3cdce2a17051efa45ad5c5456eaf72ee36c569b3b8beeac.cbck",
+            "sha256": "be73af1f3bc1f9cb0e258199a6aea20af608b8227294b1c6f0c967a14b2b75d8",
+            "bytes": 1240
+          },
+          {
+            "id": "edge-e28e0007c79a42775684-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/1eb1ef06160dc4064b24d5f00db4e1b259d7ab135a6377ede11fa34c3a746486.cbck",
+            "sha256": "187793b50405a840d0190348c99d269cd9c0dcc89d774f44c53b987694a3ef4c",
+            "bytes": 680
+          },
+          {
+            "id": "edge-eab20c4324a93dcc0686-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/d8a268ef6a35574db167e95ba36a3cdd05eb3a415eac2613ae08c5c8b1e9e9ff.cbck",
+            "sha256": "2fc576963083d7d90505d63608e1195731fc6b4e3cf602019829c84bcc5b40ed",
+            "bytes": 624
+          },
+          {
+            "id": "edge-ebc3bdc9dd2dcbc7611a-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/ce581e634c7102315dae2fa5dbbb0f81d3064744999a1f520d6ba0d89bdc6bcd.cbck",
+            "sha256": "c1d24df7bde6c5d3b0300716f3a9cfb38bcf5bd09891294811deb43773a08318",
+            "bytes": 344
+          },
+          {
+            "id": "edge-ef560f06e7000f0ade9f-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/55af1e0108491dcd62da09ba75cd6fc49d9ee51d90286a4a42e0c27c5dc54daa.cbck",
+            "sha256": "e62835f0241afd8024e088747665136d875386344fc8ec239f9c8fd7b7669be4",
+            "bytes": 4712
+          },
+          {
+            "id": "edge-ef560f06e7000f0ade9f-c0001",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/7ea8282ea06ac54e71b4f80d91f1ce15576a10e9201bfb854799337ca778a495.cbck",
+            "sha256": "501c75ae7482ac4d2d1b116046c25998dcccdaa3c853270801a1ba94a9362610",
+            "bytes": 352
+          },
+          {
+            "id": "edge-f3ba5a1ce6e97be8a648-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/973d0e8c7f68beb0e67a6d3dae94254d55988c6dc46c010d9af44502c65f80f7.cbck",
+            "sha256": "3e08eb613558af561670e0564438963344fb6a02f78adda2bc863bf84be7d34c",
+            "bytes": 1464
+          },
+          {
+            "id": "edge-f7ed686cfe7aec901d03-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/16332823f846073cea28cddd0f45b39dcc46e814b6fda722409997a36a735a20.cbck",
+            "sha256": "195abe19e9b1c23b8487aa6bdad8ffb189c08b25360f8d4de22ab3ec7e027504",
+            "bytes": 1352
+          },
+          {
+            "id": "edge-f957cfec242df93b22b2-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/8743c503faa1a08e423bfddb0411d9d2242d6dd521c954db166e8a329b6468c0.cbck",
+            "sha256": "45dae5be7436dafd087415834441673badc1ed114c63c6957c0a95ac0673465f",
+            "bytes": 1072
+          },
+          {
+            "id": "edge-fb09f70baf2e1e015730-c0000",
+            "path": "verification/fixtures/representative-corridor/chunks/route-v5-34a5d54f2bfdd0d0/d8085ab7158e73959ff66c3aced5881d2549d85521a44ca54a95533d4768730a.cbck",
+            "sha256": "c8735eb109d5812ea0fdc2a0a5d819c9129a8f1fb336b9fd5b38f628dc02f194",
+            "bytes": 904
+          }
+        ]
+      },
+      "declared_build": {
+        "preset": "Windows x86_64",
+        "preset_sha256": "aa145597353db7da7b0df884a610102806abde9442da178423a77dea03840f71",
+        "godot_version": "4.7.1.stable.mono.official.a13da4feb",
+        "dotnet_version": "10.0.102",
+        "uv_version": "0.9.24",
+        "export_template_archive_sha256": "ef9a708be51ecd974cd7dccdcafd7a1870da3d3e1c24c072bdbb9818c7a7db63",
+        "export_template_version": "4.7.1.stable.mono",
+        "runtime_framework_version": "8.0.29",
+        "node_version": "22.22.1",
+        "python_version": "3.13.11",
+        "restore_locked_mode": true,
+        "content_set_sha256": "b1fab068c47ae4041460a8d5f013ef7a0b36a8e6b337c83c9b1a036bc4e0b4dc",
+        "lockfiles": [
+          {
+            "path": "packages.win-x64.lock.json",
+            "sha256": "d603bb9972f881658124268bfe68bd51594f6c65940c4b767c63b6f0a5f369e9"
+          },
+          {
+            "path": "src/Cannonball.Core/packages.win-x64.lock.json",
+            "sha256": "3577722f281c83a63577686c768f8bdda59207ebb2ce969d1cad1b25068a7526"
+          }
+        ],
+        "inputs": [
+          {
+            "path": "project.godot",
+            "sha256": "40196e5f18be822adde0ae30ca07a456cb15391ceeb52fb81356985455c2dc71"
+          },
+          {
+            "path": "Cannonball.csproj",
+            "sha256": "b3ffbb34389046cb20c7179293c3a298f53d97040c70eb60b121a9d708dbdf04"
+          },
+          {
+            "path": "src/Cannonball.Core/Cannonball.Core.csproj",
+            "sha256": "c2b47090349478ba37dedf7c4af312c7d63d5741ddfd6307f69d6d559fa25aef"
+          },
+          {
+            "path": "data/sources/catalog.json",
+            "sha256": "4d3a4c115875fc7e72f12e6a9d32a31d4b103a1b73bdbc731f47864989b8447f"
+          },
+          {
+            "path": "data/sources/representative-corridor-lock.json",
+            "sha256": "80a80b4a22e0f2c0af71bd084b7ee8862a55c973031c0aa78c1309fd16ee061b"
+          },
+          {
+            "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+            "sha256": "d859ff7ef97106a36b24276b87c86c3968aa1266ddf987ee6859d6972b7f6ff6"
+          },
+          {
+            "path": "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+            "sha256": "8020fb0146c5d630132accd9234e7c443e9f96b8459ae109d5f16a9104985575"
+          },
+          {
+            "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+            "sha256": "b426c18178961d1add78477335a8bb2373471041a8aba04066e9dd2d82de7539"
+          },
+          {
+            "path": "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json",
+            "sha256": "0ec7798324b918a55ea9e842ae1ee23370beb25c080b78ca17c0de14b07fda7f"
+          }
+        ]
+      }
+    }
+  ],
+  "recovery_limits": [
+    "The two locally checked ZIPs are smoke-evidence artifacts, not the unsigned game archives. Four successful builds and two byte comparisons are evidenced by the actual hosted job/log; no independent local comparison of those full game ZIPs was performed.",
+    "Both artifact ZIPs omit verifier-input.py and driving/run-save.json.bak due to the workflow upload extensions. The exact verifier bytes were independently recovered and retained by their observed SHA; the transient .bak remains unavailable. All 47 actual members per ZIP, final saves, summaries, frame/telemetry logs and remaining 15 output hashes per platform are retained and exact.",
+    "The hosted merge/source revision differs from the PR head. Its Git object is not available locally; this review uses explicit native/hosted recorded revisions and does not claim a local historical tree proof.",
+    "Package tests selected the installed historical sedan asset on a representative route fixture. They do not promote source193 or proposed front/upper geometry, demonstrate continental/default-launcher behavior, visual mirror pixels, frame performance or human approval."
+  ],
+  "merge_object_readback": {
+    "exit_code": 128,
+    "stdout": "",
+    "stderr": "fatal: git cat-file: could not get object info"
+  },
+  "current_verifier_exact_to_native_recorded_hash": {
+    "path": "tools/vehicles/verify_packaged_sedan.py",
+    "bytes": 29591,
+    "sha256": "ed1f768b2fc54320a5e18a35e04c97c1381b2cdacde9bceee4587282c6d856bb"
+  },
+  "current_build_script_readback_only": {
+    "path": "scripts/release/build-unsigned.sh",
+    "bytes": 9772,
+    "sha256": "f1e1b0d47950bf44ff46b189749787753cfadece4df541e55ce53c73d8211e0e"
+  },
+  "inputs_unchanged_at_freeze": true,
+  "inputs": [
+    {
+      "path": ".github/workflows/unsigned-exports.yml",
+      "bytes": 7375,
+      "sha256": "a890d4c07a7b3a2b41338082fc15d9eaeba8c16fd1b788308481204268d819dc"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/artifacts.json",
+      "bytes": 3249,
+      "sha256": "d346f39c97870d945733b78da7aaca5342bcaa3e2f49e6f84c356a2433ad1523"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/artifacts.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/package-smoke-linux.zip",
+      "bytes": 3106713,
+      "sha256": "15ca6a7547240b6883355b4f3998c70bd0a67b1981ae77f60bc4fb260409100b"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/package-smoke-linux.zip.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/package-smoke-windows.zip",
+      "bytes": 3158668,
+      "sha256": "14cb2e632aa1538663adf339b5bd9f2f2080c835d58e070cc8f304c20052858c"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/package-smoke-windows.zip.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/receipt.json",
+      "bytes": 25568,
+      "sha256": "53500475fa50d747a7c04dfb211a1c6bb89d2c55bb6b50e0b7e0344f77d99114"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/run.json",
+      "bytes": 7540,
+      "sha256": "235bd36f3ad7e7463e8034301c47f9a7a786cd18b33613b13ead2f0332fdd986"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/run.json.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/run.log",
+      "bytes": 850182,
+      "sha256": "9340e73d4dac8f5106772f98a4f59a7ad29b5a40095f77a31ea219feda748f22"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/hosted67/run.log.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "reports/p1-018/finish-branch40/retain_hosted67.py",
+      "bytes": 3998,
+      "sha256": "9934d2ffd0bb9d01601a1dae1f331d484c4e8ed44ef489a33a6342043faa8685"
+    },
+    {
+      "path": "reports/p1-018/qa/unsigned58-review01/AUDIT01.md",
+      "bytes": 2868,
+      "sha256": "b291f1cac96330ee7170a8cd2b09ae3d922485d286c13f5ab022b4482f9d92f5"
+    },
+    {
+      "path": "reports/p1-018/qa/unsigned58-review01/audit01.json",
+      "bytes": 95837,
+      "sha256": "8b48469e547257f063d69ea03d95f910305d40861f572e77b4dabe193103e87d"
+    },
+    {
+      "path": "reports/p1-018/qa/unsigned58-review01/patch01.diff",
+      "bytes": 905,
+      "sha256": "9e933a6039b1d2887c775299268ed4eae9536a5c02c3f46ba64e45892b41233d"
+    },
+    {
+      "path": "reports/p1-018/qa/unsigned58-review01/retention01.json",
+      "bytes": 5037,
+      "sha256": "0f727579a822fb6e3c996229c9e1858f4358e71ac13752c8a7d73be5f8ae3f91"
+    },
+    {
+      "path": "scripts/release/build-unsigned.sh",
+      "bytes": 9772,
+      "sha256": "f1e1b0d47950bf44ff46b189749787753cfadece4df541e55ce53c73d8211e0e"
+    },
+    {
+      "path": "scripts/verify-packaged-sedan.sh",
+      "bytes": 276,
+      "sha256": "43851a3c7126de83287fc116a5e112c48212e89269d01444365b085585a31954"
+    },
+    {
+      "path": "tools/vehicles/verify_packaged_sedan.py",
+      "bytes": 29591,
+      "sha256": "ed1f768b2fc54320a5e18a35e04c97c1381b2cdacde9bceee4587282c6d856bb"
+    }
+  ],
+  "human_approval_reference": null,
+  "final_source_accepted": false
+}

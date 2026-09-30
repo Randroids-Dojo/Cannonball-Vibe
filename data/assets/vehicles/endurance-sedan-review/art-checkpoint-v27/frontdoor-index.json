@@ -1,0 +1,315 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-12T22:21:11.282747+00:00",
+  "git_revision": "0fd5c81677c3084ccaa1237d2689658334888e94",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/art-checkpoint27-frontdoor01/retention-manifest.json",
+    "sha256": "6db27235a9969ace78a07132060487e6b33d45e55c62dea803073a5c0f0ed2c0"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/binding.json",
+      "sha256": "442d379ff10bc78bb99165f3b39e27d1d6d46eecfd20d7d0a323fcae57a209f1",
+      "bytes": 9177
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/evidence.json",
+      "sha256": "0eae71394bc3234bc638945d8bb3489823362824f41b941bb8ab292e6c53b2a2",
+      "bytes": 16282
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/frontdoor.log",
+      "sha256": "39d751c8f8f28e695c96a51b3c4510c9c695d314072e4e940e259e2685d07548",
+      "bytes": 12546
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/build.py",
+      "sha256": "03e289fccd2d42eed641d040075b80ec792fa1ccf9bc693791cfbfae7a647325",
+      "bytes": 3407
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index-01.json",
+      "sha256": "075ad376a1e49b50161558b9a096ca33f82b5ea9f074ca8d63b12f339ad14f14",
+      "bytes": 65044
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index-02.json",
+      "sha256": "64572b6aeae92c0d378827cd06318f5f4e14698a51a4da92f2e31b7a8350ea9f",
+      "bytes": 15198
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index-03.json",
+      "sha256": "70c028a5269c2106ace4ff42f05bffb788ae5c3dabc6ba8c1decc1b114b2cfca",
+      "bytes": 385366
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index-04.json",
+      "sha256": "101354213a486571a36db0ee612954625e000ca989fcdc32691e116394b01a0f",
+      "bytes": 105316
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index-05.json",
+      "sha256": "6681c1c16752e975f4eccb6b52139e95dad1ec2e079b167efbcdecabe69ddb90",
+      "bytes": 46996
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/index.json",
+      "sha256": "ce9cbd8f0aee36a01def4cac19269e9acddc2eb299494ab07f4b233f28173409",
+      "bytes": 9549
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/inventory.json",
+      "sha256": "8b2cb84e02346d8be8ebb4da1ab130f608786b3707c9a263d16a22c41927a03f",
+      "bytes": 629862
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/lead-command.json",
+      "sha256": "037d30cacca81f67b8ef9ffc460af58d7abf5edd3cf1d66a4e79e38737f7ff35",
+      "bytes": 999
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/lead-command.log",
+      "sha256": "da07152d247779045b60b613d7e8b0a4d30c8f68a3346cf3f9be26acb723c6ec",
+      "bytes": 1419
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/open_view.py",
+      "sha256": "b56b2e8c26e15495eeb1e252a4590299598bee420355e3e65b4f47537d109554",
+      "bytes": 2194
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/prepare.py",
+      "sha256": "b00350997adf6fa345b469693ea5ead337dc8d2a47fb2a1fc56b1c93fd615eef",
+      "bytes": 6532
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/visible-identity.json",
+      "sha256": "a9b1be15e446b74539ac1f059eaa8668d7a8706ec9c8a7cee91c32b4edf82007",
+      "bytes": 515
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/docs/DELIVERY_LEDGER.json",
+      "sha256": "f4427cdc03acee204473ffe6fca366da7a2599fd522a4d5281603cef71f8df57",
+      "bytes": 260768
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/docs/vehicles/endurance-sedan/art-checkpoint-v27.md",
+      "sha256": "55c0cd97bea284f7c3435bcc672d089bb49c7c045bb21c9c1362a30be242d27d",
+      "bytes": 4826
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/docs/vehicles/endurance-sedan/defects.json",
+      "sha256": "b4026684e4916d7c83085293d26c9990c85abd8674d755141e0e5301fff08040",
+      "bytes": 609572
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/docs/vehicles/endurance-sedan/refinement-review-v26.md",
+      "sha256": "5cdb9ca61df79d94b92948c50e692cd05ddfad9b92cfa8ce9cb7960346790b79",
+      "bytes": 14485
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/evidence/M5/P1-018.json",
+      "sha256": "adfa6813ab02d38c50aab11f7284503abc8f5d8acf0b71ff162bb2ce0224c52e",
+      "bytes": 56983
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/reports/p1-018/art-checkpoint27-frontdoor01/run.py",
+      "sha256": "bef590d4dee3bad4ea714a98eac285722cac1055ebd6c4e83cdfb658c60163f6",
+      "bytes": 3222
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/reports/p1-018/environment35-doctor01/check.sh",
+      "sha256": "4968b6adb8d99465eef7197950ce45e58c1938f96bb473ea38b8b28218e4ca53",
+      "bytes": 319
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/scripts/check.sh",
+      "sha256": "46cea9921f445b264d88278d9f7789a98c367b219a84a5299a6b348f18125e33",
+      "bytes": 4117
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/scripts/doctor.sh",
+      "sha256": "0039c684dcebdf2747526617fddd81c020165711eee0130ddcbc9a0255ea763f",
+      "bytes": 2902
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/inputs/scripts/tool-versions.sh",
+      "sha256": "9faa88c390aeb2e32915b761cf1db33565203b55c0383279c55c75651e419b07",
+      "bytes": 1930
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/doctor.json",
+      "sha256": "33cb1935e7bc974bbc4cc89452ab1f85a6648768cd2301f08b7df88be56e1dca",
+      "bytes": 545
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/dotnet/core-tests.trx",
+      "sha256": "840bdca2a77e9fcd4a08a910d82570060904a4ba244b7c9a0b99e34baf307a4f",
+      "bytes": 220844
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/godot/godot.log",
+      "sha256": "b371d92cff8968bddf192c7db7e5fdfb7c3fc2a3ee2a247da4b513f8208759a6",
+      "bytes": 691
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/godot/managed-shutdown/runtime.log",
+      "sha256": "c254c4959dca54287f06b22b64104e1a0b5c8838329a9d62c1ee4030e339ea4e",
+      "bytes": 1481
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/godot/managed-shutdown/summary.json",
+      "sha256": "8dbb38aefb8b49371960027257200e83bdd549696c7c6b0780b7d0bef0f7fcb1",
+      "bytes": 304
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/godot/scenario.json",
+      "sha256": "86937fdd43e64f22acd081f4aed63e11cb7647936f54f9ea4e31a1831dc808c0",
+      "bytes": 189
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/godot/starter-speed.json",
+      "sha256": "f3c975e3fbc35242f9d7a2bd56d640eaf717493136b0baaf9550dd2f75e84224",
+      "bytes": 6038
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/camera-interpolation.log",
+      "sha256": "412aedfb7cb14257d14f1517bb64d016ca6bb134d8f092d05fde73d0e7889291",
+      "bytes": 233
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/continental-route.log",
+      "sha256": "b6d849612dc6360b7410bda3ba3ceac7646512c09d2fdbb875b38b2eaf709c70",
+      "bytes": 2213
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/doctor.log",
+      "sha256": "e2da44907711a8a01aed2dbbdc7a310fe7435e258452d5d4b94566bede44f736",
+      "bytes": 421
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/dotnet-build.log",
+      "sha256": "21d620876c29c141f7790c16a38a0680226c2c8771b58a338950cb6e8934607f",
+      "bytes": 488
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/dotnet-test.log",
+      "sha256": "e921939ada06816117892681fe0abd6a51478dd5846bc4cbcc9fec20f1d322af",
+      "bytes": 438
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/frame-allocations.log",
+      "sha256": "1fb668e8dfc00678638d88cf9241472749abefb243ea12151ce5669b6f8fa859",
+      "bytes": 56
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/godot-smoke.log",
+      "sha256": "695ca9ad2f7b81385cc9295fac9dff2bb566cd05162760d3fcb2344794a1745b",
+      "bytes": 1351
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/managed-shutdown.log",
+      "sha256": "77c8ded92f06eace026ea996d92aa06a614d780ea4dd7a679d73474096b1de03",
+      "bytes": 1758
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/pytest-map-pipeline.log",
+      "sha256": "5322baabe84cfbd3edfd4c1f287d2a78f82243f2438f3d3f2da35bc012c98fd3",
+      "bytes": 449
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/pytest-playgodot-unit.log",
+      "sha256": "abb075dfb413861f49b5f8220c6e55dfe98fa05de122cbc95163e0e9a9f9128a",
+      "bytes": 265
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/release-smoke-unit.log",
+      "sha256": "ba81059ad1665c85b52088ee29cca8bbbcd9214eb94a75e8e84b00173fd6bf62",
+      "bytes": 438
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/logs/starter-speed.log",
+      "sha256": "96acac6d06166f4aaf47ed87d1a0ba002479c497f58744ab85bb307942b53c6e",
+      "bytes": 4018
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/python/junit.xml",
+      "sha256": "7213d475af630e415895f8efeef675f03c5f4ff851b4dd30282970924b7b13dd",
+      "bytes": 45254
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/python/playgodot-unit.xml",
+      "sha256": "8770207abd32c63e15e4635d11c5eb78ab1242ef3308a6c379b610d45922541b",
+      "bytes": 25011
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/m0/summary.json",
+      "sha256": "04df36ff69e07aafe0efa058c3cdbf4c4f2c0a9195aa20e1f6a977bd215cc25e",
+      "bytes": 1482
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/retain.py",
+      "sha256": "c1971e88db352abc4b0e7cdb766ef30d26b9bbb4be7318551ec5ab094709bf03",
+      "bytes": 4615
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/run.py",
+      "sha256": "bef590d4dee3bad4ea714a98eac285722cac1055ebd6c4e83cdfb658c60163f6",
+      "bytes": 3222
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-retention01/promote.py",
+      "sha256": "9d1c00db72628b1639347f82344890a84eca9e3e5e4f2734d3bda0878faf7ca9",
+      "bytes": 7503
+    },
+    {
+      "path": "reports/p1-018/commands/20260912T221133.682968Z-art27-record-fresh-checkpoint-and-open-defects.json",
+      "sha256": "bc2c5bb9a9f27e14e76dce1277e5b1f638fc693db90f5dc52edcca3da8dc4dfc",
+      "bytes": 1031
+    },
+    {
+      "path": "reports/p1-018/commands/20260912T221133.682968Z-art27-record-fresh-checkpoint-and-open-defects.log",
+      "sha256": "2e8b866238eaf7bf20bd4b3df5194e8841453bcf4f79f5a169b7ae81e135b3ed",
+      "bytes": 176
+    },
+    {
+      "path": "reports/p1-018/commands/20260912T221225.470040Z-art27-full-windows-working-frontdoor.json",
+      "sha256": "699a4f1ddbbd995d3657efc2b6b6671ba4db8cbf5096237575ae871255311778",
+      "bytes": 821
+    },
+    {
+      "path": "reports/p1-018/commands/20260912T221225.470040Z-art27-full-windows-working-frontdoor.log",
+      "sha256": "26bf09256f877ac67f7602734ecf890a4a865d87be84cdd6630b7e64b7d75b92",
+      "bytes": 62
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/art-checkpoint-v27/frontdoor.zip",
+      "sha256": "8fe01b3123faabb55c6f7819b0ad9e9855c5ff4a708629fd5d08c04a3cea1025",
+      "bytes": 585214,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/art-checkpoint27-frontdoor01/frontdoor-repeat.zip",
+      "sha256": "8fe01b3123faabb55c6f7819b0ad9e9855c5ff4a708629fd5d08c04a3cea1025",
+      "bytes": 585214,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-12T22:21:11.499882+00:00"
+}

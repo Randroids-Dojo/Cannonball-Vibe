@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "git_revision": "4865877f3d1140d8896ef1dc774062e84e906e42",
+  "utc": "2026-09-13T14:40:56.970649+00:00",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "status": "local_viewer_paint_and_recorded_walkthrough_verified_asset_production_in_progress",
+  "archive": {
+    "path": "data/assets/vehicles/endurance-sedan-review/viewer-v36/evidence.zip",
+    "sha256": "e21563536d29ed35f12f1228d0847adaad410ae2f844bede94dfa6c0a30cce89",
+    "bytes": 379905312
+  },
+  "inventory": {
+    "path": "reports/p1-018/viewer36-retention01/inputs01.json",
+    "sha256": "f5f6b17c93c34f9cff6e02a23dfb91b9e2f71b92837d1cb5b3a72d828fac49cc",
+    "bytes": 227855
+  },
+  "root_review": {
+    "path": "reports/p1-018/viewer36-retention01/review01.json",
+    "sha256": "bc2804baedfe4365d6d3e6f4d298293e88afa34c9269ea6390e3d4b8c2ddbb24",
+    "bytes": 7101
+  },
+  "file_count": 1049,
+  "builds": 2,
+  "every_archive_byte_identical": true,
+  "every_member_reread_verified": true,
+  "all_locked_inputs_unchanged": true,
+  "full_frontdoor": {
+    "path": "reports/p1-018/paint35-frontdoor01/summary.json",
+    "sha256": "17126d86d2d6357b98871dd870380dc3cc632ccc96106fe8132228744e5e240d",
+    "bytes": 1482
+  },
+  "paint_independent_review": {
+    "path": "reports/p1-018/qa/paint35-01/review01.json",
+    "sha256": "2acf43bf353c5affdfdc4221e5394353b16a5a608018efa669b8edfa8397737a",
+    "bytes": 53559
+  },
+  "movie_independent_review": {
+    "path": "reports/p1-018/qa/showroom36-01/review04.json",
+    "sha256": "2ca24f6113aa938ee316a94955cd0b6e3eb5dce522cad88c71fecade541726fa",
+    "bytes": 118806
+  },
+  "portable_movie": {
+    "path": "reports/p1-018/showroom-movie36-01/delivery06/meridian-s8r-showroom.mp4",
+    "bytes": 52201484,
+    "sha256": "a99df83a6ad4f302ee24c965ec7e7dea885ba2e090b9addfbc3e75249ef9e3ac"
+  },
+  "portable_movie_independent_review": {
+    "path": "reports/p1-018/qa/showroom36-portable01/review01.json",
+    "sha256": "97a4c772809fbe0681f4b0830ec816d6a84db66a986b02ed1cf01ddad1324730",
+    "bytes": 61694
+  },
+  "actual_browser_playback": {
+    "path": "reports/p1-018/showroom-browser36-01/review01.json",
+    "sha256": "c514c0df0d562e64e66e7ba4f12c6487dce2ad0525b4ce819b712051082878a8",
+    "bytes": 4760
+  },
+  "human_approval_reference": null,
+  "ledger_complete": false
+}

@@ -8,6 +8,15 @@ const sha256 = (path) => createHash("sha256").update(readFileSync(path)).digest(
 const readJson = (path) => JSON.parse(readFileSync(path, "utf8"));
 const writeJson = (path, value) => writeFileSync(path, `${JSON.stringify(value, null, 2)}\n`);
 const unixPath = (path) => path.split(sep).join("/");
+const verificationFixturePath = "verification/fixtures/representative-corridor";
+const verificationInputs = [
+  "data/sources/catalog.json",
+  "data/sources/representative-corridor-lock.json",
+  "data/sources/fixtures/nhpn-boulder-westminster-us36.geojson",
+  "data/sources/fixtures/nhpn-boulder-westminster-us36.manifest.json",
+  "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.tif",
+  "data/sources/fixtures/usgs-13-n40w106-boulder-westminster.metadata.json",
+];
 
 function filesUnder(root) {
   const found = [];
@@ -23,10 +32,19 @@ function filesUnder(root) {
   return found;
 }
 
+function fixtureFile(root, item) {
+  if (typeof item !== "string" || !item || /[\\:\r\n\0]/.test(item) || item.startsWith("/") || item.split("/").includes(".."))
+    throw new Error(`Unsafe fixture path: ${item}`);
+  const file = resolve(root, item);
+  if (!file.startsWith(`${resolve(root)}${sep}`) || !existsSync(file) || !statSync(file).isFile())
+    throw new Error(`Missing or unsafe fixture file: ${item}`);
+  return file;
+}
+
 function copyContent(source, destination) {
   const pointerPath = join(source, "current-package.json");
   const pointer = readJson(pointerPath);
-  const metadataPath = join(source, pointer.metadata_relative_path);
+  const metadataPath = fixtureFile(source, pointer.metadata_relative_path);
   const metadata = readJson(metadataPath);
   if (pointer.schema_version !== 1 || metadata.schema_version !== 5) throw new Error("Unexpected fixture schema version.");
   if (pointer.content_version !== metadata.content_version) throw new Error("Fixture pointer and metadata versions differ.");
@@ -35,18 +53,14 @@ function copyContent(source, destination) {
     if (seenChunks.has(chunk.chunk_id)) throw new Error(`Duplicate fixture chunk: ${chunk.chunk_id}`);
     seenChunks.add(chunk.chunk_id);
     if (!chunk.relative_path.startsWith(`chunks/${pointer.content_version}/`)) throw new Error(`Unsafe fixture chunk path: ${chunk.relative_path}`);
-    const chunkPath = resolve(source, chunk.relative_path);
-    if (!chunkPath.startsWith(`${resolve(source)}${sep}`) || !existsSync(chunkPath)) throw new Error(`Missing fixture chunk: ${chunk.relative_path}`);
+    const chunkPath = fixtureFile(source, chunk.relative_path);
     if (statSync(chunkPath).size !== chunk.byte_count || sha256(chunkPath) !== chunk.content_hash) throw new Error(`Fixture chunk integrity mismatch: ${chunk.chunk_id}`);
   }
   const paths = [pointer.root_relative_path, pointer.metadata_relative_path, ...metadata.chunks.map((chunk) => chunk.relative_path)];
   mkdirSync(destination, { recursive: true });
   cpSync(pointerPath, join(destination, "current-package.json"));
   for (const item of [...new Set(paths)].sort()) {
-    const sourcePath = resolve(source, item);
-    if (!sourcePath.startsWith(`${resolve(source)}${sep}`) || !existsSync(sourcePath)) {
-      throw new Error(`Fixture manifest references missing or unsafe path: ${item}`);
-    }
+    const sourcePath = fixtureFile(source, item);
     const targetPath = join(destination, item);
     mkdirSync(dirname(targetPath), { recursive: true });
     cpSync(sourcePath, targetPath);
@@ -72,6 +86,50 @@ function nugetComponents(lockPath) {
   return components;
 }
 
+function verificationFixture(packageRoot, repoRoot) {
+  const root = join(packageRoot, verificationFixturePath);
+  const pointer = readJson(join(root, "current-package.json"));
+  const metadata = readJson(fixtureFile(root, pointer.metadata_relative_path));
+  if (pointer.schema_version !== 1 || metadata.schema_version !== 5 || pointer.content_version !== metadata.content_version)
+    throw new Error("Verification fixture pointer/metadata schema or identity mismatch.");
+  const lock = verificationInputs[1];
+  if (metadata.source?.acquisition_lock_sha256 !== sha256(join(repoRoot, lock)) ||
+      metadata.source?.sha256 !== sha256(join(repoRoot, verificationInputs[2])))
+    throw new Error("Verification fixture does not match its locked source inputs.");
+  const provenance = {
+    fixture: "representative-corridor", purpose: "endurance-sedan-functional-verification",
+    default_launcher: false, continental_coverage_claim: false, chunk_meters: 2000,
+    source: metadata.source,
+    inputs: verificationInputs.map(path => ({path,sha256:sha256(join(repoRoot,path)),bytes:statSync(join(repoRoot,path)).size})),
+    retained_source_records: [],
+  };
+  for (const source of verificationInputs.filter(path => path.endsWith(".json"))) {
+    const destination = `${verificationFixturePath}/provenance/${source}`;
+    mkdirSync(dirname(join(packageRoot,destination)),{recursive:true});
+    cpSync(join(repoRoot,source),join(packageRoot,destination));
+    provenance.retained_source_records.push({source_path:source,path:destination,sha256:sha256(join(repoRoot,source))});
+  }
+  const provenancePath = `${verificationFixturePath}/provenance.json`;
+  writeJson(join(packageRoot,provenancePath),provenance);
+  const chunks = metadata.chunks.map(chunk => {
+    const file = fixtureFile(root,chunk.relative_path);
+    if (!chunk.relative_path.startsWith(`chunks/${pointer.content_version}/`) ||
+        sha256(file) !== chunk.content_hash || statSync(file).size !== chunk.byte_count)
+      throw new Error(`Verification fixture chunk integrity mismatch: ${chunk.chunk_id}`);
+    return {id:chunk.chunk_id,path:`${verificationFixturePath}/${chunk.relative_path}`,sha256:sha256(file),bytes:statSync(file).size};
+  }).sort((a,b) => a.id < b.id ? -1 : 1);
+  if (new Set(chunks.map(chunk => chunk.id)).size !== chunks.length) throw new Error("Duplicate verification fixture chunk.");
+  return {
+    fixture:"representative-corridor",purpose:provenance.purpose,default_launcher:false,continental_coverage_claim:false,
+    content_version:pointer.content_version,pointer:`${verificationFixturePath}/current-package.json`,
+    pointer_sha256:sha256(join(root,"current-package.json")),
+    route_root:`${verificationFixturePath}/${pointer.root_relative_path}`,route_root_sha256:sha256(fixtureFile(root,pointer.root_relative_path)),
+    metadata:`${verificationFixturePath}/${pointer.metadata_relative_path}`,metadata_sha256:sha256(join(root,pointer.metadata_relative_path)),
+    provenance:provenancePath,provenance_sha256:sha256(join(packageRoot,provenancePath)),
+    unique_route_miles:metadata.edges.reduce((sum,edge)=>sum+Number(edge.length_meters),0)/1609.344,chunks,
+  };
+}
+
 function generateMetadata(args) {
   if (args.length !== 16) {
     throw new Error("metadata usage: PACKAGE REPO TARGET REVISION EPOCH PRESET BINARY LAUNCHER TEMPLATE_SHA TEMPLATE_VERSION GODOT_VERSION DOTNET_VERSION RUNTIME_VERSION UV_VERSION NODE_VERSION PYTHON_VERSION");
@@ -82,6 +140,7 @@ function generateMetadata(args) {
   const routeMetadata = readJson(join(contentRoot, pointer.metadata_relative_path));
   const epoch = Number(epochText);
   if (!Number.isSafeInteger(epoch) || epoch < 0) throw new Error(`Invalid SOURCE_DATE_EPOCH: ${epochText}`);
+  const verification = verificationFixture(packageRoot, repoRoot);
 
   const components = new Map();
   for (const lock of [join(repoRoot, "packages.lock.json"), join(repoRoot, "src", "Cannonball.Core", "packages.lock.json")]) {
@@ -99,6 +158,11 @@ function generateMetadata(args) {
     name: "Cannonball official-corridor fixture",
     version: pointer.content_version,
     hashes: [{ alg: "SHA-256", content: sha256(join(contentRoot, pointer.root_relative_path)) }],
+  });
+  components.set(`verification-route@${verification.content_version}`, {
+    type:"data",name:"Cannonball representative-corridor verification fixture",version:verification.content_version,
+    hashes:[{alg:"SHA-256",content:verification.route_root_sha256}],
+    properties:[{name:"cannonball:purpose",value:verification.purpose},{name:"cannonball:default-launcher",value:"false"}],
   });
   const metadataDir = join(packageRoot, "metadata");
   mkdirSync(metadataDir, { recursive: true });
@@ -170,7 +234,7 @@ function generateMetadata(args) {
       restore_locked_mode: true,
       content_set_sha256: contentSetSha256,
       lockfiles: [`packages.${runtimeId}.lock.json`, `src/Cannonball.Core/packages.${runtimeId}.lock.json`].map((path) => ({ path, sha256: sha256(join(repoRoot, path)) })),
-      inputs: ["project.godot", "Cannonball.csproj", "src/Cannonball.Core/Cannonball.Core.csproj"].map((path) => ({ path, sha256: sha256(join(repoRoot, path)) })),
+      inputs: ["project.godot", "Cannonball.csproj", "src/Cannonball.Core/Cannonball.Core.csproj", ...verificationInputs].map((path) => ({ path, sha256: sha256(join(repoRoot, path)) })),
     },
     content: {
       fixture: "official-corridor",
@@ -184,6 +248,7 @@ function generateMetadata(args) {
       unique_route_miles: routeMetadata.edges.reduce((sum, edge) => sum + Number(edge.length_meters), 0) / 1609.344,
       chunks,
     },
+    verification_fixtures: [verification],
     files: inventory,
   });
 

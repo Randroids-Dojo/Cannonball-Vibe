@@ -1,0 +1,395 @@
+{
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "status": "passed",
+  "started_utc": "2026-09-11T18:54:14.471745+00:00",
+  "git_revision": "eb5703e55f3656e91bd80fb79502f10ce250554b",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.14.6",
+  "zlib_runtime": "1.3.1.zlib-ng",
+  "tool_sha256": "1310e66035402d9eccaef4c0b2fe6d474f0b56958e914138d3f57be6285b18ff",
+  "input_manifest": {
+    "path": "reports/p1-018/runtime-history04-parts/part-02.manifest.json",
+    "sha256": "80ec86ad68090bbfccbb7837ac7d17652135ce02de5b18d55c69b9e1a9d0d997"
+  },
+  "entries": [
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/motion/driving.ogv",
+      "sha256": "09987d488ae03962be854d1352c188fd8dda73993432b41e96088f99194c60e4",
+      "bytes": 335928857,
+      "reason": "Complete actual native movie; production23-contact-motion-06; final production acceptance remains separate",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/motion/driving.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/motion/engine.log",
+      "sha256": "caa3b6cbfdf4a20318011e1aa9be1debbd20a145e66e5d74fbc9a85dc66cfc61",
+      "bytes": 3520,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-06",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/motion/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/motion/frames.jsonl",
+      "sha256": "7ef4857ad8223fae13d7d285f6defa14b6ae764c6d7edce84f9798f2733a81d0",
+      "bytes": 24779541,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; production23-contact-motion-06",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/motion/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/motion/godot.stdout.log",
+      "sha256": "cc7fc48dc272e0ef6358a4c1c32b4ae0f75a96535fe6c2599e092e8641795787",
+      "bytes": 4123,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-06",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/motion/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/motion/process.json",
+      "sha256": "6929282ce348f9c38fcc719a603e06a72e2b62915d53fea6bc393c456bba264d",
+      "bytes": 121604,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-06",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/motion/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/motion/run-save.json",
+      "sha256": "b10bfa5ba8c8aa03acf9eb972d04afa22e352d87fe9398d256237a9879e5d70b",
+      "bytes": 4730,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-06",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/motion/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/motion/run-save.json.bak",
+      "sha256": "017d8a2d3008dec7650e2fe5da62e0c0df4ef418b618b13070596b9a5dc320fb",
+      "bytes": 4680,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-06",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/motion/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/motion/summary.json",
+      "sha256": "22895d333cb64809b7456da3262cb099c380d64118182f3797c44f0149c4615e",
+      "bytes": 96510,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-06",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/motion/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/motion/telemetry.jsonl",
+      "sha256": "87d9ce2518fe0296193655aee5a1fba399cc4591cc11865bb10c322e4e417e58",
+      "bytes": 7821,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; production23-contact-motion-06",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/motion/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/prepare-build.log",
+      "sha256": "a94f29c309ad4dca0e54cea6393a9c33fcbf1eb72abd2de7c5a615f2adec4145",
+      "bytes": 733,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-06",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/prepare-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-06/prepare-evidence.json",
+      "sha256": "ed8edb2338b7ce515c7d4c4dda73cd7731fae5574f103938aa79cb01a57fe37d",
+      "bytes": 276430,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-06",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-06/prepare-evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/ContactMotionObserver.cs",
+      "sha256": "ae8cf3bee54badb92b7d61168e36bbf691c9b2ab20378b2e483c79a1c0d99bb6",
+      "bytes": 19939,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/ContactMotionObserver.cs"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion-evidence.json",
+      "sha256": "576eef7a0e7729e64d22eb0d37de5e0513690097904a574c5f4ffa02456023db",
+      "bytes": 280482,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion-evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/build.stdout.log",
+      "sha256": "739b8bc1bf2582e276cab886925873a7d65682ee736059a7d5f1519fc46ce2c6",
+      "bytes": 484,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/contact/contact-render-frames.jsonl",
+      "sha256": "79454d227b630f62f40dd89baad148244323c94bdc3b125f5dcfe6bcb8885add",
+      "bytes": 13545948,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/contact/contact-render-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/contact/contact-summary.json",
+      "sha256": "458b126490b0afd698e4fdb8efd5fd111a7c809eaf718b51bdd733d5b91d7e80",
+      "bytes": 7245,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/contact/contact-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/driving.ogv",
+      "sha256": "b348fe84880da791fd130d03bb12c3ed1645ef431fbd01f3328184506dd4be39",
+      "bytes": 335928857,
+      "reason": "Complete actual native movie; production23-contact-motion-07; final production acceptance remains separate",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/driving.ogv"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/engine.log",
+      "sha256": "f8c0149b71546ca2bd2bc3ea1d2eababb253299bfb579bf428b83324a296ea21",
+      "bytes": 5866,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/frames.jsonl",
+      "sha256": "5b18b92f9b97033f9dcfe67e54298ef2c7aa46df905f770a73d8636b99202a3f",
+      "bytes": 24779540,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/godot.stderr.log",
+      "sha256": "44c1d8b957298e024ebb12d68ed65580b180484899be5e8c0995bf7a08d6dc67",
+      "bytes": 2357,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/godot.stderr.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/godot.stdout.log",
+      "sha256": "3392547df2a8dd1961529dac143f2b72b58fe009cf35ea834826942a25cb2ff3",
+      "bytes": 4123,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/godot.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/process.json",
+      "sha256": "a49a17eff6e7ee082c239cc2eec4cb4c5a0fe81ebbadbbbf2e39e9473f3c8a0c",
+      "bytes": 121708,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/process.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/run-save.json",
+      "sha256": "23a56faf58ce79ae1a37c3005d347f2bfa7160d6a50a764d87bf9a00432961e6",
+      "bytes": 4729,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/run-save.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/run-save.json.bak",
+      "sha256": "0ddd155e9403360807afccfec208d5296a32ce4ee19cb3cc727bff569b1c8600",
+      "bytes": 4680,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/run-save.json.bak"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/summary.json",
+      "sha256": "9fde816073daab7cad718f566963f117b8ae7ebfce6d8b5f41edf78981a88325",
+      "bytes": 96510,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/motion/telemetry.jsonl",
+      "sha256": "0fc8ece1e3a336d47032ef98682678d1fd7707312903ce9d5e45b23eddf6c68d",
+      "bytes": 7819,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/motion/telemetry.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/prepare-build.log",
+      "sha256": "ec07a5859ae94160e44648b317f1b8b590901a4aa04a0077a00a04fe0c12b3c1",
+      "bytes": 733,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/prepare-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-07/prepare-evidence.json",
+      "sha256": "e9d229c2880e175729d8378fd1f26f1d7371b9329ab965d700c1ac391723a0a8",
+      "bytes": 276657,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-07",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-07/prepare-evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-evidence.json",
+      "sha256": "6e290d930df633e8201b87632ca9bee8384a3dc5f2c6417201cce3d4853f8bf1",
+      "bytes": 522636,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-locked-restore.log",
+      "sha256": "4f04bb122dea74c8ffb584b66217b507c65ac2a4a53ed2d3afc3324bb1813b60",
+      "bytes": 504,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-locked-restore.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off.engine.log",
+      "sha256": "8139f3eac4e62f4ca77580f7cfbf166d20646b7d36b55564da0a149a9c134f58",
+      "bytes": 509,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off.engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off.log",
+      "sha256": "ea695b5d94203685f647a12ee698cc3ea8db4c1e3ed0a5a4d77f2c1ff6a1e439",
+      "bytes": 516,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off.machine-state.json",
+      "sha256": "093a13e8c60141c4056ee7e3161c6ee992e92dd683916e960d6582e57262c695",
+      "bytes": 32015,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off.machine-state.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off/contact-summary.json",
+      "sha256": "324fe17215d9cdd8baa8ced556c5620aaaaef4c824eb7a09895dd6a6abc7f75d",
+      "bytes": 2161,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off/contact-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off/cost-summary.json",
+      "sha256": "e12f72798ac06be1e7c26517f4ef5b757a74467e854f7b4531a2d1ce15d22c0b",
+      "bytes": 71738,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-off/cost-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on.engine.log",
+      "sha256": "d58472815da4c40023f53625768ae89cf08607dc521b55dceffbc2f04d5aff76",
+      "bytes": 506,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on.engine.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on.log",
+      "sha256": "74499d737737df1d0fd78a066b25e27238a9a4d10b3cd501e60365740f0b24d5",
+      "bytes": 513,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on.machine-state.json",
+      "sha256": "f413c893a37141918dbc883ce8e7018c92d6f9e7614105e3b69dc2b130a81223",
+      "bytes": 32039,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on.machine-state.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on/contact-summary.json",
+      "sha256": "b5e684aaaba6c6c1747628d7a2e26b737b5f1ccef906f88c7815b22dc65746ff",
+      "bytes": 2202,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on/contact-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on/cost-summary.json",
+      "sha256": "aebfa15fe068ea055c6cee1ec354076ef3d17bae63160bd292a560592de40a0f",
+      "bytes": 71719,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-on/cost-summary.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/cost-release-build.log",
+      "sha256": "33bed5d84038ad0aa6b48e80f064b52525eb0325dbaf3bd3e153591d8da90940",
+      "bytes": 392,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/cost-release-build.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion-evidence.json",
+      "sha256": "e326cf881c6894136dc7e69c78833f568ef295a0f899586497b69b130c458af9",
+      "bytes": 287928,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion-evidence.json"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/build.stdout.log",
+      "sha256": "d6cd2e58a83907d5feafb2fceac384bc929f46949d21bb1c407f6ae8dac84b16",
+      "bytes": 484,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/build.stdout.log"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/contact/contact-render-frames.jsonl",
+      "sha256": "c48d7ce172275445c712f3f940cb18831b2721c6a073ddcdb5ca743295a48d55",
+      "bytes": 13551675,
+      "reason": "Raw consecutive frame/physics/contact/performance trace; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/contact/contact-render-frames.jsonl"
+    },
+    {
+      "path": "reports/p1-018/runtime/production23-contact-motion-08/motion/contact/contact-summary.json",
+      "sha256": "e1717f7af6da1e35091c22c2ddc3f15264baf0e010ff6e24f9d0d8eb871a8229",
+      "bytes": 7245,
+      "reason": "Exact later runtime evidence, original failures/corrections, recipes and source/DLL inputs; production23-contact-motion-08",
+      "retention": "payload",
+      "canonical_payload_path": "reports/p1-018/runtime/production23-contact-motion-08/motion/contact/contact-summary.json"
+    }
+  ],
+  "archives": [
+    {
+      "path": "data/assets/vehicles/endurance-sedan-review/evidence/runtime-history04-part-02.zip",
+      "sha256": "8957b76219ef10bc9b2fe4191a7499d1ab871a3f98112c8c8952762f9246bad0",
+      "bytes": 673881255,
+      "crc_and_member_sha256_verified": true
+    },
+    {
+      "path": "reports/p1-018/retention-repeats/runtime-history04-part-02.zip",
+      "sha256": "8957b76219ef10bc9b2fe4191a7499d1ab871a3f98112c8c8952762f9246bad0",
+      "bytes": 673881255,
+      "crc_and_member_sha256_verified": true
+    }
+  ],
+  "human_approval_reference": null,
+  "limits": "Evidence retention and byte identity only; individual reports retain their own scope, failures and approval status.",
+  "byte_reproducible": true,
+  "finished_utc": "2026-09-11T18:54:58.791051+00:00"
+}
