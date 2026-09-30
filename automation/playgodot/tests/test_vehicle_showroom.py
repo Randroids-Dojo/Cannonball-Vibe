@@ -114,11 +114,17 @@ async def _click(client: PlayGodotClient, automation_id: str) -> None:
     await client.request("input.click", {"automation_id": automation_id})
 
 
+# A showroom's first frame compiles its studio and full-detail vehicle shaders;
+# on hosted macOS (ANGLE) that alone can block the engine for about 10 seconds.
+FIRST_FRAME_TIMEOUT = 60
+
+
 async def _state(
     client: PlayGodotClient, predicate: Callable[[dict], bool], reason: str,
+    timeout: float = 10,
 ) -> dict:
     description = await wait_for_describe(
-        client, ROOT, lambda value: predicate(value["test_state"]), reason, timeout=10,
+        client, ROOT, lambda value: predicate(value["test_state"]), reason, timeout=timeout,
     )
     state = description["test_state"]
     assert len(state) + 1 <= 64, "Showroom state exceeded the existing bridge value budget"
@@ -233,6 +239,7 @@ async def test_vehicle_showroom_controls_and_modal_return(tmp_path: Path) -> Non
                 client, lambda value: value["view"] == "overview" and value["ui_visible"]
                 and value["rendered_frames"] > 0,
                 "The showroom did not open with its actual overview camera",
+                timeout=FIRST_FRAME_TIMEOUT,
             )
             assert opened["renderer"] == rendering_method
             assert opened["viewport_width"] >= 960 and opened["viewport_height"] >= 540
@@ -540,6 +547,7 @@ async def test_vehicle_showroom_controls_and_modal_return(tmp_path: Path) -> Non
             reopened = await _state(
                 client, lambda value: value["view"] == "overview" and value["rendered_frames"] > 0,
                 "Showroom did not reopen",
+                timeout=FIRST_FRAME_TIMEOUT,
             )
             assert reopened["vehicle_instance_id"] != opened["vehicle_instance_id"]
             assert reopened["world_instance_id"] != opened["world_instance_id"]
@@ -633,6 +641,7 @@ async def test_pause_menu_explores_vehicle_and_returns_to_menu(tmp_path: Path) -
         viewer = await _state(
             client, lambda value: value["view"] == "overview" and value["rendered_frames"] > 0,
             "The driver menu did not open the showroom",
+            timeout=FIRST_FRAME_TIMEOUT,
         )
         showroom_opened = asyncio.get_running_loop().time()
         parked = (await client.describe("run.session"))["test_state"]
@@ -675,6 +684,7 @@ async def test_pause_menu_explores_vehicle_and_returns_to_menu(tmp_path: Path) -
         reopened = await _state(
             client, lambda value: value["view"] == "overview" and value["rendered_frames"] > 0,
             "Controller A on the focused menu entry did not reopen the showroom",
+            timeout=FIRST_FRAME_TIMEOUT,
         )
         assert reopened["vehicle_instance_id"] != viewer["vehicle_instance_id"]
         await _joy_button(client, "b")

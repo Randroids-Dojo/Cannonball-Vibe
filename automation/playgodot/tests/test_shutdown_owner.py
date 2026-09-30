@@ -201,8 +201,8 @@ async def test_nonhandling_owner_cannot_claim_success(tmp_path: Path) -> None:
     assert "TEST_OWNER_NOTIFICATION" in (out / "godot.log").read_text()
 
 
-async def _wait(client, target: str, predicate, reason: str) -> dict:
-    deadline = asyncio.get_running_loop().time() + 10
+async def _wait(client, target: str, predicate, reason: str, timeout: float = 10) -> dict:
+    deadline = asyncio.get_running_loop().time() + timeout
     while True:
         value = await client.describe(target)
         if predicate(value):
@@ -300,11 +300,15 @@ application_quit_owner = NodePath("../VehicleShowroom")
                     "input.click", {"automation_id": "vehicle.inspection.showroom"}
                 )
             if scene_kind != "main":
+                # The showroom's first frame compiles its studio and full-detail
+                # vehicle shaders; on hosted macOS (ANGLE) that alone can block
+                # the engine for about 10 seconds.
                 viewer = await _wait(
                     client,
                     "showroom.root",
                     lambda d: d["test_state"]["rendered_frames"] > 0,
                     "Showroom did not render",
+                    timeout=60,
                 )
                 state = viewer["test_state"]
                 assert state["asset_id"] == "endurance-sedan" and state["private_world"]
