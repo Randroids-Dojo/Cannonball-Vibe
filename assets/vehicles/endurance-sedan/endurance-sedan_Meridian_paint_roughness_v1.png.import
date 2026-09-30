@@ -2,14 +2,14 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbbad1plfkj7m"
+uid="uid://cq1rfj1hp2goy"
 path.s3tc="res://.godot/imported/endurance-sedan_Meridian_paint_roughness_v1.png-80f711123eaa5549c78254af2cc62104.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
 }
 generator_parameters={
-"md5": "59bf28fd37a095ea8600d8186f908021"
+"md5": "cc228659abe3eef97abfd51d4b67380b"
 }
 
 [deps]

@@ -16971,6 +16971,92 @@
         }
       ],
       "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-QA41-ROOF-RAIL",
+      "severity": "major",
+      "status": "open",
+      "category": "finite-assembly-overlap",
+      "observed_utc": "2026-09-30T14:03:46.399110+00:00",
+      "observed_source_sha256": "c7dcd907efab91433a43539fba642f61b8e451cb5faecb2c202af99472992aef",
+      "summary": "The promoted fresh source fails source-QA static-interfaces at the rear roof-rail termination.",
+      "observed": "static-interfaces reports seven failures. RearRoofClosure_L/R cross RoofSideRail_L/R: the closure web front station is y=-1.2297 m and the rail ends at y=-1.2300 m. One RoofSideRail_L/R vertex lies 0.34 mm inside StampedPillar_CL/CR. Roof/RoofSideRail_L/R fitted joints fail complete_uncharted_return_clearance: the rear return (y -1.0 to -1.23 m, |x| 0.692 to 0.736 m) lies outside the declared finite region (y 0.100 to 0.1051 m), although its whole-roof clearance is 13.7 to 17.5 mm against the required 1 mm. The roof-return-control precondition fails for the same reason. Codex recorded the same rail contacts and joints on 2026-09-13 (full-source-qa22) and on source60 on 2026-09-14 (source60-qa87). The other 25 stages pass.",
+      "correction": "Pending. End the rail at least 1 mm short of the closure and C-pillar front faces, or move those faces rearward. Either declare the rear return region with its measured clearance, or keep the return inside the roof chart. Then rebuild and rerun the complete source QA. The owner chose on 2026-09-29 to merge with this defect open.",
+      "verification": "Not yet verified. Close Blender renders of the junction show no visible artifact.",
+      "evidence": [
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/review.json"
+        },
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/index.json"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-QA41-SNAPSHOT-POLICY",
+      "severity": "major",
+      "status": "corrected_verified",
+      "category": "verification-tooling",
+      "observed_utc": "2026-09-30T14:03:46.399110+00:00",
+      "summary": "The source-QA tool snapshot lacked tire_policy40.py, so every v2 run failed at current-front-field.",
+      "correction": "qa/run.py copies the policy into its flat snapshot and locks it as an input; tire_finish_report reads it beside itself first.",
+      "verification": "Fresh default02 and default03 source-QA runs pass current-front-field and every later stage up to static-interfaces.",
+      "evidence": [
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/review.json"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-VERIFY41-BOUND-CONTROLS",
+      "severity": "major",
+      "status": "corrected_verified",
+      "category": "asset-verification-coverage",
+      "observed_utc": "2026-09-30T14:03:46.399110+00:00",
+      "summary": "With a bound source installed, the stale specification and exporter controls expected the inventory diagnostic but got the earlier binding rejection.",
+      "correction": "Those two controls expect the binding diagnostic (\"Missing or wrong-size input\") whenever a source binding exists. The mutation and the rejection are unchanged.",
+      "verification": "The default03 candidate gate passes all 24 rejection controls.",
+      "evidence": [
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/review.json"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-HERO41-MANIFEST",
+      "severity": "minor",
+      "status": "corrected_verified",
+      "category": "asset-verification-coverage",
+      "observed_utc": "2026-09-30T14:03:46.399110+00:00",
+      "summary": "The Hero GT manifest recorded stale hashes for three shared tools, so its asset gate would fail once reached in CI.",
+      "correction": "Metadata-only refresh of pack_imported_scene.gd, validate_import.gd and VehicleVisualRig.cs hashes; Hero art bytes unchanged.",
+      "verification": "verify-vehicle-asset.sh --vehicle hero-gt --all-lods passes with two deterministic rebuilds.",
+      "evidence": [
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/review.json"
+        }
+      ],
+      "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-TEST41-MIRROR-SCHEDULE",
+      "severity": "major",
+      "status": "corrected_verified",
+      "category": "runtime-verification-coverage",
+      "observed_utc": "2026-09-30T14:17:53.229797+00:00",
+      "summary": "The shared mirror material probe read the live rear feed after a fixed 12 frames, before the time-staggered rear mirror had drawn.",
+      "observed": "Mirrors refresh at 15 Hz with the rear mirror scheduled last (44 ms after activation). On a fast local renderer, 12 frames can finish sooner and leave the rear feed black. It failed 1 of 4 local runs on production34 and 8 of 10 on the promoted source.",
+      "correction": "The probe keeps the 12-frame minimum and also waits at least 250 ms of wall time, which covers the staggered schedule. The coverage threshold is unchanged.",
+      "verification": "8 of 8 local runs pass on the promoted source and 3 of 3 on production34; both report a deterministic rear-feed coverage near 2,605 pixels against the 2,000 minimum.",
+      "evidence": [
+        {
+          "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/review.json"
+        }
+      ],
+      "human_approval_reference": null
     }
   ],
   "qa_gaps": [
@@ -17114,5 +17200,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-21T14:51:24.311337+00:00"
+  "updated_utc": "2026-09-30T14:17:53.229797+00:00"
 }

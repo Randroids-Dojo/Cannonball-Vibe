@@ -7,7 +7,12 @@ else:
     import importlib.util
     from pathlib import Path
     from front_finish_report import digest, require
-    _spec = importlib.util.spec_from_file_location('_source_tire_policy40', Path(__file__).parents[1] / 'tire_policy40.py')
+    # Source QA runs from a flat tool snapshot that carries the policy beside
+    # this module; a direct run from the repository finds it in the package.
+    _policy = Path(__file__).with_name('tire_policy40.py')
+    if not _policy.is_file():
+        _policy = Path(__file__).parents[1] / 'tire_policy40.py'
+    _spec = importlib.util.spec_from_file_location('_source_tire_policy40', _policy)
     _module = importlib.util.module_from_spec(_spec)
     _spec.loader.exec_module(_module)
     POLICY = _module.POLICY

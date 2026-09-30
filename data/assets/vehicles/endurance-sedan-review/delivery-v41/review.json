@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "task_id": "P1-018",
+  "milestone": "M5",
+  "checkpoint": "delivery-v41",
+  "utc": "2026-09-30T14:23:37.971978+00:00",
+  "git_revision": "85cbcce6936e16676a4d86599ca2248980dc2b46",
+  "git_state": "Delivery-v41 working tree on claude/p1-018-finish over the recorded base commit; committed together with this evidence.",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "tool_versions": {
+    "blender": "5.1.2 (hash ec6e62d40fa9)",
+    "godot": "4.7.1.stable.mono.official.a13da4feb",
+    "dotnet_sdk": "10.0.102",
+    "uv": "uv 0.9.24 (0fda1525e 2026-01-09)",
+    "node": "v24.18.0",
+    "python": "3.14.6",
+    "git_lfs": "git-lfs/3.7.1 (GitHub; windows amd64; go 1.25.1; git b84b3384)"
+  },
+  "input_artifacts": [
+    {
+      "path": "docs/vehicles/endurance-sedan/specification.json",
+      "sha256": "c140fcbe9e53c76b3912a4c603c2c34ad220a104348ee04ca232e28f985cff0f",
+      "bytes": 86661
+    },
+    {
+      "path": "docs/vehicles/endurance-sedan/blockout-integration.json",
+      "sha256": "ff7e466c7b68cf670b21907ffccc058c568635d52d1a11aa5692d695ea36625e",
+      "bytes": 46083
+    },
+    {
+      "path": "tools/vehicles/vehicle_contract.json",
+      "sha256": "b14cff4f3611b57a2dfd7e3332aaa2b846be7e76c00299b91923a74a3f8aaa92",
+      "bytes": 902
+    },
+    {
+      "path": "data/assets/vehicles/sources/endurance-sedan.source-binding.json",
+      "sha256": "0c1b94f54a1d4d9988ec72847fbe0a95e2659da1d71ef78d269c9c68a3e7d15b",
+      "bytes": 140850
+    },
+    {
+      "path": "data/assets/vehicles/sources/endurance-sedan.blend",
+      "sha256": "c7dcd907efab91433a43539fba642f61b8e451cb5faecb2c202af99472992aef",
+      "bytes": 7916767
+    },
+    {
+      "path": "data/assets/vehicles/sources/endurance-sedan-generation/generation-record.json",
+      "sha256": "519f5a6a4699e3c9d3ede00e4d43fd9c39a0747b4a153a3d15ce23d1ed04e5a9",
+      "bytes": 206534
+    }
+  ],
+  "deterministic_seed": {
+    "runtime_scenarios": 20260714,
+    "construction": "Analytic construction from locked inputs; no implied seed."
+  },
+  "scenario_arguments": {
+    "source_build": "python tools/vehicles/build_endurance_sedan.py --blender-bin <pinned Blender> --output <fresh dir>",
+    "source_qa": "python tools/vehicles/endurance_sedan/qa/run.py --source --source-binding --construction-root --blender --output",
+    "export": "blender --background --factory-startup --threads 2 --python-exit-code 1 --python tools/vehicles/validate_and_export_endurance_sedan.py -- --source --source-binding --construction-root --output --inventory --prepare-corner-bake --prepare-uv-bake",
+    "asset_gates": [
+      "./scripts/verify-vehicle-asset.sh --vehicle endurance-sedan --all-lods --candidate --output <dir>",
+      "./scripts/verify-vehicle-asset.sh --vehicle endurance-sedan --all-lods --output <dir>",
+      "./scripts/verify-vehicle-asset.sh --vehicle hero-gt --all-lods"
+    ],
+    "runtime": "./scripts/verify-endurance-sedan.sh --vehicle all --output-root <dir> (seed 20260714, representative-corridor, 120 fixed FPS)",
+    "playgodot": "python -m pytest automation/playgodot (GODOT_BIN official 4.7.1 .NET)",
+    "m0": "./scripts/check.sh"
+  },
+  "commands": [
+    {
+      "label": "build default03",
+      "exit_status": 0,
+      "phases": {
+        "fresh-construction": 1531.2,
+        "finalize-and-reopen": 1375.1
+      }
+    },
+    {
+      "label": "source QA default03 (runner)",
+      "exit_status": 1,
+      "completed_stages": 18,
+      "failed_stage": "static-interfaces"
+    },
+    {
+      "label": "source QA downstream stages default03 (diagnostic, same snapshot tools)",
+      "exit_status": 0,
+      "stages": {
+        "openings": "passed",
+        "opening-containment": "passed",
+        "tires": "passed",
+        "wiper-glass": "passed",
+        "wiper-interassembly": "passed",
+        "wiper-containment": "passed",
+        "negative-controls": "passed"
+      }
+    },
+    {
+      "label": "explicit export with bake preparation default03",
+      "exit_status": 0
+    },
+    {
+      "label": "install source package default03",
+      "exit_status": 0
+    },
+    {
+      "label": "candidate asset gate default03",
+      "exit_status": 0,
+      "status": "candidate_verified"
+    },
+    {
+      "label": "promote candidate outputs",
+      "exit_status": 0
+    },
+    {
+      "label": "delivered asset gate endurance-sedan",
+      "exit_status": 0,
+      "status": "passed"
+    },
+    {
+      "label": "Hero GT asset gate",
+      "exit_status": 0
+    },
+    {
+      "label": "verify-endurance-sedan --vehicle all",
+      "exit_status": 0,
+      "vehicles": {
+        "endurance-sedan": {
+          "status": "passed",
+          "driving_stages": 17,
+          "failures": [],
+          "presentation_stages": 52
+        },
+        "hero-gt": {
+          "status": "passed",
+          "driving_stages": 16,
+          "failures": []
+        },
+        "graybox": {
+          "status": "passed",
+          "driving_stages": 16,
+          "failures": []
+        }
+      }
+    },
+    {
+      "label": "scripts/check.sh",
+      "exit_status": 1,
+      "steps": {
+        "doctor": "passed",
+        "dotnet-build": "passed",
+        "dotnet-test": "passed",
+        "ruff": "passed",
+        "frame-allocations": "passed",
+        "continental-route": "passed",
+        "pytest-map-pipeline": "failed",
+        "pytest-playgodot-unit": "passed",
+        "release-smoke-unit": "passed",
+        "godot-smoke": "passed",
+        "managed-shutdown": "passed",
+        "camera-interpolation": "passed",
+        "starter-speed": "passed"
+      }
+    },
+    {
+      "label": "PlayGodot full suite",
+      "exit_status": 0,
+      "tests": 331,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "metrics": {
+    "shipping_lod_triangles": [
+      148452,
+      27362,
+      22524
+    ],
+    "collision_triangles": 24,
+    "all_triangles": 198362,
+    "authored_materials": 26,
+    "candidate_gate": {
+      "commands": 62,
+      "negative_controls": 24,
+      "byte_comparisons": 18
+    },
+    "delivered_gate": {
+      "commands": 63,
+      "negative_controls": 24,
+      "byte_comparisons": 29
+    },
+    "source_qa_stages_passed": 25,
+    "source_qa_stages_required": 26,
+    "playgodot": {
+      "tests": 331,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "acceptance_comparisons": [
+    {
+      "criterion": "LOD0 triangles <= 150000",
+      "actual": 148452,
+      "passed": true
+    },
+    {
+      "criterion": "All triangles <= 200000",
+      "actual": 198362,
+      "passed": true
+    },
+    {
+      "criterion": "Materials <= 32",
+      "actual": 26,
+      "passed": true
+    },
+    {
+      "criterion": "Every shipping byte equal across two exports and clean imports",
+      "actual": "29 delivered comparisons equal",
+      "passed": true
+    },
+    {
+      "criterion": "Complete 26-stage source QA",
+      "actual": "25 of 26; static-interfaces failed",
+      "passed": false
+    }
+  ],
+  "output_artifacts": [
+    {
+      "path": "data/assets/vehicles/sources/endurance-sedan.blend",
+      "sha256": "c7dcd907efab91433a43539fba642f61b8e451cb5faecb2c202af99472992aef",
+      "bytes": 7916767
+    },
+    {
+      "path": "data/assets/vehicles/sources/endurance-sedan.source-binding.json",
+      "sha256": "0c1b94f54a1d4d9988ec72847fbe0a95e2659da1d71ef78d269c9c68a3e7d15b",
+      "bytes": 140850
+    },
+    {
+      "path": "data/assets/vehicles/sources/endurance-sedan.construction.json.gz",
+      "sha256": "172604b8108eb047d6d8ce9c763035a15e80579cf517f9d5ef2ade5a69917d3f",
+      "bytes": 76189119
+    },
+    {
+      "path": "data/assets/vehicles/sources/endurance-sedan.lower.json.gz",
+      "sha256": "48376c4f50b054d18005839bd911a3a4e872d631161bcd2837c9e6d45bf6488b",
+      "bytes": 10568258
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.corner-bake.json",
+      "sha256": "12bfcce2a70256d690cc6dcd85781c70858de94b7510efa6bb6ba7b430f18d36",
+      "bytes": 8581451
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.uv-bake.json",
+      "sha256": "af9996a9af277643dff80e0210f6c8c9aed915aefafcc8d2893b4f251ced17e2",
+      "bytes": 3039371
+    },
+    {
+      "path": "data/assets/vehicles/derived/endurance-sedan.glb",
+      "sha256": "1501414aad94cc5bb64fabc97305cb107b3b165a07b003814af5b3b6f23b5837",
+      "bytes": 19830836
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.blender.json",
+      "sha256": "8c658a797b075d4ad772e6716a2dc7695c7e751cd7bd3cfc2b7c845668bfb877",
+      "bytes": 1790624
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.godot.json",
+      "sha256": "fb68aeee4f5b8211aad848eaf9f5497386a0fb9c136966b64f2f47e41f127f27",
+      "bytes": 57520
+    },
+    {
+      "path": "data/assets/vehicles/endurance-sedan.asset.json",
+      "sha256": "daf6dc13762b2098bbe0f9f14852914666aeb0ce7007d6bdfb9ca2241a706c67",
+      "bytes": 317621
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
+      "sha256": "b7fee227a32b7c130776dea8bc210e0d8e5cb78d1c94bbd2e7474462d19d9e7a",
+      "bytes": 12277408
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
+      "sha256": "e9d846869bf906147aeb0e5110adcf176c67ffa5f9d94e22a25341340ec16f15",
+      "bytes": 1814
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.asset.json",
+      "sha256": "4c314a826e7a820cf715227e320c73adb9bfb1068094aedcb54dbea5f61a5246",
+      "bytes": 5918
+    }
+  ],
+  "failures_and_retries": [
+    "default01 build: deliberately stopped and relaunched detached (default02) so a 10-minute tool timeout could not kill it.",
+    "default02 source QA 01: failed at current-front-field; tire_policy40.py missing from the QA snapshot (fixed).",
+    "default02 candidate gate 01: new StaticLabels texture had no import lock (lock added with the shared parameters).",
+    "default02 candidate gate 02: stale specification control expected the inventory diagnostic; the binding rejected first (fixed).",
+    "default02 source QA 02 and default03 source QA 01: static-interfaces failed (P1-018-QA41-ROOF-RAIL, open).",
+    "default03 delivered gate 01: failed its own input-stability guard because the Hero manifest was edited mid-run; rerun 02 passed.",
+    "Hero GT gate 01: --output unsupported for hero-gt; gate 02: stale shared tool hashes in the Hero manifest (refreshed); gate 03 passed.",
+    "Runtime gate 01: map-pipeline fixture rebuild blocked by Smart App Control; 02 reused the existing fixture package and passed.",
+    "PlayGodot suite 01: shared mirror probe raced the staggered rear-mirror schedule (1 of 331 failed); probe fixed, suite 02 rerun.",
+    "scripts/check.sh: pytest-map-pipeline failed on 34 tests, all \"GDAL DLL could not be found\" (Smart App Control)."
+  ],
+  "environment_limitations": [
+    "Windows Smart App Control on this workstation began blocking the pyogrio/rasterio GDAL and GEOS DLLs on 2026-09-29/30 (Code Integrity events 3077/3118). The same pytest-map-pipeline step passed locally on 2026-09-29 before the block, and tools/map_pipeline is unchanged from main. Hosted M0 is authoritative for that step.",
+    "The runtime gate reused the existing representative-corridor package through a local uv shim instead of rebuilding it; hosted CI rebuilds it.",
+    "The local uv was 0.11.29; the pinned 0.9.24 release (checksum-verified) was used for all runs."
+  ],
+  "open_defects": [
+    "P1-018-QA41-ROOF-RAIL"
+  ],
+  "retained_evidence": {
+    "archive": {
+      "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/evidence.zip",
+      "sha256": "9dd549fce7ef6d39f42856637d6ce9084c465171b1c764b19b0e27dd1e50d843",
+      "bytes": 42176020
+    },
+    "index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/index.json",
+      "sha256": "e6e2cc0492ed655bee660223b1544371a808f368a0176314e19d48988b8081dd",
+      "bytes": 83914
+    },
+    "static_interface_failures": {
+      "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/static-interfaces-failures.json",
+      "sha256": "d5ae952546133104470e23445e7e661921a7756f5bfb49ddf91c5792810a1734",
+      "bytes": 409470
+    }
+  },
+  "human_approval_reference": null
+}

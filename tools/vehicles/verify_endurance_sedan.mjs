@@ -456,10 +456,13 @@ async function verifyAsset() {
   copy(join(first.directory, "blender.json"), join(first.project, blenderInventory));
   copy(join(first.directory, "godot.json"), join(first.project, godotInventory));
   await run("candidate-manifest", process.execPath, ["tools/vehicles/generate_manifest.mjs", "--vehicle", asset, "--output", manifestPath], { cwd: first.project });
+  // A bound source locks the specification and constructor tools too, so its
+  // binding rejects those stale inputs before the inventory comparison runs.
+  const bindingLocked = existsSync(join(first.project, sourceBinding)) ? "Missing or wrong-size input" : "Sedan inventories do not describe";
   for (const [name, path, diagnostic] of [["wrapper", wrapper, "Sedan inventories do not describe"],
-    ["specification", spec, "Sedan inventories do not describe"], ["import-settings", importSettings, "Sedan inventories do not describe"],
+    ["specification", spec, bindingLocked], ["import-settings", importSettings, "Sedan inventories do not describe"],
     ["import-profile", godotProfile, "Sedan inventories do not describe"], ["validator", "tools/vehicles/validate_import.gd", "Sedan inventories do not describe"],
-    ["export-profile", profile, "Sedan inventories do not describe"], ["export-validator", "tools/vehicles/validate_and_export_endurance_sedan.py", "Sedan inventories do not describe"],
+    ["export-profile", profile, "Sedan inventories do not describe"], ["export-validator", "tools/vehicles/validate_and_export_endurance_sedan.py", bindingLocked],
     ["uv-bake", "data/assets/vehicles/endurance-sedan.uv-bake.json", "Sedan inventories do not describe"],
     ["corner-bake", "data/assets/vehicles/endurance-sedan.corner-bake.json", "Sedan inventories do not describe"],
     ["adapter", "game/Vehicle/EnduranceSedanPresentation.cs", "runtime adapter input is stale"]]) {

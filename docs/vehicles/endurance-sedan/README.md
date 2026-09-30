@@ -11,8 +11,15 @@ reviews are separate. This vehicle is a review candidate until those gates close
 
 The [v34 construction checkpoint](art-checkpoint-v34.md) retains the fresh Blender
 recipe, reopened source and actual surface-review captures. The [current showroom checkpoint](showroom-checkpoint-v37.md) records
-the interactive viewer, corrected paint reflections and controls, actual modal captures, retained recorded walkthrough, pointer checks and Windows verification. The installed source and Godot GLB are
-still the previous production34 candidate while internal assembly repairs finish.
+the interactive viewer, corrected paint reflections and controls, actual modal captures, retained recorded walkthrough, pointer checks and Windows verification.
+
+The installed source is a fresh bound construction of the current specification,
+promoted on 2026-09-30 in place of the older production34 prototype. It carries
+its source-generation binding, and the delivered runtime package comes from the
+same source. The [delivery checkpoint v41](delivery-checkpoint-v41.md) records
+its gates and the one open source-QA failure: a sub-millimetre roof-rail fit
+at the rear closures. The newer front, upper, tire and distant-lid refinement
+stages remain unselected.
 
 ## Open and inspect the model
 

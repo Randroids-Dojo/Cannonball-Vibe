@@ -42,7 +42,7 @@
       "tool": "Godot",
       "tool_version": "4.7.1.stable.mono.official.a13da4feb",
       "script": "tools/vehicles/pack_imported_scene.gd",
-      "script_sha256": "d79a18b9619c57aa21e78875d33210de8e176bb7cacfc6375ebe849917c5e8a1",
+      "script_sha256": "782887c5b3da6ca565b8684385260b0fa523ada2c3416db175d8db65258adb4f",
       "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
       "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
       "inputs": [
@@ -58,7 +58,7 @@
       "tool": "Godot",
       "tool_version": "4.7.1.stable.mono.official.a13da4feb",
       "script": "tools/vehicles/validate_import.gd",
-      "script_sha256": "0120d02f9d0da29c6b107f4c3cdf7c432e8c2c2aa74017d98035a3b4136fa033",
+      "script_sha256": "0be505f040e593362e0cf62cdb3ba1c07276f971804680c88aa0024d3087e856",
       "profile": "tools/assets/profiles/godot-4.7.1-v1.json",
       "profile_sha256": "22feccfc894d853a070bbcfd3ba04963165d72adfa918dbfdb657b2dbbfc5645",
       "inputs": [
@@ -93,7 +93,7 @@
     },
     {
       "path": "game/Vehicle/VehicleVisualRig.cs",
-      "sha256": "bd0d6d3584f037dd349287db83eb8c20cbcd65403bcb8d4103bcb2970660f83e",
+      "sha256": "1ec0a84f89a47a75f4f230f4136152323373b44d9c05344b49cd538b48f73b22",
       "kind": "runtime-adapter"
     },
     {

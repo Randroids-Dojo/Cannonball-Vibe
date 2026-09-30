@@ -3,9 +3,9 @@
   "task_id": "P1-018",
   "milestone": "M5",
   "status": "in_progress",
-  "utc": "2026-09-21T15:08:27.057438+00:00",
-  "git_revision": "5ccd6422f8cb7c9d9633f43a0212ca0db6fb7972",
-  "git_state": "Source-pipeline checkpoint188 verifies current upper/tire/lid support with scoped native replay and M0. Final selected source, budget, export, native runtime/performance and human gates remain open.",
+  "utc": "2026-09-30T14:23:37.971978+00:00",
+  "git_revision": "85cbcce6936e16676a4d86599ca2248980dc2b46",
+  "git_state": "Delivery-v41 working tree on claude/p1-018-finish over the recorded base commit; committed together with this evidence.",
   "platform": "Windows-11-10.0.26200-SP0",
   "tool_versions": {
     "blender": "Blender 5.1.2\r\n\tbuild date: 2026-05-19\r\n\tbuild time: 01:37:34\r\n\tbuild commit date: 2026-05-18\r\n\tbuild commit time: 13:43\r\n\tbuild hash: ec6e62d40fa9\r\n\tbuild branch: blender-v5.1-release\r\n\tbuild platform: Windows\r\n\tbuild type: Release\r\n\tbuild c flags:  -Wall -Werror=implicit-function-declaration -Werror=return-type -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wstrict-prototypes -Wmissing-prototypes -Wunused-parameter -Wundef -Wundef-prefix -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS  /MP /nologo /J /Gy /Gd /showFilenames -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild c++ flags:  -Wall -Wno-tautological-compare -Wno-unknown-pragmas -Wno-char-subscripts -Wno-overloaded-virtual -Wno-sign-compare -Wno-invalid-offsetof -Wno-suggest-override -Wundef -Wundef-prefix -Wunused-parameter -Wmismatched-tags -Werror=unguarded-availability-new /W3 -Wno-c++98-compat -Wno-old-style-cast -Wno-unsafe-buffer-usage -Wno-missing-prototypes -Wno-sign-conversion -Wno-missing-field-initializers -Wno-extra-semi -Wno-language-extension-token -Wno-implicit-float-conversion -Wno-c++98-compat-pedantic -Wno-implicit-int-float-conversion -Wno-double-promotion -Wno-pre-c++17-compat -Wno-shorten-64-to-32 -Wno-c++98-compat-local-type-template-args -Wno-reserved-identifier -Wno-cast-align -Wno-documentation -Wno-disabled-macro-expansion -Wno-extra-semi-stmt -Wno-zero-as-null-pointer-constant -Wno-float-conversion -Wno-reserved-macro-identifier -Wno-cast-function-type-strict -Wno-float-equal -Wno-implicit-int-conversion -Wno-shadow -Wno-shadow-field-in-constructor -Wno-cast-qual -Wno-pre-c++14-compat -Wno-global-constructors -Wno-switch-enum -Wno-exit-time-destructors -Wno-ctad-maybe-unsupported -Wno-undefined-func-template -Wno-c++98-compat-extra-semi -Wno-cast-function-type -Wno-nullability-extension -Wno-shadow-field -Wno-conditional-uninitialized -Wno-unused-parameter -Wno-suggest-destructor-override -Wno-shadow-uncaptured-local -Wno-unused-macros -Wno-covered-switch-default -Wno-signed-enum-bitfield -Wno-declaration-after-statement -Wno-implicit-fallthrough -Wno-non-virtual-dtor -Wno-nested-anon-types -Wno-gnu-zero-variadic-macro-arguments -Wno-unreachable-code-break -Wno-inconsistent-missing-destructor-override -Wno-format-pedantic -Wno-nonportable-system-include-path -Wno-undef -Wno-ignored-qualifiers -Wno-used-but-marked-unused -Wno-header-hygiene -Wno-char-subscripts -Wno-unreachable-code-return -Wno-unused-template -Wno-gnu-anonymous-struct -Wno-deprecated-copy-with-user-provided-dtor -Wno-inconsistent-missing-override -Wno-unreachable-code -Wno-deprecated-dynamic-exception-spec -Wno-bad-function-cast -Wno-microsoft-enum-value -Wno-deprecated-copy-with-user-provided-copy -Wno-zero-length-array -Wno-unused-function -Wno-pedantic -Wno-deprecated-copy-with-dtor -Wno-documentation-unknown-command -Wno-undefined-reinterpret-cast -Wno-format-nonliteral -Wno-comma -Wno-documentation-deprecated-sync -Wno-shift-sign-overflow -Wno-pre-c++17-compat-pedantic -Wno-c++98-compat-unnamed-type-template-args -Wno-sign-compare -Wno-format -Wno-c++98-compat-bind-to-temporary-copy -Wno-enum-enum-conversion -Wno-anon-enum-enum-conversion -Wno-range-loop-bind-reference -Wno-enum-float-conversion -Wno-keyword-macro -Wno-deprecated-copy -Wno-unused-member-function -Wno-missing-noreturn -Wno-missing-variable-declarations -Wno-documentation-html -Wno-gnu-redeclared-enum -Wno-deprecated-declarations -Wno-overloaded-virtual -Wno-c++98-c++11-compat-binary-literal -Wno-deprecated-redundant-constexpr-static-def -Wno-missing-braces -Wno-c99-extensions -Wno-strict-prototypes -Wno-unreachable-code-loop-increment -Wno-gnu-case-range -Wno-duplicate-enum -Wno-null-pointer-subtraction -Wno-deprecated-literal-operator -Wno-newline-eof -Wno-microsoft-cast -Wno-date-time -Wno-delete-non-abstract-non-virtual-dtor -Wno-unused-private-field -Wno-flexible-array-extensions -Wno-string-conversion -Wno-final-dtor-non-final-class -Wno-microsoft-unqualified-friend -Wno-invalid-noreturn -Wno-invalid-utf8 -Wno-four-char-constants -Wno-parentheses -Wno-pessimizing-move -Wno-deprecated-non-prototype -Wno-bitfield-enum-conversion -Wno-unused-lambda-capture -Wno-shadow-field-in-constructor-modified -Wno-switch-default -Wno-nan-infinity-disabled -Wno-pre-c11-compat /DWIN32 /D_WINDOWS   /EHsc  /Gy /MP /nologo /J /Gd /showFilenames /EHsc -Wno-unused-command-line-argument -Wno-microsoft-enum-forward-reference /clang:-funsigned-char /clang:-fno-strict-aliasing /clang:-ffp-contract=off -march=x86-64-v2 \r\n\tbuild link flags: /MACHINE:X64  /SUBSYSTEM:CONSOLE /STACK:2097152 /ignore:4049 /ignore:4217 /ignore:4221\r\n\tbuild system: CMake",
@@ -20,8 +20,8 @@
   "claim": {
     "branch": "feat/P1-018-endurance-sedan",
     "pull_request": "https://github.com/Randroids-Dojo/Cannonball-Vibe/pull/144",
-    "draft": true,
-    "merge_policy": "ADR-0025 PR-only auto-squash; latest remote M0 and merge eligibility not yet established"
+    "draft": false,
+    "merge_policy": "ADR-0025 PR-only auto-squash; M0 checks are the only merge gates."
   },
   "identity": "Original fictional Meridian S8R; 2016 US Audi S6 Prestige engineering benchmark",
   "deterministic_seed": {
@@ -78,119 +78,99 @@
   ],
   "output_artifacts": [
     {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
-      "sha256": "2eb966adfc9853046385edd4431e79ca2ed13266d69edc27ac1310ce3bf91d35",
-      "bytes": 1164
+      "path": "data/assets/vehicles/sources/endurance-sedan.blend",
+      "sha256": "c7dcd907efab91433a43539fba642f61b8e451cb5faecb2c202af99472992aef",
+      "bytes": 7916767
     },
     {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
-      "sha256": "a93782d73adb87809dfd3bf264242f3524f940f19cfdf2dabac7846cc8c77ed3",
-      "bytes": 10905265
+      "path": "data/assets/vehicles/sources/endurance-sedan.source-binding.json",
+      "sha256": "0c1b94f54a1d4d9988ec72847fbe0a95e2659da1d71ef78d269c9c68a3e7d15b",
+      "bytes": 140850
     },
     {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png",
-      "sha256": "f3f2a2901e1d02fa518d8e46367d1e26ab0fe88308e9b33d96319175fe326494",
-      "bytes": 431143
+      "path": "data/assets/vehicles/sources/endurance-sedan.construction.json.gz",
+      "sha256": "172604b8108eb047d6d8ce9c763035a15e80579cf517f9d5ef2ade5a69917d3f",
+      "bytes": 76189119
     },
     {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_normal_v1.png.import",
-      "sha256": "838f477c3fec0fa0626cf2f61527cb42f34350bf4c7b1d6c1724b07ba2caca73",
-      "bytes": 1174
+      "path": "data/assets/vehicles/sources/endurance-sedan.lower.json.gz",
+      "sha256": "48376c4f50b054d18005839bd911a3a4e872d631161bcd2837c9e6d45bf6488b",
+      "bytes": 10568258
     },
     {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png",
-      "sha256": "f06dcd0d2ba4b388b2070e781a0f022ec9b53dfa655367ce62fa85167e058117",
-      "bytes": 174368
+      "path": "data/assets/vehicles/endurance-sedan.corner-bake.json",
+      "sha256": "12bfcce2a70256d690cc6dcd85781c70858de94b7510efa6bb6ba7b430f18d36",
+      "bytes": 8581451
     },
     {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_fabric_roughness_v1.png.import",
-      "sha256": "66e8229c300a49dca08294deca7c5c5726519a701f45b080879b5987cf049372",
-      "bytes": 1183
-    },
-    {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png",
-      "sha256": "90eec226e0e4cf92aac9dacf97bada11395a038972de6daa7c7432c06d1a1464",
-      "bytes": 332931
-    },
-    {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_normal_v1.png.import",
-      "sha256": "99a20b48556e117fc4b1c6b4f4bda00427e02319b8650b720fc5e1bd87ccc028",
-      "bytes": 1177
-    },
-    {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png",
-      "sha256": "86adaa53ba7059d148783ce8cd30409edf10cce7fbd06da6fb6ec141ac928228",
-      "bytes": 206491
-    },
-    {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_leather_roughness_v1.png.import",
-      "sha256": "763f6d8a89d13e73672f595d0636ea965915c08c129c1c665f956e68f1d66db4",
-      "bytes": 1186
-    },
-    {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png",
-      "sha256": "7e1ab964114d665f17cdf3047da20b3d1c86dbe6dedbabdc26b22bef1b8224d2",
-      "bytes": 168960
-    },
-    {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_normal_v1.png.import",
-      "sha256": "503c01e8629d879be321cb5915886f3d1c734bb11e596e3394d8c318a4945537",
-      "bytes": 1171
-    },
-    {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png",
-      "sha256": "eca7f1b0b9c7d734565ed343d68ae7ee1ad0991845eef9611245645e353e8a14",
-      "bytes": 159467
-    },
-    {
-      "path": "assets/vehicles/endurance-sedan/endurance-sedan_Meridian_paint_roughness_v1.png.import",
-      "sha256": "6eda2e78063b21f9ffda059f05837630a7bc8e7b15c3329e8eecf7dc8485ff78",
-      "bytes": 1180
+      "path": "data/assets/vehicles/endurance-sedan.uv-bake.json",
+      "sha256": "af9996a9af277643dff80e0210f6c8c9aed915aefafcc8d2893b4f251ced17e2",
+      "bytes": 3039371
     },
     {
       "path": "data/assets/vehicles/derived/endurance-sedan.glb",
-      "sha256": "f9a30e7b19ea799c526ce2b1788e646af3a8e4f2aa3b7e910340004b99bc8417",
-      "bytes": 11248552
-    },
-    {
-      "path": "data/assets/vehicles/endurance-sedan.asset.json",
-      "sha256": "867995559c217e20b1e5a53ca4e1a39b06c3db10ad3d1354957a80bd5244c67e",
-      "bytes": 51570
+      "sha256": "1501414aad94cc5bb64fabc97305cb107b3b165a07b003814af5b3b6f23b5837",
+      "bytes": 19830836
     },
     {
       "path": "data/assets/vehicles/endurance-sedan.blender.json",
-      "sha256": "e367d2a2ffb737623f9313d7e7ddabb5c74bb9f015cf5e100b5bf0a4b2eff332",
-      "bytes": 1461625
+      "sha256": "8c658a797b075d4ad772e6716a2dc7695c7e751cd7bd3cfc2b7c845668bfb877",
+      "bytes": 1790624
     },
     {
       "path": "data/assets/vehicles/endurance-sedan.godot.json",
-      "sha256": "be732c17fe7200f8f95ac43142760adb7f9d633dca55d17fef3bf36995c41c04",
-      "bytes": 57606
+      "sha256": "fb68aeee4f5b8211aad848eaf9f5497386a0fb9c136966b64f2f47e41f127f27",
+      "bytes": 57520
     },
     {
-      "path": "game/Vehicle/Visuals/EnduranceSedan.tscn",
-      "sha256": "2bf66baf9874b7001a033cce751835ecabed47756532ba8dea3dca680e09bdc1",
-      "bytes": 929
+      "path": "data/assets/vehicles/endurance-sedan.asset.json",
+      "sha256": "daf6dc13762b2098bbe0f9f14852914666aeb0ce7007d6bdfb9ca2241a706c67",
+      "bytes": 317621
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.tscn",
+      "sha256": "b7fee227a32b7c130776dea8bc210e0d8e5cb78d1c94bbd2e7474462d19d9e7a",
+      "bytes": 12277408
+    },
+    {
+      "path": "assets/vehicles/endurance-sedan/endurance-sedan.generated.textures.json",
+      "sha256": "e9d846869bf906147aeb0e5110adcf176c67ffa5f9d94e22a25341340ec16f15",
+      "bytes": 1814
+    },
+    {
+      "path": "data/assets/vehicles/hero-gt.asset.json",
+      "sha256": "4c314a826e7a820cf715227e320c73adb9bfb1068094aedcb54dbea5f61a5246",
+      "bytes": 5918
     }
   ],
-  "canonical_artifact_state": "Production34 remains installed and lacks the newer source-generation binding. Source193 is a private diagnostic export positive; final corrected source and matching construction/bake/runtime package are not yet promoted.",
+  "canonical_artifact_state": "A fresh bound construction of the current specification (default path, v40 selectors unselected) is installed with its binding, generation tree, bake locks and verified runtime package. Source QA passes 25 of 26 stages; static-interfaces fails (P1-018-QA41-ROOF-RAIL).",
   "metrics": {
     "shipping_lod_triangles": [
-      149428,
-      26726,
-      10136
+      148452,
+      27362,
+      22524
     ],
     "collision_triangles": 24,
-    "all_triangles": 186314,
-    "runtime_batches": 360,
-    "authored_materials": 24,
-    "packed_original_texture_count": 6,
-    "encoded_texture_bytes": 1471013,
-    "bounds_godot_xyz_m": [
-      2.0999999046325684,
-      1.4498310089111328,
-      4.940000057220459
-    ],
+    "all_triangles": 198362,
+    "authored_materials": 26,
+    "candidate_gate": {
+      "commands": 62,
+      "negative_controls": 24,
+      "byte_comparisons": 18
+    },
+    "delivered_gate": {
+      "commands": 63,
+      "negative_controls": 24,
+      "byte_comparisons": 29
+    },
+    "source_qa_stages_passed": 25,
+    "source_qa_stages_required": 26,
+    "playgodot": {
+      "tests": 331,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
     "limits": {
       "lod0_triangles": 150000,
       "all_triangles": 200000,
@@ -198,8 +178,7 @@
       "materials": 32,
       "textures": 48,
       "texture_bytes": 96000000
-    },
-    "content_comparison": "Passed provisional shared content ceilings; live material/contact/mirror resources must also be measured. Q044/Q047 allocations remain unratified."
+    }
   },
   "completed_machine_evidence": {
     "source": {
@@ -658,12 +637,11 @@
     }
   },
   "outstanding_machine_work": [
-    "Complete rear sash/rail/B-pillar construction and coherent front form; full source validity, stock, clearance and motion gates.",
-    "Measure optimized final LODs and live resources against150000LOD0/200000total and other declared ceilings.",
-    "Fresh current generation closure including final constructors and cover policy; final source/save/reopen, common bakes, two shipping exports and clean Godot import.",
-    "Useful production-scheduled mirrors with actual grounded day/night cars, final-source motion/cabin/lighting/LOD and driving captures.",
-    "Declared uncontended1440p High Forward+ reference-performance cases and30-minute memory growth; current platform/export/soak evidence.",
-    "Final independent visual/functional review, defect/acceptance reconciliation, retained artifacts and PR-only auto-squash integration."
+    "Repair the rear roof-rail termination and its declared return region; rebuild; pass the complete 26-stage source QA (P1-018-QA41-ROOF-RAIL).",
+    "Compose and verify the v40 front/upper/tire/lid refinements, including the shared static LOD proposal, within the unchanged budgets.",
+    "Declared uncontended 1440p High Forward+ reference-performance cases and 30-minute memory growth on the promoted source.",
+    "Hosted Linux/Windows asset, unsigned-export and three-platform PlayGodot evidence for the promoted source.",
+    "Remaining open defects in docs/vehicles/endurance-sedan/defects.json."
   ],
   "human_gates": [
     {
@@ -694,7 +672,7 @@
   ],
   "human_approval_reference": null,
   "simulation_boundary": "Existing authoritative four-raycast rigid body and125mph starter/250mph validation policies retained. Engine bay, auxiliary fuel hardware and stowed restraints are modeled assemblies; no engine-internal, fuel-transfer, textile, crash or occupant simulation is claimed.",
-  "retention_resolution": "Ignored reports restore at exact member paths from checksum-indexed review evidence ZIPs. Root source34 export/import/byte gates and M0 are retained in root-source34-gates01; final runtime, motion and platform supplements remain in progress.",
+  "retention_resolution": "Delivery-v41 evidence is retained in data/assets/vehicles/endurance-sedan-review/delivery-v41 (index.json lists every archived member and its source path and SHA-256).",
   "open_instructions": "docs/vehicles/endurance-sedan/README.md",
   "construction_checkpoint_v25": {
     "utc": "2026-09-12T10:13:58.000716+00:00",
@@ -11997,5 +11975,89 @@
     "path": "evidence/M5/P1-018-source-pipeline188.json",
     "bytes": 79172,
     "sha256": "ff2758c5bbb5caef558541dd99d5a3ccc166a5be890d50c6271abb4c9a08ad24"
+  },
+  "delivery_checkpoint_v41": {
+    "utc": "2026-09-30T14:23:37.971978+00:00",
+    "git_revision": "85cbcce6936e16676a4d86599ca2248980dc2b46",
+    "status": "promoted_with_open_source_qa_defect",
+    "review": {
+      "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/review.json",
+      "sha256": "9803ad4e5ffbba2ee8a86adf6f5379ae4afd5330ab000ac30702eba153ea6f21",
+      "bytes": 12217
+    },
+    "index": {
+      "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/index.json",
+      "sha256": "e6e2cc0492ed655bee660223b1544371a808f368a0176314e19d48988b8081dd",
+      "bytes": 83914
+    },
+    "archive": {
+      "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/evidence.zip",
+      "sha256": "9dd549fce7ef6d39f42856637d6ce9084c465171b1c764b19b0e27dd1e50d843",
+      "bytes": 42176020
+    },
+    "document": {
+      "path": "docs/vehicles/endurance-sedan/delivery-checkpoint-v41.md",
+      "sha256": "328a0ed3d4730a625ac0e3921e4b39673468cb94d9f9ab7d44c236ba35acf29c",
+      "bytes": 5283
+    },
+    "metrics": {
+      "shipping_lod_triangles": [
+        148452,
+        27362,
+        22524
+      ],
+      "collision_triangles": 24,
+      "all_triangles": 198362,
+      "authored_materials": 26,
+      "candidate_gate": {
+        "commands": 62,
+        "negative_controls": 24,
+        "byte_comparisons": 18
+      },
+      "delivered_gate": {
+        "commands": 63,
+        "negative_controls": 24,
+        "byte_comparisons": 29
+      },
+      "source_qa_stages_passed": 25,
+      "source_qa_stages_required": 26,
+      "playgodot": {
+        "tests": 331,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    },
+    "acceptance_comparisons": [
+      {
+        "criterion": "LOD0 triangles <= 150000",
+        "actual": 148452,
+        "passed": true
+      },
+      {
+        "criterion": "All triangles <= 200000",
+        "actual": 198362,
+        "passed": true
+      },
+      {
+        "criterion": "Materials <= 32",
+        "actual": 26,
+        "passed": true
+      },
+      {
+        "criterion": "Every shipping byte equal across two exports and clean imports",
+        "actual": "29 delivered comparisons equal",
+        "passed": true
+      },
+      {
+        "criterion": "Complete 26-stage source QA",
+        "actual": "25 of 26; static-interfaces failed",
+        "passed": false
+      }
+    ],
+    "open_defects": [
+      "P1-018-QA41-ROOF-RAIL"
+    ],
+    "human_approval_reference": null
   }
 }

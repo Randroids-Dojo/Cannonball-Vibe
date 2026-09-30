@@ -357,7 +357,11 @@ func _run() -> void:
 	presentation.set("MirrorsEnabled", true)
 	body.call("SetCameraMode", true)
 	presentation.process_mode = Node.PROCESS_MODE_ALWAYS
+	# Mirrors refresh on a staggered wall-clock schedule with the rear one last,
+	# so a fast renderer can finish a fixed frame count before it ever draws.
+	var scheduled := Time.get_ticks_msec() + 250
 	await _draws(12)
+	while Time.get_ticks_msec() < scheduled: await _draws(1)
 	presentation.process_mode = Node.PROCESS_MODE_DISABLED
 	for name in NAMES: _view(body, name).render_target_update_mode = SubViewport.UPDATE_DISABLED
 	await _draws(2)

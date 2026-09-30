@@ -157,13 +157,15 @@ def main():
         target = scripts / path.relative_to(original)
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(path, target)
+    # tire_finish_report reads the current tire policy from the construction package.
+    shutil.copyfile(original.parent / 'tire_policy40.py', scripts / 'tire_policy40.py')
     (output / 'commands').mkdir()
     runner = Runner(source, blender, output, scripts)
     detail = source_lock.pipeline.repeated_detail if source_lock.pipeline is not None else None
     detail_reader = staged_reader(scripts / 'repeated_detail_report.py') if detail is not None else None
     cover = source_lock.pipeline.valance_cover if source_lock.pipeline is not None else None
     cover_reader = staged_reader(scripts / 'valance_cover_report.py', '_source_qa_valance_cover_report') if cover is not None else None
-    runner.initial_inputs.update({str(p): sha(p) for p in tool_files(original)})
+    runner.initial_inputs.update({str(p): sha(p) for p in (*tool_files(original), original.parent / 'tire_policy40.py')})
     runner.initial_inputs.update({str(row.path): row.sha256 for row in source_lock.inputs})
     try:
         revision = subprocess.check_output(['git', '-C', str(original), 'rev-parse', 'HEAD'], text=True).strip()
