@@ -17091,6 +17091,23 @@
         }
       ],
       "human_approval_reference": null
+    },
+    {
+      "id": "P1-018-RUNTIME41-SETUP-FINALIZER",
+      "severity": "major",
+      "status": "corrected_pending_hosted_verification",
+      "category": "managed-lifetime",
+      "observed_utc": "2026-09-30T17:48:06.331186+00:00",
+      "summary": "The showroom reopen crashed Godot on hosted Linux in GodotObject.Finalize for a C#-scripted resource.",
+      "observed": "Main CI run 36747893838 (db45fa2, red-main #146): test_vehicle_showroom_controls_and_modal_return lost its connection when the showroom reopened. The native log shows FATAL \"gchandle.is_released()\" in mono_object_disposed_baseref from GodotObject.Finalize, then SIGILL. That path runs only for a C#-scripted RefCounted object; here, a VehicleRigSetup resource. Every CannonballVehicle build instantiated the cached wrapper scene and replaced its authored EnduranceSedan.tres setup without releasing the wrapper. The vehicle's own uncached setup was never released either. The GC finalizer freed them on its own thread, where it can race the next load of the same cached resource. The same test passed in four hosted Linux PR runs and in every local run, including runs with a 64 KiB GC nursery.",
+      "correction": "CannonballVehicle disposes the replaced wrapper-authored setup, the cached resource that a later load can pull back, right after instantiation on the main thread. The vehicle's own setup is uncached and can be shared, for example by the mirror probe's body copy, so it is not disposed at predelete. The sedan Godot inventory and manifest refresh the adapter hash through the candidate gate; source and runtime asset bytes are unchanged.",
+      "verification": "Pending the hosted Linux PlayGodot suite on the repair and on main.",
+      "evidence": [
+        {
+          "path": "docs/vehicles/endurance-sedan/delivery-checkpoint-v41.md"
+        }
+      ],
+      "human_approval_reference": null
     }
   ],
   "qa_gaps": [
@@ -17234,5 +17251,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-30T16:25:04.919247+00:00"
+  "updated_utc": "2026-09-30T17:48:06.331186+00:00"
 }
