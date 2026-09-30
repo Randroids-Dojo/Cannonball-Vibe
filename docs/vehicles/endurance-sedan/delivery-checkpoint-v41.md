@@ -90,6 +90,18 @@ and a full source-QA pass.
   its evidence directory `.gdignore`, and the sedan job timeout rises from 45
   to 75 minutes.
 
+## Platform scope of the export gate
+
+The bound source's export preflight replays Windows-built native checkpoints
+with exact float equality. Hosted Linux and a local WSL run with pinned Linux
+Blender 5.1.2 both fail on decoded tire normals that differ by one float32 ULP.
+The stored fields, including the normal codes, match exactly. Making those
+comparisons tolerant only exposes the next exact replay, first the groove
+regeneration and then the current-front native snapshot. The hosted sedan
+export step therefore runs on Windows, where the source was built and the
+delivered gate passes. Linux keeps the runtime/import and Hero GT gates.
+`P1-018-CI41-LINUX-REPLAY` and Q-048 track portable replay.
+
 ## Not changed and still open
 
 The uncommitted shared static LOD work, including the draft ADR-0029, is kept
