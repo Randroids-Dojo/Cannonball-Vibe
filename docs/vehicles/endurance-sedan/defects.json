@@ -17082,9 +17082,9 @@
       "category": "cross-platform-verification",
       "observed_utc": "2026-09-30T15:27:42.684833+00:00",
       "summary": "The bound source export preflight fails on Linux because it replays Windows-built native checkpoints with exact float equality.",
-      "observed": "Hosted run 36734028963 and a local WSL reproduction with pinned Linux Blender 5.1.2 both stop in verify_saved_lower with \"Actual saved pre-groove native tire fields differ from current companion\". Only decoded normals differ: 17 raw and 47 corner normal components per tire, each by at most 5.96e-8 (one float32 ULP). Vertices, UVs, faces, materials and stored normal codes match exactly. With those comparisons made tolerant in a diagnostic sandbox, the next exact replays fail the same way (tire recapture, groove regeneration, then the current-front native snapshot). The whole provenance replay chain assumes bit-identical evaluation on the build platform.",
-      "correction": "The hosted sedan export step runs on Windows, the build platform, where the delivered gate passes. Linux keeps the runtime/import and Hero GT gates. Portable replay (tolerant normal comparisons through every regeneration, or platform-recorded observations) is Q-048.",
-      "verification": "Windows delivered gate passes locally and on hosted run 36729049389. Linux export remains unverified.",
+      "observed": "Hosted run 36734028963 and a local WSL reproduction with pinned Linux Blender 5.1.2 both stop in verify_saved_lower with \"Actual saved pre-groove native tire fields differ from current companion\". Only decoded normals differ: 17 raw and 47 corner normal components per tire, each by at most 5.96e-8 (one float32 ULP). Vertices, UVs, faces, materials and stored normal codes match exactly. With those comparisons made tolerant in a diagnostic sandbox, the next exact replays fail the same way (tire recapture, groove regeneration, then the current-front native snapshot). The whole provenance replay chain assumes bit-identical evaluation on the build platform. Hosted Linux run 36736952127 then passed the all-vehicle runtime gate. Its Hero GT gate exported byte-identical GLBs, but the rendered contact sheet differed from the tracked Windows render.",
+      "correction": "The hosted sedan export and Hero GT steps run on Windows, the build platform, where both pass. Linux keeps the all-vehicle runtime/import gate. Portable replay (tolerant normal comparisons through every regeneration, or platform-recorded observations) and a platform policy for the Hero contact sheet are Q-048.",
+      "verification": "Windows delivered and Hero gates pass locally; hosted Linux runtime gate passes. Linux export and Hero contact-sheet reproduction remain unverified.",
       "evidence": [
         {
           "path": "data/assets/vehicles/endurance-sedan-review/delivery-v41/review.json"
@@ -17234,5 +17234,5 @@
       "approval_reference": null
     }
   ],
-  "updated_utc": "2026-09-30T15:27:42.684833+00:00"
+  "updated_utc": "2026-09-30T15:50:39.226324+00:00"
 }

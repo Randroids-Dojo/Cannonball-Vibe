@@ -144,7 +144,7 @@ jobs:
         # The export preflight replays the Windows-built source's native
         # checkpoints exactly; Linux Blender decodes their normals one float32
         # ULP apart (P1-018-CI41-LINUX-REPLAY, Q-048). Linux keeps the runtime
-        # and Hero GT gates below.
+        # gate below.
         if: ${{ runner.os == 'Windows' }}
         shell: bash
         run: ./scripts/verify-vehicle-asset.sh --vehicle endurance-sedan --all-lods --output "$PWD/reports/assets/p1-018/$RUNNER_OS"
@@ -152,6 +152,9 @@ jobs:
         shell: bash
         run: ./scripts/verify-endurance-sedan.sh --vehicle all --output-root "$PWD/reports/p1-018/runtime/ci/$RUNNER_OS"
       - name: Verify unchanged Hero GT source, exports and all LODs
+        # Hero GLBs match byte for byte on Linux, but its tracked contact sheet
+        # is a Windows render and renders are platform-specific.
+        if: ${{ runner.os == 'Windows' }}
         shell: bash
         run: ./scripts/verify-vehicle-asset.sh --vehicle hero-gt --all-lods
       - name: Upload sedan platform evidence
