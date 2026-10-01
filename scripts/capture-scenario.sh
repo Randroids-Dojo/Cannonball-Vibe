@@ -73,6 +73,17 @@ if [[ " ${scenario_args[*]} " == *" --vehicle-visual-profile "* ||
   # Keep the legacy Hero camera/rig review independent of saved selection.
   scenario_args+=("--vehicle=hero-gt")
 fi
+# Scenario suites were validated on the Hero GT. Pin it whenever no vehicle is
+# named, so they neither follow the player default nor a saved selection.
+vehicle_requested="false"
+for argument in ${scenario_args[@]+"${scenario_args[@]}"}; do
+  case "$argument" in
+    --vehicle|--vehicle=*|--graybox-vehicle) vehicle_requested="true" ;;
+  esac
+done
+if [[ "$vehicle_requested" == "false" ]]; then
+  scenario_args+=("--vehicle=hero-gt")
+fi
 if [[ " ${scenario_args[*]} " == *" --road-visual-review "* ]]; then
   default_capture_frames=600
 fi

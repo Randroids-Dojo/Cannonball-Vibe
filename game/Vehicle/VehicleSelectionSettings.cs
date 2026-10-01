@@ -6,14 +6,16 @@ namespace Cannonball.Game.Vehicle;
 public static class VehicleSelectionSettings
 {
     private const string Path = "user://vehicle-presentation.cfg";
+    // The owner made the Meridian S8R the player default on 2026-10-01.
+    public const string DefaultId = "endurance-sedan";
     public static bool IsKnown(string id) => id is "hero-gt" or "endurance-sedan" or "graybox";
 
     public static string Load()
     {
         using var settings = new ConfigFile();
-        if (settings.Load(Path) != Error.Ok) return "hero-gt";
-        var id = settings.GetValue("vehicle", "asset_id", "hero-gt").AsString();
-        return IsKnown(id) ? id : "hero-gt";
+        if (settings.Load(Path) != Error.Ok) return DefaultId;
+        var id = settings.GetValue("vehicle", "asset_id", DefaultId).AsString();
+        return IsKnown(id) ? id : DefaultId;
     }
 
     public static void Save(string id)

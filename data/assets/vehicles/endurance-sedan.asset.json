@@ -6196,7 +6196,7 @@
         },
         {
           "path": "game/Vehicle/VehicleSelectionSettings.cs",
-          "sha256": "661fb51858f1aeb53f8e9c8161fae63f02ffaf873cda1dee8ff4fd11ec729c08",
+          "sha256": "88f19ba590bbab0935653c9ffb2bb504c9547b204900b6b1a9769b7ee910e000",
           "kind": "locked-transformation-input"
         },
         {
@@ -6330,12 +6330,12 @@
     },
     {
       "path": "data/assets/vehicles/endurance-sedan.blender.json",
-      "sha256": "9004850acbd3921b3e60d9752713cb8fe4075918f7b706e06365b4eaf9b02891",
+      "sha256": "c5b54352c3c5237018f81699bb07bf448b6ca3f344f32b000189409eb6faa230",
       "kind": "blender-inventory"
     },
     {
       "path": "data/assets/vehicles/endurance-sedan.godot.json",
-      "sha256": "d9192950459e4cfafcf1f82061494dd8e83cc6a136b2a8a87278f17ac7c0adc1",
+      "sha256": "b37a83b55ac00e6f6e697663df8c7497a6927d6e066fc1a204b14e560e6e1c7c",
       "kind": "godot-inventory"
     },
     {
@@ -6405,7 +6405,7 @@
     },
     {
       "path": "game/Vehicle/VehicleSelectionSettings.cs",
-      "sha256": "661fb51858f1aeb53f8e9c8161fae63f02ffaf873cda1dee8ff4fd11ec729c08",
+      "sha256": "88f19ba590bbab0935653c9ffb2bb504c9547b204900b6b1a9769b7ee910e000",
       "kind": "runtime-adapter-source"
     },
     {

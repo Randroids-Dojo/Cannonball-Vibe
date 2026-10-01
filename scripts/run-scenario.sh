@@ -315,6 +315,17 @@ if [[ " ${scenario_args[*]} " == *" --vehicle-visual-profile "* ||
   # the default last so Main can reject any conflicting explicit request.
   scenario_args+=("--vehicle=hero-gt")
 fi
+# Scenario suites were validated on the Hero GT. Pin it whenever no vehicle is
+# named, so they neither follow the player default nor a saved selection.
+vehicle_requested="false"
+for argument in ${scenario_args[@]+"${scenario_args[@]}"}; do
+  case "$argument" in
+    --vehicle|--vehicle=*|--graybox-vehicle) vehicle_requested="true" ;;
+  esac
+done
+if [[ "$vehicle_requested" == "false" ]]; then
+  scenario_args+=("--vehicle=hero-gt")
+fi
 if [[ "$scenario_mode" == "road-visual" && "$fixture_explicit" == "false" ]]; then
   fixture="representative-interchanges"
 fi
