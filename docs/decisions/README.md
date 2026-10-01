@@ -33,3 +33,4 @@ new ADR that supersedes the old one instead of rewriting history.
 | [ADR-0026](ADR-0026-supplementary-route-geometry-sources.md) | Accepted | NTAD NHS supplementary centerlines with NAIP break evidence and staged HPMS deepening |
 | [ADR-0027](ADR-0027-streamed-highway-atlas.md) | Proposed | Independent streamed 2D highway atlas, readable cartography, and scoped contextual data |
 | [ADR-0028](ADR-0028-atlas-data-intake-and-coverage.md) | Accepted | Offline atlas dataset intake, recursive provenance and independent coverage inventories |
+| [ADR-0029](ADR-0029-exact-shared-static-vehicle-lods.md) | Proposed | Exact shared static sedan geometry with explicit distant LOD visibility and literal budgets |
